@@ -10,13 +10,22 @@ from ..utils import add_role
 
 
 NOVELTY_AND_IMPACT_REVIEWER_PROMPT = """
-based on hypothesis: {hypothesis} and literature {literature}
-Please respond **strictly in the following JSON format**. Please, Do not output anything else:
+You are an AI scientific reviewer. You are provided with a scientific hypothesis and a body of related literature. 
+Your task is to evaluate the novelty, potential impact, and scientific value of the hypothesis based on existing hypotheses and research.
 
+Review **novelty** by assessing how closely the hypothesis aligns with or diverges from prior work. Does the hypothesis present something new or refine existing knowledge? You can use the provided literature: {literature} to help inform your evaluation.
+Evaluate **impact** by considering the potential influence of the hypothesis on the field. How likely is it to drive further research, change current understanding, or lead to practical applications? You can reference the literature: {literature} to support your judgment.
+
+The hypothesis is: {hypothesis}
+
+Please respond **strictly in the following JSON format**:
+
+```json
 {
-    "novelty_and_impact_score": <integer 0-100>
-    "novelty_and_impact_description": <feadback>
+  "novelty_and_impact_score": <integer between 0 and 100>,
+  "novelty_and_impact_description": "<description of the hypothesis's novelty and impact>"
 }
+
 """
 
 
