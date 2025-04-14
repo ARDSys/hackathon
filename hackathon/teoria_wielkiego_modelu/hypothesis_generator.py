@@ -7,7 +7,7 @@ from langfuse.callback import CallbackHandler
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
 from ard.subgraph import Subgraph
 
-from .graph import seeding_graph, refinement_graph, eval_graph
+from .graph import seeding_graph, refine_graph, eval_graph
 from .state import HypgenState
 from .utils import message_to_dict
 
@@ -22,23 +22,18 @@ class HypothesisProposition:
         self.state = state
     
     def ucb(self, total_reviews):
-        return self.score + math.sqrt(math.log(total_reviews) / math.max(1, self.reviews))
+        return self.score + math.sqrt(2 * math.log(total_reviews) / math.max(1, self.reviews))
+
+    def refine(self):
+        self.state = refine_graph.invoke(
+            self.state,
+            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100)
+        )
+        
+        self.score = self.state["score"]
+        
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
-    
-    def evaluate_hypothesis(self, hypothesis_state: HypgenState):
-        res: HypgenState = eval_graph.invoke(
-            hypothesis_state,
-            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100)
-        )
-        
-        return res["score"]
-        
-    def refine_hypothesis(sefl, hypothesis_state: HypgenState):
-        return refine_graph.invoke(
-            hypothesis_state,
-            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100)
-        )
         
     def run(self, subgraph: Subgraph) -> Hypothesis:
         context = subgraph.context
@@ -60,7 +55,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
                 )
             )
             
-        for refinement_iter in range(15):
+        for refinement_iter in range(20):
             best_ucb = -1e9
             best_idx = -1
             for i in range(len(hypothesis_proposals)):
@@ -71,10 +66,8 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
                     best_idx = i
                     best_ucb = ucb
 
-            hypothesis = hypothesis[best_idx]            
-            hypothesis.state = self.refine_hypothesis(hypothesis)
-            hypothesis.score = self.evaluate_hypothesis(hypothesis)
-            
+            hypothesis = hypothesis[best_idx]
+            hypothesis.refine()
             hypothesis[best_idx] = hypothesis
     
         best_hypothesis = None

@@ -15,6 +15,7 @@ from .agents.ontologist import create_ontologist_agent
 from .agents.summary import create_summary_agent
 from .agents.experiment_planner import create_experiment_planner_agent
 from .agents.experiment_reviewer import create_experiment_reviewer_agent
+from .agents.novelty_and_impact_reviewer import create_nai_agent
 
 from .state import HypgenState
 
@@ -85,10 +86,11 @@ def create_refine_graph() -> CompiledGraph:
     graph.add_node("experiment_reviewer", create_experiment_reviewer_agent("small")["agent"])
     graph.add_node("hypothesis_refiner", create_hypothesis_refiner_agent("small")["agent"])    
     graph.add_node("literature_agent", create_literature_agent("small")["agent"])
-    graph.add_node("novelty_analyst", create_analyst_agent("novelty", "small")["agent"])
+    graph.add_node("novelty_and_impact_reviewer", create_analyst_agent("novelty", "small")["agent"])
     graph.add_node("feasibility_analyst", create_analyst_agent("feasibility", "small")["agent"])
     graph.add_node("impact_analyst", create_analyst_agent("impact", "small")["agent"])
     graph.add_node("critique_analyst", create_critique_analyst_agent("small")["agent"])
+    graph.add_node("novel")
     # graph.add_node("summary_agent", create_summary_agent("small")["agent"])
     
     graph.add_edge(START, "experiment_planner")
@@ -103,16 +105,9 @@ def create_refine_graph() -> CompiledGraph:
     
     graph.add_edge("impact_analyst", END)
     
-    grapy.add_edge()
-    
-    
-    return graph.compile()
-
-def create_eval_graph() -> CompiledGraph:
-    graph = StateGraph(HypgenState)
+    graph.add_edge()    
     
     return graph.compile()
 
 seeding_graph = create_seeding_graph()
 refine_graph = create_refine_graph()
-eval_graph = create_eval_graph()
