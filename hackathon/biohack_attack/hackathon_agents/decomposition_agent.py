@@ -84,7 +84,7 @@ Remember that your goal is to provide statements that scientists could directly 
 
 # Create the agent
 hypothesis_decomposer_agent = Agent(
-    model=ModelFactory.build_model(ModelType.OPENAI),
+    model=ModelFactory.build_model(ModelType.OPENAI, model_name="o3-mini"),
     name="HypothesisDecomposerAgent",
     instructions=AGENT_INSTRUCTIONS,
     output_type=HypothesisDecomposition,

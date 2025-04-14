@@ -10,6 +10,9 @@ from biohack_attack.hackathon_agents.critic_agent import (
     TriagedHypothesis,
     rheumatology_triage_agent,
 )
+from biohack_attack.hackathon_agents.research_agents.firecrawl_agent import (
+    firecrawl_agent,
+)
 from biohack_attack.model_factory import ModelFactory, ModelType
 from biohack_attack.tools.firecrawl_tool import query_firecrawl
 from biohack_attack.tools.search_api_tools import (
@@ -63,14 +66,9 @@ Your feedback, while demanding, should always serve the purpose of developing mo
 
 # Create the main agent
 rheumatology_refiner_agent = Agent(
-    model=ModelFactory.build_model(ModelType.OPENAI),
+    model=ModelFactory.build_model(ModelType.OPENAI, model_name="o3-mini"),
     name="Rheumatology Hypothesis Refiner Agent",
     instructions=AGENT_INSTRUCTIONS,
     output_type=ScientificHypothesis,
-    tools=[
-        query_firecrawl,
-    ],
-    model_settings=ModelSettings(
-        tool_choice="required",
-    ),
+    handoffs=[firecrawl_agent],
 )

@@ -6,6 +6,9 @@ from loguru import logger
 from biohack_attack.hackathon_agents.decomposition_agent import (
     HypothesisDecomposition,
 )
+from biohack_attack.hackathon_agents.research_agents.firecrawl_agent import (
+    firecrawl_agent,
+)
 from biohack_attack.hackathon_agents.verification_agent import (
     HypothesisVerification,
 )
@@ -44,13 +47,11 @@ Remember that your goal is to provide an objective, evidence-based assessment of
 """
 
 hypothesis_assessment_agent = Agent(
-    model=ModelFactory.build_model(ModelType.OPENAI),
+    model=ModelFactory.build_model(ModelType.OPENAI, model_name="o3-mini"),
     name="HypothesisAssessmentAgent",
     instructions=ASSESSMENT_AGENT_INSTRUCTIONS,
     output_type=HypothesisVerification,
-    tools=[
-        query_firecrawl,
-    ],
+    handoffs=[firecrawl_agent],
     model_settings=ModelSettings(
         tool_choice="required",
     ),
