@@ -20,7 +20,7 @@ Also use common sense and real-world knowledge to assess the feasibility and pra
 "feasibility_score":  A numeric score (0–100) representing how feasible the experiment is to conduct in practice with current capabilities, where 0 is completely infeasible and 10 is fully feasible without major obstacles.
 
 You are evaluating the following experimental plan:
-{experiment_plan} 
+{experiment_plan}
 
 Please respond **strictly in the following JSON format**:
 
@@ -44,14 +44,14 @@ def create_experiment_reviewer_agent(
 
     def agent(state: HypgenState) -> HypgenState:
 
-        # Get the literature information from the response
-        literature = state["literature"]
         attempt = 0
         while True:
                 # Run the chain
             logger.info(f"Running experiment_planner analysis chain")
             response = chain.invoke({**state,
-                    "literature": literature})
+                    "literature": state["literature"],
+                    "experiment_plan": state["experiment_plan"]
+                    })
             logger.info("Experiment_planner completed successfully")
             try:
                 parsed = json.loads(response.content)
