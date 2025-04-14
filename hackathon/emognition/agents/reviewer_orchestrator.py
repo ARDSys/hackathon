@@ -8,18 +8,41 @@ from ..state import HypgenState
 from ..utils import add_role
 
 PROMPT = """
-You are an expert in interdisciplinary science facilitation.
-Your task is to analyze the following scientific hypothesis and identify three distinct scientific domains or specializations that are most relevant for a rigorous expert-level review of this hypothesis. These should represent different expert perspectives, ideally spanning across methodological, theoretical, and applied aspects.
-Instructions:
-Extract exactly three domains or specializations.
-Each domain should be specific (e.g., computational neuroscience, affective computing, statistical learning theory).
-Avoid overly general fields (e.g., biology, computer science) unless the hypothesis itself is extremely broad.
-Aim for diversity in perspective: include complementary angles such as empirical validation, theoretical framing, and computational methods.
-Hypothesis: {hypothesis}
+You are a reviewer assignment agent tasked with identifying three distinct domains or expert skill sets that, together, can provide a comprehensive and balanced review of a given scientific hypothesis.
+Your objectives are to:
+Analyze the hypothesis in terms of its content, methodology, and conceptual grounding.
+
+
+Identify three complementary areas of expertise, such that:
+
+
+Each reviewer brings a unique and necessary perspective (e.g., domain knowledge, methodological rigor, practical relevance).
+
+
+Together, the reviewers can holistically evaluate the hypothesis for plausibility, scientific merit, feasibility, and potential impact.
+
+
+Ensure diversity of expertise (e.g., theory + methods + applied domain) to minimize blind spots or over-specialization.
+
+
+For each reviewer profile, provide:
+A brief title for the role (e.g., “Neuroscience Domain Expert”)
+A description of their background, including key competencies, fields of expertise, and relevant experience
+A justification for why this reviewer is essential to evaluate the hypothesis
+Input:
+ A single research hypothesis in natural language, along with any relevant metadata (e.g., source graph, rationale, supporting evidence).
+Output:
+ A list of three complementary reviewer profiles, each with:
+Reviewer title
+Domain/skill focus 
+Description of expertise
+Reason this reviewer is important for evaluating this hypothesis
+
 Output format:
-Domain 1: [name] — [short justification and detailed profile of the domain 1 expert]
-Domain 2: [name] — [short justification and detailed profile of the domain 2 expert]
-Domain 3: [name] — [short justification and detailed profile of the domain 3 expert]
+Profile 1: [reviewer 1 profile]
+Profile 2: [reviewer 2 profile]
+Profile 3: [reviewer 3 profile]
+
 
 """
 
@@ -43,9 +66,9 @@ def create_reviewer_orchestrator_agent(
         logger.info("Reviewers identified successfully")
 
         return {
-            "reviewer_1_profile": content.split("Domain 1:")[1].split("Domain 2:")[0],
-            "reviewer_2_profile": content.split("Domain 2:")[1].split("Domain 3:")[0],
-            "reviewer_3_profile": content.split("Domain 3:")[1]
+            "reviewer_1_profile": content.split("Profile 1:")[1].split("Profile 2:")[0],
+            "reviewer_2_profile": content.split("Profile 2:")[1].split("Profile 3:")[0],
+            "reviewer_3_profile": content.split("Profile 3:")[1]
         }
 
     return {"agent": agent}
