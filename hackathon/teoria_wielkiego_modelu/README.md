@@ -1,6 +1,30 @@
-# LangGraph Workflow
+# Teoria Wielkiego Modelu
 
-This workflow implements a hypothesis generation system using LangGraph, designed to analyze subgraphs and generate scientific hypotheses based on the relationships and context within the data.
+This novel approach implements in LangGraph an approach using the UCB bound to
+refine the ideas.
+
+We maintain the HYPOTHESIS_BEAM hypothesis in parallel that fight for being refined.
+
+During first few hours we spend most of our precious time improving prompts and diving
+job into specialized secioctions. We mainly focused on testability of the hypothesis as
+we haven't saw any proven one, so that would be the most helpfull to get started with it.
+
+Critique frequenctly killed the whole approach so we also included the devil advocate to mitigate this effect.
+
+The workflow is divided into two pipelines:
+
+1) Seeding ideas, including literature inspiration and PubMed quering.
+
+2) Analyze -> Refine -> Evaluate
+
+So at first the 1) is used to generate the variate of hypothesis.
+
+Now for REFINEMENT_ITER we pick the hypothesis maximizing UCB formula:
+
+llm score + sqrt (log (refinements_done_total) / refinements_done_on_this_specific_hypothesis)
+
+This allows us to explore the hypothesis in their refinement and also exploit good hypothesis that
+are already good.
 
 ## Overview
 

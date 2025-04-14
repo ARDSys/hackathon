@@ -17,8 +17,8 @@ langfuse_callback = CallbackHandler()
 class HypothesisProposition:
     def __init__(self, state: HypgenState):
         self.reviews = 0
-        self.score = 0
         self.state = state
+        self.refine()
     
     def ucb(self, total_reviews):
         return self.score + math.sqrt(2 * math.log(total_reviews) / math.max(1, self.reviews))
@@ -32,6 +32,9 @@ class HypothesisProposition:
         self.score = self.state["score"]
         
 
+HYPOTHESIS_BEAM = 10
+REFINEMENT_ITER = 20
+
 class HypothesisGenerator(HypothesisGeneratorProtocol):
         
     def run(self, subgraph: Subgraph) -> Hypothesis:
@@ -39,25 +42,20 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         path = subgraph.to_cypher_string(full_graph=False)
         
         hypothesis_proposals = []
-        
-        for hyp_ip in range(10):
-            # provide previous hypothesis for inovation?
-            res: HypgenState = seeding_graph.invoke(
-                {"subgraph": path, "context": context},
-                config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
-            )
-            
+        for hyp_ip in range(HYPOTHESIS_BEAM):
             hypothesis_proposals.append(
                 HypothesisProposition(
-                    res,
-                    self.evaluate_hypothesis(res)
+                    seeding_graph.invoke(
+                        {"subgraph": path, "context": context},
+                        config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
+                    )
                 )
             )
             
-        for refinement_iter in range(20):
+        for refinement_iter in range(REFINEMENT_ITER):
             best_ucb = -1e9
             best_idx = -1
-            for i in range(len(hypothesis_proposals)):
+            for i in range(HYPOTHESIS_BEAM):
                 hypothesis = hypothesis_proposals[i]
                 
                 ucb = hypothesis.ucb()
@@ -70,7 +68,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
             hypothesis[best_idx] = hypothesis
     
         best_hypothesis = None
-        for i in range(len(hypothesis_proposals)):
+        for i in range(HYPOTHESIS_BEAM):
             hypothesis = hypothesis_proposals[i]
             
             if best_hypothesis == None or best_hypothesis.reviews < hypothesis.reviews:
