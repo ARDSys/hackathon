@@ -15,6 +15,7 @@ from .agents.reviewer import create_reviewer_1_agent
 from .agents.reviewer_orchestrator import create_reviewer_orchestrator_agent
 from .agents.summary import create_summary_agent
 from .state import HypgenState
+from ..consts import num_hypotheses
 
 
 def improve_hypothesis(
@@ -33,7 +34,7 @@ def improve_hypothesis(
 
 def create_hypgen_graph() -> CompiledGraph:
     graph = StateGraph(HypgenState)
-    num_hypotheses = 3
+
     # Add nodes with specialized agents
     graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
     graph.add_node("hypotheses_generator", create_hypotheses_generator_agent("small")["agent"])
