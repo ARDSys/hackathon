@@ -1,16 +1,14 @@
-from agents import Agent, ModelSettings, function_tool
-from pydantic import BaseModel, Field
+from agents import Agent, ModelSettings
 
 from ard.subgraph.subgraph import Subgraph
 from biohack_attack.model_factory import ModelFactory, ModelType
-from biohack_attack.hackathon_agents.ontology_agent import OntologyAgentOutput
-from biohack_attack.hackathon_agents.tools.search_api_tools import (
+from biohack_attack.hackathon_agents.research_agents.models import UnstructuredSource
+from hackathon_agents.research_agents.tools.search_api_tools import (
     get_biorxiv_papers_by_category,
     get_europe_pmc_papers_by_keyword,
     get_pubmed_papers_by_keyword,
     get_semanticscholar_papers_by_keyword,
 )
-
 
 UNSTRUCTURED_SEARCH_PROMPT = """You are a specialized research agent focused on searching for scientific papers across multiple academic databases.
 
@@ -42,13 +40,6 @@ Focus on papers that:
 
 Return the results in a clear, organized format that can be easily processed by other agents in the system.
 """
-
-class UnstructuredSource(BaseModel):
-    """Represents an unstructured source of information with justification."""
-
-    content: str = Field(description="The main content from the source")
-    justification: str = Field(description="Reasoning for including this source")
-    source_id: str = Field(description="Identifier of the source system")
 
 
 class UnstructuredSearchAgent(Agent):
