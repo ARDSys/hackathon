@@ -125,5 +125,4 @@ statement_verification_agent = Agent(
     instructions=VERIFICATION_AGENT_INSTRUCTIONS,
     handoffs=[],
     output_type=StatementVerification,
-    model_settings=ModelSettings(tool_choice="required"),
 )
