@@ -7,9 +7,14 @@ from pydantic import BaseModel
 
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
 from ard.subgraph import Subgraph
+from hackathon.oncoders.functions import crawl, find_papers, split_keywords
 
 from .groupchat import create_group_chat
 from .llm_config import get_llm_config
+from .agents import solo_ontologist, context_agent
+
+
+
 
 langfuse_callback = CallbackHandler()
 
@@ -37,19 +42,29 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         context = subgraph.context
         path = subgraph.to_cypher_string(full_graph=False)
 
+        list_kw = solo_ontologist.generate_reply(messages=[{"role": "user", "content": path}])
+        
+        kw = split_keywords(list_kw[:10])
+        links = find_papers(kw)
+        abstract_list = crawl(links)
+        
+        context = context_agent.generate_reply(message=[{"role": "user", "content": abstract_list}])
+        subgraph.context = context
+        
         group_chat, manager, user = create_group_chat()
+
         res = user.initiate_chat(
             manager,
             message=f"""Develop a research proposal using the following context:
-Path: {path}
+    Path: {path}
 
-Context: {context}
+    Context: {context}
 
-Do not generate a new path. Use the provided path.
+    Do not generate a new path. Use the provided path.
 
-Do multiple iterations, like a feedback loop between a scientist and reviewers, to improve the research idea.
+    Do multiple iterations, like a feedback loop between a scientist and reviewers, to improve the research idea.
 
-In the end, rate the novelty and feasibility of the research idea.""",
+    In the end, rate the novelty and feasibility of the research idea.""",
             clear_history=True,
         )
         messages = "\n".join([message["content"] for message in group_chat.messages])
