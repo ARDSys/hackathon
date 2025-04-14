@@ -142,7 +142,7 @@ def rate_novelty_feasibility(
 
 
 
-def find_papers(keywords: list[str], limit_per_kw=10) -> list[str]:
+def find_papers(keywords: list[str], limit_per_kw=1) -> list[str]:
     sch = SemanticScholar()
     seen_titles = set()
     links = []

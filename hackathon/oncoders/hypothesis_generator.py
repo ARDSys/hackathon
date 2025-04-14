@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
 from ard.subgraph import Subgraph
+from hackathon.oncoders.functions import crawl, find_papers, split_keywords
 
 from .groupchat import create_group_chat
 from .llm_config import get_llm_config
@@ -42,8 +43,12 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         path = subgraph.to_cypher_string(full_graph=False)
 
         list_kw = solo_ontologist.generate_reply(messages=[{"role": "user", "content": path}])
-
-        print(list_kw)
+        kw = split_keywords(list_kw)
+        links = find_papers(kw)
+        abstract_list = crawl(links)
+        print(abstract_list)
+        
+        
         group_chat, manager, user = create_group_chat()
 
         res = user.initiate_chat(
