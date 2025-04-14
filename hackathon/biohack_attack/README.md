@@ -1,4 +1,10 @@
-# Sample Hypothesis Generator Template
+# BioHack Attack Hypothesis Generator
+
+The solution created by BioHack Attack for the BeeARD x Google for Education.
+
+Authors: Oleksii Furman, Filip Strózik, Zbigniew Tomanek, Patryk Wielopolski 
+
+---
 
 This is a minimal template you can use as a starting point for building your own hypothesis generation system. It provides a basic structure that you can extend to implement your custom multi-agent system.
 
