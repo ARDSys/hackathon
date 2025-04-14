@@ -120,6 +120,7 @@ def refine_graph() -> CompiledGraph:
     graph.add_edge("devil_advocate", "review_agent")
     graph.add_edge("review_agent", "summary_agent")
 
+    # TODO: do we need END?
     return graph.compile()
 
 
