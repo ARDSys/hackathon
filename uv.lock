@@ -173,6 +173,7 @@ dependencies = [
     { name = "opentelemetry-sdk" },
     { name = "pandas" },
     { name = "pydantic" },
+    { name = "semanticscholar" },
     { name = "sentence-transformers" },
     { name = "xmltodict" },
 ]
@@ -213,6 +214,7 @@ requires-dist = [
     { name = "opentelemetry-sdk", specifier = ">=1.31.0" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "pydantic", specifier = ">=2.10.6" },
+    { name = "semanticscholar", specifier = ">=0.10.0" },
     { name = "sentence-transformers", specifier = ">=3.4.1" },
     { name = "xmltodict", specifier = ">=0.14.2" },
 ]
@@ -1578,6 +1580,15 @@ wheels = [
 ]
 
 [[package]]
+name = "nest-asyncio"
+version = "1.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/83/f8/51569ac65d696c8ecbee95938f89d4abf00f47d58d48f6fbabfe8f0baefe/nest_asyncio-1.6.0.tar.gz", hash = "sha256:6f172d5449aca15afd6c646851f4e31e02c598d553a667e38cafa997cfec55fe", size = 7418 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a0/c4/c2971a3ba4c6103a3d10c4b0f24f461ddc027f0f09763220cf35ca1401b3/nest_asyncio-1.6.0-py3-none-any.whl", hash = "sha256:87af6efd6b5e897c81050477ef65c62e2b2f35d51703cae01aff2905b1852e1c", size = 5195 },
+]
+
+[[package]]
 name = "networkx"
 version = "3.4.2"
 source = { registry = "https://pypi.org/simple" }
@@ -2672,6 +2683,20 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/03/f3/e699e19cabe96bbac5189c04aaa970718f0105cff03d458dc5e2b6bd1e8c/scipy-1.15.2-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:bae43364d600fdc3ac327db99659dcb79e6e7ecd279a75fe1266669d9a652828", size = 36545159 },
     { url = "https://files.pythonhosted.org/packages/af/f5/ab3838e56fe5cc22383d6fcf2336e48c8fe33e944b9037fbf6cbdf5a11f8/scipy-1.15.2-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:f031846580d9acccd0044efd1a90e6f4df3a6e12b4b6bd694a7bc03a89892b28", size = 39136566 },
     { url = "https://files.pythonhosted.org/packages/0a/c8/b3f566db71461cabd4b2d5b39bcc24a7e1c119535c8361f81426be39bb47/scipy-1.15.2-cp313-cp313t-win_amd64.whl", hash = "sha256:fe8a9eb875d430d81755472c5ba75e84acc980e4a8f6204d402849234d3017db", size = 40477705 },
+]
+
+[[package]]
+name = "semanticscholar"
+version = "0.10.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "nest-asyncio" },
+    { name = "tenacity" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/69/90/3034058446c39b7069baaa2476c3d7649af3729d99137e85f57ae95de460/semanticscholar-0.10.0.tar.gz", hash = "sha256:82f907265aebcb1d9432b1cdd880d706230444515a4b94017358b938d007dbec", size = 24318 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/21/3e/f59d7b485230763f278ece2abece586cd0725512786a4db04b05729d566a/semanticscholar-0.10.0-py3-none-any.whl", hash = "sha256:28a572eb8504d493ab5671bc3ce76f84ae70534a5828ec0cd38a26f27e66bd02", size = 22416 },
 ]
 
 [[package]]

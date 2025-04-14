@@ -37,6 +37,7 @@ dependencies = [
     "xmltodict>=0.14.2",
     "langchain-google-genai>=2.1.0",
     "openai-agents>=0.0.9",
+    "semanticscholar>=0.10.0",
 ]
 
 [project.scripts]
