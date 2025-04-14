@@ -353,7 +353,6 @@ async def refine_hypothesis(
     return ProcessedHypothesis(
         iteration=iteration,
         base_hypothesis=refined_hypothesis,
-        triaged_hypothesis=triage,
         decomposed_hypothesis=decomposed,
         hypothesis_assessment=verification_result,
         score=score,

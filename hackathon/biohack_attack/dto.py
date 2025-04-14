@@ -13,7 +13,6 @@ from biohack_attack.model import SubgraphModel
 class ProcessedHypothesis(BaseModel):
     iteration: int
     base_hypothesis: ScientificHypothesis
-    triaged_hypothesis: Optional[TriagedHypothesis] = None
     decomposed_hypothesis: Optional[HypothesisDecomposition] = None
     hypothesis_assessment: Optional[HypothesisVerification] = None
     score: Optional[float] = None
