@@ -29,6 +29,10 @@ from biohack_attack.hackathon_agents.ontology_agent import (
     ontology_agent,
     OntologyAgentOutput,
 )
+from biohack_attack.hackathon_agents.references_agent import (
+    hypothesis_reference_generator_agent,
+    References,
+)
 from biohack_attack.hackathon_agents.refiner_agent import rheumatology_refiner_agent
 from biohack_attack.hackathon_agents.verification_agent import (
     HypothesisVerification,
@@ -487,6 +491,32 @@ async def verify_hypothesis_decomposition(
     return final_verification
 
 
+async def run_reference_generator_agent(
+    ontology: OntologyAgentOutput,
+    final_hypothesis: ProcessedHypothesis,
+) -> References:
+    input_prompt = f"""
+    ## HYPOTHESIS REFERENCE GENERATION TASK
+    You are an expert hypothesis referencer. Your task is to enhance the following scientific hypothesis by adding relevant references based on the provided ontology enrichment data.
+    
+    ## HYPOTHESIS DETAILS
+    <hypothesis>
+    {final_hypothesis.base_hypothesis.model_dump_json(indent=2)}
+    </hypothesis>
+    
+    ## Ontology Enrichment Data
+    The following additional ontological information has been provided to enrich your understanding:
+    <ontology>
+    {ontology.model_dump_json(indent=2)}
+    </ontology>
+    """
+    result = await Runner.run(
+        hypothesis_reference_generator_agent, input=input_prompt
+    )  # Use the constructed prompt
+    references: References = result.final_output
+    return references
+
+
 async def run_agents(
     subgraph: Subgraph, config: ProcessConfig
 ) -> Tuple[Hypothesis, HypothesisGenerationDTO]:
@@ -888,6 +918,9 @@ async def run_agents(
             logger.error(f"Failed to save process state to {out_file}: {e}")
 
     # Create verification metadata for the final report
+    references: References = await run_reference_generator_agent(
+        dto.ontology, final_best_processed_hypothesis
+    )
     verification_metadata = {}
     for iter_idx, iteration_data in enumerate(dto.hypotheses):
         for hyp_idx, hyp in enumerate(iteration_data):
@@ -940,6 +973,7 @@ async def run_agents(
         statement=base_hyp.statement,
         source=subgraph,  # Original subgraph input
         method=HypothesisGenerator(config),  # Reference to this generator instance
+        references=[ref.to_str() for ref in references.references],
         metadata={
             "final_selected_hypothesis_id": dto.best_hypothesis_id,
             "final_score": best_score,  # The score used for final selection (verification or triage)

@@ -127,13 +127,13 @@ def run_processing(
         logger.info(f"Saving hypothesis to JSON: {json_output_path}")
         # Assuming save takes the full path now, not just the directory
         hypothesis.save(
-            backend_path=json_output_path.parent,
+            backend_path=json_output_path.parent.as_posix(),
             parser_type="json",
         )
 
         logger.info(f"Saving hypothesis to Markdown: {md_output_path}")
         hypothesis.save(
-            backend_path=md_output_path.parent,
+            backend_path=md_output_path.parent.as_posix(),
             parser_type="md",
         )
 
