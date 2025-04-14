@@ -180,14 +180,7 @@ rheumatology_triage_agent = Agent(
     tools=[query_firecrawl],
     output_type=TriagedHypothesis,
     model_settings=ModelSettings(tool_choice="auto"),
-    handoffs=[
-        firecrawl_agent,
-        biorxiv_agent,
-        europe_pmc_agent,
-        pubmed_agent,
-        semantic_scholar_agent,
-        hetionet_agent,
-    ],
+    handoffs=[],
 )
 
 

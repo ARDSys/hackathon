@@ -123,14 +123,7 @@ statement_verification_agent = Agent(
     model=ModelFactory.build_model(ModelType.OPENAI, model_name="o3-mini"),
     name="StatementVerificationAgent",
     instructions=VERIFICATION_AGENT_INSTRUCTIONS,
-    handoffs=[
-        firecrawl_agent,
-        biorxiv_agent,
-        europe_pmc_agent,
-        pubmed_agent,
-        semantic_scholar_agent,
-        hetionet_agent,
-    ],
+    handoffs=[],
     output_type=StatementVerification,
     model_settings=ModelSettings(tool_choice="required"),
 )

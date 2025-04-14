@@ -123,24 +123,20 @@ def run_processing(
     json_output_path = output_dir / f"{output_base_name}_hypothesis.json"
     md_output_path = output_dir / f"{output_base_name}_hypothesis.md"
 
-    try:
-        logger.info(f"Saving hypothesis to JSON: {json_output_path}")
-        # Assuming save takes the full path now, not just the directory
-        hypothesis.save(
-            backend_path=json_output_path.parent.as_posix(),
-            parser_type="json",
-        )
+    logger.info(f"Saving hypothesis to JSON: {json_output_path}")
+    # Assuming save takes the full path now, not just the directory
+    hypothesis.save(
+        backend_path=json_output_path.parent.as_posix(),
+        parser_type="json",
+    )
 
-        logger.info(f"Saving hypothesis to Markdown: {md_output_path}")
-        hypothesis.save(
-            backend_path=md_output_path.parent.as_posix(),
-            parser_type="md",
-        )
+    logger.info(f"Saving hypothesis to Markdown: {md_output_path}")
+    hypothesis.save(
+        backend_path=md_output_path.parent.as_posix(),
+        parser_type="md",
+    )
 
-        logger.info(f"Hypothesis saved successfully to {output_dir}")
-    except Exception as e:
-        logger.error(f"Failed to save hypothesis: {e}")
-        # Decide if you want to raise here or just log the error
+    logger.info(f"Hypothesis saved successfully to {output_dir}")
 
 
 # --- Click CLI Definition ---

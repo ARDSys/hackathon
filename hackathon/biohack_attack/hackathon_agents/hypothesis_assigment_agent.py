@@ -75,12 +75,5 @@ hypothesis_assessment_agent = Agent(
     name="HypothesisAssessmentAgent",
     instructions=ASSESSMENT_AGENT_INSTRUCTIONS,
     output_type=HypothesisVerification,
-    handoffs=[
-        firecrawl_agent,
-        biorxiv_agent,
-        europe_pmc_agent,
-        pubmed_agent,
-        semantic_scholar_agent,
-        hetionet_agent,
-    ],
+    handoffs=[],
 )
