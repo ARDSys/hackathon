@@ -1,8 +1,0 @@
-{
-  "chunk_method": "fixed",
-  "chunk_size": 1000,
-  "chunk_overlap": 100,
-  "distillation_model": "gemini/gemini-2.0-flash",
-  "model_name": "gemini/gemini-2.0-flash",
-  "timestamp": "20250304_115745"
-}

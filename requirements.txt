@@ -1,0 +1,13 @@
+dotenv
+requests
+loguru
+networkx
+pandas
+boto3
+neo4j
+langfuse
+pydantic
+matplotlib
+langchain_core
+langchain_community
+xmltodict
