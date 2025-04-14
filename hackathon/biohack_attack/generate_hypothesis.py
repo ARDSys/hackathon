@@ -17,10 +17,16 @@ dotenv.load_dotenv()
 
 
 def main(file: str, output: str):
-    output_dir = Path(output)
+    output_dir = Path(output) / f"{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
     if not output_dir.exists():
         output_dir.mkdir()
-    log_file_path = output_dir / f"{datetime.now().strftime('%Y-%m-%d-%H-%M')}-traces.log"
+    log_file_path = output_dir / "traces.jsonl"
+    logs_file_path = output_dir / f"debug.log"
+    logger.add(
+        logs_file_path,
+        format="{time} {level} {message}",
+        level="DEBUG",
+    )
     set_trace_processors([LocalFilesystemTracingProcessor(
         log_file_path.as_posix()
     )])
