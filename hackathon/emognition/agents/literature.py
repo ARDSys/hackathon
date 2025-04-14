@@ -32,7 +32,7 @@ Source (title, authors, year, DOI or link)
 Relevance (brief note on how it connects to the hypothesis or concept)
 
 Paths:
-{context}
+{paths}
 
 """
 

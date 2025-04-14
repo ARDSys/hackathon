@@ -32,11 +32,15 @@ Graph:
 Commonly pursued research paths
 {mainstream_paths}
 
-Output format:
-path_1: node_1 -> [:relationship between node_1 and node_2] -> node_2 -> [:relationship between node_2 and node_3] -> node_3
-path_2: node_1 -> [:relationship between node_1 and node_3] -> node_3 -> [:relationship between node_3 and node_4] -> node_4
 
+Here is an example structure for our response, in the following format
 
+{{
+### Definitions:
+A clear definition of each term in the knowledge graph.
+### Relationships
+A thorough discussion of all the relationships in the graph. 
+}}
 """
 
 
