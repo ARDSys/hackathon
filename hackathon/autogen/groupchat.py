@@ -66,7 +66,7 @@ def create_group_chat():
         admin_name="user",
         send_introductions=True,
         allow_repeat_speaker=True,
-        speaker_selection_method="auto",
+        speaker_selection_method="round_robin",
         select_speaker_message_template=MANAGER_PROMPT,
         select_speaker_auto_llm_config=get_llm_config("reasoning"),
     )

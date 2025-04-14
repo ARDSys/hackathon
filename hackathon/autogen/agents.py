@@ -4,7 +4,8 @@ from autogen import AssistantAgent, Agent
 from .functions import (
     rate_novelty_feasibility,
     response_to_query_perplexity,
-    annotate_and_expand_ontologies
+    annotate_and_expand_ontologies,
+
 )
 from .llm_config import get_llm_config
 from .prompts import (
@@ -167,7 +168,7 @@ assistant.register_for_llm(
 The function will return the novelty and feasibility rate from 1 to 10 (lowest to highest). The input to the function is the hypothesis with its details.""" 
 )(rate_novelty_feasibility)
 
-ontologist.register_for_execution()(
+user.register_for_execution()(
     annotate_and_expand_ontologies
 )
 
@@ -182,4 +183,9 @@ Example input: "Amyloid Beta, Tau Protein, Inflammation"
 )(annotate_and_expand_ontologies)
 
 
+# novelty_admin.register_for_execution()(main)
+
+# assistant.register_for_llm(
+#     description="Understand this research papers"
+# )(main)
 

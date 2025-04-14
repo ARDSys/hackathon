@@ -5,9 +5,16 @@ This module contains function definitions that are registered with agents for ex
 
 import os
 from typing import Annotated
-
+import urllib.request
+import urllib.parse
+import json
+import os
 import requests
-
+import scidownl
+import os
+import re
+import requests
+import PyPDF2
 
 def response_to_query_perplexity(
     query: Annotated[
@@ -129,10 +136,6 @@ def rate_novelty_feasibility(
 
     return res.summary
 
-import urllib.request
-import urllib.parse
-import json
-import os
 
 def annotate_text_with_bioportal(text):
     """
@@ -285,3 +288,115 @@ def annotate_and_expand_ontologies(text: str) -> dict:
     return build_ontology_trees_from_bioportal_output(output_text)
 
 
+def parse_json_into_list(data):
+    """
+    Parse JSON data to extract a list of paper titles.
+    """
+    try: 
+        content = data['choices'][0]['message']['content']
+        content = content.replace("“", '"')
+        content = content.replace("”", '"') 
+        # Extract titles: first, split lines, then use regex to get text inside quotes
+        titles = [line.strip() for line in content.split('\n') if line.strip()]
+        titles = [re.findall(r'"(.*?)"', title) for title in titles]
+        return titles
+    except (KeyError, IndexError) as e:
+        print(f"Error parsing JSON: {e}")
+        return []
+
+
+# def fetch_pubmed_references(titles):
+#     """
+#     Fetch references for the given titles from PubMed API.
+#     """
+#     output = ''
+#     base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+#     fetch_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+#     api_key = ':)'  # Use your PubMed API key
+    
+#     references = {}
+#     print("Titles:", titles)
+    
+#     for title in titles:
+#         # Search for the title in PubMed
+#         search_params = {
+#             "db": "pubmed",
+#             "term": title,
+#             "retmode": "json",
+#             "api_key": api_key
+#         }
+#         search_response = requests.get(base_url, params=search_params)
+#         if search_response.status_code == 200:
+#             search_data = search_response.json()
+#             id_list = search_data.get("esearchresult", {}).get("idlist", [])
+#             if id_list:
+#                 # Fetch details for the first matching PubMed ID
+#                 pubmed_id = id_list[0]
+#                 fetch_params = {
+#                     "db": "pubmed",
+#                     "id": pubmed_id,
+#                     "retmode": "json",
+#                     "api_key": api_key
+#                 }
+#                 fetch_response = requests.get(fetch_url, params=fetch_params)
+#                 if fetch_response.status_code == 200:
+#                     fetch_data = fetch_response.json()
+#                     uid = fetch_data["result"]['uids'][0]
+#                     article_data = fetch_data["result"][uid]['articleids']
+#                     doi_list = [item['value'] for item in article_data if item['idtype'] == 'doi']
+#                     if doi_list:
+#                         doi = doi_list[0]
+#                         print("DOI:", doi)
+#                         http_doi = "https://doi.org/" + doi
+#                         output_file = './pdf_data/' + title[0] + '.pdf'
+#                         print("Downloading to:", output_file)
+#                         paper_type = "doi"
+#                         proxies = {
+#                             'http': 'socks5://127.0.0.1:7890'
+#                         }
+#                         scidownl.scihub_download(http_doi, paper_type=paper_type, out=output_file, proxies=proxies)
+#                     else:
+#                         output += f"DOI not found for: {title}\n"
+#                 else:
+#                     output += f"Error fetching PubMed details for {title}: {fetch_response.status_code}\n"
+#             else:
+#                 output += f"No PubMed IDs found for {title}\n"
+#         else:
+#             output += f"Error searching PubMed for {title}: {search_response.status_code}\n"
+    
+#     return output
+
+# def all_pdfs_to_single_string(directory_path):
+#     """
+#     Reads all PDF files from the directory (and subdirectories) and extracts their text
+#     into one single string.
+#     """
+#     all_text = ''
+#     for root, _, files in os.walk(directory_path):
+#         for file_name in files:
+#             if file_name.lower().endswith('.pdf'):
+#                 full_path = os.path.join(root, file_name)
+#                 try:
+#                     with open(full_path, 'rb') as file:
+#                         reader = PyPDF2.PdfReader(file)
+#                         pdf_text = ''
+#                         for page in reader.pages:
+#                             page_text = page.extract_text()
+#                             if page_text:
+#                                 pdf_text += page_text
+#                         all_text += f'\n--- {full_path} ---\n{pdf_text}\n'
+#                 except Exception as e:
+#                     print(f"Skipping file {full_path} due to error: {e}")
+#     return all_text
+
+# def main(msg):
+#     # Parse JSON to get a list of paper title lists (each inner list from regex extraction)
+#     titles = parse_json_into_list(msg)
+    
+#     # Fetch references and download PDFs based on titles
+#     references = fetch_pubmed_references(titles)
+    
+#     # Now extract text from all the downloaded PDFs in the pdf_data directory
+#     whole_txt = all_pdfs_to_single_string('pdf_data')
+    
+#     print(whole_txt)
