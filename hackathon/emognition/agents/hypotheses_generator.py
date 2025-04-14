@@ -6,8 +6,29 @@ from loguru import logger
 from ..llm.utils import get_model
 from ..state import HypgenState
 from ..utils import add_role
+from ..consts import num_initial_hypotheses
 
-PROMPT = """
+PROMPT = f"""
+You are a sophisticated scientist trained in scientific research and innovation. 
+    
+Given the definitions and relationships acquired from a comprehensive knowledge graph, as well as summarized knowledge obtained from literature review, your task is to synthesize a novel research hypothesis. Your response should demonstrate deep understanding and rational thinking, as well as explore imaginative and unconventional applications of these concepts. 
+    
+Analyze the graph’s paths deeply and carefully, then craft {num_initial_hypotheses} detailed hypothesis that investigates a likely groundbreaking aspect of the knowledge graph.
+
+Consider the implications of your hypothesis and predict the outcome or behavior that might result from this line of investigation. Your creativity in linking these concepts to address unsolved problems or propose new, unexplored areas of study, emergent or unexpected behaviors, will be highly valued.
+
+The hypothesis should be well-defined, have novelty, be feasible, have a well-defined purpose and clear components. Your hypothesis should be as detailed as possible. Ensure it is both innovative and grounded in logical reasoning, capable of advancing our understanding or application of the concepts provided.
+
+Remember, the value of your response lies in scientific discovery, new avenues of scientific inquiry, and potential technological breakthroughs, with detailed and solid reasoning.
+
+Output the {num_initial_hypotheses} generated hypotheses, each in the following format, where <hypothesis id> is the ordering of the hypotheses, and <hypothesis text> is the text of the hypothesis:
+Hypothesis <hypothesis id>: <hypothesis text>.
+""" + """
+Paths:
+{paths}
+
+Summarized knowledge:
+{knowledge}
 """
 
 
