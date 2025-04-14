@@ -63,11 +63,14 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_edge("novelty_analyst", "critique_analyst")
     graph.add_edge("feasibility_analyst", "critique_analyst")
     graph.add_edge("impact_analyst", "critique_analyst")
-    # graph.add_edge("critique_analyst", END)
+    #graph.add_edge("critique_analyst", END)
+    graph.add_edge("critique_analyst", "summary_agent")
+    """
     graph.add_conditional_edges(
         "critique_analyst",
         improve_hypothesis,
     )
+    """
     graph.add_edge("summary_agent", END)
 
     return graph.compile()

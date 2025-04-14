@@ -8,7 +8,7 @@ site/
 .venv/
 
 # environment variables
-.env
+hackathon/emognition/.env
 
 # cache
 .cache/
