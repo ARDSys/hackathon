@@ -21,7 +21,7 @@ ARD requires Python 3.12+ and uses [UV](https://github.com/astral-sh/uv) as its 
 git clone https://github.com/ARDSys/hackathon.git
 cd hackathon
 
-# Create virtual env
+# Setup virtual env
 uv sync
 source .venv/bin/activate
 

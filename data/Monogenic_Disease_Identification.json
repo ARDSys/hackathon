@@ -1,0 +1,513 @@
+{
+  "subgraph_id": "fbb307af08be43318a8a0e0183ac3639cb23295e127a05f6e02ac28327a5245c",
+  "graph_data": {
+    "nodes": {
+      "Monogenic Disease Identification": {
+        "sources": [
+          {
+            "relation": "leads to discovery of",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555719936
+          }
+        ]
+      },
+      "Autoimmune Disease Susceptibility": {
+        "sources": [
+          {
+            "relation": "are often associated with",
+            "triplet_id": 2371492164240
+          },
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555718880
+          },
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "can affect",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      "Extracellular Matrix (ECM) in Synovial Tissue": {
+        "sources": [
+          {
+            "relation": "degrade components of",
+            "triplet_id": 2371555719552
+          },
+          {
+            "relation": "is remolded by",
+            "triplet_id": 2371555719792
+          },
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "is affected by",
+            "triplet_id": 2371555720416
+          }
+        ]
+      },
+      "Regulatory T Cell Function": {
+        "sources": [
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555708512
+          },
+          {
+            "relation": "affects",
+            "triplet_id": 2371555721088
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718304
+          },
+          {
+            "relation": "is affected by",
+            "triplet_id": 2371555720416
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718400
+          }
+        ]
+      },
+      "Synovial Inflammation in Rheumatoid Arthritis": {
+        "sources": [
+          {
+            "relation": "affects",
+            "triplet_id": 2371555721088
+          },
+          {
+            "relation": "is associated with increased levels of",
+            "triplet_id": 2371555716960
+          },
+          {
+            "relation": "can affect",
+            "triplet_id": 2371555716432
+          }
+        ]
+      },
+      "Genetic Mutation Hotspots": {
+        "sources": [
+          {
+            "relation": "leads to discovery of",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "are often associated with",
+            "triplet_id": 2371492164240
+          },
+          {
+            "relation": "can modulate",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718544
+          }
+        ]
+      },
+      "Cytokine Production Profiles": {
+        "sources": [
+          {
+            "relation": "modulate expression of",
+            "triplet_id": 2371555718928
+          },
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555708512
+          },
+          {
+            "relation": "can modulate",
+            "triplet_id": 2371555720704
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555719936
+          }
+        ]
+      },
+      "HLA Class II Gene Variants": {
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555718880
+          },
+          {
+            "relation": "modulate expression of",
+            "triplet_id": 2371555718928
+          },
+          {
+            "relation": "can affect",
+            "triplet_id": 2371555716432
+          }
+        ]
+      },
+      "Fibroblast-like Synoviocytes (FLS)": {
+        "sources": [
+          {
+            "relation": "is remolded by",
+            "triplet_id": 2371555719792
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718304
+          },
+          {
+            "relation": "can modulate",
+            "triplet_id": 2371555720704
+          }
+        ]
+      },
+      "Tumor Necrosis Factor-alpha (TNF-α)": {
+        "sources": [
+          {
+            "relation": "is associated with increased levels of",
+            "triplet_id": 2371555716960
+          },
+          {
+            "relation": "stimulates the expression of",
+            "triplet_id": 2371555718448
+          },
+          {
+            "relation": "can modulate",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "can affect",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      "Matrix Metalloproteinases (MMPs)": {
+        "sources": [
+          {
+            "relation": "stimulates the expression of",
+            "triplet_id": 2371555718448
+          },
+          {
+            "relation": "degrade components of",
+            "triplet_id": 2371555719552
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718544
+          },
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718400
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "Monogenic Disease Identification",
+        "target": "Genetic Mutation Hotspots",
+        "relation": "leads to discovery of",
+        "sources": [
+          {
+            "relation": "leads to discovery of",
+            "triplet_id": 2371492696656
+          }
+        ]
+      },
+      {
+        "source": "Autoimmune Disease Susceptibility",
+        "target": "HLA Class II Gene Variants",
+        "relation": "is influenced by",
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555718880
+          }
+        ]
+      },
+      {
+        "source": "Autoimmune Disease Susceptibility",
+        "target": "Tumor Necrosis Factor-alpha (TNF-α)",
+        "relation": "can affect",
+        "sources": [
+          {
+            "relation": "can affect",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      {
+        "source": "Extracellular Matrix (ECM) in Synovial Tissue",
+        "target": "Fibroblast-like Synoviocytes (FLS)",
+        "relation": "is remolded by",
+        "sources": [
+          {
+            "relation": "is remolded by",
+            "triplet_id": 2371555719792
+          }
+        ]
+      },
+      {
+        "source": "Extracellular Matrix (ECM) in Synovial Tissue",
+        "target": "Autoimmune Disease Susceptibility",
+        "relation": "is influenced by",
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555717248
+          }
+        ]
+      },
+      {
+        "source": "Extracellular Matrix (ECM) in Synovial Tissue",
+        "target": "Regulatory T Cell Function",
+        "relation": "is affected by",
+        "sources": [
+          {
+            "relation": "is affected by",
+            "triplet_id": 2371555720416
+          }
+        ]
+      },
+      {
+        "source": "Regulatory T Cell Function",
+        "target": "Synovial Inflammation in Rheumatoid Arthritis",
+        "relation": "affects",
+        "sources": [
+          {
+            "relation": "affects",
+            "triplet_id": 2371555721088
+          }
+        ]
+      },
+      {
+        "source": "Regulatory T Cell Function",
+        "target": "Fibroblast-like Synoviocytes (FLS)",
+        "relation": "can influence",
+        "sources": [
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718304
+          }
+        ]
+      },
+      {
+        "source": "Synovial Inflammation in Rheumatoid Arthritis",
+        "target": "Tumor Necrosis Factor-alpha (TNF-α)",
+        "relation": "is associated with increased levels of",
+        "sources": [
+          {
+            "relation": "is associated with increased levels of",
+            "triplet_id": 2371555716960
+          }
+        ]
+      },
+      {
+        "source": "Synovial Inflammation in Rheumatoid Arthritis",
+        "target": "HLA Class II Gene Variants",
+        "relation": "can affect",
+        "sources": [
+          {
+            "relation": "can affect",
+            "triplet_id": 2371555716432
+          }
+        ]
+      },
+      {
+        "source": "Genetic Mutation Hotspots",
+        "target": "Autoimmune Disease Susceptibility",
+        "relation": "are often associated with",
+        "sources": [
+          {
+            "relation": "are often associated with",
+            "triplet_id": 2371492164240
+          }
+        ]
+      },
+      {
+        "source": "Genetic Mutation Hotspots",
+        "target": "Matrix Metalloproteinases (MMPs)",
+        "relation": "can influence",
+        "sources": [
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718544
+          }
+        ]
+      },
+      {
+        "source": "Cytokine Production Profiles",
+        "target": "Regulatory T Cell Function",
+        "relation": "interact with",
+        "sources": [
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555708512
+          }
+        ]
+      },
+      {
+        "source": "Cytokine Production Profiles",
+        "target": "Monogenic Disease Identification",
+        "relation": "can influence",
+        "sources": [
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555719936
+          }
+        ]
+      },
+      {
+        "source": "HLA Class II Gene Variants",
+        "target": "Cytokine Production Profiles",
+        "relation": "modulate expression of",
+        "sources": [
+          {
+            "relation": "modulate expression of",
+            "triplet_id": 2371555718928
+          }
+        ]
+      },
+      {
+        "source": "Fibroblast-like Synoviocytes (FLS)",
+        "target": "Cytokine Production Profiles",
+        "relation": "can modulate",
+        "sources": [
+          {
+            "relation": "can modulate",
+            "triplet_id": 2371555720704
+          }
+        ]
+      },
+      {
+        "source": "Tumor Necrosis Factor-alpha (TNF-α)",
+        "target": "Matrix Metalloproteinases (MMPs)",
+        "relation": "stimulates the expression of",
+        "sources": [
+          {
+            "relation": "stimulates the expression of",
+            "triplet_id": 2371555718448
+          }
+        ]
+      },
+      {
+        "source": "Tumor Necrosis Factor-alpha (TNF-α)",
+        "target": "Genetic Mutation Hotspots",
+        "relation": "can modulate",
+        "sources": [
+          {
+            "relation": "can modulate",
+            "triplet_id": 2371555718352
+          }
+        ]
+      },
+      {
+        "source": "Matrix Metalloproteinases (MMPs)",
+        "target": "Extracellular Matrix (ECM) in Synovial Tissue",
+        "relation": "degrade components of",
+        "sources": [
+          {
+            "relation": "degrade components of",
+            "triplet_id": 2371555719552
+          }
+        ]
+      },
+      {
+        "source": "Matrix Metalloproteinases (MMPs)",
+        "target": "Regulatory T Cell Function",
+        "relation": "can influence",
+        "sources": [
+          {
+            "relation": "can influence",
+            "triplet_id": 2371555718400
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 11,
+    "edge_count": 20,
+    "path_length": 11
+  },
+  "start_node": "Monogenic Disease Identification",
+  "end_node": "Fibroblast-like Synoviocytes (FLS)",
+  "path_nodes": [
+    "Monogenic Disease Identification",
+    "Genetic Mutation Hotspots",
+    "Autoimmune Disease Susceptibility",
+    "HLA Class II Gene Variants",
+    "Cytokine Production Profiles",
+    "Regulatory T Cell Function",
+    "Synovial Inflammation in Rheumatoid Arthritis",
+    "Tumor Necrosis Factor-alpha (TNF-α)",
+    "Matrix Metalloproteinases (MMPs)",
+    "Extracellular Matrix (ECM) in Synovial Tissue",
+    "Fibroblast-like Synoviocytes (FLS)"
+  ],
+  "path_edges": [
+    {
+      "source": "Monogenic Disease Identification",
+      "target": "Genetic Mutation Hotspots",
+      "relation": "leads to discovery of"
+    },
+    {
+      "source": "Genetic Mutation Hotspots",
+      "target": "Autoimmune Disease Susceptibility",
+      "relation": "are often associated with"
+    },
+    {
+      "source": "Autoimmune Disease Susceptibility",
+      "target": "HLA Class II Gene Variants",
+      "relation": "is influenced by"
+    },
+    {
+      "source": "HLA Class II Gene Variants",
+      "target": "Cytokine Production Profiles",
+      "relation": "modulate expression of"
+    },
+    {
+      "source": "Cytokine Production Profiles",
+      "target": "Regulatory T Cell Function",
+      "relation": "interact with"
+    },
+    {
+      "source": "Regulatory T Cell Function",
+      "target": "Synovial Inflammation in Rheumatoid Arthritis",
+      "relation": "affects"
+    },
+    {
+      "source": "Synovial Inflammation in Rheumatoid Arthritis",
+      "target": "Tumor Necrosis Factor-alpha (TNF-α)",
+      "relation": "is associated with increased levels of"
+    },
+    {
+      "source": "Tumor Necrosis Factor-alpha (TNF-α)",
+      "target": "Matrix Metalloproteinases (MMPs)",
+      "relation": "stimulates the expression of"
+    },
+    {
+      "source": "Matrix Metalloproteinases (MMPs)",
+      "target": "Extracellular Matrix (ECM) in Synovial Tissue",
+      "relation": "degrade components of"
+    },
+    {
+      "source": "Extracellular Matrix (ECM) in Synovial Tissue",
+      "target": "Fibroblast-like Synoviocytes (FLS)",
+      "relation": "is remolded by"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 11,
+    "edge_count": 20
+  },
+  "config": {}
+}

@@ -1,10 +1,11 @@
-# Sample Hypothesis Generator Template
+# Empty Hypothesis Generator Template
 
 This is a minimal template you can use as a starting point for building your own hypothesis generation system. It provides a basic structure that you can extend to implement your custom multi-agent system.
 
 ## Overview
 
 The template consists of these minimal components:
+
 - `generate_hypothesis.py`: CLI interface for running the hypothesis generation
 - `hypothesis_generator.py`: A wrapper implementing the `HypothesisGeneratorProtocol`
 
@@ -15,6 +16,7 @@ The template consists of these minimal components:
 ## Environment Setup
 
 1. Create a `.env` file in the project root with any API keys you might need, for example:
+
    ```
    # OpenAI
    OPENAI_API_KEY=your-api-key
@@ -25,6 +27,7 @@ The template consists of these minimal components:
 ## Installation
 
 Install the packages in the ARD's root directory:
+
 ```bash
 uv sync
 source .venv/bin/activate
@@ -36,7 +39,7 @@ The template can be run using the `generate_hypothesis.py` script.
 From the ARD's root directory:
 
 ```bash
-python -m hackathon.sample.generate_hypothesis -f path/to/subgraph.json --output output_directory
+python -m hackathon.template.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/template/output
 ```
 
 ### Arguments
@@ -46,11 +49,15 @@ python -m hackathon.sample.generate_hypothesis -f path/to/subgraph.json --output
 
 ## Output
 
-The output is a JSON file containing the hypothesis.
+The output is a JSON and Markdown files containing the hypothesis.
+
 ```json
 {
     "title": "<hypothesis.title>",
     "text": "<hypothesis.statement>",
+    "references": [],
+    "hypothesis_id": "<hypothesis._hypothesis_id",
+    "subgraph_id": "<source_subgraph_id",
     "source": "<source_subgraph_as_json>",
     "metadata": {
         ... # all additional data from the hypothesis
@@ -61,6 +68,7 @@ The output is a JSON file containing the hypothesis.
 ## Architecture
 
 This template provides a minimal starting point:
+
 1. Takes a subgraph as input
 2. Processes it through a simple `HypothesisGenerator` implementation
 3. Creates a Hypothesis object with basic information
@@ -69,16 +77,18 @@ This template provides a minimal starting point:
 ## Development
 
 To build your solution:
+
 1. Modify `hypothesis_generator.py` to implement your multi-agent system approach
 2. Add any necessary components for your solution (agents, tools, etc.)
 3. Ensure your implementation follows the `HypothesisGeneratorProtocol`
 
-**Note** 
+**Note**
 `generate_hypothesis.py` should remain unchanged to enable similar structure across different implementations and easy testing.
 
 ## Extending this Template
 
 Some ideas for extending this template:
+
 1. Add agent definitions for different roles in your system
 2. Implement tools and functions for your agents to use
 3. Create a structured workflow between your agents

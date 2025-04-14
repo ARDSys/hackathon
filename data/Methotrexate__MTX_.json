@@ -1,0 +1,600 @@
+{
+  "subgraph_id": "08a318bb58992cb5f3a99d9e87345a8d9816b1a5af9b7183fae5a34cda06b51e",
+  "graph_data": {
+    "nodes": {
+      "IL-6 receptor (IL-6R)": {
+        "sources": [
+          {
+            "relation": "signals through the",
+            "triplet_id": 2371555708800
+          },
+          {
+            "relation": "activates",
+            "triplet_id": 2371555717872
+          },
+          {
+            "relation": "is implicated in the production of",
+            "triplet_id": 2371555718064
+          },
+          {
+            "relation": "is a target for",
+            "triplet_id": 2371556180864
+          }
+        ]
+      },
+      "Methotrexate (MTX)": {
+        "sources": [
+          {
+            "relation": "inhibits",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "modulates the expression of",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "is a target for",
+            "triplet_id": 2371556180864
+          }
+        ]
+      },
+      "Immune response": {
+        "sources": [
+          {
+            "relation": "play a critical role in the regulation of",
+            "triplet_id": 2371555719360
+          },
+          {
+            "relation": "can be dysregulated in",
+            "triplet_id": 2371555720368
+          },
+          {
+            "relation": "indirectly affects",
+            "triplet_id": 2371555719744
+          }
+        ]
+      },
+      "Janus kinase (JAK)": {
+        "sources": [
+          {
+            "relation": "activates",
+            "triplet_id": 2371555717872
+          },
+          {
+            "relation": "phosphorylates",
+            "triplet_id": 2371555719456
+          },
+          {
+            "relation": "is crucial in the formation of",
+            "triplet_id": 2371555717920
+          }
+        ]
+      },
+      "Rheumatoid arthritis (RA)": {
+        "sources": [
+          {
+            "relation": "can be dysregulated in",
+            "triplet_id": 2371555720368
+          },
+          {
+            "relation": "is associated with elevated levels of",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "results in aberrant activation of",
+            "triplet_id": 2371556189504
+          }
+        ]
+      },
+      "Acute phase proteins (APPs)": {
+        "sources": [
+          {
+            "relation": "induce the expression of",
+            "triplet_id": 2371555720272
+          },
+          {
+            "relation": "is implicated in the production of",
+            "triplet_id": 2371555718064
+          },
+          {
+            "relation": "are necessary for the synthesis of",
+            "triplet_id": 2371556190464
+          }
+        ]
+      },
+      "Cytokines": {
+        "sources": [
+          {
+            "relation": "include",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "play a critical role in the regulation of",
+            "triplet_id": 2371555719360
+          },
+          {
+            "relation": "are linked to the modulation of",
+            "triplet_id": 2371555710048
+          },
+          {
+            "relation": "modulates the expression of",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "influences the synthesis of",
+            "triplet_id": 2371556186672
+          }
+        ]
+      },
+      "Interleukin-6 (IL-6)": {
+        "sources": [
+          {
+            "relation": "is associated with elevated levels of",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "signals through the",
+            "triplet_id": 2371555708800
+          },
+          {
+            "relation": "are involved in the feedback regulation of",
+            "triplet_id": 2371556189264
+          }
+        ]
+      },
+      "Tetrahydrofolate (THF)": {
+        "sources": [
+          {
+            "relation": "is an enzyme involved in the production of",
+            "triplet_id": 2371492164240
+          },
+          {
+            "relation": "is a cofactor in the synthesis of",
+            "triplet_id": 2371555716768
+          }
+        ]
+      },
+      "Dihydrofolate reductase (DHFR)": {
+        "sources": [
+          {
+            "relation": "inhibits",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "is an enzyme involved in the production of",
+            "triplet_id": 2371492164240
+          },
+          {
+            "relation": "indirectly affects",
+            "triplet_id": 2371555719744
+          },
+          {
+            "relation": "influences the synthesis of",
+            "triplet_id": 2371556186672
+          }
+        ]
+      },
+      "Purine nucleotides": {
+        "sources": [
+          {
+            "relation": "is a cofactor in the synthesis of",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "are involved in the production of",
+            "triplet_id": 2371555716480
+          },
+          {
+            "relation": "are linked to the modulation of",
+            "triplet_id": 2371555710048
+          },
+          {
+            "relation": "are necessary for the synthesis of",
+            "triplet_id": 2371556190464
+          }
+        ]
+      },
+      "DNA and RNA": {
+        "sources": [
+          {
+            "relation": "are involved in the production of",
+            "triplet_id": 2371555716480
+          },
+          {
+            "relation": "encode",
+            "triplet_id": 2371555718640
+          },
+          {
+            "relation": "is crucial in the formation of",
+            "triplet_id": 2371555717920
+          }
+        ]
+      },
+      "Proteins": {
+        "sources": [
+          {
+            "relation": "encode",
+            "triplet_id": 2371555718640
+          },
+          {
+            "relation": "include",
+            "triplet_id": 2371555716720
+          }
+        ]
+      },
+      "Signal Transducer and Activator of Transcription (STAT) proteins": {
+        "sources": [
+          {
+            "relation": "phosphorylates",
+            "triplet_id": 2371555719456
+          },
+          {
+            "relation": "induce the expression of",
+            "triplet_id": 2371555720272
+          },
+          {
+            "relation": "are involved in the feedback regulation of",
+            "triplet_id": 2371556189264
+          },
+          {
+            "relation": "results in aberrant activation of",
+            "triplet_id": 2371556189504
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "IL-6 receptor (IL-6R)",
+        "target": "Janus kinase (JAK)",
+        "relation": "activates",
+        "sources": [
+          {
+            "relation": "activates",
+            "triplet_id": 2371555717872
+          }
+        ]
+      },
+      {
+        "source": "IL-6 receptor (IL-6R)",
+        "target": "Acute phase proteins (APPs)",
+        "relation": "is implicated in the production of",
+        "sources": [
+          {
+            "relation": "is implicated in the production of",
+            "triplet_id": 2371555718064
+          }
+        ]
+      },
+      {
+        "source": "IL-6 receptor (IL-6R)",
+        "target": "Methotrexate (MTX)",
+        "relation": "is a target for",
+        "sources": [
+          {
+            "relation": "is a target for",
+            "triplet_id": 2371556180864
+          }
+        ]
+      },
+      {
+        "source": "Methotrexate (MTX)",
+        "target": "Dihydrofolate reductase (DHFR)",
+        "relation": "inhibits",
+        "sources": [
+          {
+            "relation": "inhibits",
+            "triplet_id": 2371492696656
+          }
+        ]
+      },
+      {
+        "source": "Methotrexate (MTX)",
+        "target": "Cytokines",
+        "relation": "modulates the expression of",
+        "sources": [
+          {
+            "relation": "modulates the expression of",
+            "triplet_id": 2371555716624
+          }
+        ]
+      },
+      {
+        "source": "Immune response",
+        "target": "Rheumatoid arthritis (RA)",
+        "relation": "can be dysregulated in",
+        "sources": [
+          {
+            "relation": "can be dysregulated in",
+            "triplet_id": 2371555720368
+          }
+        ]
+      },
+      {
+        "source": "Janus kinase (JAK)",
+        "target": "Signal Transducer and Activator of Transcription (STAT) proteins",
+        "relation": "phosphorylates",
+        "sources": [
+          {
+            "relation": "phosphorylates",
+            "triplet_id": 2371555719456
+          }
+        ]
+      },
+      {
+        "source": "Janus kinase (JAK)",
+        "target": "DNA and RNA",
+        "relation": "is crucial in the formation of",
+        "sources": [
+          {
+            "relation": "is crucial in the formation of",
+            "triplet_id": 2371555717920
+          }
+        ]
+      },
+      {
+        "source": "Rheumatoid arthritis (RA)",
+        "target": "Interleukin-6 (IL-6)",
+        "relation": "is associated with elevated levels of",
+        "sources": [
+          {
+            "relation": "is associated with elevated levels of",
+            "triplet_id": 2371555716576
+          }
+        ]
+      },
+      {
+        "source": "Rheumatoid arthritis (RA)",
+        "target": "Signal Transducer and Activator of Transcription (STAT) proteins",
+        "relation": "results in aberrant activation of",
+        "sources": [
+          {
+            "relation": "results in aberrant activation of",
+            "triplet_id": 2371556189504
+          }
+        ]
+      },
+      {
+        "source": "Cytokines",
+        "target": "Immune response",
+        "relation": "play a critical role in the regulation of",
+        "sources": [
+          {
+            "relation": "play a critical role in the regulation of",
+            "triplet_id": 2371555719360
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-6 (IL-6)",
+        "target": "IL-6 receptor (IL-6R)",
+        "relation": "signals through the",
+        "sources": [
+          {
+            "relation": "signals through the",
+            "triplet_id": 2371555708800
+          }
+        ]
+      },
+      {
+        "source": "Tetrahydrofolate (THF)",
+        "target": "Purine nucleotides",
+        "relation": "is a cofactor in the synthesis of",
+        "sources": [
+          {
+            "relation": "is a cofactor in the synthesis of",
+            "triplet_id": 2371555716768
+          }
+        ]
+      },
+      {
+        "source": "Dihydrofolate reductase (DHFR)",
+        "target": "Tetrahydrofolate (THF)",
+        "relation": "is an enzyme involved in the production of",
+        "sources": [
+          {
+            "relation": "is an enzyme involved in the production of",
+            "triplet_id": 2371492164240
+          }
+        ]
+      },
+      {
+        "source": "Dihydrofolate reductase (DHFR)",
+        "target": "Immune response",
+        "relation": "indirectly affects",
+        "sources": [
+          {
+            "relation": "indirectly affects",
+            "triplet_id": 2371555719744
+          }
+        ]
+      },
+      {
+        "source": "Dihydrofolate reductase (DHFR)",
+        "target": "Cytokines",
+        "relation": "influences the synthesis of",
+        "sources": [
+          {
+            "relation": "influences the synthesis of",
+            "triplet_id": 2371556186672
+          }
+        ]
+      },
+      {
+        "source": "Purine nucleotides",
+        "target": "DNA and RNA",
+        "relation": "are involved in the production of",
+        "sources": [
+          {
+            "relation": "are involved in the production of",
+            "triplet_id": 2371555716480
+          }
+        ]
+      },
+      {
+        "source": "Purine nucleotides",
+        "target": "Cytokines",
+        "relation": "are linked to the modulation of",
+        "sources": [
+          {
+            "relation": "are linked to the modulation of",
+            "triplet_id": 2371555710048
+          }
+        ]
+      },
+      {
+        "source": "Purine nucleotides",
+        "target": "Acute phase proteins (APPs)",
+        "relation": "are necessary for the synthesis of",
+        "sources": [
+          {
+            "relation": "are necessary for the synthesis of",
+            "triplet_id": 2371556190464
+          }
+        ]
+      },
+      {
+        "source": "DNA and RNA",
+        "target": "Proteins",
+        "relation": "encode",
+        "sources": [
+          {
+            "relation": "encode",
+            "triplet_id": 2371555718640
+          }
+        ]
+      },
+      {
+        "source": "Proteins",
+        "target": "Cytokines",
+        "relation": "include",
+        "sources": [
+          {
+            "relation": "include",
+            "triplet_id": 2371555716720
+          }
+        ]
+      },
+      {
+        "source": "Signal Transducer and Activator of Transcription (STAT) proteins",
+        "target": "Acute phase proteins (APPs)",
+        "relation": "induce the expression of",
+        "sources": [
+          {
+            "relation": "induce the expression of",
+            "triplet_id": 2371555720272
+          }
+        ]
+      },
+      {
+        "source": "Signal Transducer and Activator of Transcription (STAT) proteins",
+        "target": "Interleukin-6 (IL-6)",
+        "relation": "are involved in the feedback regulation of",
+        "sources": [
+          {
+            "relation": "are involved in the feedback regulation of",
+            "triplet_id": 2371556189264
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 14,
+    "edge_count": 23,
+    "path_length": 14
+  },
+  "start_node": "Methotrexate (MTX)",
+  "end_node": "Acute phase proteins (APPs)",
+  "path_nodes": [
+    "Methotrexate (MTX)",
+    "Dihydrofolate reductase (DHFR)",
+    "Tetrahydrofolate (THF)",
+    "Purine nucleotides",
+    "DNA and RNA",
+    "Proteins",
+    "Cytokines",
+    "Immune response",
+    "Rheumatoid arthritis (RA)",
+    "Interleukin-6 (IL-6)",
+    "IL-6 receptor (IL-6R)",
+    "Janus kinase (JAK)",
+    "Signal Transducer and Activator of Transcription (STAT) proteins",
+    "Acute phase proteins (APPs)"
+  ],
+  "path_edges": [
+    {
+      "source": "Methotrexate (MTX)",
+      "target": "Dihydrofolate reductase (DHFR)",
+      "relation": "inhibits"
+    },
+    {
+      "source": "Dihydrofolate reductase (DHFR)",
+      "target": "Tetrahydrofolate (THF)",
+      "relation": "is an enzyme involved in the production of"
+    },
+    {
+      "source": "Tetrahydrofolate (THF)",
+      "target": "Purine nucleotides",
+      "relation": "is a cofactor in the synthesis of"
+    },
+    {
+      "source": "Purine nucleotides",
+      "target": "DNA and RNA",
+      "relation": "are involved in the production of"
+    },
+    {
+      "source": "DNA and RNA",
+      "target": "Proteins",
+      "relation": "encode"
+    },
+    {
+      "source": "Proteins",
+      "target": "Cytokines",
+      "relation": "include"
+    },
+    {
+      "source": "Cytokines",
+      "target": "Immune response",
+      "relation": "play a critical role in the regulation of"
+    },
+    {
+      "source": "Immune response",
+      "target": "Rheumatoid arthritis (RA)",
+      "relation": "can be dysregulated in"
+    },
+    {
+      "source": "Rheumatoid arthritis (RA)",
+      "target": "Interleukin-6 (IL-6)",
+      "relation": "is associated with elevated levels of"
+    },
+    {
+      "source": "Interleukin-6 (IL-6)",
+      "target": "IL-6 receptor (IL-6R)",
+      "relation": "signals through the"
+    },
+    {
+      "source": "IL-6 receptor (IL-6R)",
+      "target": "Janus kinase (JAK)",
+      "relation": "activates"
+    },
+    {
+      "source": "Janus kinase (JAK)",
+      "target": "Signal Transducer and Activator of Transcription (STAT) proteins",
+      "relation": "phosphorylates"
+    },
+    {
+      "source": "Signal Transducer and Activator of Transcription (STAT) proteins",
+      "target": "Acute phase proteins (APPs)",
+      "relation": "induce the expression of"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 14,
+    "edge_count": 23
+  },
+  "config": {}
+}

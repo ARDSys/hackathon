@@ -1,0 +1,438 @@
+{
+  "subgraph_id": "ca2e795f3a0f135cb586b88fd6d91751e0807bb3227fa468ebd3308a380e3596",
+  "graph_data": {
+    "nodes": {
+      "bridge therapy effectiveness": {
+        "sources": [
+          {
+            "relation": "can indirectly affect",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      "monocyte activation": {
+        "sources": [
+          {
+            "relation": "can induce",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "leads to the production of",
+            "triplet_id": 2371555716432
+          },
+          {
+            "relation": "can trigger",
+            "triplet_id": 2371555717728
+          },
+          {
+            "relation": "modulate the dynamics of",
+            "triplet_id": 2371555716768
+          }
+        ]
+      },
+      "bridge therapy adjustments": {
+        "sources": [
+          {
+            "relation": "can trigger",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      "extracellular matrix components": {
+        "sources": [
+          {
+            "relation": "are involved in the degradation of",
+            "triplet_id": 2371555708512
+          },
+          {
+            "relation": "regulate the activity of",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555716528
+          },
+          {
+            "relation": "influence the persistence of",
+            "triplet_id": 2371555716240
+          }
+        ]
+      },
+      "acute flares in rheumatoid arthritis": {
+        "sources": [
+          {
+            "relation": "is often used to manage",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "are characterized by elevated levels of",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "result in increased expression of",
+            "triplet_id": 2371555720320
+          },
+          {
+            "relation": "influence the persistence of",
+            "triplet_id": 2371555716240
+          },
+          {
+            "relation": "could amplify damage during",
+            "triplet_id": 2371555717056
+          }
+        ]
+      },
+      "fibroblast-like synoviocytes in rheumatoid arthritis joints": {
+        "sources": [
+          {
+            "relation": "regulate the activity of",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "produce and secrete",
+            "triplet_id": 2371555720560
+          },
+          {
+            "relation": "can enhance activity of",
+            "triplet_id": 2371555716192
+          },
+          {
+            "relation": "are responsive to changes in",
+            "triplet_id": 2371555716960
+          }
+        ]
+      },
+      "C-reactive protein levels": {
+        "sources": [
+          {
+            "relation": "are responsive to changes in",
+            "triplet_id": 2371555716960
+          }
+        ]
+      },
+      "C-reactive protein": {
+        "sources": [
+          {
+            "relation": "are characterized by elevated levels of",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "can induce",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "can enhance activity of",
+            "triplet_id": 2371555716192
+          }
+        ]
+      },
+      "matrix metalloproteinases": {
+        "sources": [
+          {
+            "relation": "stimulate the expression of",
+            "triplet_id": 2371555718160
+          },
+          {
+            "relation": "are involved in the degradation of",
+            "triplet_id": 2371555708512
+          },
+          {
+            "relation": "result in increased expression of",
+            "triplet_id": 2371555720320
+          },
+          {
+            "relation": "modulate the dynamics of",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "could amplify damage during",
+            "triplet_id": 2371555717056
+          }
+        ]
+      },
+      "Bridge Therapy": {
+        "sources": [
+          {
+            "relation": "is often used to manage",
+            "triplet_id": 2371492696656
+          }
+        ]
+      },
+      "pro-inflammatory cytokines": {
+        "sources": [
+          {
+            "relation": "leads to the production of",
+            "triplet_id": 2371555716432
+          },
+          {
+            "relation": "stimulate the expression of",
+            "triplet_id": 2371555718160
+          },
+          {
+            "relation": "produce and secrete",
+            "triplet_id": 2371555720560
+          },
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555716528
+          },
+          {
+            "relation": "can indirectly affect",
+            "triplet_id": 2371555716864
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "monocyte activation",
+        "target": "pro-inflammatory cytokines",
+        "relation": "leads to the production of",
+        "sources": [
+          {
+            "relation": "leads to the production of",
+            "triplet_id": 2371555716432
+          }
+        ]
+      },
+      {
+        "source": "monocyte activation",
+        "target": "bridge therapy adjustments",
+        "relation": "can trigger",
+        "sources": [
+          {
+            "relation": "can trigger",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      {
+        "source": "extracellular matrix components",
+        "target": "fibroblast-like synoviocytes in rheumatoid arthritis joints",
+        "relation": "regulate the activity of",
+        "sources": [
+          {
+            "relation": "regulate the activity of",
+            "triplet_id": 2371555716624
+          }
+        ]
+      },
+      {
+        "source": "extracellular matrix components",
+        "target": "acute flares in rheumatoid arthritis",
+        "relation": "influence the persistence of",
+        "sources": [
+          {
+            "relation": "influence the persistence of",
+            "triplet_id": 2371555716240
+          }
+        ]
+      },
+      {
+        "source": "acute flares in rheumatoid arthritis",
+        "target": "C-reactive protein",
+        "relation": "are characterized by elevated levels of",
+        "sources": [
+          {
+            "relation": "are characterized by elevated levels of",
+            "triplet_id": 2371552064288
+          }
+        ]
+      },
+      {
+        "source": "acute flares in rheumatoid arthritis",
+        "target": "matrix metalloproteinases",
+        "relation": "result in increased expression of",
+        "sources": [
+          {
+            "relation": "result in increased expression of",
+            "triplet_id": 2371555720320
+          }
+        ]
+      },
+      {
+        "source": "fibroblast-like synoviocytes in rheumatoid arthritis joints",
+        "target": "pro-inflammatory cytokines",
+        "relation": "produce and secrete",
+        "sources": [
+          {
+            "relation": "produce and secrete",
+            "triplet_id": 2371555720560
+          }
+        ]
+      },
+      {
+        "source": "fibroblast-like synoviocytes in rheumatoid arthritis joints",
+        "target": "C-reactive protein levels",
+        "relation": "are responsive to changes in",
+        "sources": [
+          {
+            "relation": "are responsive to changes in",
+            "triplet_id": 2371555716960
+          }
+        ]
+      },
+      {
+        "source": "C-reactive protein",
+        "target": "monocyte activation",
+        "relation": "can induce",
+        "sources": [
+          {
+            "relation": "can induce",
+            "triplet_id": 2371555717248
+          }
+        ]
+      },
+      {
+        "source": "C-reactive protein",
+        "target": "fibroblast-like synoviocytes in rheumatoid arthritis joints",
+        "relation": "can enhance activity of",
+        "sources": [
+          {
+            "relation": "can enhance activity of",
+            "triplet_id": 2371555716192
+          }
+        ]
+      },
+      {
+        "source": "matrix metalloproteinases",
+        "target": "extracellular matrix components",
+        "relation": "are involved in the degradation of",
+        "sources": [
+          {
+            "relation": "are involved in the degradation of",
+            "triplet_id": 2371555708512
+          }
+        ]
+      },
+      {
+        "source": "matrix metalloproteinases",
+        "target": "monocyte activation",
+        "relation": "modulate the dynamics of",
+        "sources": [
+          {
+            "relation": "modulate the dynamics of",
+            "triplet_id": 2371555716768
+          }
+        ]
+      },
+      {
+        "source": "matrix metalloproteinases",
+        "target": "acute flares in rheumatoid arthritis",
+        "relation": "could amplify damage during",
+        "sources": [
+          {
+            "relation": "could amplify damage during",
+            "triplet_id": 2371555717056
+          }
+        ]
+      },
+      {
+        "source": "Bridge Therapy",
+        "target": "acute flares in rheumatoid arthritis",
+        "relation": "is often used to manage",
+        "sources": [
+          {
+            "relation": "is often used to manage",
+            "triplet_id": 2371492696656
+          }
+        ]
+      },
+      {
+        "source": "pro-inflammatory cytokines",
+        "target": "matrix metalloproteinases",
+        "relation": "stimulate the expression of",
+        "sources": [
+          {
+            "relation": "stimulate the expression of",
+            "triplet_id": 2371555718160
+          }
+        ]
+      },
+      {
+        "source": "pro-inflammatory cytokines",
+        "target": "extracellular matrix components",
+        "relation": "interact with",
+        "sources": [
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555716528
+          }
+        ]
+      },
+      {
+        "source": "pro-inflammatory cytokines",
+        "target": "bridge therapy effectiveness",
+        "relation": "can indirectly affect",
+        "sources": [
+          {
+            "relation": "can indirectly affect",
+            "triplet_id": 2371555716864
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 11,
+    "edge_count": 17,
+    "path_length": 8
+  },
+  "start_node": "Bridge Therapy",
+  "end_node": "fibroblast-like synoviocytes in rheumatoid arthritis joints",
+  "path_nodes": [
+    "Bridge Therapy",
+    "acute flares in rheumatoid arthritis",
+    "C-reactive protein",
+    "monocyte activation",
+    "pro-inflammatory cytokines",
+    "matrix metalloproteinases",
+    "extracellular matrix components",
+    "fibroblast-like synoviocytes in rheumatoid arthritis joints"
+  ],
+  "path_edges": [
+    {
+      "source": "Bridge Therapy",
+      "target": "acute flares in rheumatoid arthritis",
+      "relation": "is often used to manage"
+    },
+    {
+      "source": "acute flares in rheumatoid arthritis",
+      "target": "C-reactive protein",
+      "relation": "are characterized by elevated levels of"
+    },
+    {
+      "source": "C-reactive protein",
+      "target": "monocyte activation",
+      "relation": "can induce"
+    },
+    {
+      "source": "monocyte activation",
+      "target": "pro-inflammatory cytokines",
+      "relation": "leads to the production of"
+    },
+    {
+      "source": "pro-inflammatory cytokines",
+      "target": "matrix metalloproteinases",
+      "relation": "stimulate the expression of"
+    },
+    {
+      "source": "matrix metalloproteinases",
+      "target": "extracellular matrix components",
+      "relation": "are involved in the degradation of"
+    },
+    {
+      "source": "extracellular matrix components",
+      "target": "fibroblast-like synoviocytes in rheumatoid arthritis joints",
+      "relation": "regulate the activity of"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 11,
+    "edge_count": 17
+  },
+  "config": {}
+}

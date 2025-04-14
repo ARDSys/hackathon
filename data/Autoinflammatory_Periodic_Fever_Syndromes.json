@@ -1,0 +1,658 @@
+{
+  "subgraph_id": "b0c1248edeb5e257474f800eb5d3d0925f7fb35616d631e1c284c536a9138d9a",
+  "graph_data": {
+    "nodes": {
+      "homocysteine, an amino acid linked to endothelial dysfunction and thrombosis": {
+        "sources": [
+          {
+            "relation": "is often exacerbated by elevated levels of",
+            "triplet_id": 2371555720608
+          },
+          {
+            "relation": "can be metabolized through the transsulfuration pathway involving",
+            "triplet_id": 2371555718016
+          }
+        ]
+      },
+      "the MEFV gene": {
+        "sources": [
+          {
+            "relation": "are often associated with mutations in",
+            "triplet_id": 2371492164048
+          },
+          {
+            "relation": "encodes",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "is influenced by epigenetic modifiers such as",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      "pyridoxal phosphate (active vitamin B6) for optimal activity": {
+        "sources": [
+          {
+            "relation": "requires as a cofactor",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "plays a critical role in the synthesis of",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "modulates enzymatic activity affecting",
+            "triplet_id": 2371555717488
+          },
+          {
+            "relation": "expression is influenced by nutrient molecules like",
+            "triplet_id": 2371555719360
+          }
+        ]
+      },
+      "the enzyme cystathionine β-synthase (CBS) in the liver": {
+        "sources": [
+          {
+            "relation": "can be metabolized through the transsulfuration pathway involving",
+            "triplet_id": 2371555718016
+          },
+          {
+            "relation": "requires as a cofactor",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "is linked to cardiovascular risk modulation via the regulation of",
+            "triplet_id": 2371555718160
+          }
+        ]
+      },
+      "T-helper cells by influencing cytokine production": {
+        "sources": [
+          {
+            "relation": "modulate the function of",
+            "triplet_id": 2371555716816
+          },
+          {
+            "relation": "are implicated in the activation of",
+            "triplet_id": 2371555716912
+          },
+          {
+            "relation": "are modulated by gut-derived metabolites like",
+            "triplet_id": 2371555718448
+          }
+        ]
+      },
+      "histone deacetylases (HDACs) to influence Treg stability and function": {
+        "sources": [
+          {
+            "relation": "interacts with",
+            "triplet_id": 2371555717104
+          },
+          {
+            "relation": "are inhibited by",
+            "triplet_id": 2371555717200
+          },
+          {
+            "relation": "is influenced by epigenetic modifiers such as",
+            "triplet_id": 2371555717296
+          },
+          {
+            "relation": "modulates enzymatic activity affecting",
+            "triplet_id": 2371555717488
+          }
+        ]
+      },
+      "IL-1β activation": {
+        "sources": [
+          {
+            "relation": "regulates",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "induces",
+            "triplet_id": 2371555716672
+          },
+          {
+            "relation": "is associated with cellular stress responses influenced by",
+            "triplet_id": 2371555709424
+          },
+          {
+            "relation": "are influenced by inflammatory mediators like",
+            "triplet_id": 2371555708848
+          }
+        ]
+      },
+      "pyrin, a key component of the inflammasome complex": {
+        "sources": [
+          {
+            "relation": "encodes",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "regulates",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "have potential interactions with",
+            "triplet_id": 2371555719216
+          }
+        ]
+      },
+      "Autoinflammatory Periodic Fever Syndromes": {
+        "sources": [
+          {
+            "relation": "are often associated with mutations in",
+            "triplet_id": 2371492164048
+          },
+          {
+            "relation": "are influenced by inflammatory mediators like",
+            "triplet_id": 2371555708848
+          }
+        ]
+      },
+      "the transcription factor FoxP3, essential for Treg development and function": {
+        "sources": [
+          {
+            "relation": "express high levels of",
+            "triplet_id": 2371555717008
+          },
+          {
+            "relation": "interacts with",
+            "triplet_id": 2371555717104
+          },
+          {
+            "relation": "enhances transcription of",
+            "triplet_id": 2371555717392
+          }
+        ]
+      },
+      "regulatory T cells (Tregs) which modulate autoimmunity and inflammatory responses": {
+        "sources": [
+          {
+            "relation": "are implicated in the activation of",
+            "triplet_id": 2371555716912
+          },
+          {
+            "relation": "express high levels of",
+            "triplet_id": 2371555717008
+          },
+          {
+            "relation": "have potential interactions with",
+            "triplet_id": 2371555719216
+          }
+        ]
+      },
+      "adhesion molecules such as ICAM-1 and VCAM-1": {
+        "sources": [
+          {
+            "relation": "contribute to the upregulation of",
+            "triplet_id": 2371555720512
+          },
+          {
+            "relation": "are biomarkers that predict the development of",
+            "triplet_id": 2371555708656
+          },
+          {
+            "relation": "expression is influenced by nutrient molecules like",
+            "triplet_id": 2371555719360
+          }
+        ]
+      },
+      "pro-inflammatory signaling pathways in endothelial cells": {
+        "sources": [
+          {
+            "relation": "induces",
+            "triplet_id": 2371555716672
+          },
+          {
+            "relation": "contribute to the upregulation of",
+            "triplet_id": 2371555720512
+          },
+          {
+            "relation": "impact vascular tone and endothelial function through",
+            "triplet_id": 2371555717584
+          }
+        ]
+      },
+      "butyrate, a short-chain fatty acid produced by gut microbiota": {
+        "sources": [
+          {
+            "relation": "are inhibited by",
+            "triplet_id": 2371555717200
+          },
+          {
+            "relation": "enhances transcription of",
+            "triplet_id": 2371555717392
+          },
+          {
+            "relation": "are modulated by gut-derived metabolites like",
+            "triplet_id": 2371555718448
+          }
+        ]
+      },
+      "atherosclerosis in patients with systemic inflammatory diseases": {
+        "sources": [
+          {
+            "relation": "are biomarkers that predict the development of",
+            "triplet_id": 2371555708656
+          },
+          {
+            "relation": "is often exacerbated by elevated levels of",
+            "triplet_id": 2371555720608
+          },
+          {
+            "relation": "is linked to cardiovascular risk modulation via the regulation of",
+            "triplet_id": 2371555718160
+          }
+        ]
+      },
+      "neurotransmitters such as serotonin and dopamine": {
+        "sources": [
+          {
+            "relation": "plays a critical role in the synthesis of",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "modulate the function of",
+            "triplet_id": 2371555716816
+          },
+          {
+            "relation": "impact vascular tone and endothelial function through",
+            "triplet_id": 2371555717584
+          },
+          {
+            "relation": "is associated with cellular stress responses influenced by",
+            "triplet_id": 2371555709424
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "homocysteine, an amino acid linked to endothelial dysfunction and thrombosis",
+        "target": "the enzyme cystathionine β-synthase (CBS) in the liver",
+        "relation": "can be metabolized through the transsulfuration pathway involving",
+        "sources": [
+          {
+            "relation": "can be metabolized through the transsulfuration pathway involving",
+            "triplet_id": 2371555718016
+          }
+        ]
+      },
+      {
+        "source": "the MEFV gene",
+        "target": "pyrin, a key component of the inflammasome complex",
+        "relation": "encodes",
+        "sources": [
+          {
+            "relation": "encodes",
+            "triplet_id": 2371552064288
+          }
+        ]
+      },
+      {
+        "source": "the MEFV gene",
+        "target": "histone deacetylases (HDACs) to influence Treg stability and function",
+        "relation": "is influenced by epigenetic modifiers such as",
+        "sources": [
+          {
+            "relation": "is influenced by epigenetic modifiers such as",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      {
+        "source": "pyridoxal phosphate (active vitamin B6) for optimal activity",
+        "target": "neurotransmitters such as serotonin and dopamine",
+        "relation": "plays a critical role in the synthesis of",
+        "sources": [
+          {
+            "relation": "plays a critical role in the synthesis of",
+            "triplet_id": 2371555716720
+          }
+        ]
+      },
+      {
+        "source": "pyridoxal phosphate (active vitamin B6) for optimal activity",
+        "target": "histone deacetylases (HDACs) to influence Treg stability and function",
+        "relation": "modulates enzymatic activity affecting",
+        "sources": [
+          {
+            "relation": "modulates enzymatic activity affecting",
+            "triplet_id": 2371555717488
+          }
+        ]
+      },
+      {
+        "source": "the enzyme cystathionine β-synthase (CBS) in the liver",
+        "target": "pyridoxal phosphate (active vitamin B6) for optimal activity",
+        "relation": "requires as a cofactor",
+        "sources": [
+          {
+            "relation": "requires as a cofactor",
+            "triplet_id": 2371555716576
+          }
+        ]
+      },
+      {
+        "source": "the enzyme cystathionine β-synthase (CBS) in the liver",
+        "target": "atherosclerosis in patients with systemic inflammatory diseases",
+        "relation": "is linked to cardiovascular risk modulation via the regulation of",
+        "sources": [
+          {
+            "relation": "is linked to cardiovascular risk modulation via the regulation of",
+            "triplet_id": 2371555718160
+          }
+        ]
+      },
+      {
+        "source": "T-helper cells by influencing cytokine production",
+        "target": "regulatory T cells (Tregs) which modulate autoimmunity and inflammatory responses",
+        "relation": "are implicated in the activation of",
+        "sources": [
+          {
+            "relation": "are implicated in the activation of",
+            "triplet_id": 2371555716912
+          }
+        ]
+      },
+      {
+        "source": "T-helper cells by influencing cytokine production",
+        "target": "butyrate, a short-chain fatty acid produced by gut microbiota",
+        "relation": "are modulated by gut-derived metabolites like",
+        "sources": [
+          {
+            "relation": "are modulated by gut-derived metabolites like",
+            "triplet_id": 2371555718448
+          }
+        ]
+      },
+      {
+        "source": "histone deacetylases (HDACs) to influence Treg stability and function",
+        "target": "butyrate, a short-chain fatty acid produced by gut microbiota",
+        "relation": "are inhibited by",
+        "sources": [
+          {
+            "relation": "are inhibited by",
+            "triplet_id": 2371555717200
+          }
+        ]
+      },
+      {
+        "source": "IL-1β activation",
+        "target": "pro-inflammatory signaling pathways in endothelial cells",
+        "relation": "induces",
+        "sources": [
+          {
+            "relation": "induces",
+            "triplet_id": 2371555716672
+          }
+        ]
+      },
+      {
+        "source": "IL-1β activation",
+        "target": "neurotransmitters such as serotonin and dopamine",
+        "relation": "is associated with cellular stress responses influenced by",
+        "sources": [
+          {
+            "relation": "is associated with cellular stress responses influenced by",
+            "triplet_id": 2371555709424
+          }
+        ]
+      },
+      {
+        "source": "pyrin, a key component of the inflammasome complex",
+        "target": "IL-1β activation",
+        "relation": "regulates",
+        "sources": [
+          {
+            "relation": "regulates",
+            "triplet_id": 2371555718352
+          }
+        ]
+      },
+      {
+        "source": "Autoinflammatory Periodic Fever Syndromes",
+        "target": "the MEFV gene",
+        "relation": "are often associated with mutations in",
+        "sources": [
+          {
+            "relation": "are often associated with mutations in",
+            "triplet_id": 2371492164048
+          }
+        ]
+      },
+      {
+        "source": "Autoinflammatory Periodic Fever Syndromes",
+        "target": "IL-1β activation",
+        "relation": "are influenced by inflammatory mediators like",
+        "sources": [
+          {
+            "relation": "are influenced by inflammatory mediators like",
+            "triplet_id": 2371555708848
+          }
+        ]
+      },
+      {
+        "source": "the transcription factor FoxP3, essential for Treg development and function",
+        "target": "histone deacetylases (HDACs) to influence Treg stability and function",
+        "relation": "interacts with",
+        "sources": [
+          {
+            "relation": "interacts with",
+            "triplet_id": 2371555717104
+          }
+        ]
+      },
+      {
+        "source": "regulatory T cells (Tregs) which modulate autoimmunity and inflammatory responses",
+        "target": "the transcription factor FoxP3, essential for Treg development and function",
+        "relation": "express high levels of",
+        "sources": [
+          {
+            "relation": "express high levels of",
+            "triplet_id": 2371555717008
+          }
+        ]
+      },
+      {
+        "source": "regulatory T cells (Tregs) which modulate autoimmunity and inflammatory responses",
+        "target": "pyrin, a key component of the inflammasome complex",
+        "relation": "have potential interactions with",
+        "sources": [
+          {
+            "relation": "have potential interactions with",
+            "triplet_id": 2371555719216
+          }
+        ]
+      },
+      {
+        "source": "adhesion molecules such as ICAM-1 and VCAM-1",
+        "target": "atherosclerosis in patients with systemic inflammatory diseases",
+        "relation": "are biomarkers that predict the development of",
+        "sources": [
+          {
+            "relation": "are biomarkers that predict the development of",
+            "triplet_id": 2371555708656
+          }
+        ]
+      },
+      {
+        "source": "adhesion molecules such as ICAM-1 and VCAM-1",
+        "target": "pyridoxal phosphate (active vitamin B6) for optimal activity",
+        "relation": "expression is influenced by nutrient molecules like",
+        "sources": [
+          {
+            "relation": "expression is influenced by nutrient molecules like",
+            "triplet_id": 2371555719360
+          }
+        ]
+      },
+      {
+        "source": "pro-inflammatory signaling pathways in endothelial cells",
+        "target": "adhesion molecules such as ICAM-1 and VCAM-1",
+        "relation": "contribute to the upregulation of",
+        "sources": [
+          {
+            "relation": "contribute to the upregulation of",
+            "triplet_id": 2371555720512
+          }
+        ]
+      },
+      {
+        "source": "butyrate, a short-chain fatty acid produced by gut microbiota",
+        "target": "the transcription factor FoxP3, essential for Treg development and function",
+        "relation": "enhances transcription of",
+        "sources": [
+          {
+            "relation": "enhances transcription of",
+            "triplet_id": 2371555717392
+          }
+        ]
+      },
+      {
+        "source": "atherosclerosis in patients with systemic inflammatory diseases",
+        "target": "homocysteine, an amino acid linked to endothelial dysfunction and thrombosis",
+        "relation": "is often exacerbated by elevated levels of",
+        "sources": [
+          {
+            "relation": "is often exacerbated by elevated levels of",
+            "triplet_id": 2371555720608
+          }
+        ]
+      },
+      {
+        "source": "neurotransmitters such as serotonin and dopamine",
+        "target": "T-helper cells by influencing cytokine production",
+        "relation": "modulate the function of",
+        "sources": [
+          {
+            "relation": "modulate the function of",
+            "triplet_id": 2371555716816
+          }
+        ]
+      },
+      {
+        "source": "neurotransmitters such as serotonin and dopamine",
+        "target": "pro-inflammatory signaling pathways in endothelial cells",
+        "relation": "impact vascular tone and endothelial function through",
+        "sources": [
+          {
+            "relation": "impact vascular tone and endothelial function through",
+            "triplet_id": 2371555717584
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 16,
+    "edge_count": 25,
+    "path_length": 16
+  },
+  "start_node": "Autoinflammatory Periodic Fever Syndromes",
+  "end_node": "butyrate, a short-chain fatty acid produced by gut microbiota",
+  "path_nodes": [
+    "Autoinflammatory Periodic Fever Syndromes",
+    "the MEFV gene",
+    "pyrin, a key component of the inflammasome complex",
+    "IL-1β activation",
+    "pro-inflammatory signaling pathways in endothelial cells",
+    "adhesion molecules such as ICAM-1 and VCAM-1",
+    "atherosclerosis in patients with systemic inflammatory diseases",
+    "homocysteine, an amino acid linked to endothelial dysfunction and thrombosis",
+    "the enzyme cystathionine β-synthase (CBS) in the liver",
+    "pyridoxal phosphate (active vitamin B6) for optimal activity",
+    "neurotransmitters such as serotonin and dopamine",
+    "T-helper cells by influencing cytokine production",
+    "regulatory T cells (Tregs) which modulate autoimmunity and inflammatory responses",
+    "the transcription factor FoxP3, essential for Treg development and function",
+    "histone deacetylases (HDACs) to influence Treg stability and function",
+    "butyrate, a short-chain fatty acid produced by gut microbiota"
+  ],
+  "path_edges": [
+    {
+      "source": "Autoinflammatory Periodic Fever Syndromes",
+      "target": "the MEFV gene",
+      "relation": "are often associated with mutations in"
+    },
+    {
+      "source": "the MEFV gene",
+      "target": "pyrin, a key component of the inflammasome complex",
+      "relation": "encodes"
+    },
+    {
+      "source": "pyrin, a key component of the inflammasome complex",
+      "target": "IL-1β activation",
+      "relation": "regulates"
+    },
+    {
+      "source": "IL-1β activation",
+      "target": "pro-inflammatory signaling pathways in endothelial cells",
+      "relation": "induces"
+    },
+    {
+      "source": "pro-inflammatory signaling pathways in endothelial cells",
+      "target": "adhesion molecules such as ICAM-1 and VCAM-1",
+      "relation": "contribute to the upregulation of"
+    },
+    {
+      "source": "adhesion molecules such as ICAM-1 and VCAM-1",
+      "target": "atherosclerosis in patients with systemic inflammatory diseases",
+      "relation": "are biomarkers that predict the development of"
+    },
+    {
+      "source": "atherosclerosis in patients with systemic inflammatory diseases",
+      "target": "homocysteine, an amino acid linked to endothelial dysfunction and thrombosis",
+      "relation": "is often exacerbated by elevated levels of"
+    },
+    {
+      "source": "homocysteine, an amino acid linked to endothelial dysfunction and thrombosis",
+      "target": "the enzyme cystathionine β-synthase (CBS) in the liver",
+      "relation": "can be metabolized through the transsulfuration pathway involving"
+    },
+    {
+      "source": "the enzyme cystathionine β-synthase (CBS) in the liver",
+      "target": "pyridoxal phosphate (active vitamin B6) for optimal activity",
+      "relation": "requires as a cofactor"
+    },
+    {
+      "source": "pyridoxal phosphate (active vitamin B6) for optimal activity",
+      "target": "neurotransmitters such as serotonin and dopamine",
+      "relation": "plays a critical role in the synthesis of"
+    },
+    {
+      "source": "neurotransmitters such as serotonin and dopamine",
+      "target": "T-helper cells by influencing cytokine production",
+      "relation": "modulate the function of"
+    },
+    {
+      "source": "T-helper cells by influencing cytokine production",
+      "target": "regulatory T cells (Tregs) which modulate autoimmunity and inflammatory responses",
+      "relation": "are implicated in the activation of"
+    },
+    {
+      "source": "regulatory T cells (Tregs) which modulate autoimmunity and inflammatory responses",
+      "target": "the transcription factor FoxP3, essential for Treg development and function",
+      "relation": "express high levels of"
+    },
+    {
+      "source": "the transcription factor FoxP3, essential for Treg development and function",
+      "target": "histone deacetylases (HDACs) to influence Treg stability and function",
+      "relation": "interacts with"
+    },
+    {
+      "source": "histone deacetylases (HDACs) to influence Treg stability and function",
+      "target": "butyrate, a short-chain fatty acid produced by gut microbiota",
+      "relation": "are inhibited by"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 16,
+    "edge_count": 25
+  },
+  "config": {}
+}

@@ -1,0 +1,629 @@
+{
+  "subgraph_id": "12f153b192d123906d9c40a029f14d43cc548362675eb52c6caaa347bb61f3ef",
+  "graph_data": {
+    "nodes": {
+      "Synovial Inflammation": {
+        "sources": [
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555716192
+          },
+          {
+            "relation": "results in",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "reflects",
+            "triplet_id": 2371555718400
+          }
+        ]
+      },
+      "Erythrocyte Sedimentation Rate (ESR)": {
+        "sources": [
+          {
+            "relation": "utilizes",
+            "triplet_id": 2371555708512
+          },
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "reflects",
+            "triplet_id": 2371555718400
+          }
+        ]
+      },
+      "C-reactive Protein (CRP)": {
+        "sources": [
+          {
+            "relation": "upregulates",
+            "triplet_id": 2371555716432
+          },
+          {
+            "relation": "correlates with",
+            "triplet_id": 2371555718160
+          },
+          {
+            "relation": "elevates",
+            "triplet_id": 2371555717152
+          }
+        ]
+      },
+      "Leukocyte Extravasation": {
+        "sources": [
+          {
+            "relation": "facilitate",
+            "triplet_id": 2371555716240
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555716192
+          },
+          {
+            "relation": "triggers",
+            "triplet_id": 2371555719696
+          }
+        ]
+      },
+      "Oxidative Stress": {
+        "sources": [
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555717728
+          },
+          {
+            "relation": "damages",
+            "triplet_id": 2371555720320
+          },
+          {
+            "relation": "exacerbates",
+            "triplet_id": 2371555717344
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555717440
+          },
+          {
+            "relation": "triggers",
+            "triplet_id": 2371555719696
+          }
+        ]
+      },
+      "Fibrinogen Levels": {
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "are elevated in",
+            "triplet_id": 2371555720560
+          },
+          {
+            "relation": "promote",
+            "triplet_id": 2371555717056
+          },
+          {
+            "relation": "elevates",
+            "triplet_id": 2371555717152
+          }
+        ]
+      },
+      "Interleukin-6 (IL-6)": {
+        "sources": [
+          {
+            "relation": "induces",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "upregulates",
+            "triplet_id": 2371555716432
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555717440
+          }
+        ]
+      },
+      "Fibroblast-like Synoviocyte Activation": {
+        "sources": [
+          {
+            "relation": "results in",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "increases production of",
+            "triplet_id": 2371555716864
+          },
+          {
+            "relation": "exacerbates",
+            "triplet_id": 2371555717344
+          },
+          {
+            "relation": "upregulates",
+            "triplet_id": 2371555720128
+          }
+        ]
+      },
+      "Adhesion Molecules": {
+        "sources": [
+          {
+            "relation": "express",
+            "triplet_id": 2371555716528
+          },
+          {
+            "relation": "facilitate",
+            "triplet_id": 2371555716240
+          },
+          {
+            "relation": "promote",
+            "triplet_id": 2371555717056
+          },
+          {
+            "relation": "upregulates",
+            "triplet_id": 2371555720128
+          }
+        ]
+      },
+      "Endothelial Cells": {
+        "sources": [
+          {
+            "relation": "damages",
+            "triplet_id": 2371555720320
+          },
+          {
+            "relation": "express",
+            "triplet_id": 2371555716528
+          },
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555717248
+          }
+        ]
+      },
+      "Biological DMARDs (bDMARDs)": {
+        "sources": [
+          {
+            "relation": "target",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "reduce",
+            "triplet_id": 2371555718208
+          }
+        ]
+      },
+      "Disease Activity Score 28 (DAS28)": {
+        "sources": [
+          {
+            "relation": "correlates with",
+            "triplet_id": 2371555718160
+          },
+          {
+            "relation": "utilizes",
+            "triplet_id": 2371555708512
+          }
+        ]
+      },
+      "Systemic Inflammation": {
+        "sources": [
+          {
+            "relation": "are elevated in",
+            "triplet_id": 2371555720560
+          },
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555717728
+          },
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "reduce",
+            "triplet_id": 2371555718208
+          }
+        ]
+      },
+      "Tumor Necrosis Factor-alpha (TNF-α)": {
+        "sources": [
+          {
+            "relation": "target",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "induces",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "activate",
+            "triplet_id": 2371555716960
+          }
+        ]
+      },
+      "Matrix Metalloproteinases (MMPs)": {
+        "sources": [
+          {
+            "relation": "increases production of",
+            "triplet_id": 2371555716864
+          },
+          {
+            "relation": "activate",
+            "triplet_id": 2371555716960
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "Synovial Inflammation",
+        "target": "Fibroblast-like Synoviocyte Activation",
+        "relation": "results in",
+        "sources": [
+          {
+            "relation": "results in",
+            "triplet_id": 2371555716768
+          }
+        ]
+      },
+      {
+        "source": "Erythrocyte Sedimentation Rate (ESR)",
+        "target": "Fibrinogen Levels",
+        "relation": "is influenced by",
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555716624
+          }
+        ]
+      },
+      {
+        "source": "Erythrocyte Sedimentation Rate (ESR)",
+        "target": "Synovial Inflammation",
+        "relation": "reflects",
+        "sources": [
+          {
+            "relation": "reflects",
+            "triplet_id": 2371555718400
+          }
+        ]
+      },
+      {
+        "source": "C-reactive Protein (CRP)",
+        "target": "Disease Activity Score 28 (DAS28)",
+        "relation": "correlates with",
+        "sources": [
+          {
+            "relation": "correlates with",
+            "triplet_id": 2371555718160
+          }
+        ]
+      },
+      {
+        "source": "C-reactive Protein (CRP)",
+        "target": "Fibrinogen Levels",
+        "relation": "elevates",
+        "sources": [
+          {
+            "relation": "elevates",
+            "triplet_id": 2371555717152
+          }
+        ]
+      },
+      {
+        "source": "Leukocyte Extravasation",
+        "target": "Synovial Inflammation",
+        "relation": "enhances",
+        "sources": [
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555716192
+          }
+        ]
+      },
+      {
+        "source": "Leukocyte Extravasation",
+        "target": "Oxidative Stress",
+        "relation": "triggers",
+        "sources": [
+          {
+            "relation": "triggers",
+            "triplet_id": 2371555719696
+          }
+        ]
+      },
+      {
+        "source": "Oxidative Stress",
+        "target": "Endothelial Cells",
+        "relation": "damages",
+        "sources": [
+          {
+            "relation": "damages",
+            "triplet_id": 2371555720320
+          }
+        ]
+      },
+      {
+        "source": "Oxidative Stress",
+        "target": "Fibroblast-like Synoviocyte Activation",
+        "relation": "exacerbates",
+        "sources": [
+          {
+            "relation": "exacerbates",
+            "triplet_id": 2371555717344
+          }
+        ]
+      },
+      {
+        "source": "Fibrinogen Levels",
+        "target": "Systemic Inflammation",
+        "relation": "are elevated in",
+        "sources": [
+          {
+            "relation": "are elevated in",
+            "triplet_id": 2371555720560
+          }
+        ]
+      },
+      {
+        "source": "Fibrinogen Levels",
+        "target": "Adhesion Molecules",
+        "relation": "promote",
+        "sources": [
+          {
+            "relation": "promote",
+            "triplet_id": 2371555717056
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-6 (IL-6)",
+        "target": "C-reactive Protein (CRP)",
+        "relation": "upregulates",
+        "sources": [
+          {
+            "relation": "upregulates",
+            "triplet_id": 2371555716432
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-6 (IL-6)",
+        "target": "Oxidative Stress",
+        "relation": "enhances",
+        "sources": [
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555717440
+          }
+        ]
+      },
+      {
+        "source": "Fibroblast-like Synoviocyte Activation",
+        "target": "Matrix Metalloproteinases (MMPs)",
+        "relation": "increases production of",
+        "sources": [
+          {
+            "relation": "increases production of",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      {
+        "source": "Fibroblast-like Synoviocyte Activation",
+        "target": "Adhesion Molecules",
+        "relation": "upregulates",
+        "sources": [
+          {
+            "relation": "upregulates",
+            "triplet_id": 2371555720128
+          }
+        ]
+      },
+      {
+        "source": "Adhesion Molecules",
+        "target": "Leukocyte Extravasation",
+        "relation": "facilitate",
+        "sources": [
+          {
+            "relation": "facilitate",
+            "triplet_id": 2371555716240
+          }
+        ]
+      },
+      {
+        "source": "Endothelial Cells",
+        "target": "Adhesion Molecules",
+        "relation": "express",
+        "sources": [
+          {
+            "relation": "express",
+            "triplet_id": 2371555716528
+          }
+        ]
+      },
+      {
+        "source": "Biological DMARDs (bDMARDs)",
+        "target": "Tumor Necrosis Factor-alpha (TNF-α)",
+        "relation": "target",
+        "sources": [
+          {
+            "relation": "target",
+            "triplet_id": 2371492696656
+          }
+        ]
+      },
+      {
+        "source": "Biological DMARDs (bDMARDs)",
+        "target": "Systemic Inflammation",
+        "relation": "reduce",
+        "sources": [
+          {
+            "relation": "reduce",
+            "triplet_id": 2371555718208
+          }
+        ]
+      },
+      {
+        "source": "Disease Activity Score 28 (DAS28)",
+        "target": "Erythrocyte Sedimentation Rate (ESR)",
+        "relation": "utilizes",
+        "sources": [
+          {
+            "relation": "utilizes",
+            "triplet_id": 2371555708512
+          }
+        ]
+      },
+      {
+        "source": "Systemic Inflammation",
+        "target": "Oxidative Stress",
+        "relation": "contributes to",
+        "sources": [
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      {
+        "source": "Systemic Inflammation",
+        "target": "Endothelial Cells",
+        "relation": "modulates",
+        "sources": [
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555717248
+          }
+        ]
+      },
+      {
+        "source": "Tumor Necrosis Factor-alpha (TNF-α)",
+        "target": "Interleukin-6 (IL-6)",
+        "relation": "induces",
+        "sources": [
+          {
+            "relation": "induces",
+            "triplet_id": 2371552064288
+          }
+        ]
+      },
+      {
+        "source": "Matrix Metalloproteinases (MMPs)",
+        "target": "Tumor Necrosis Factor-alpha (TNF-α)",
+        "relation": "activate",
+        "sources": [
+          {
+            "relation": "activate",
+            "triplet_id": 2371555716960
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 15,
+    "edge_count": 24,
+    "path_length": 15
+  },
+  "start_node": "Biological DMARDs (bDMARDs)",
+  "end_node": "Matrix Metalloproteinases (MMPs)",
+  "path_nodes": [
+    "Biological DMARDs (bDMARDs)",
+    "Tumor Necrosis Factor-alpha (TNF-α)",
+    "Interleukin-6 (IL-6)",
+    "C-reactive Protein (CRP)",
+    "Disease Activity Score 28 (DAS28)",
+    "Erythrocyte Sedimentation Rate (ESR)",
+    "Fibrinogen Levels",
+    "Systemic Inflammation",
+    "Oxidative Stress",
+    "Endothelial Cells",
+    "Adhesion Molecules",
+    "Leukocyte Extravasation",
+    "Synovial Inflammation",
+    "Fibroblast-like Synoviocyte Activation",
+    "Matrix Metalloproteinases (MMPs)"
+  ],
+  "path_edges": [
+    {
+      "source": "Biological DMARDs (bDMARDs)",
+      "target": "Tumor Necrosis Factor-alpha (TNF-α)",
+      "relation": "target"
+    },
+    {
+      "source": "Tumor Necrosis Factor-alpha (TNF-α)",
+      "target": "Interleukin-6 (IL-6)",
+      "relation": "induces"
+    },
+    {
+      "source": "Interleukin-6 (IL-6)",
+      "target": "C-reactive Protein (CRP)",
+      "relation": "upregulates"
+    },
+    {
+      "source": "C-reactive Protein (CRP)",
+      "target": "Disease Activity Score 28 (DAS28)",
+      "relation": "correlates with"
+    },
+    {
+      "source": "Disease Activity Score 28 (DAS28)",
+      "target": "Erythrocyte Sedimentation Rate (ESR)",
+      "relation": "utilizes"
+    },
+    {
+      "source": "Erythrocyte Sedimentation Rate (ESR)",
+      "target": "Fibrinogen Levels",
+      "relation": "is influenced by"
+    },
+    {
+      "source": "Fibrinogen Levels",
+      "target": "Systemic Inflammation",
+      "relation": "are elevated in"
+    },
+    {
+      "source": "Systemic Inflammation",
+      "target": "Oxidative Stress",
+      "relation": "contributes to"
+    },
+    {
+      "source": "Oxidative Stress",
+      "target": "Endothelial Cells",
+      "relation": "damages"
+    },
+    {
+      "source": "Endothelial Cells",
+      "target": "Adhesion Molecules",
+      "relation": "express"
+    },
+    {
+      "source": "Adhesion Molecules",
+      "target": "Leukocyte Extravasation",
+      "relation": "facilitate"
+    },
+    {
+      "source": "Leukocyte Extravasation",
+      "target": "Synovial Inflammation",
+      "relation": "enhances"
+    },
+    {
+      "source": "Synovial Inflammation",
+      "target": "Fibroblast-like Synoviocyte Activation",
+      "relation": "results in"
+    },
+    {
+      "source": "Fibroblast-like Synoviocyte Activation",
+      "target": "Matrix Metalloproteinases (MMPs)",
+      "relation": "increases production of"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 15,
+    "edge_count": 24
+  },
+  "config": {}
+}

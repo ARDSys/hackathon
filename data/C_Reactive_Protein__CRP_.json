@@ -1,0 +1,600 @@
+{
+  "subgraph_id": "9a385bf7b7ef4d0b89464e4d5f29cd3af1d81be7953ba5c8577979ebf68ad77a",
+  "graph_data": {
+    "nodes": {
+      "Matrix Metalloproteinase-9 (MMP-9)": {
+        "sources": [
+          {
+            "relation": "promotes production of",
+            "triplet_id": 2371555719552
+          },
+          {
+            "relation": "degrades extracellular matrix components including",
+            "triplet_id": 2371555721184
+          },
+          {
+            "relation": "enhance expression of",
+            "triplet_id": 2371555720560
+          },
+          {
+            "relation": "participates in angiogenesis by remodeling",
+            "triplet_id": 2371555708704
+          }
+        ]
+      },
+      "Myeloperoxidase (MPO)": {
+        "sources": [
+          {
+            "relation": "release enzymatic granule",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "catalyzes production of",
+            "triplet_id": 2371555716432
+          },
+          {
+            "relation": "linked to increased levels of",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      "Endothelial Cells": {
+        "sources": [
+          {
+            "relation": "serves as an adhesive substrate for",
+            "triplet_id": 2371555709376
+          },
+          {
+            "relation": "express surface molecule",
+            "triplet_id": 2371555718736
+          },
+          {
+            "relation": "stimulates activation of",
+            "triplet_id": 2371555716528
+          }
+        ]
+      },
+      "Type IV Collagen": {
+        "sources": [
+          {
+            "relation": "degrades extracellular matrix components including",
+            "triplet_id": 2371555721184
+          },
+          {
+            "relation": "is a structural component of",
+            "triplet_id": 2371555718256
+          },
+          {
+            "relation": "contribute to oxidative modification of",
+            "triplet_id": 2371556186960
+          }
+        ]
+      },
+      "C-Reactive Protein (CRP)": {
+        "sources": [
+          {
+            "relation": "levels are modulated by",
+            "triplet_id": 2371492164048
+          },
+          {
+            "relation": "linked to increased levels of",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      "Leukocyte function-associated antigen 1 (LFA-1)": {
+        "sources": [
+          {
+            "relation": "binding is facilitated by",
+            "triplet_id": 2371555719936
+          },
+          {
+            "relation": "associates with enhanced migration of",
+            "triplet_id": 2371555717632
+          },
+          {
+            "relation": "promotes adhesion of",
+            "triplet_id": 2371556189936
+          }
+        ]
+      },
+      "Basement Membrane": {
+        "sources": [
+          {
+            "relation": "is a structural component of",
+            "triplet_id": 2371555718256
+          },
+          {
+            "relation": "serves as an adhesive substrate for",
+            "triplet_id": 2371555709376
+          },
+          {
+            "relation": "contribute to disruption of",
+            "triplet_id": 2371555720320
+          },
+          {
+            "relation": "participates in angiogenesis by remodeling",
+            "triplet_id": 2371555708704
+          }
+        ]
+      },
+      "Reactive Oxygen Species (ROS)": {
+        "sources": [
+          {
+            "relation": "catalyzes production of",
+            "triplet_id": 2371555716432
+          },
+          {
+            "relation": "damage cellular components leading to activation of",
+            "triplet_id": 2371555718160
+          },
+          {
+            "relation": "enhance expression of",
+            "triplet_id": 2371555720560
+          },
+          {
+            "relation": "contribute to oxidative modification of",
+            "triplet_id": 2371556186960
+          }
+        ]
+      },
+      "Interleukin-17A (IL-17A)": {
+        "sources": [
+          {
+            "relation": "produce",
+            "triplet_id": 2371555718784
+          },
+          {
+            "relation": "promotes production of",
+            "triplet_id": 2371555719552
+          },
+          {
+            "relation": "increases recruitment of",
+            "triplet_id": 2371555716624
+          }
+        ]
+      },
+      "T-helper 17 (Th17) cells": {
+        "sources": [
+          {
+            "relation": "influences differentiation of",
+            "triplet_id": 2371530426176
+          },
+          {
+            "relation": "produce",
+            "triplet_id": 2371555718784
+          },
+          {
+            "relation": "induce expression of",
+            "triplet_id": 2371555708512
+          }
+        ]
+      },
+      "Nuclear factor kappa-light-chain-enhancer of activated B cells (NF-κB)": {
+        "sources": [
+          {
+            "relation": "damage cellular components leading to activation of",
+            "triplet_id": 2371555718160
+          },
+          {
+            "relation": "upregulates production of",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      "Interleukin-6 (IL-6)": {
+        "sources": [
+          {
+            "relation": "levels are modulated by",
+            "triplet_id": 2371492164048
+          },
+          {
+            "relation": "influences differentiation of",
+            "triplet_id": 2371530426176
+          },
+          {
+            "relation": "upregulates production of",
+            "triplet_id": 2371555717728
+          },
+          {
+            "relation": "stimulates activation of",
+            "triplet_id": 2371555716528
+          },
+          {
+            "relation": "promotes adhesion of",
+            "triplet_id": 2371556189936
+          }
+        ]
+      },
+      "Intercellular Adhesion Molecule 1 (ICAM-1)": {
+        "sources": [
+          {
+            "relation": "express surface molecule",
+            "triplet_id": 2371555718736
+          },
+          {
+            "relation": "binding is facilitated by",
+            "triplet_id": 2371555719936
+          },
+          {
+            "relation": "induce expression of",
+            "triplet_id": 2371555708512
+          }
+        ]
+      },
+      "Neutrophils": {
+        "sources": [
+          {
+            "relation": "associates with enhanced migration of",
+            "triplet_id": 2371555717632
+          },
+          {
+            "relation": "release enzymatic granule",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "increases recruitment of",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "contribute to disruption of",
+            "triplet_id": 2371555720320
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "Matrix Metalloproteinase-9 (MMP-9)",
+        "target": "Type IV Collagen",
+        "relation": "degrades extracellular matrix components including",
+        "sources": [
+          {
+            "relation": "degrades extracellular matrix components including",
+            "triplet_id": 2371555721184
+          }
+        ]
+      },
+      {
+        "source": "Matrix Metalloproteinase-9 (MMP-9)",
+        "target": "Basement Membrane",
+        "relation": "participates in angiogenesis by remodeling",
+        "sources": [
+          {
+            "relation": "participates in angiogenesis by remodeling",
+            "triplet_id": 2371555708704
+          }
+        ]
+      },
+      {
+        "source": "Myeloperoxidase (MPO)",
+        "target": "Reactive Oxygen Species (ROS)",
+        "relation": "catalyzes production of",
+        "sources": [
+          {
+            "relation": "catalyzes production of",
+            "triplet_id": 2371555716432
+          }
+        ]
+      },
+      {
+        "source": "Myeloperoxidase (MPO)",
+        "target": "C-Reactive Protein (CRP)",
+        "relation": "linked to increased levels of",
+        "sources": [
+          {
+            "relation": "linked to increased levels of",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      {
+        "source": "Endothelial Cells",
+        "target": "Intercellular Adhesion Molecule 1 (ICAM-1)",
+        "relation": "express surface molecule",
+        "sources": [
+          {
+            "relation": "express surface molecule",
+            "triplet_id": 2371555718736
+          }
+        ]
+      },
+      {
+        "source": "Type IV Collagen",
+        "target": "Basement Membrane",
+        "relation": "is a structural component of",
+        "sources": [
+          {
+            "relation": "is a structural component of",
+            "triplet_id": 2371555718256
+          }
+        ]
+      },
+      {
+        "source": "C-Reactive Protein (CRP)",
+        "target": "Interleukin-6 (IL-6)",
+        "relation": "levels are modulated by",
+        "sources": [
+          {
+            "relation": "levels are modulated by",
+            "triplet_id": 2371492164048
+          }
+        ]
+      },
+      {
+        "source": "Leukocyte function-associated antigen 1 (LFA-1)",
+        "target": "Neutrophils",
+        "relation": "associates with enhanced migration of",
+        "sources": [
+          {
+            "relation": "associates with enhanced migration of",
+            "triplet_id": 2371555717632
+          }
+        ]
+      },
+      {
+        "source": "Basement Membrane",
+        "target": "Endothelial Cells",
+        "relation": "serves as an adhesive substrate for",
+        "sources": [
+          {
+            "relation": "serves as an adhesive substrate for",
+            "triplet_id": 2371555709376
+          }
+        ]
+      },
+      {
+        "source": "Reactive Oxygen Species (ROS)",
+        "target": "Nuclear factor kappa-light-chain-enhancer of activated B cells (NF-κB)",
+        "relation": "damage cellular components leading to activation of",
+        "sources": [
+          {
+            "relation": "damage cellular components leading to activation of",
+            "triplet_id": 2371555718160
+          }
+        ]
+      },
+      {
+        "source": "Reactive Oxygen Species (ROS)",
+        "target": "Matrix Metalloproteinase-9 (MMP-9)",
+        "relation": "enhance expression of",
+        "sources": [
+          {
+            "relation": "enhance expression of",
+            "triplet_id": 2371555720560
+          }
+        ]
+      },
+      {
+        "source": "Reactive Oxygen Species (ROS)",
+        "target": "Type IV Collagen",
+        "relation": "contribute to oxidative modification of",
+        "sources": [
+          {
+            "relation": "contribute to oxidative modification of",
+            "triplet_id": 2371556186960
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-17A (IL-17A)",
+        "target": "Matrix Metalloproteinase-9 (MMP-9)",
+        "relation": "promotes production of",
+        "sources": [
+          {
+            "relation": "promotes production of",
+            "triplet_id": 2371555719552
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-17A (IL-17A)",
+        "target": "Neutrophils",
+        "relation": "increases recruitment of",
+        "sources": [
+          {
+            "relation": "increases recruitment of",
+            "triplet_id": 2371555716624
+          }
+        ]
+      },
+      {
+        "source": "T-helper 17 (Th17) cells",
+        "target": "Interleukin-17A (IL-17A)",
+        "relation": "produce",
+        "sources": [
+          {
+            "relation": "produce",
+            "triplet_id": 2371555718784
+          }
+        ]
+      },
+      {
+        "source": "T-helper 17 (Th17) cells",
+        "target": "Intercellular Adhesion Molecule 1 (ICAM-1)",
+        "relation": "induce expression of",
+        "sources": [
+          {
+            "relation": "induce expression of",
+            "triplet_id": 2371555708512
+          }
+        ]
+      },
+      {
+        "source": "Nuclear factor kappa-light-chain-enhancer of activated B cells (NF-κB)",
+        "target": "Interleukin-6 (IL-6)",
+        "relation": "upregulates production of",
+        "sources": [
+          {
+            "relation": "upregulates production of",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-6 (IL-6)",
+        "target": "T-helper 17 (Th17) cells",
+        "relation": "influences differentiation of",
+        "sources": [
+          {
+            "relation": "influences differentiation of",
+            "triplet_id": 2371530426176
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-6 (IL-6)",
+        "target": "Endothelial Cells",
+        "relation": "stimulates activation of",
+        "sources": [
+          {
+            "relation": "stimulates activation of",
+            "triplet_id": 2371555716528
+          }
+        ]
+      },
+      {
+        "source": "Interleukin-6 (IL-6)",
+        "target": "Leukocyte function-associated antigen 1 (LFA-1)",
+        "relation": "promotes adhesion of",
+        "sources": [
+          {
+            "relation": "promotes adhesion of",
+            "triplet_id": 2371556189936
+          }
+        ]
+      },
+      {
+        "source": "Intercellular Adhesion Molecule 1 (ICAM-1)",
+        "target": "Leukocyte function-associated antigen 1 (LFA-1)",
+        "relation": "binding is facilitated by",
+        "sources": [
+          {
+            "relation": "binding is facilitated by",
+            "triplet_id": 2371555719936
+          }
+        ]
+      },
+      {
+        "source": "Neutrophils",
+        "target": "Myeloperoxidase (MPO)",
+        "relation": "release enzymatic granule",
+        "sources": [
+          {
+            "relation": "release enzymatic granule",
+            "triplet_id": 2371555717248
+          }
+        ]
+      },
+      {
+        "source": "Neutrophils",
+        "target": "Basement Membrane",
+        "relation": "contribute to disruption of",
+        "sources": [
+          {
+            "relation": "contribute to disruption of",
+            "triplet_id": 2371555720320
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 14,
+    "edge_count": 23,
+    "path_length": 14
+  },
+  "start_node": "C-Reactive Protein (CRP)",
+  "end_node": "Nuclear factor kappa-light-chain-enhancer of activated B cells (NF-κB)",
+  "path_nodes": [
+    "C-Reactive Protein (CRP)",
+    "Interleukin-6 (IL-6)",
+    "T-helper 17 (Th17) cells",
+    "Interleukin-17A (IL-17A)",
+    "Matrix Metalloproteinase-9 (MMP-9)",
+    "Type IV Collagen",
+    "Basement Membrane",
+    "Endothelial Cells",
+    "Intercellular Adhesion Molecule 1 (ICAM-1)",
+    "Leukocyte function-associated antigen 1 (LFA-1)",
+    "Neutrophils",
+    "Myeloperoxidase (MPO)",
+    "Reactive Oxygen Species (ROS)",
+    "Nuclear factor kappa-light-chain-enhancer of activated B cells (NF-κB)"
+  ],
+  "path_edges": [
+    {
+      "source": "C-Reactive Protein (CRP)",
+      "target": "Interleukin-6 (IL-6)",
+      "relation": "levels are modulated by"
+    },
+    {
+      "source": "Interleukin-6 (IL-6)",
+      "target": "T-helper 17 (Th17) cells",
+      "relation": "influences differentiation of"
+    },
+    {
+      "source": "T-helper 17 (Th17) cells",
+      "target": "Interleukin-17A (IL-17A)",
+      "relation": "produce"
+    },
+    {
+      "source": "Interleukin-17A (IL-17A)",
+      "target": "Matrix Metalloproteinase-9 (MMP-9)",
+      "relation": "promotes production of"
+    },
+    {
+      "source": "Matrix Metalloproteinase-9 (MMP-9)",
+      "target": "Type IV Collagen",
+      "relation": "degrades extracellular matrix components including"
+    },
+    {
+      "source": "Type IV Collagen",
+      "target": "Basement Membrane",
+      "relation": "is a structural component of"
+    },
+    {
+      "source": "Basement Membrane",
+      "target": "Endothelial Cells",
+      "relation": "serves as an adhesive substrate for"
+    },
+    {
+      "source": "Endothelial Cells",
+      "target": "Intercellular Adhesion Molecule 1 (ICAM-1)",
+      "relation": "express surface molecule"
+    },
+    {
+      "source": "Intercellular Adhesion Molecule 1 (ICAM-1)",
+      "target": "Leukocyte function-associated antigen 1 (LFA-1)",
+      "relation": "binding is facilitated by"
+    },
+    {
+      "source": "Leukocyte function-associated antigen 1 (LFA-1)",
+      "target": "Neutrophils",
+      "relation": "associates with enhanced migration of"
+    },
+    {
+      "source": "Neutrophils",
+      "target": "Myeloperoxidase (MPO)",
+      "relation": "release enzymatic granule"
+    },
+    {
+      "source": "Myeloperoxidase (MPO)",
+      "target": "Reactive Oxygen Species (ROS)",
+      "relation": "catalyzes production of"
+    },
+    {
+      "source": "Reactive Oxygen Species (ROS)",
+      "target": "Nuclear factor kappa-light-chain-enhancer of activated B cells (NF-κB)",
+      "relation": "damage cellular components leading to activation of"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 14,
+    "edge_count": 23
+  },
+  "config": {}
+}

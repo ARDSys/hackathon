@@ -1,0 +1,419 @@
+{
+  "subgraph_id": "308b892fa015cc7e90f4126d5c424c6f994f6ebd2d374ae6b0ee63822a8402e2",
+  "graph_data": {
+    "nodes": {
+      "Systemic Lupus Erythematosus (SLE)": {
+        "sources": [
+          {
+            "relation": "can indicate the presence of",
+            "triplet_id": 2371492164048
+          },
+          {
+            "relation": "is associated with elevated levels of",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "can exacerbate the symptoms of",
+            "triplet_id": 2371555717056
+          },
+          {
+            "relation": "are implicated in the autoimmune response contributing to",
+            "triplet_id": 2371555717152
+          },
+          {
+            "relation": "contribute to the systemic inflammation in",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      "Viral Infections": {
+        "sources": [
+          {
+            "relation": "is upregulated in response to",
+            "triplet_id": 2371555716240
+          },
+          {
+            "relation": "can elevate the levels of",
+            "triplet_id": 2371555716192
+          },
+          {
+            "relation": "can trigger autoimmune pathways leading to",
+            "triplet_id": 2371555717344
+          }
+        ]
+      },
+      "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)": {
+        "sources": [
+          {
+            "relation": "can elevate the levels of",
+            "triplet_id": 2371555716192
+          },
+          {
+            "relation": "stimulate the differentiation of",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "can exacerbate the symptoms of",
+            "triplet_id": 2371555717056
+          },
+          {
+            "relation": "can modulate the expression of",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "contribute to the systemic inflammation in",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      "Rheumatoid Arthritis (RA)": {
+        "sources": [
+          {
+            "relation": "have a pivotal role in the pathogenesis of",
+            "triplet_id": 2371555716864
+          },
+          {
+            "relation": "can trigger autoimmune pathways leading to",
+            "triplet_id": 2371555717344
+          },
+          {
+            "relation": "can influence the progression of",
+            "triplet_id": 2371555717440
+          },
+          {
+            "relation": "can be a biomarker for diagnosing",
+            "triplet_id": 2371555717632
+          },
+          {
+            "relation": "can lead to heightened production of",
+            "triplet_id": 2371555718496
+          }
+        ]
+      },
+      "Interferon-alpha (IFN-α)": {
+        "sources": [
+          {
+            "relation": "is associated with elevated levels of",
+            "triplet_id": 2371492696656
+          },
+          {
+            "relation": "induces the expression of",
+            "triplet_id": 2371555716528
+          },
+          {
+            "relation": "can modulate the expression of",
+            "triplet_id": 2371555717248
+          },
+          {
+            "relation": "can influence the progression of",
+            "triplet_id": 2371555717440
+          },
+          {
+            "relation": "can lead to heightened production of",
+            "triplet_id": 2371555718496
+          }
+        ]
+      },
+      "Mx1 (Myxovirus resistance protein 1)": {
+        "sources": [
+          {
+            "relation": "induces the expression of",
+            "triplet_id": 2371555716528
+          },
+          {
+            "relation": "is upregulated in response to",
+            "triplet_id": 2371555716240
+          },
+          {
+            "relation": "can influence the activity of",
+            "triplet_id": 2371555716960
+          },
+          {
+            "relation": "can be a biomarker for diagnosing",
+            "triplet_id": 2371555717632
+          }
+        ]
+      },
+      "Antinuclear Antibodies (ANA)": {
+        "sources": [
+          {
+            "relation": "can indicate the presence of",
+            "triplet_id": 2371492164048
+          },
+          {
+            "relation": "are involved in the production of autoantibodies like",
+            "triplet_id": 2371555717536
+          }
+        ]
+      },
+      "Th17 cells": {
+        "sources": [
+          {
+            "relation": "stimulate the differentiation of",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "have a pivotal role in the pathogenesis of",
+            "triplet_id": 2371555716864
+          },
+          {
+            "relation": "can influence the activity of",
+            "triplet_id": 2371555716960
+          },
+          {
+            "relation": "are implicated in the autoimmune response contributing to",
+            "triplet_id": 2371555717152
+          },
+          {
+            "relation": "are involved in the production of autoantibodies like",
+            "triplet_id": 2371555717536
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "Systemic Lupus Erythematosus (SLE)",
+        "target": "Interferon-alpha (IFN-α)",
+        "relation": "is associated with elevated levels of",
+        "sources": [
+          {
+            "relation": "is associated with elevated levels of",
+            "triplet_id": 2371492696656
+          }
+        ]
+      },
+      {
+        "source": "Viral Infections",
+        "target": "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)",
+        "relation": "can elevate the levels of",
+        "sources": [
+          {
+            "relation": "can elevate the levels of",
+            "triplet_id": 2371555716192
+          }
+        ]
+      },
+      {
+        "source": "Viral Infections",
+        "target": "Rheumatoid Arthritis (RA)",
+        "relation": "can trigger autoimmune pathways leading to",
+        "sources": [
+          {
+            "relation": "can trigger autoimmune pathways leading to",
+            "triplet_id": 2371555717344
+          }
+        ]
+      },
+      {
+        "source": "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)",
+        "target": "Th17 cells",
+        "relation": "stimulate the differentiation of",
+        "sources": [
+          {
+            "relation": "stimulate the differentiation of",
+            "triplet_id": 2371555716768
+          }
+        ]
+      },
+      {
+        "source": "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)",
+        "target": "Systemic Lupus Erythematosus (SLE)",
+        "relation": "can exacerbate the symptoms of",
+        "sources": [
+          {
+            "relation": "can exacerbate the symptoms of",
+            "triplet_id": 2371555717056
+          },
+          {
+            "relation": "contribute to the systemic inflammation in",
+            "triplet_id": 2371555717728
+          }
+        ]
+      },
+      {
+        "source": "Rheumatoid Arthritis (RA)",
+        "target": "Interferon-alpha (IFN-α)",
+        "relation": "can lead to heightened production of",
+        "sources": [
+          {
+            "relation": "can lead to heightened production of",
+            "triplet_id": 2371555718496
+          }
+        ]
+      },
+      {
+        "source": "Interferon-alpha (IFN-α)",
+        "target": "Mx1 (Myxovirus resistance protein 1)",
+        "relation": "induces the expression of",
+        "sources": [
+          {
+            "relation": "induces the expression of",
+            "triplet_id": 2371555716528
+          }
+        ]
+      },
+      {
+        "source": "Interferon-alpha (IFN-α)",
+        "target": "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)",
+        "relation": "can modulate the expression of",
+        "sources": [
+          {
+            "relation": "can modulate the expression of",
+            "triplet_id": 2371555717248
+          }
+        ]
+      },
+      {
+        "source": "Interferon-alpha (IFN-α)",
+        "target": "Rheumatoid Arthritis (RA)",
+        "relation": "can influence the progression of",
+        "sources": [
+          {
+            "relation": "can influence the progression of",
+            "triplet_id": 2371555717440
+          }
+        ]
+      },
+      {
+        "source": "Mx1 (Myxovirus resistance protein 1)",
+        "target": "Viral Infections",
+        "relation": "is upregulated in response to",
+        "sources": [
+          {
+            "relation": "is upregulated in response to",
+            "triplet_id": 2371555716240
+          }
+        ]
+      },
+      {
+        "source": "Mx1 (Myxovirus resistance protein 1)",
+        "target": "Th17 cells",
+        "relation": "can influence the activity of",
+        "sources": [
+          {
+            "relation": "can influence the activity of",
+            "triplet_id": 2371555716960
+          }
+        ]
+      },
+      {
+        "source": "Mx1 (Myxovirus resistance protein 1)",
+        "target": "Rheumatoid Arthritis (RA)",
+        "relation": "can be a biomarker for diagnosing",
+        "sources": [
+          {
+            "relation": "can be a biomarker for diagnosing",
+            "triplet_id": 2371555717632
+          }
+        ]
+      },
+      {
+        "source": "Antinuclear Antibodies (ANA)",
+        "target": "Systemic Lupus Erythematosus (SLE)",
+        "relation": "can indicate the presence of",
+        "sources": [
+          {
+            "relation": "can indicate the presence of",
+            "triplet_id": 2371492164048
+          }
+        ]
+      },
+      {
+        "source": "Th17 cells",
+        "target": "Rheumatoid Arthritis (RA)",
+        "relation": "have a pivotal role in the pathogenesis of",
+        "sources": [
+          {
+            "relation": "have a pivotal role in the pathogenesis of",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      {
+        "source": "Th17 cells",
+        "target": "Systemic Lupus Erythematosus (SLE)",
+        "relation": "are implicated in the autoimmune response contributing to",
+        "sources": [
+          {
+            "relation": "are implicated in the autoimmune response contributing to",
+            "triplet_id": 2371555717152
+          }
+        ]
+      },
+      {
+        "source": "Th17 cells",
+        "target": "Antinuclear Antibodies (ANA)",
+        "relation": "are involved in the production of autoantibodies like",
+        "sources": [
+          {
+            "relation": "are involved in the production of autoantibodies like",
+            "triplet_id": 2371555717536
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 8,
+    "edge_count": 16,
+    "path_length": 8
+  },
+  "start_node": "Antinuclear Antibodies (ANA)",
+  "end_node": "Rheumatoid Arthritis (RA)",
+  "path_nodes": [
+    "Antinuclear Antibodies (ANA)",
+    "Systemic Lupus Erythematosus (SLE)",
+    "Interferon-alpha (IFN-α)",
+    "Mx1 (Myxovirus resistance protein 1)",
+    "Viral Infections",
+    "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)",
+    "Th17 cells",
+    "Rheumatoid Arthritis (RA)"
+  ],
+  "path_edges": [
+    {
+      "source": "Antinuclear Antibodies (ANA)",
+      "target": "Systemic Lupus Erythematosus (SLE)",
+      "relation": "can indicate the presence of"
+    },
+    {
+      "source": "Systemic Lupus Erythematosus (SLE)",
+      "target": "Interferon-alpha (IFN-α)",
+      "relation": "is associated with elevated levels of"
+    },
+    {
+      "source": "Interferon-alpha (IFN-α)",
+      "target": "Mx1 (Myxovirus resistance protein 1)",
+      "relation": "induces the expression of"
+    },
+    {
+      "source": "Mx1 (Myxovirus resistance protein 1)",
+      "target": "Viral Infections",
+      "relation": "is upregulated in response to"
+    },
+    {
+      "source": "Viral Infections",
+      "target": "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)",
+      "relation": "can elevate the levels of"
+    },
+    {
+      "source": "Pro-inflammatory Cytokines (e.g., IL-6, TNF-α)",
+      "target": "Th17 cells",
+      "relation": "stimulate the differentiation of"
+    },
+    {
+      "source": "Th17 cells",
+      "target": "Rheumatoid Arthritis (RA)",
+      "relation": "have a pivotal role in the pathogenesis of"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 8,
+    "edge_count": 16
+  },
+  "config": {}
+}

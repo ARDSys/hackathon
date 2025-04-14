@@ -1,0 +1,687 @@
+{
+  "subgraph_id": "f933efdefa0e7f58f7f1dc77a9640a9f32bf7772151a8ee13257a4280a0585d6",
+  "graph_data": {
+    "nodes": {
+      "Complement C3b fragments": {
+        "sources": [
+          {
+            "relation": "experience damage due to deposition of",
+            "triplet_id": 2371555716912
+          },
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555718208
+          }
+        ]
+      },
+      "Pro-inflammatory Cytokine TNF-α": {
+        "sources": [
+          {
+            "relation": "results in the production of",
+            "triplet_id": 2371555709424
+          },
+          {
+            "relation": "causes the recruitment of",
+            "triplet_id": 2371555720080
+          },
+          {
+            "relation": "exacerbate",
+            "triplet_id": 2371555717344
+          },
+          {
+            "relation": "modulates release of",
+            "triplet_id": 2371555717200
+          }
+        ]
+      },
+      "Autoreactive B Cells": {
+        "sources": [
+          {
+            "relation": "promotes the survival of",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "produce autoantibodies including",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555718208
+          },
+          {
+            "relation": "induces activation of",
+            "triplet_id": 2371555720224
+          }
+        ]
+      },
+      "Macrophage Activation": {
+        "sources": [
+          {
+            "relation": "is associated with increased",
+            "triplet_id": 2371555721088
+          },
+          {
+            "relation": "results in the production of",
+            "triplet_id": 2371555709424
+          },
+          {
+            "relation": "are affected indirectly leading to",
+            "triplet_id": 2371555719216
+          }
+        ]
+      },
+      "C-Reactive Protein (CRP)": {
+        "sources": [
+          {
+            "relation": "stimulates the expression of",
+            "triplet_id": 2371530426176
+          },
+          {
+            "relation": "is a marker for",
+            "triplet_id": 2371555717824
+          },
+          {
+            "relation": "potentiates",
+            "triplet_id": 2371555718112
+          }
+        ]
+      },
+      "DNase I enzyme": {
+        "sources": [
+          {
+            "relation": "are targeted and degraded by",
+            "triplet_id": 2371555716672
+          },
+          {
+            "relation": "is inhibited by",
+            "triplet_id": 2371555720512
+          }
+        ]
+      },
+      "BAFF (B-cell Activating Factor)": {
+        "sources": [
+          {
+            "relation": "enhances the expression of",
+            "triplet_id": 2371555718016
+          },
+          {
+            "relation": "promotes the survival of",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "induces the release of",
+            "triplet_id": 2371555717008
+          },
+          {
+            "relation": "potentiates",
+            "triplet_id": 2371555718112
+          }
+        ]
+      },
+      "Elevated Serum Interferon-alpha": {
+        "sources": [
+          {
+            "relation": "is exacerbated by",
+            "triplet_id": 2371555720608
+          },
+          {
+            "relation": "enhances the expression of",
+            "triplet_id": 2371555718016
+          },
+          {
+            "relation": "contributes to the production of",
+            "triplet_id": 2371555717104
+          },
+          {
+            "relation": "induces activation of",
+            "triplet_id": 2371555720224
+          }
+        ]
+      },
+      "Double-stranded DNA (dsDNA) autoantibodies": {
+        "sources": [
+          {
+            "relation": "produce autoantibodies including",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "form immune complexes that are deposited in",
+            "triplet_id": 2371555716816
+          },
+          {
+            "relation": "exacerbate",
+            "triplet_id": 2371555717344
+          },
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      "Cytokine IL-6": {
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371554945760
+          },
+          {
+            "relation": "stimulates the expression of",
+            "triplet_id": 2371530426176
+          },
+          {
+            "relation": "contributes to the production of",
+            "triplet_id": 2371555717104
+          }
+        ]
+      },
+      "Neutrophils to inflammation sites": {
+        "sources": [
+          {
+            "relation": "causes the recruitment of",
+            "triplet_id": 2371555720080
+          },
+          {
+            "relation": "release extracellular traps composed of",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "are modulated by",
+            "triplet_id": 2371555717392
+          }
+        ]
+      },
+      "Systemic Inflammation": {
+        "sources": [
+          {
+            "relation": "is a marker for",
+            "triplet_id": 2371555717824
+          },
+          {
+            "relation": "is associated with increased",
+            "triplet_id": 2371555721088
+          },
+          {
+            "relation": "induces the release of",
+            "triplet_id": 2371555717008
+          },
+          {
+            "relation": "are modulated by",
+            "triplet_id": 2371555717392
+          }
+        ]
+      },
+      "Risk of Lupus Nephritis": {
+        "sources": [
+          {
+            "relation": "are associated with increased",
+            "triplet_id": 2371555708656
+          },
+          {
+            "relation": "is exacerbated by",
+            "triplet_id": 2371555720608
+          }
+        ]
+      },
+      "Anti-DNase antibodies": {
+        "sources": [
+          {
+            "relation": "is inhibited by",
+            "triplet_id": 2371555720512
+          },
+          {
+            "relation": "are associated with increased",
+            "triplet_id": 2371555708656
+          },
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      "DNA and antimicrobial proteins (NETs)": {
+        "sources": [
+          {
+            "relation": "release extracellular traps composed of",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "are targeted and degraded by",
+            "triplet_id": 2371555716672
+          },
+          {
+            "relation": "modulates release of",
+            "triplet_id": 2371555717200
+          }
+        ]
+      },
+      "Renal Glomeruli": {
+        "sources": [
+          {
+            "relation": "form immune complexes that are deposited in",
+            "triplet_id": 2371555716816
+          },
+          {
+            "relation": "experience damage due to deposition of",
+            "triplet_id": 2371555716912
+          },
+          {
+            "relation": "are affected indirectly leading to",
+            "triplet_id": 2371555719216
+          }
+        ]
+      },
+      "B-cell Activation/Dysfunction": {
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371554945760
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "Complement C3b fragments",
+        "target": "Autoreactive B Cells",
+        "relation": "interact with",
+        "sources": [
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555718208
+          }
+        ]
+      },
+      {
+        "source": "Pro-inflammatory Cytokine TNF-α",
+        "target": "Neutrophils to inflammation sites",
+        "relation": "causes the recruitment of",
+        "sources": [
+          {
+            "relation": "causes the recruitment of",
+            "triplet_id": 2371555720080
+          }
+        ]
+      },
+      {
+        "source": "Pro-inflammatory Cytokine TNF-α",
+        "target": "DNA and antimicrobial proteins (NETs)",
+        "relation": "modulates release of",
+        "sources": [
+          {
+            "relation": "modulates release of",
+            "triplet_id": 2371555717200
+          }
+        ]
+      },
+      {
+        "source": "Autoreactive B Cells",
+        "target": "Double-stranded DNA (dsDNA) autoantibodies",
+        "relation": "produce autoantibodies including",
+        "sources": [
+          {
+            "relation": "produce autoantibodies including",
+            "triplet_id": 2371555716720
+          }
+        ]
+      },
+      {
+        "source": "Macrophage Activation",
+        "target": "Pro-inflammatory Cytokine TNF-α",
+        "relation": "results in the production of",
+        "sources": [
+          {
+            "relation": "results in the production of",
+            "triplet_id": 2371555709424
+          }
+        ]
+      },
+      {
+        "source": "C-Reactive Protein (CRP)",
+        "target": "Systemic Inflammation",
+        "relation": "is a marker for",
+        "sources": [
+          {
+            "relation": "is a marker for",
+            "triplet_id": 2371555717824
+          }
+        ]
+      },
+      {
+        "source": "C-Reactive Protein (CRP)",
+        "target": "BAFF (B-cell Activating Factor)",
+        "relation": "potentiates",
+        "sources": [
+          {
+            "relation": "potentiates",
+            "triplet_id": 2371555718112
+          }
+        ]
+      },
+      {
+        "source": "DNase I enzyme",
+        "target": "Anti-DNase antibodies",
+        "relation": "is inhibited by",
+        "sources": [
+          {
+            "relation": "is inhibited by",
+            "triplet_id": 2371555720512
+          }
+        ]
+      },
+      {
+        "source": "BAFF (B-cell Activating Factor)",
+        "target": "Autoreactive B Cells",
+        "relation": "promotes the survival of",
+        "sources": [
+          {
+            "relation": "promotes the survival of",
+            "triplet_id": 2371555716576
+          }
+        ]
+      },
+      {
+        "source": "Elevated Serum Interferon-alpha",
+        "target": "BAFF (B-cell Activating Factor)",
+        "relation": "enhances the expression of",
+        "sources": [
+          {
+            "relation": "enhances the expression of",
+            "triplet_id": 2371555718016
+          }
+        ]
+      },
+      {
+        "source": "Elevated Serum Interferon-alpha",
+        "target": "Autoreactive B Cells",
+        "relation": "induces activation of",
+        "sources": [
+          {
+            "relation": "induces activation of",
+            "triplet_id": 2371555720224
+          }
+        ]
+      },
+      {
+        "source": "Double-stranded DNA (dsDNA) autoantibodies",
+        "target": "Renal Glomeruli",
+        "relation": "form immune complexes that are deposited in",
+        "sources": [
+          {
+            "relation": "form immune complexes that are deposited in",
+            "triplet_id": 2371555716816
+          }
+        ]
+      },
+      {
+        "source": "Double-stranded DNA (dsDNA) autoantibodies",
+        "target": "Pro-inflammatory Cytokine TNF-α",
+        "relation": "exacerbate",
+        "sources": [
+          {
+            "relation": "exacerbate",
+            "triplet_id": 2371555717344
+          }
+        ]
+      },
+      {
+        "source": "Cytokine IL-6",
+        "target": "C-Reactive Protein (CRP)",
+        "relation": "stimulates the expression of",
+        "sources": [
+          {
+            "relation": "stimulates the expression of",
+            "triplet_id": 2371530426176
+          }
+        ]
+      },
+      {
+        "source": "Cytokine IL-6",
+        "target": "Elevated Serum Interferon-alpha",
+        "relation": "contributes to the production of",
+        "sources": [
+          {
+            "relation": "contributes to the production of",
+            "triplet_id": 2371555717104
+          }
+        ]
+      },
+      {
+        "source": "Neutrophils to inflammation sites",
+        "target": "DNA and antimicrobial proteins (NETs)",
+        "relation": "release extracellular traps composed of",
+        "sources": [
+          {
+            "relation": "release extracellular traps composed of",
+            "triplet_id": 2371555718352
+          }
+        ]
+      },
+      {
+        "source": "Neutrophils to inflammation sites",
+        "target": "Systemic Inflammation",
+        "relation": "are modulated by",
+        "sources": [
+          {
+            "relation": "are modulated by",
+            "triplet_id": 2371555717392
+          }
+        ]
+      },
+      {
+        "source": "Systemic Inflammation",
+        "target": "Macrophage Activation",
+        "relation": "is associated with increased",
+        "sources": [
+          {
+            "relation": "is associated with increased",
+            "triplet_id": 2371555721088
+          }
+        ]
+      },
+      {
+        "source": "Systemic Inflammation",
+        "target": "BAFF (B-cell Activating Factor)",
+        "relation": "induces the release of",
+        "sources": [
+          {
+            "relation": "induces the release of",
+            "triplet_id": 2371555717008
+          }
+        ]
+      },
+      {
+        "source": "Risk of Lupus Nephritis",
+        "target": "Elevated Serum Interferon-alpha",
+        "relation": "is exacerbated by",
+        "sources": [
+          {
+            "relation": "is exacerbated by",
+            "triplet_id": 2371555720608
+          }
+        ]
+      },
+      {
+        "source": "Anti-DNase antibodies",
+        "target": "Risk of Lupus Nephritis",
+        "relation": "are associated with increased",
+        "sources": [
+          {
+            "relation": "are associated with increased",
+            "triplet_id": 2371555708656
+          }
+        ]
+      },
+      {
+        "source": "Anti-DNase antibodies",
+        "target": "Double-stranded DNA (dsDNA) autoantibodies",
+        "relation": "interact with",
+        "sources": [
+          {
+            "relation": "interact with",
+            "triplet_id": 2371555717296
+          }
+        ]
+      },
+      {
+        "source": "DNA and antimicrobial proteins (NETs)",
+        "target": "DNase I enzyme",
+        "relation": "are targeted and degraded by",
+        "sources": [
+          {
+            "relation": "are targeted and degraded by",
+            "triplet_id": 2371555716672
+          }
+        ]
+      },
+      {
+        "source": "Renal Glomeruli",
+        "target": "Complement C3b fragments",
+        "relation": "experience damage due to deposition of",
+        "sources": [
+          {
+            "relation": "experience damage due to deposition of",
+            "triplet_id": 2371555716912
+          }
+        ]
+      },
+      {
+        "source": "Renal Glomeruli",
+        "target": "Macrophage Activation",
+        "relation": "are affected indirectly leading to",
+        "sources": [
+          {
+            "relation": "are affected indirectly leading to",
+            "triplet_id": 2371555719216
+          }
+        ]
+      },
+      {
+        "source": "B-cell Activation/Dysfunction",
+        "target": "Cytokine IL-6",
+        "relation": "is influenced by",
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371554945760
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 17,
+    "edge_count": 26,
+    "path_length": 17
+  },
+  "start_node": "B-cell Activation/Dysfunction",
+  "end_node": "Complement C3b fragments",
+  "path_nodes": [
+    "B-cell Activation/Dysfunction",
+    "Cytokine IL-6",
+    "C-Reactive Protein (CRP)",
+    "Systemic Inflammation",
+    "Macrophage Activation",
+    "Pro-inflammatory Cytokine TNF-α",
+    "Neutrophils to inflammation sites",
+    "DNA and antimicrobial proteins (NETs)",
+    "DNase I enzyme",
+    "Anti-DNase antibodies",
+    "Risk of Lupus Nephritis",
+    "Elevated Serum Interferon-alpha",
+    "BAFF (B-cell Activating Factor)",
+    "Autoreactive B Cells",
+    "Double-stranded DNA (dsDNA) autoantibodies",
+    "Renal Glomeruli",
+    "Complement C3b fragments"
+  ],
+  "path_edges": [
+    {
+      "source": "B-cell Activation/Dysfunction",
+      "target": "Cytokine IL-6",
+      "relation": "is influenced by"
+    },
+    {
+      "source": "Cytokine IL-6",
+      "target": "C-Reactive Protein (CRP)",
+      "relation": "stimulates the expression of"
+    },
+    {
+      "source": "C-Reactive Protein (CRP)",
+      "target": "Systemic Inflammation",
+      "relation": "is a marker for"
+    },
+    {
+      "source": "Systemic Inflammation",
+      "target": "Macrophage Activation",
+      "relation": "is associated with increased"
+    },
+    {
+      "source": "Macrophage Activation",
+      "target": "Pro-inflammatory Cytokine TNF-α",
+      "relation": "results in the production of"
+    },
+    {
+      "source": "Pro-inflammatory Cytokine TNF-α",
+      "target": "Neutrophils to inflammation sites",
+      "relation": "causes the recruitment of"
+    },
+    {
+      "source": "Neutrophils to inflammation sites",
+      "target": "DNA and antimicrobial proteins (NETs)",
+      "relation": "release extracellular traps composed of"
+    },
+    {
+      "source": "DNA and antimicrobial proteins (NETs)",
+      "target": "DNase I enzyme",
+      "relation": "are targeted and degraded by"
+    },
+    {
+      "source": "DNase I enzyme",
+      "target": "Anti-DNase antibodies",
+      "relation": "is inhibited by"
+    },
+    {
+      "source": "Anti-DNase antibodies",
+      "target": "Risk of Lupus Nephritis",
+      "relation": "are associated with increased"
+    },
+    {
+      "source": "Risk of Lupus Nephritis",
+      "target": "Elevated Serum Interferon-alpha",
+      "relation": "is exacerbated by"
+    },
+    {
+      "source": "Elevated Serum Interferon-alpha",
+      "target": "BAFF (B-cell Activating Factor)",
+      "relation": "enhances the expression of"
+    },
+    {
+      "source": "BAFF (B-cell Activating Factor)",
+      "target": "Autoreactive B Cells",
+      "relation": "promotes the survival of"
+    },
+    {
+      "source": "Autoreactive B Cells",
+      "target": "Double-stranded DNA (dsDNA) autoantibodies",
+      "relation": "produce autoantibodies including"
+    },
+    {
+      "source": "Double-stranded DNA (dsDNA) autoantibodies",
+      "target": "Renal Glomeruli",
+      "relation": "form immune complexes that are deposited in"
+    },
+    {
+      "source": "Renal Glomeruli",
+      "target": "Complement C3b fragments",
+      "relation": "experience damage due to deposition of"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 17,
+    "edge_count": 26
+  },
+  "config": {}
+}

@@ -61,7 +61,7 @@ The workflow can be run using the `generate_hypothesis.py` script.
 From ARD's root directory:
 
 ```bash
-python -m hackathon.autogen.generate_hypothesis -f hackathon/sample_subgraph.json --output hackathon/autogen/output
+python -m hackathon.autogen.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/autogen/output
 ```
 
 ### Arguments
@@ -71,12 +71,15 @@ python -m hackathon.autogen.generate_hypothesis -f hackathon/sample_subgraph.jso
 
 ## Output
 
-The output is a JSON file containing the hypothesis.
+The output is a JSON and Markdown files containing the hypothesis.
 
 ```json
 {
     "title": "<hypothesis.title>",
     "text": "<hypothesis.statement>",
+    "references": [],
+    "hypothesis_id": "<hypothesis._hypothesis_id",
+    "subgraph_id": "<source_subgraph_id",
     "source": "<source_subgraph_as_json>",
     "metadata": {
         ... # all additional data from the hypothesis

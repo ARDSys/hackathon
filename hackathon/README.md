@@ -194,7 +194,7 @@ We encourage creativity! You can approach this challenge in several ways:
     - Explore `hackathon/autogen/` and `hackathon/langgraph/`. These contain functional examples using popular MAS frameworks.
     - **Ideas:** Improve prompts, add new specialized agents (e.g., a Critic, a Literature Reviewer), integrate new tools for agents, refine the agent interaction logic.
 2.  **Use the Sample Template:**
-    - The `hackathon/sample/` directory provides a bare-bones structure. Use this as a clean slate to build your system using your preferred framework or approach.
+    - The `hackathon/template/` directory provides a bare-bones structure. Use this as a clean slate to build your system using your preferred framework or approach.
 3.  **Build From Scratch:**
     - Feel free to use any MAS framework (e.g., CrewAI, Camel-AI) or even build your agent orchestration logic from the ground up.
 
@@ -203,8 +203,14 @@ Remember to set up your environment using UV:
 
 ```bash
 # cd into the cloned ard repository
-uv init
+
+# Setup virtual env
+uv sync
+source .venv/bin/activate
+
+# Install in development mode
 uv pip install -e .
+
 # Make sure your API keys are set in a .env file (see .env.example)
 ```
 

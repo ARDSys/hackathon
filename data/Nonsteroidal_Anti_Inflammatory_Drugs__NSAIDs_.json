@@ -1,0 +1,517 @@
+{
+  "subgraph_id": "d13833a1e313d4c10a1ee3aeca258fe87068708c83112d99d66469cd06a2a0b7",
+  "graph_data": {
+    "nodes": {
+      "improvement in physical function and mobility": {
+        "sources": [
+          {
+            "relation": "is accompanied by",
+            "triplet_id": 2371555717488
+          },
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555708800
+          },
+          {
+            "relation": "results in",
+            "triplet_id": 2371556185856
+          }
+        ]
+      },
+      "reduced inflammation response": {
+        "sources": [
+          {
+            "relation": "results in",
+            "triplet_id": 2371555718976
+          },
+          {
+            "relation": "is associated with",
+            "triplet_id": 2371555720512
+          },
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555720368
+          },
+          {
+            "relation": "is linked with",
+            "triplet_id": 2371556184320
+          }
+        ]
+      },
+      "lower levels of systemic inflammation markers such as CRP and ESR": {
+        "sources": [
+          {
+            "relation": "is correlated with",
+            "triplet_id": 2371555716480
+          },
+          {
+            "relation": "are indicative of",
+            "triplet_id": 2371555718640
+          },
+          {
+            "relation": "is linked to",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "support",
+            "triplet_id": 2371555717872
+          }
+        ]
+      },
+      "reduced disease activity in rheumatoid arthritis": {
+        "sources": [
+          {
+            "relation": "are indicative of",
+            "triplet_id": 2371555718640
+          },
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "is essential for",
+            "triplet_id": 2371555716624
+          },
+          {
+            "relation": "is linked with",
+            "triplet_id": 2371556184320
+          }
+        ]
+      },
+      "Nonsteroidal Anti-Inflammatory Drugs (NSAIDs)": {
+        "sources": [
+          {
+            "relation": "exhibit",
+            "triplet_id": 2371492164048
+          }
+        ]
+      },
+      "decreased prostaglandin synthesis": {
+        "sources": [
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555718016
+          },
+          {
+            "relation": "results in",
+            "triplet_id": 2371555718976
+          },
+          {
+            "relation": "supports",
+            "triplet_id": 2371556181872
+          }
+        ]
+      },
+      "amelioration of joint pain in inflammatory arthritis": {
+        "sources": [
+          {
+            "relation": "is associated with",
+            "triplet_id": 2371555720512
+          },
+          {
+            "relation": "is accompanied by",
+            "triplet_id": 2371555717488
+          },
+          {
+            "relation": "is linked to",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "supports",
+            "triplet_id": 2371556181872
+          }
+        ]
+      },
+      "maintenance of immune tolerance in autoimmune conditions": {
+        "sources": [
+          {
+            "relation": "facilitates",
+            "triplet_id": 2371555719360
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555708800
+          },
+          {
+            "relation": "is essential for",
+            "triplet_id": 2371555716624
+          }
+        ]
+      },
+      "NSAIDs": {
+        "sources": [
+          {
+            "relation": "contribute to",
+            "triplet_id": 2371555716672
+          }
+        ]
+      },
+      "inhibition of cyclooxygenase enzymes": {
+        "sources": [
+          {
+            "relation": "exhibit",
+            "triplet_id": 2371492164048
+          },
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555718016
+          },
+          {
+            "relation": "results in",
+            "triplet_id": 2371556185856
+          }
+        ]
+      },
+      "increased regulatory T cell activity": {
+        "sources": [
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "facilitates",
+            "triplet_id": 2371555719360
+          },
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555720368
+          },
+          {
+            "relation": "support",
+            "triplet_id": 2371555717872
+          },
+          {
+            "relation": "is necessary for",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      "enhanced quality of life in rheumatoid arthritis patients": {
+        "sources": [
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555716768
+          },
+          {
+            "relation": "is correlated with",
+            "triplet_id": 2371555716480
+          },
+          {
+            "relation": "is necessary for",
+            "triplet_id": 2371555716864
+          },
+          {
+            "relation": "contribute to",
+            "triplet_id": 2371555716672
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "improvement in physical function and mobility",
+        "target": "enhanced quality of life in rheumatoid arthritis patients",
+        "relation": "contributes to",
+        "sources": [
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555716768
+          }
+        ]
+      },
+      {
+        "source": "reduced inflammation response",
+        "target": "amelioration of joint pain in inflammatory arthritis",
+        "relation": "is associated with",
+        "sources": [
+          {
+            "relation": "is associated with",
+            "triplet_id": 2371555720512
+          }
+        ]
+      },
+      {
+        "source": "reduced inflammation response",
+        "target": "reduced disease activity in rheumatoid arthritis",
+        "relation": "is linked with",
+        "sources": [
+          {
+            "relation": "is linked with",
+            "triplet_id": 2371556184320
+          }
+        ]
+      },
+      {
+        "source": "lower levels of systemic inflammation markers such as CRP and ESR",
+        "target": "reduced disease activity in rheumatoid arthritis",
+        "relation": "are indicative of",
+        "sources": [
+          {
+            "relation": "are indicative of",
+            "triplet_id": 2371555718640
+          }
+        ]
+      },
+      {
+        "source": "lower levels of systemic inflammation markers such as CRP and ESR",
+        "target": "increased regulatory T cell activity",
+        "relation": "support",
+        "sources": [
+          {
+            "relation": "support",
+            "triplet_id": 2371555717872
+          }
+        ]
+      },
+      {
+        "source": "reduced disease activity in rheumatoid arthritis",
+        "target": "increased regulatory T cell activity",
+        "relation": "leads to",
+        "sources": [
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555716720
+          }
+        ]
+      },
+      {
+        "source": "Nonsteroidal Anti-Inflammatory Drugs (NSAIDs)",
+        "target": "inhibition of cyclooxygenase enzymes",
+        "relation": "exhibit",
+        "sources": [
+          {
+            "relation": "exhibit",
+            "triplet_id": 2371492164048
+          }
+        ]
+      },
+      {
+        "source": "decreased prostaglandin synthesis",
+        "target": "reduced inflammation response",
+        "relation": "results in",
+        "sources": [
+          {
+            "relation": "results in",
+            "triplet_id": 2371555718976
+          }
+        ]
+      },
+      {
+        "source": "decreased prostaglandin synthesis",
+        "target": "amelioration of joint pain in inflammatory arthritis",
+        "relation": "supports",
+        "sources": [
+          {
+            "relation": "supports",
+            "triplet_id": 2371556181872
+          }
+        ]
+      },
+      {
+        "source": "amelioration of joint pain in inflammatory arthritis",
+        "target": "improvement in physical function and mobility",
+        "relation": "is accompanied by",
+        "sources": [
+          {
+            "relation": "is accompanied by",
+            "triplet_id": 2371555717488
+          }
+        ]
+      },
+      {
+        "source": "amelioration of joint pain in inflammatory arthritis",
+        "target": "lower levels of systemic inflammation markers such as CRP and ESR",
+        "relation": "is linked to",
+        "sources": [
+          {
+            "relation": "is linked to",
+            "triplet_id": 2371555716576
+          }
+        ]
+      },
+      {
+        "source": "maintenance of immune tolerance in autoimmune conditions",
+        "target": "improvement in physical function and mobility",
+        "relation": "enhances",
+        "sources": [
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555708800
+          }
+        ]
+      },
+      {
+        "source": "maintenance of immune tolerance in autoimmune conditions",
+        "target": "reduced disease activity in rheumatoid arthritis",
+        "relation": "is essential for",
+        "sources": [
+          {
+            "relation": "is essential for",
+            "triplet_id": 2371555716624
+          }
+        ]
+      },
+      {
+        "source": "NSAIDs",
+        "target": "enhanced quality of life in rheumatoid arthritis patients",
+        "relation": "contribute to",
+        "sources": [
+          {
+            "relation": "contribute to",
+            "triplet_id": 2371555716672
+          }
+        ]
+      },
+      {
+        "source": "inhibition of cyclooxygenase enzymes",
+        "target": "decreased prostaglandin synthesis",
+        "relation": "leads to",
+        "sources": [
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555718016
+          }
+        ]
+      },
+      {
+        "source": "inhibition of cyclooxygenase enzymes",
+        "target": "improvement in physical function and mobility",
+        "relation": "results in",
+        "sources": [
+          {
+            "relation": "results in",
+            "triplet_id": 2371556185856
+          }
+        ]
+      },
+      {
+        "source": "increased regulatory T cell activity",
+        "target": "maintenance of immune tolerance in autoimmune conditions",
+        "relation": "facilitates",
+        "sources": [
+          {
+            "relation": "facilitates",
+            "triplet_id": 2371555719360
+          }
+        ]
+      },
+      {
+        "source": "increased regulatory T cell activity",
+        "target": "reduced inflammation response",
+        "relation": "modulates",
+        "sources": [
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555720368
+          }
+        ]
+      },
+      {
+        "source": "increased regulatory T cell activity",
+        "target": "enhanced quality of life in rheumatoid arthritis patients",
+        "relation": "is necessary for",
+        "sources": [
+          {
+            "relation": "is necessary for",
+            "triplet_id": 2371555716864
+          }
+        ]
+      },
+      {
+        "source": "enhanced quality of life in rheumatoid arthritis patients",
+        "target": "lower levels of systemic inflammation markers such as CRP and ESR",
+        "relation": "is correlated with",
+        "sources": [
+          {
+            "relation": "is correlated with",
+            "triplet_id": 2371555716480
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 12,
+    "edge_count": 20,
+    "path_length": 11
+  },
+  "start_node": "Nonsteroidal Anti-Inflammatory Drugs (NSAIDs)",
+  "end_node": "maintenance of immune tolerance in autoimmune conditions",
+  "path_nodes": [
+    "Nonsteroidal Anti-Inflammatory Drugs (NSAIDs)",
+    "inhibition of cyclooxygenase enzymes",
+    "decreased prostaglandin synthesis",
+    "reduced inflammation response",
+    "amelioration of joint pain in inflammatory arthritis",
+    "improvement in physical function and mobility",
+    "enhanced quality of life in rheumatoid arthritis patients",
+    "lower levels of systemic inflammation markers such as CRP and ESR",
+    "reduced disease activity in rheumatoid arthritis",
+    "increased regulatory T cell activity",
+    "maintenance of immune tolerance in autoimmune conditions"
+  ],
+  "path_edges": [
+    {
+      "source": "Nonsteroidal Anti-Inflammatory Drugs (NSAIDs)",
+      "target": "inhibition of cyclooxygenase enzymes",
+      "relation": "exhibit"
+    },
+    {
+      "source": "inhibition of cyclooxygenase enzymes",
+      "target": "decreased prostaglandin synthesis",
+      "relation": "leads to"
+    },
+    {
+      "source": "decreased prostaglandin synthesis",
+      "target": "reduced inflammation response",
+      "relation": "results in"
+    },
+    {
+      "source": "reduced inflammation response",
+      "target": "amelioration of joint pain in inflammatory arthritis",
+      "relation": "is associated with"
+    },
+    {
+      "source": "amelioration of joint pain in inflammatory arthritis",
+      "target": "improvement in physical function and mobility",
+      "relation": "is accompanied by"
+    },
+    {
+      "source": "improvement in physical function and mobility",
+      "target": "enhanced quality of life in rheumatoid arthritis patients",
+      "relation": "contributes to"
+    },
+    {
+      "source": "enhanced quality of life in rheumatoid arthritis patients",
+      "target": "lower levels of systemic inflammation markers such as CRP and ESR",
+      "relation": "is correlated with"
+    },
+    {
+      "source": "lower levels of systemic inflammation markers such as CRP and ESR",
+      "target": "reduced disease activity in rheumatoid arthritis",
+      "relation": "are indicative of"
+    },
+    {
+      "source": "reduced disease activity in rheumatoid arthritis",
+      "target": "increased regulatory T cell activity",
+      "relation": "leads to"
+    },
+    {
+      "source": "increased regulatory T cell activity",
+      "target": "maintenance of immune tolerance in autoimmune conditions",
+      "relation": "facilitates"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 12,
+    "edge_count": 20
+  },
+  "config": {}
+}
