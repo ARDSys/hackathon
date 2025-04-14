@@ -14,17 +14,9 @@ Given some input with definitions of some terms and relatations between some fac
 You may try to create additional links using chain rule, so A -> B and then B -> C then you may create additional link like A -> C. You should consider if such linking makes any sense. 
 Make sure to incorporate EACH of the relations you get in input.
 
-Input format is like:
-{{
-### Definitions:
-A clear definition of each term in the knowledge graph.
-### Relationships
-A thorough discussion of all the relationships in the graph. 
-}}
+{context}
 
-Graph:
 {subgraph}
-
 You must return data in EXACTLY same format, only with some relationships added. 
 """
 
