@@ -1,10 +1,5 @@
-"""Agent definitions for the Hypegen system.
-
-This module defines all the agents used in the Hypegen system.
-"""
-
 import autogen
-from autogen import AssistantAgent
+from autogen import AssistantAgent, Agent
 
 from .functions import (
     rate_novelty_feasibility,
@@ -144,6 +139,7 @@ novelty_assistant = autogen.AssistantAgent(
     llm_config=get_llm_config("large"),
 )
 
+
 # Admin for novelty assessment
 novelty_admin = autogen.UserProxyAgent(
     name="novelty_admin",
@@ -157,6 +153,7 @@ novelty_admin = autogen.UserProxyAgent(
 
 # Register functions with agents
 novelty_admin.register_for_execution()(response_to_query_perplexity)
+novelty_admin.register_for_execution()(response_to_query_perplexity)
 novelty_assistant.register_for_llm(
     description="""This function is designed to search for academic papers using the Perplexity API based on a specified query. 
 The query should be constructed with relevant keywords separated by "+". """
@@ -166,5 +163,26 @@ user.register_for_execution()(rate_novelty_feasibility)
 planner.register_for_llm()(rate_novelty_feasibility)
 assistant.register_for_llm(
     description="""Use this function to rate the novelty and feasibility of a research idea against the literature. The function uses semantic shcolar to access the literature articles.  
-The function will return the novelty and feasibility rate from 1 to 10 (lowest to highest). The input to the function is the hypothesis with its details."""
+The function will return the novelty and feasibility rate from 1 to 10 (lowest to highest). The input to the function is the hypothesis with its details.""" 
 )(rate_novelty_feasibility)
+
+def get_message_from_novelty_assistant():
+    """Retrieve the latest message from the novelty assistant.
+
+    Returns:
+        The latest message from the novelty assistant.
+    """
+
+    # Retrieve the latest message
+    latest_message = novelty_assistant.get_latest_message()
+    print("CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+
+    return latest_message
+
+novelty_admin.register_for_execution()(get_message_from_novelty_assistant)
+novelty_assistant.register_for_llm(
+    description="""This function is designed to search for academic papers using the Perplexity API based on a specified query. 
+The query should be constructed with relevant keywords separated by "+". """
+)(get_message_from_novelty_assistant)
+
+
