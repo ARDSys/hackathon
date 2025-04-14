@@ -2,6 +2,7 @@ import asyncio
 from typing import Any
 
 from agents import Agent, Runner
+from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
