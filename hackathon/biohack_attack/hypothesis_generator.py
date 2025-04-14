@@ -21,9 +21,8 @@ async def run_agents(subgraph: Subgraph) -> Hypothesis:
 
     ontology_result = await Runner.run(
         ontology_agent,
-        input=subgraph_model
+        input=subgraph_model.model_dump_json()
     )
-    ontology: OntologyAgentOutput = ontology_result.final_output
 
     return Hypothesis(
         title="",

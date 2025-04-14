@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Optional
+from typing import List, Optional
 
 from agents import Agent
 from pydantic import BaseModel, Field
@@ -14,18 +14,30 @@ class UnstructuredSource(BaseModel):
     source_id: str = Field(description="Identifier of the source system")
 
 
+class NodeProperty(BaseModel):
+    """Represents a property of a node in the knowledge graph."""
+    key: str = Field(description="Property name")
+    value: str = Field(description="Property value")
+
+
 class KnowledgeGraphNode(BaseModel):
     """Represents a node in a knowledge graph with its properties."""
     id: str = Field(description="Unique identifier for the node")
     name: str = Field(description="Display name of the node")
-    properties: list[tuple[str, str]] = Field(default_factory=list, description="Node properties as key-value pairs")
+    properties: list[NodeProperty] = Field(default_factory=list, description="Node properties as key-value pairs")
+
+
+class Edge(BaseModel):
+    source_id: str = Field(description="Source node ID")
+    target_id: str = Field(description="Target node ID")
+    relation_type: Optional[str] = Field(description="Type of relationship between nodes")
 
 
 class KnowledgeGraph(BaseModel):
     """Represents an additional knowledge graph structure."""
     id: str = Field(description="Unique identifier for the knowledge graph")
     nodes: List[KnowledgeGraphNode] = Field(default_factory=list, description="List of nodes in the graph")
-    edges: List[Tuple[str, str, Optional[str]]] = Field(
+    edges: List[Edge] = Field(
         default_factory=list,
         description="List of edges as (source_id, target_id, relation_type) tuples"
     )
@@ -35,7 +47,6 @@ class OntologyAgentOutput(BaseModel):
     """Output from the ontology agent containing extracted information."""
     sources: List[UnstructuredSource] = Field(default_factory=list, description="Unstructured information sources")
     graphs: List[KnowledgeGraph] = Field(default_factory=list, description="Additional knowledge graphs")
-    subgraph: SubgraphModel = Field(description="The subgraph analyzed by the agent")
 
 
 class OntologyAgentInput(BaseModel):
@@ -44,7 +55,7 @@ class OntologyAgentInput(BaseModel):
 
 
 ontology_agent = Agent(
-    model=ModelFactory.build_model(ModelType.GEMINI),
+    model=ModelFactory.build_model(ModelType.OPENAI),
     name="RheumatologyOntologyAgent",
     instructions="""You are an expert rheumatology ontologist responsible for analyzing subgraphs from the knowledge graph and enriching them with additional context and information. Your role is to process the input subgraph and generate a comprehensive output that will help the hypothesis generation agent develop high-quality scientific hypotheses.
 
