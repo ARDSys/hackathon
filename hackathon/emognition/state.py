@@ -3,8 +3,10 @@ from langgraph.graph import MessagesState
 
 class HypgenState(MessagesState):
     subgraph: str
+    mainstream_paths: str
     paths: str
     hypothesis: str
+
 
     literature: str
     references: list[str]

@@ -32,7 +32,7 @@ Source (title, authors, year, DOI or link)
 Relevance (brief note on how it connects to the hypothesis or concept)
 
 Paths:
-{paths}
+{context}
 
 """
 
@@ -57,7 +57,7 @@ def create_literature_agent(
         # Search for literature
         messages = (
             PromptTemplate.from_template(SEARCH_PROMPT)
-            .invoke({"paths": state["paths"]})
+            .invoke({"context": state["context"]})
             .to_messages()
         )
         logger.info("Searching for relevant literature")
