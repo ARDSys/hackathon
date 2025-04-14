@@ -64,6 +64,7 @@ def create_nai_agent(
         novelty_and_impact_description = parsed["novelty_and_impact_description"]
 
         return {
+            **state,
             "novelty_and_impact_score": novelty_and_impact_score,
             "novelty_and_impact_description" : novelty_and_impact_description,
             "messages": [add_role(response, "novelty_and_impact_reviewer")],

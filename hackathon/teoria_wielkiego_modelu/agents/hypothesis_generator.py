@@ -51,6 +51,7 @@ def create_hypothesis_generator_agent(
         logger.info("Hypothesis generated successfully")
 
         return {
+            **state,
             "hypothesis": content,
             "messages": [add_role(response, "hypothesis_generator")],
             "iteration": state.get("iteration", 0) + 1,

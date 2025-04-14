@@ -56,6 +56,7 @@ def create_ontologist_agent(
 
         logger.info("Ontology analysis completed successfully")
         return {
+            **state,
             "context": response.content,
             "messages": [add_role(response, "ontologist")],
         }

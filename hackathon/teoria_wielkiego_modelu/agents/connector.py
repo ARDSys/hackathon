@@ -40,6 +40,7 @@ def create_connector_agent(
 
         logger.info("Added some connections")
         return {
+            **state,
             "context": response.content,
             "messages": [add_role(response, "connector")],
         }

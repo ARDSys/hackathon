@@ -53,6 +53,7 @@ def create_inspiration_agent(
         literature = assistant_response["messages"][-1]
 
         return {
+            **state,
             "messages": assistant_response["messages"],
             "literature": literature,
         }

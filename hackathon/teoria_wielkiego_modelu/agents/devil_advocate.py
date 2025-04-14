@@ -61,6 +61,7 @@ def create_devil_advocate_agent(
         logger.info("Devil's advocate analysis completed successfully")
         
         return {
+            **state,
             "pros_analysis": response.content,
             "messages": [add_role(response, "devil_advocate")]
         }

@@ -92,6 +92,7 @@ def create_hypothesis_refiner_agent(
         logger.info("Hypothesis refined successfully")
         
         return {
+            **state,
             "hypothesis": response.content,
             "messages": [add_role(response, "hypothesis_refiner")],
             "hypothesis_tree": tree,

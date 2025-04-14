@@ -66,6 +66,7 @@ def create_experiment_reviewer_agent(
         feasibility_description = parsed["feasibility_description"]
 
         return {
+            **state,
             "feasibility_description": feasibility_description,
             "feasibility_score" : feasibility_score,
             "messages": [add_role(response, "experiment_reviewer")],

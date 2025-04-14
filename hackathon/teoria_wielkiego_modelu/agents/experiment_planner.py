@@ -49,6 +49,7 @@ def create_experiment_planner_agent(
         logger.info("Experiment_planner completed successfully")
 
         return {
+            **state,
             "experiment_plan": response.content,
             "messages": [add_role(response, "experiment_planner")]
         }

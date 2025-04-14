@@ -59,6 +59,7 @@ def create_critique_agent(
         logger.info("Critique analysis completed successfully")
         
         return {
+            **state,
             "cons_analysis": response.content,
             "messages": [add_role(response, "critique")]
         }
