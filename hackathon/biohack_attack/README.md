@@ -57,13 +57,7 @@ The template consists of these minimal components:
 
 ## Environment Setup
 
-1. Create a `.env` file in the project root with any API keys you might need, for example:
-   ```
-   # OpenAI
-   OPENAI_API_KEY=your-api-key
-
-   # Any other providers you plan to use
-   ```
+Fill up a `.env` file in the project root with the required API keys.
 
 ## Installation
 
@@ -75,28 +69,8 @@ source .venv/bin/activate
 
 ## Usage
 
-The template can be run using the `generate_hypothesis.py` script.
-From the ARD's root directory:
+From the hackathon's root directory you need to run the `run.sh` script.
 
 ```bash
-python -m hackathon.sample.generate_hypothesis -f path/to/subgraph.json --output output_directory
-```
-
-### Arguments
-
-- `--file` or `-f`: Path to the input JSON file containing the subgraph data
-- `--output` or `-o`: Path to the output directory (defaults to current directory)
-
-## Output
-
-The output is a JSON file containing the hypothesis.
-```json
-{
-    "title": "<hypothesis.title>",
-    "text": "<hypothesis.statement>",
-    "source": "<source_subgraph_as_json>",
-    "metadata": {
-        ... # all additional data from the hypothesis
-    }
-}
+./run.sh
 ```
