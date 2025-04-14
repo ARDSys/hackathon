@@ -1,4 +1,4 @@
-# LangGraph Workflow
+# Emognition LangGraph Workflow
 
 This workflow implements a hypothesis generation system using LangGraph, designed to analyze subgraphs and generate scientific hypotheses based on the relationships and context within the data.
 
@@ -57,7 +57,7 @@ The workflow can be run using the `generate_hypothesis.py` script.
 From ARD's root directory:
 
 ```bash
-python -m hackathon.langgraph.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/langgraph/output
+python -m hackathon.emognition.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/emognition/output
 ```
 
 ### Arguments
