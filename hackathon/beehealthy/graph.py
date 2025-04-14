@@ -31,7 +31,7 @@ from .state import HypgenState
 def improve_hypothesis(
     state: HypgenState,
 ) -> Literal["hypothesis_refiner", "summary_agent"]:
-    if state["iteration"] > 3:
+    if state["iteration"] > 2:
         logger.info("Iteration limit reached after {} iterations", state["iteration"])
         return "summary_agent"
     if "ACCEPT" in state["critique"]:
@@ -45,7 +45,7 @@ def improve_hypothesis(
 def methodology_testing(
     state: HypgenState,
 ) -> Literal["methodology_provider", "hypothesis_refiner"]:
-    if state["iteration"] > 3:
+    if state["iteration"] > 2:
         logger.info("Iteration limit reached after {} iterations", state["iteration"])
         return "methodology_provider"
     if "ACCEPT" in state["critique"]:
@@ -69,7 +69,7 @@ def novelty_loop_testing(
     logger.info(f"Novelty loop iteration: {state['novelty_loop_iteration']}")
 
     # Check if we've reached the maximum iterations
-    if state["novelty_loop_iteration"] >= 10:
+    if state["novelty_loop_iteration"] >= 4:
         logger.info(
             "Novelty loop iteration limit reached, proceeding to literature agent"
         )
@@ -89,47 +89,53 @@ def create_hypgen_graph() -> CompiledGraph:
     graph = StateGraph(HypgenState)
 
     # Hypothesis generation and assessment
-    graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
+    graph.add_node("ontologist", create_ontologist_agent("reasoning")["agent"])
     graph.add_node(
-        "hypothesis_generator", create_hypothesis_generator_agent("reasoning")["agent"]
+        "hypothesis_generator",
+        create_hypothesis_generator_agent("reasoning")["agent"],
     )
 
     # Add the novelty loop agent to provide immediate feedback on hypothesis novelty
-    graph.add_node("novelty_loop", create_novelty_loop_agent("large")["agent"])
+    graph.add_node("novelty_loop", create_novelty_loop_agent("reasoning")["agent"])
 
-    graph.add_node("literature_agent", create_literature_agent("large")["agent"])
+    graph.add_node("literature_agent", create_literature_agent("reasoning")["agent"])
 
-    graph.add_node("novelty_analyst", create_novelty_analyst_agent("large")["agent"])
     graph.add_node(
-        "feasibility_analyst", create_feasibility_analyst_agent("small")["agent"]
+        "novelty_analyst", create_novelty_analyst_agent("reasoning")["agent"]
     )
-    graph.add_node("impact_analyst", create_impact_analyst_agent("small")["agent"])
     graph.add_node(
-        "hot_topic_reviewer", create_hot_topic_reviewer_agent("small")["agent"]
+        "feasibility_analyst", create_feasibility_analyst_agent("reasoning")["agent"]
+    )
+    graph.add_node("impact_analyst", create_impact_analyst_agent("reasoning")["agent"])
+    graph.add_node(
+        "hot_topic_reviewer", create_hot_topic_reviewer_agent("reasoning")["agent"]
     )
 
-    graph.add_node("critique_analyst", create_critique_analyst_agent("small")["agent"])
+    graph.add_node(
+        "critique_analyst", create_critique_analyst_agent("reasoning")["agent"]
+    )
 
     # Hypothesis feedback loop
     graph.add_node(
-        "hypothesis_refiner", create_hypothesis_refiner_agent("small")["agent"]
+        "hypothesis_refiner", create_hypothesis_refiner_agent("reasoning")["agent"]
     )
 
     # Methodology testing loop
     graph.add_node(
-        "methodology_provider", create_methodology_provider_agent("small")["agent"]
+        "methodology_provider",
+        create_methodology_provider_agent("reasoning")["agent"],
     )
-    graph.add_node("nice_reviewer", create_nice_reviewer_agent("small")["agent"])
+    graph.add_node("nice_reviewer", create_nice_reviewer_agent("reasoning")["agent"])
     graph.add_node(
-        "bad_reviewer", create_methodology_rude_reviewer_agent("small")["agent"]
+        "bad_reviewer", create_methodology_rude_reviewer_agent("reasoning")["agent"]
     )
     graph.add_node(
         "methodology_reviewer",
-        create_methodology_review_summary_agent("small")["agent"],
+        create_methodology_review_summary_agent("reasoning")["agent"],
     )
 
     # Summary
-    graph.add_node("summary_agent", create_summary_agent("small")["agent"])
+    graph.add_node("summary_agent", create_summary_agent("reasoning")["agent"])
 
     # Add edges
     graph.add_edge(START, "ontologist")

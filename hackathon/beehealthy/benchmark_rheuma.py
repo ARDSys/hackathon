@@ -27,6 +27,13 @@ from google.genai import types
 import groq
 import anthropic
 
+# RAG components
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -52,11 +59,55 @@ class LLMModel(ABC):
         api_key: str,
         display_name: str = None,
         init_kwargs: Dict[str, Any] = None,
+        use_rag: bool = False,
     ):
         self.model_name = model_name
         self.display_name = display_name or model_name
         self.api_key = api_key
         self.client = self._initialize_client(**(init_kwargs or {}))
+        self.use_rag = use_rag
+        
+        # Initialize RAG components if needed
+        if self.use_rag:
+            self._initialize_rag()
+
+    def _initialize_rag(self):
+        """Initialize RAG components for retrieving context from books."""
+        try:
+            persist_directory = "./chroma_books"
+            embedding_model = OpenAIEmbeddings(api_key=self.api_key)
+            self.vectorstore = Chroma(
+                persist_directory=persist_directory, embedding_function=embedding_model
+            )
+            self.retriever = self.vectorstore.as_retriever()
+            
+            system_prompt = (
+                "You are an assistant that provides concise answers based on the provided context. "
+                "Use the following retrieved context from the rheumatology book(s) to answer the question. "
+                "If the answer is not found in the context, provide your best answer based on general knowledge. "
+                "Limit the answer to three sentences.\n\nContext:\n{context}"
+            )
+            
+            self.rag_prompt = ChatPromptTemplate.from_messages(
+                [("system", system_prompt), ("human", "{input}")]
+            )
+            
+            logger.info(f"RAG initialized for {self.display_name}")
+        except Exception as e:
+            logger.error(f"Failed to initialize RAG: {e}")
+            self.use_rag = False
+
+    def get_context(self, question: str) -> str:
+        """Retrieve relevant context from the vectorstore for a question."""
+        if not self.use_rag:
+            return ""
+            
+        try:
+            documents = self.retriever.get_relevant_documents(question)
+            return "\n\n".join([doc.page_content for doc in documents])
+        except Exception as e:
+            logger.error(f"Error retrieving context: {e}")
+            return ""
 
     @abstractmethod
     def _initialize_client(self, **kwargs):
@@ -67,11 +118,27 @@ class LLMModel(ABC):
         pass
 
     def construct_prompt(self, question: str) -> str:
-        return f"""As an expert in rheumatology, please answer the following question with only the answer number (1, 2, 3, or 4):
+        base_prompt = f"""As an expert in rheumatology, please answer the following question with only the answer number (1, 2, 3, or 4):
 
 Question: {question}
 
 Provide only the number."""
+
+        # If RAG is enabled, augment the prompt with retrieved context
+        if self.use_rag:
+            context = self.get_context(question)
+            if context:
+                return f"""As an expert in rheumatology, please answer the following question with only the answer number (1, 2, 3, or 4).
+Use the following reference information from rheumatology textbooks to help inform your answer:
+
+Reference Information:
+{context}
+
+Question: {question}
+
+Provide only the number."""
+        
+        return base_prompt
 
 
 class OpenAIModel(LLMModel):
@@ -133,21 +200,21 @@ class ClaudeModel(LLMModel):
 
 
 def create_model(
-    model_type: str, model_name: str, api_key: str, display_name: str = None
+    model_type: str, model_name: str, api_key: str, display_name: str = None, use_rag: bool = False
 ) -> LLMModel:
     """Factory function to create a model instance."""
     if model_type == "openai":
-        return OpenAIModel(model_name, api_key, display_name)
+        return OpenAIModel(model_name, api_key, display_name, use_rag=use_rag)
     elif model_type == "gemini":
-        return GeminiModel(model_name, api_key, display_name)
+        return GeminiModel(model_name, api_key, display_name, use_rag=use_rag)
     elif model_type == "groq":
-        return GroqModel(model_name, api_key, display_name)
+        return GroqModel(model_name, api_key, display_name, use_rag=use_rag)
     elif model_type == "grok":
         return OpenAIModel(
-            model_name, api_key, display_name, {"base_url": "https://api.x.ai/v1"}
+            model_name, api_key, display_name, {"base_url": "https://api.x.ai/v1"}, use_rag=use_rag
         )
     elif model_type == "claude":
-        return ClaudeModel(model_name, api_key, display_name)
+        return ClaudeModel(model_name, api_key, display_name, use_rag=use_rag)
     else:
         raise ValueError(f"Unsupported model type: {model_type}")
 
@@ -315,6 +382,9 @@ def generate_report(results: List[ModelResult], output_dir: str) -> None:
 @click.option(
     "--sample-size", type=int, default=None, help="Sample size (None = use all)"
 )
+@click.option(
+    "--use-rag", is_flag=True, default=True, help="Use RAG to enhance queries with book content"
+)
 def main(
     dataset,
     openai_key,
@@ -323,11 +393,17 @@ def main(
     claude_key,
     output_dir,
     sample_size,
+    use_rag,
 ):
     """Benchmark LLM models on rheumatology knowledge using RheumaMIR dataset."""
     # Load dataset
     df = pd.read_csv(dataset)
     logger.info(f"Dataset loaded with {len(df)} questions")
+    
+    if use_rag:
+        logger.info("RAG enabled: Models will use book content to enhance queries")
+    else:
+        logger.info("RAG disabled: Models will rely on their internal knowledge only")
 
     # Define models to evaluate
     models_to_evaluate = []
@@ -378,7 +454,7 @@ def main(
     results = []
     for model_type, model_name, api_key, display_name in models_to_evaluate:
         logger.info(f"\nEvaluating {display_name}...")
-        model = create_model(model_type, model_name, api_key, display_name)
+        model = create_model(model_type, model_name, api_key, display_name, use_rag=use_rag)
         result = evaluate_model(model, df, sample_size)
         results.append(result)
         logger.info(f"  Accuracy: {result.accuracy:.2f}")

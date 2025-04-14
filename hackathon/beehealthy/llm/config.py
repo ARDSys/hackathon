@@ -18,7 +18,7 @@ class ModelConfig(BaseModel):
     model_name: str
     max_tokens: Optional[int] = None
     top_p: float = 1.0
-    temperature: Optional[float] = None
+    temperature: Optional[float] = 1.0
     frequency_penalty: float = 0.0
     presence_penalty: float = 0.0
     timeout: int = 120

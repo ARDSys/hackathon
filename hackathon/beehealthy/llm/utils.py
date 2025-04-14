@@ -6,12 +6,14 @@ from typing import Dict, Optional, Union
 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.language_models import BaseLanguageModel
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langfuse.callback import CallbackHandler
 
 from .config import (
     MODEL_REGISTRY,
     AnthropicConfig,
+    GeminiConfig,
     ModelConfig,
     OpenAIConfig,
 )
@@ -51,6 +53,15 @@ def get_llm(config: ModelConfig) -> BaseLanguageModel:
             temperature=config.temperature,
             max_tokens=config.max_tokens,
             anthropic_api_key=config.api_key,
+            callbacks=[langfuse_callback],
+            **config.additional_kwargs,
+        )
+    elif isinstance(config, GeminiConfig):
+        return ChatGoogleGenerativeAI(
+            model=config.model_name,
+            temperature=config.temperature,
+            max_tokens=config.max_tokens,
+            google_api_key=config.api_key,
             callbacks=[langfuse_callback],
             **config.additional_kwargs,
         )

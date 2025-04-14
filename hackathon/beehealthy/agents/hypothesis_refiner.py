@@ -40,14 +40,17 @@ Always leverage the knowledge graph to:
 **1. Refined Hypothesis:**  
 A revised, clear, and testable research hypothesis, suitable for evaluation by scientific reviewers and downstream system agents.
 
-**2. Rationale for Changes:**  
-Briefly explain how you improved the original hypothesis in response to the critique and/or methodology review. Distinguish between conceptual improvements and methodological clarifications. Reference key insights from the graph or agent feedback where applicable.
+**2. Scientific Rationale:**  
+Explain how the structure of the graph, definitions, and known relationships support this hypothesis. Highlight any surprising or emergent connections that informed your reasoning.
 
 **3. Predicted Outcomes:**  
 Describe what outcomes or behaviors might result from testing this refined hypothesis.
 
-**4. Significance & Impact:**  
-Highlight how this version improves scientific value, clarity, and relevance to the domain of study.
+**4. Relevance and Purpose:**  
+Why is this hypothesis important? What problem might it solve or illuminate in the context of medical science?
+
+**5. Novelty Considerations:**  
+Reflect on what makes this hypothesis novel. What aspects of your proposal might be entirely new to the field? Which components might overlap with existing research? This will assist the novelty assessment agent in evaluating your hypothesis.
 
 ---
 
