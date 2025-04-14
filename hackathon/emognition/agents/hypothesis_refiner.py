@@ -39,21 +39,21 @@ def create_hypothesis_refiner_agent(
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:
-    prompt = PromptTemplate.from_template(PROMPT)
+    prompt = PromptTemplate.from_template(PROMPT.replace("{hypothesis}","{hypothesis_"+str(hypothesis_no)+"}").replace("{critique}","{critique_"+str(hypothesis_no)+"}"),)
 
     llm = get_model(model, **kwargs)
     chain = prompt | llm
 
     def agent(state: HypgenState) -> HypgenState:
-        logger.info("Starting hypothesis generation")
+        logger.info("Starting refined hypothesis generation")
         # Run the chain
         response = chain.invoke(state)
 
         content = response.content
-        logger.info("Hypothesis generated successfully")
+        logger.info("Refined hypothesis generated successfully")
 
         return {
-            "hypothesis": content,
+            f"hypothesis_{hypothesis_no}": content,
         }
 
     return {"agent": agent}
