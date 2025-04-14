@@ -1,69 +1,247 @@
 import asyncio
-from typing import Any, List
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+from typing import Any, Optional
 
-from agents import Agent, Runner
-from biohack_attack.hackathon_agents.research_agents.models import (
-    QueriesOutput,
-    ResearchAgentOutput,
-)
-from biohack_attack.model_factory import ModelFactory, ModelType
-from dotenv import load_dotenv
-from hackathon_agents.research_agents import perform_queries, research_agent_dispatcher
+from agents import Runner
 from loguru import logger
-from pydantic import BaseModel
 
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
 from ard.subgraph import Subgraph
+from biohack_attack.hackathon_agents.critic_agent import (
+    TriagedHypothesis,
+    rheumatology_triage_agent,
+)
+from biohack_attack.hackathon_agents.decomposition_agent import (
+    HypothesisDecomposition,
+    hypothesis_decomposer_agent,
+)
+from biohack_attack.hackathon_agents.hypothesis_agent import (
+    hypothesis_agent,
+    ScientificHypothesis,
+)
+from biohack_attack.hackathon_agents.ontology_agent import (
+    ontology_agent,
+    OntologyAgentOutput,
+)
+from biohack_attack.model import SubgraphModel
 
 
-class HypothesisOutput(BaseModel):
-    title: str
-    statement: str
-    reasoning_steps: list[str]
+@dataclass
+class ProcessConfig:
+    num_of_hypotheses: int = 5
+    num_of_threads: int = 5
+    top_k: int = 3
 
 
-async def run_agents(subgraph: Subgraph) -> Hypothesis:
-    # hypothesis_agent = Agent(
-    #     name="Hypothesis create",
-    #     instructions=f"Build novel scientific hypothesis based on the provided cypher path",
-    #     model=ModelFactory.build_model(ModelType.OPENAI),
-    #     output_type=HypothesisOutput
-    # )
-    # INPUT
-    logger.info(f"Input graph: {subgraph}")
-    path = subgraph.to_cypher_string(full_graph=True)
+def run_hypothesis_agent(
+    subgraph_model: SubgraphModel, ontology: OntologyAgentOutput
+) -> ScientificHypothesis:
+    prompt = f"""
+# HYPOTHESIS GENERATION TASK
 
-    # GENERATING QUERIES
-    logger.info("Generating queries to external sources.")
-    research_agent_results = await Runner.run(research_agent_dispatcher, path)
-    queries: QueriesOutput = research_agent_results.final_output_as(QueriesOutput)
-    logger.info(f"Reasoning: {queries.reasoning}")
-    logger.info("List of queries:")
-    for query in queries.queries:
-        logger.info(f"Data Source: {query.data_source}, Keyword: {query.keyword}.")
+## SUBGRAPH DEFINITION
+The following knowledge graph subgraph represents relationships between biomedical entities. Please analyze this structure carefully:
 
-    # PERFORMING QUERIES
-    logger.info("Performing queries.")
-    results: ResearchAgentOutput = await perform_queries(queries)
-    logger.info(results)
+<subgraph>
+{subgraph_model.model_dump_json(indent=2)}
+</subgraph>
+
+## KEY PATH
+Start node: {subgraph_model.start_node}
+End node: {subgraph_model.end_node}
+Path: {" -> ".join(subgraph_model.path_nodes)}
+
+## CONTEXTUAL ONTOLOGY INFORMATION
+The following additional ontological information has been provided to enrich your understanding:
+
+<ontology>
+{ontology.model_dump_json(indent=2)}
+</ontology>
+"""
+    return asyncio.run(Runner.run(hypothesis_agent, input=prompt)).final_output
 
 
-    # Hypothesis generation Agent
+def run_triage_agent(
+    hypothesis: ScientificHypothesis,
+) -> tuple[ScientificHypothesis, TriagedHypothesis]:
+    prompt = f"""
+#  HYPOTHESIS ASSESSMENT TASK
 
-    # result = await Runner.run(hypothesis_agent, path)
-    # hypothesis_output: HypothesisOutput = result.final_output
+## HYPOTHESIS TO EVALUATE
+The following scientific hypothesis in rheumatology needs expert evaluation:
 
-    # return Hypothesis(
-    #     title=hypothesis_output.title,
-    #     statement=hypothesis_output.statement,
-    #     source=subgraph,
-    #     method=HypothesisGenerator(),
-    # )
+<hypothesis>
+{hypothesis.model_dump_json(indent=2)}
+</hypothesis>
+"""
+    triage: TriagedHypothesis = asyncio.run(
+        Runner.run(rheumatology_triage_agent, input=prompt)
+    ).final_output
+    return hypothesis, triage
+
+
+async def run_ontology_agent(subgraph_model: SubgraphModel) -> OntologyAgentOutput:
+    ontology_input = f"""
+    # ONTOLOGY ENRICHMENT TASK
+
+    ## SUBGRAPH TO ANALYZE
+    The following knowledge graph subgraph represents relationships between biomedical entities in rheumatology:
+
+    <subgraph>
+    {subgraph_model.model_dump_json(indent=2)}
+    </subgraph>
+
+    ## RELATIONSHIP FOCUS
+    Start node: {subgraph_model.start_node}
+    End node: {subgraph_model.end_node}
+    Path nodes: {", ".join(subgraph_model.path_nodes)}
+    """
+    ontology_result = await Runner.run(ontology_agent, input=ontology_input)
+    return ontology_result.final_output
+
+
+async def decompose_hypothesis(
+    hypothesis: ScientificHypothesis, ontology: OntologyAgentOutput
+) -> HypothesisDecomposition:
+    """
+    Decompose a scientific hypothesis into falsifiable statements.
+
+    Args:
+        hypothesis: The scientific hypothesis to decompose
+
+    Returns:
+        A HypothesisDecomposition containing falsifiable statements
+    """
+    prompt = f"""
+    # HYPOTHESIS DECOMPOSITION TASK
+
+    Please decompose the following scientific hypothesis into fundamental falsifiable statements:
+
+    ## HYPOTHESIS DETAILS
+
+    Title: {hypothesis.title}
+
+    Statement: {hypothesis.statement}
+
+    Mechanism: {hypothesis.mechanism.pathway_description if hypothesis.mechanism else "Not specified"}
+
+    Expected Outcomes: {", ".join(hypothesis.expected_outcomes) if hypothesis.expected_outcomes else "Not specified"}
+
+    Experimental Approaches: {", ".join(hypothesis.experimental_approaches) if hypothesis.experimental_approaches else "Not specified"}
+    
+    ## ONTOLOGY ENRICHMENT
+    The following additional ontological information has been provided to enrich your understanding:
+    <ontology>
+    {ontology.model_dump_json(indent=2)}
+    </ontology>
+    """
+
+    result = await Runner.run(hypothesis_decomposer_agent, input=prompt)
+    return result.final_output
+
+
+def score_hypothesis(triage: TriagedHypothesis) -> float:
+    """
+    Calculates a hypothesis score by traversing all fields with 'assessment' in their name
+    and multiplying their score and confidence attributes.
+
+    Args:
+        triage: An object with assessment fields that have score and confidence attributes
+
+    Returns:
+        float: The calculated score
+    """
+    total_score = 0
+
+    # Get all attributes of the triage object
+    for attr_name in dir(triage):
+        # Skip private/special attributes and methods
+        if attr_name.startswith("_") or callable(getattr(triage, attr_name)):
+            continue
+
+        # Check if the attribute name contains 'assessment'
+        if "assessment" in attr_name.lower():
+            assessment = getattr(triage, attr_name)
+
+            # Check if the assessment has score and confidence attributes
+            if hasattr(assessment, "score") and hasattr(assessment, "confidence"):
+                total_score += assessment.score * assessment.confidence
+
+    return total_score
+
+
+async def run_agents(subgraph: Subgraph, config: ProcessConfig) -> Hypothesis:
+    subgraph_model = SubgraphModel.from_subgraph(subgraph)
+
+    ontology: OntologyAgentOutput
+    logger.info("Enriching subgraph with ontology agent...")
+    ontology: OntologyAgentOutput = await run_ontology_agent(subgraph_model)
+    logger.debug(ontology.model_dump_json(indent=4))
+
+    logger.info("Generating hypotheses...")
+    with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
+        futures = [
+            executor.submit(run_hypothesis_agent, subgraph_model, ontology)
+            for _ in range(config.num_of_hypotheses)
+        ]
+        hypothesis_results = [future.result() for future in futures]
+    logger.info("Hypotheses generated.")
+
+    for hypothesis in hypothesis_results:
+        logger.debug(hypothesis)
+
+    logger.info("Triage hypotheses...")
+    with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
+        futures = [
+            executor.submit(run_triage_agent, hypothesis)
+            for hypothesis in hypothesis_results
+        ]
+        triage_results = [future.result() for future in futures]
+    logger.info("Triage completed.")
+
+    for hypothesis, triage in triage_results:
+        logger.debug(triage)
+        logger.info(
+            f"Triage for {hypothesis.title} has score {score_hypothesis(triage)}"
+        )
+
+    logger.info("Scoring hypotheses...")
+    scored_hypotheses = [
+        (hypothesis, triage, score_hypothesis(triage))
+        for hypothesis, triage in triage_results
+    ]
+    scored_hypotheses.sort(key=lambda x: x[2], reverse=True)
+    best_hypotheses = scored_hypotheses[: config.top_k]
+
+    logger.info("Decomposing hypotheses...")
+    with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
+        futures = [
+            executor.submit(decompose_hypothesis, hypothesis, ontology)
+            for hypothesis, _, _ in best_hypotheses
+        ]
+        decomposition_results = [future.result() for future in futures]
+    logger.info(f"Decomposition completed.")
+
+    for hypothesis, decomposition in zip(best_hypotheses, decomposition_results):
+        logger.info(
+            f"Decomposed hypothesis {hypothesis[0].title} with score {hypothesis[2]} {decomposition}"
+        )
+
+    return Hypothesis(
+        title=best_hypotheses[0][0].title,
+        statement=best_hypotheses[0][0].statement,
+        source=subgraph,
+        method=HypothesisGenerator(),
+    )
 
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
+    def __init__(self, config: Optional[ProcessConfig] = None):
+        self.config = config or ProcessConfig()
+
     def run(self, subgraph: Subgraph) -> Hypothesis:
-        return asyncio.run(run_agents(subgraph))
+        return asyncio.run(run_agents(subgraph, self.config))
 
     def __str__(self) -> str:
         return "HypeGen Generator"
