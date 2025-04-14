@@ -8,7 +8,7 @@ from ..state import HypgenState
 from ..utils import add_role
 
 # Ontologist prompt
-ONTOLOGIST_PROMPT = """You are a sophisticated ontologist.
+DREAMER_PROMPT = """You are a sophisticated ontologist.
 
 Given some key concepts extracted from a comprehensive knowledge graph, your task is to identify the most prominent and non-trivial paths within the graph that could represent promising research hypotheses or areas worth further investigation.
 
@@ -20,21 +20,33 @@ There may be multiple relationships between the same two nodes. The format of th
 "
 node_1-[:relationship between node_1 and node_2]->node_2
 node_1-[:relationship between node_1 and node_3]->node_3
-node_2-[:relationship between node_2 and node_4]->node_4...
+node_2-[:relationship between node_2 and node_3]->node_4...
 "
+
+You will be provided with a list of well-established and commonly pursued research paths to explicitly avoid or contrast against.
+
 
 Graph:
 {subgraph}
+
+Commonly pursued research paths
+{mainstream_paths}
+
+Output format:
+path_1: node_1 -> [:relationship between node_1 and node_2] -> node_2 -> [:relationship between node_2 and node_3] -> node_3
+path_2: node_1 -> [:relationship between node_1 and node_3] -> node_3 -> [:relationship between node_3 and node_4] -> node_4
+
+
 """
 
 
-def create_ontologist_agent(
+def create_dreamer_agent(
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:
     """Creates an ontologist agent that analyzes and defines concepts from a knowledge graph."""
 
-    prompt = PromptTemplate.from_template(ONTOLOGIST_PROMPT)
+    prompt = PromptTemplate.from_template(DREAMER_PROMPT).invoke({"paths": state["context"]})
 
     llm = get_model(model, **kwargs)
     chain = prompt | llm
@@ -42,13 +54,14 @@ def create_ontologist_agent(
     def agent(state: HypgenState) -> HypgenState:
         """Process the knowledge graph and return definitions and relationships."""
         logger.info("Starting ontology analysis")
+
         # Run the chain
         response = chain.invoke(state)
 
         logger.info("Ontology analysis completed successfully")
         return {
-            "context": response.content,
-            "messages": [add_role(response, "ontologist")],
+            "paths": response.content,
+            "messages": [add_role(response, "dreamer")],
         }
 
     return {"agent": agent}

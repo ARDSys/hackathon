@@ -9,7 +9,8 @@ from .agents.hypotheses_generator import create_hypotheses_generator_agent
 from .agents.hypotheses_judge import create_hypotheses_judge_agent
 from .agents.hypothesis_refiner import create_hypothesis_refiner_agent
 from .agents.literature import create_literature_agent
-from .agents.ontologist import create_ontologist_agent
+from .agents.knower import create_knower_agent
+from .agents.dreamer import create_dreamer_agent
 from .agents.review_summarizer import create_review_summarizer_agent
 from .agents.reviewer import create_reviewer_1_agent
 from .agents.reviewer_orchestrator import create_reviewer_orchestrator_agent
@@ -36,7 +37,8 @@ def create_hypgen_graph() -> CompiledGraph:
     graph = StateGraph(HypgenState)
 
     # Add nodes with specialized agents
-    graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
+    graph.add_node("dreamer", create_dreamer_agent("small")["agent"])
+    graph.add_node("knower", create_knower_agent("small")["agent"])
     graph.add_node("literature_agent", create_literature_agent("small")["agent"])
     graph.add_node("hypotheses_generator", create_hypotheses_generator_agent("small")["agent"])
     graph.add_node("hypotheses_judge", create_hypotheses_judge_agent("small")["agent"])
@@ -55,11 +57,12 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_node("summary_agent", create_summary_agent("small")["agent"])
 
     # Add edges
-    graph.add_edge(START, "ontologist")
+    graph.add_edge(START, "knower")
     # Finding paths to not generate hypotheses based on full graph
     # Literature review based on ontologies
 
-    graph.add_edge("ontologist", "literature_agent")
+    graph.add_edge("knower", "dreamer")
+    graph.add_edge("dreamer", "literature_agent")
 
     # Form 10 initial hypothesis based on literature review
 
