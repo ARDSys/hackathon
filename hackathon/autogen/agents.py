@@ -9,6 +9,7 @@ from autogen import AssistantAgent
 from .functions import (
     rate_novelty_feasibility,
     response_to_query_perplexity,
+    annotate_and_expand_ontologies
 )
 from .llm_config import get_llm_config
 from .prompts import (
@@ -168,3 +169,20 @@ assistant.register_for_llm(
     description="""Use this function to rate the novelty and feasibility of a research idea against the literature. The function uses semantic shcolar to access the literature articles.  
 The function will return the novelty and feasibility rate from 1 to 10 (lowest to highest). The input to the function is the hypothesis with its details."""
 )(rate_novelty_feasibility)
+
+ontologist.register_for_execution()(
+    annotate_and_expand_ontologies
+)
+
+assistant.register_for_llm(
+    description="""This function takes a list of biomedical term labels (e.g. node names) and returns their ontology-based expansion.
+
+If you are given a subgraph object, extract the node names from: subgraph["graph_data"]["nodes"].keys()
+Then join them into a comma-separated string and pass it to the function.
+
+Example input: "Amyloid Beta, Tau Protein, Inflammation"
+"""
+)(annotate_and_expand_ontologies)
+
+
+
