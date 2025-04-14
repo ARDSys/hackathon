@@ -13,6 +13,14 @@ class HypgenState(MessagesState):
     feasibility: str
     impact: str
 
+    reviewer_1_profile: str
+    reviewer_2_profile: str
+    reviewer_3_profile: str
+
+    review_1: str
+    review_2: str
+    review_3: str
+
     critique: str
     summary: str
     title: str
