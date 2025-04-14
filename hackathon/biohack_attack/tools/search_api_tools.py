@@ -20,7 +20,7 @@ def get_biorxiv_papers_by_category(keyword: str) -> str:
     bioarxiv = BioRxivAPI()
 
     response = bioarxiv.get_papers_by_category(server="biorxiv", category=keyword)
-    parsed_response = bioarxiv.parse_response(response)
+    parsed_response: str = bioarxiv.parse_response(response)
 
     return parsed_response
 
@@ -56,12 +56,12 @@ def get_semanticscholar_papers_by_keyword(keyword: str) -> str:
 
 @function_tool
 def get_europe_pmc_papers_by_keyword(keyword: str) -> str:
-    """Fetch Semantic Scholar papers by keyword. It returns
+    """Fetch Europe PMC papers by keyword. It returns
 
     Args:
-        keyword: The keyword to search for in Semantic Scholar papers.
+        keyword: The keyword to search for in Europe PMC papers.
     Returns:
-        str: The strucuted response form the Semantic Scholar API.
+        str: The structured response form the Europe PMC API.
     """
 
     europePMC = EuropePMCAPI()
@@ -99,5 +99,5 @@ def get_pubmed_papers_by_keyword(keyword: str) -> str:
         doc_content_chars_max=10_000,
     )
 
-    response = pubmed.run(keyword)
+    response: str = pubmed.run(keyword)
     return response

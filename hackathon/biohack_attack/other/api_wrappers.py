@@ -17,6 +17,22 @@ class Message:
     count_new_papers: Optional[str] = None
     total: Optional[str] = None
 
+    def __str__(self) -> str:
+        result = [f"Status: {self.status}"]
+        if self.category:
+            result.append(f"Category: {self.category}")
+        if self.interval:
+            result.append(f"Interval: {self.interval}")
+        if self.cursor is not None:
+            result.append(f"Cursor: {self.cursor}")
+        if self.count is not None:
+            result.append(f"Count: {self.count}")
+        if self.count_new_papers:
+            result.append(f"New papers: {self.count_new_papers}")
+        if self.total:
+            result.append(f"Total: {self.total}")
+        return ", ".join(result)
+
 
 @dataclass
 class Paper:
@@ -35,11 +51,31 @@ class Paper:
     published: str
     server: str
 
+    def __str__(self) -> str:
+        return (
+            f"Title: {self.title}\n"
+            f"Authors: {self.authors}\n"
+            f"DOI: {self.doi}\n"
+            f"Date: {self.date}\n"
+            f"Category: {self.category}\n"
+            f"Abstract: {self.abstract[:200]}..."
+        )
+
 
 @dataclass
 class BioRxivResponse:
     messages: List[Message]
     collection: List[Paper]
+
+    def __str__(self) -> str:
+        result = ["=== Messages ==="]
+        for msg in self.messages:
+            result.append(str(msg))
+        result.append("\n=== Papers ===")
+        for paper in self.collection:
+            result.append(str(paper))
+            result.append("-" * 80)
+        return "\n".join(result)
 
 
 class BioRxivAPI:
@@ -132,7 +168,9 @@ class BioRxivAPI:
             paper_data["date"] = date.fromisoformat(paper_data["date"])
             papers.append(Paper(**paper_data))
 
-        return BioRxivResponse(messages=messages, collection=papers)
+        response = BioRxivResponse(messages=messages, collection=papers)
+        str_response = str(response)
+        return str_response
 
 
 ## BIO PORTAL API
