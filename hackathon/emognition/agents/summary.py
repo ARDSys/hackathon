@@ -10,7 +10,7 @@ from ..state import HypgenState
 # Summary prompt
 SUMMARY_PROMPT = """You are a skilled scientific writer.
 
-Given a hypothesis and it's novelty, feasibility, and impact analysis, write a concise summary of both the hypothesis and the analysis.
+Given a hypothesis, domain knowledge and context in form of knowledge graph paths write a concise summary of both the hypothesis and the analysis.
 
 Here is an example structure for our response, in the following format
 
@@ -18,28 +18,19 @@ Here is an example structure for our response, in the following format
 ### Hypothesis
 ...
 
-### Novelty Assessment:  Not novel/Somewhat novel/Novel/Very novel
-...
-
-### Feasibility Assessment:  Not feasible/Somewhat feasible/Feasible
-...
-
-### Impact Assessment:  Not impactful/Somewhat impactful/Impactful/Very impactful
+### Assessment
 ...
 }}
 
 Here is the hypothesis and the analysis:
 Hypothesis:
-{hypothesis}
+{final_hypothesis}
 
-Novelty Assessment:
-{novelty}
+Knowledge:
+{knowledge}
 
-Feasibility Assessment:
-{feasibility}
-
-Impact Assessment:
-{impact}
+Paths:
+{paths}
 """
 
 

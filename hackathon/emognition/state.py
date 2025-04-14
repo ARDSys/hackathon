@@ -6,6 +6,7 @@ class HypgenState(MessagesState):
     mainstream_paths: str
     paths: str
     hypothesis: str
+    final_hypothesis: str
 
 
     knowledge: str
