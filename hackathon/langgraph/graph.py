@@ -5,12 +5,12 @@ from langgraph.graph.graph import CompiledGraph
 from loguru import logger
 
 from .agents.analysts import create_analyst_agent
+from .agents.connector import create_connector_agent
 from .agents.critique_analyst import create_critique_analyst_agent
 from .agents.hypothesis_generator import create_hypothesis_generator_agent
 from .agents.hypothesis_refiner import create_hypothesis_refiner_agent
 from .agents.literature import create_literature_agent
 from .agents.ontologist import create_ontologist_agent
-from .agents.connector import create_connector_agent
 from .agents.summary import create_summary_agent
 from .state import HypgenState
 
