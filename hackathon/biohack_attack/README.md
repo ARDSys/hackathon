@@ -6,7 +6,44 @@ Authors: Oleksii Furman, Filip Strózik, Zbigniew Tomanek, Patryk Wielopolski
 
 ---
 
-This is a minimal template you can use as a starting point for building your own hypothesis generation system. It provides a basic structure that you can extend to implement your custom multi-agent system.
+## BioHack Attack Approach
+
+- 📚 Multi-Source Knowledge Integration
+- 🧞‍♂️ Parallel Hypothesis Generation
+- 🔍 Comprehensive Hypothesis Verification Framework
+- 🔁 Iterative Hypothesis Refinement
+
+### Multi Agent System Design
+
+<TO BE GENERATED>
+
+### 🧑‍💻 Data / API 💿
+
+Artile Datasets
+- Pubmed
+- Firecrawl
+- BiorXiv
+- Europe PMC
+- Semantic Scholar
+
+Knowledge Graphs
+- Hetionet
+- Prime KG
+
+### Hypothesis Verification Framework
+
+- 💁 Hypothesis decomposition into fundamental falsifiable statements
+- 🔎 Individual statement verification through targeted literature searches
+- ➖ Evidence classification into supporting vs. contradicting evidence
+- 💪 Confidence scoring for each evidence item and statement
+- 🎶 Multi-dimensional evaluation across 8 scientific criteria (novelty, feasibility, impact, falsifiability, testability, parsimony, explanatory power, predictive power)
+- 👍 Aggregated verification synthesizing individual statement assessments into overall hypothesis validity
+- 🤝 Quantitative scoring system for comparing hypothesis quality
+
+
+## Technical Overview
+
+<TO BE DESCRIBED>
 
 ## Overview
 
@@ -63,30 +100,3 @@ The output is a JSON file containing the hypothesis.
     }
 }
 ```
-
-## Architecture
-
-This template provides a minimal starting point:
-1. Takes a subgraph as input
-2. Processes it through a simple `HypothesisGenerator` implementation
-3. Creates a Hypothesis object with basic information
-4. Saves the Hypothesis to the output directory
-
-## Development
-
-To build your solution:
-1. Modify `hypothesis_generator.py` to implement your multi-agent system approach
-2. Add any necessary components for your solution (agents, tools, etc.)
-3. Ensure your implementation follows the `HypothesisGeneratorProtocol`
-
-**Note** 
-`generate_hypothesis.py` should remain unchanged to enable similar structure across different implementations and easy testing.
-
-## Extending this Template
-
-Some ideas for extending this template:
-1. Add agent definitions for different roles in your system
-2. Implement tools and functions for your agents to use
-3. Create a structured workflow between your agents
-4. Add logging and monitoring capabilities
-5. Integrate specialized knowledge sources or external APIs
