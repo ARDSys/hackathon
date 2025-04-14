@@ -4,6 +4,7 @@ from autogen import AssistantAgent, Agent
 from .functions import (
     rate_novelty_feasibility,
     response_to_query_perplexity,
+    annotate_and_expand_ontologies
 )
 from .llm_config import get_llm_config
 from .prompts import (
@@ -166,23 +167,19 @@ assistant.register_for_llm(
 The function will return the novelty and feasibility rate from 1 to 10 (lowest to highest). The input to the function is the hypothesis with its details.""" 
 )(rate_novelty_feasibility)
 
-def get_message_from_novelty_assistant():
-    """Retrieve the latest message from the novelty assistant.
+ontologist.register_for_execution()(
+    annotate_and_expand_ontologies
+)
 
-    Returns:
-        The latest message from the novelty assistant.
-    """
+assistant.register_for_llm(
+    description="""This function takes a list of biomedical term labels (e.g. node names) and returns their ontology-based expansion.
 
-    # Retrieve the latest message
-    latest_message = novelty_assistant.get_latest_message()
-    print("CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+If you are given a subgraph object, extract the node names from: subgraph["graph_data"]["nodes"].keys()
+Then join them into a comma-separated string and pass it to the function.
 
-    return latest_message
+Example input: "Amyloid Beta, Tau Protein, Inflammation"
+"""
+)(annotate_and_expand_ontologies)
 
-novelty_admin.register_for_execution()(get_message_from_novelty_assistant)
-novelty_assistant.register_for_llm(
-    description="""This function is designed to search for academic papers using the Perplexity API based on a specified query. 
-The query should be constructed with relevant keywords separated by "+". """
-)(get_message_from_novelty_assistant)
 
 
