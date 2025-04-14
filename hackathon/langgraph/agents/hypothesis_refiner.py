@@ -34,7 +34,7 @@ Critical Feedback:
 {critique}
 
 Literature:
-{literature_results}
+{literature}
 
 Novelty Analysis:
 {novelty}

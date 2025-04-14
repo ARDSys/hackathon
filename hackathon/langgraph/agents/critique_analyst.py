@@ -34,7 +34,7 @@ REVIEW:
 [Your detailed review]
 
 Literature:
-{literature_results}
+{literature}
 
 Hypothesis:
 {hypothesis}
