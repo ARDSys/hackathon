@@ -40,7 +40,7 @@ def create_experiment_planner_agent(
     def agent(state: HypgenState) -> HypgenState:
 
         # Run the chain
-        logger.info(f"Running experiment_planner analysis chain")
+        logger.info("Running experiment_planner analysis chain")
         response = chain.invoke({
             "hypothesis": state["hypothesis"],
             "literature": state["literature"]

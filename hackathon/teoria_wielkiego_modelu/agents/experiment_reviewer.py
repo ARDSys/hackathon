@@ -1,5 +1,5 @@
-from typing import Any, Dict, Literal, Optional
 import json
+from typing import Any, Dict, Literal, Optional
 
 from langchain.prompts import PromptTemplate
 from loguru import logger
@@ -7,7 +7,6 @@ from loguru import logger
 from ..llm.utils import get_model
 from ..state import HypgenState
 from ..utils import add_role
-
 
 EXPERIMENT_REVIEWER_PROMPT = """
 You are an AI expert in experiments, research design, and practical scientific implementation. 
@@ -46,7 +45,7 @@ def create_experiment_reviewer_agent(
         attempt = 0
         while True:
                 # Run the chain
-            logger.info(f"Running experiment_planner analysis chain")
+            logger.info("Running experiment_planner analysis chain")
             response = chain.invoke({**state,
                     "literature": state["literature"],
                     "experiment_plan": state["experiment_plan"]

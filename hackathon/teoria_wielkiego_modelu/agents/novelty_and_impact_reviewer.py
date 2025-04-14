@@ -1,5 +1,5 @@
-from typing import Any, Dict, Literal, Optional
 import json
+from typing import Any, Dict, Literal, Optional
 
 from langchain.prompts import PromptTemplate
 from loguru import logger
@@ -7,7 +7,6 @@ from loguru import logger
 from ..llm.utils import get_model
 from ..state import HypgenState
 from ..utils import add_role
-
 
 NOVELTY_AND_IMPACT_REVIEWER_PROMPT = """
 You are an AI scientific reviewer. You are provided with a scientific hypothesis and a body of related literature. 
@@ -44,7 +43,7 @@ def create_nai_agent(
         attempt = 0
         while True:
                 # Run the chain
-            logger.info(f"Running novelty_and_impact_reviewer analysis chain")
+            logger.info("Running novelty_and_impact_reviewer analysis chain")
             response = chain.invoke({**state,
                     "literature": state["literature"],
                     "hypothesis": state["hypothesis"]

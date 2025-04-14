@@ -1,3 +1,4 @@
+import math
 import re
 from typing import Any
 
@@ -7,11 +8,9 @@ from langfuse.callback import CallbackHandler
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
 from ard.subgraph import Subgraph
 
-from .graph import seeding_graph, refine_graph, eval_graph
+from .graph import refine_graph, seeding_graph
 from .state import HypgenState
 from .utils import message_to_dict
-
-import math
 
 langfuse_callback = CallbackHandler()
 

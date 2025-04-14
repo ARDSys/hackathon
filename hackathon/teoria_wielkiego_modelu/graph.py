@@ -7,16 +7,14 @@ from loguru import logger
 from .agents.analysts import create_analyst_agent
 from .agents.connector import create_connector_agent
 from .agents.critique_analyst import create_critique_analyst_agent
+from .agents.experiment_planner import create_experiment_planner_agent
+from .agents.experiment_reviewer import create_experiment_reviewer_agent
 from .agents.hypothesis_generator import create_hypothesis_generator_agent
 from .agents.hypothesis_refiner import create_hypothesis_refiner_agent
 from .agents.inspirations import create_inspiration_agent
 from .agents.literature import create_literature_agent
 from .agents.ontologist import create_ontologist_agent
 from .agents.summary import create_summary_agent
-from .agents.experiment_planner import create_experiment_planner_agent
-from .agents.experiment_reviewer import create_experiment_reviewer_agent
-from .agents.novelty_and_impact_reviewer import create_nai_agent
-
 from .state import HypgenState
 
 
