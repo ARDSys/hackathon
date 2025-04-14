@@ -20,7 +20,7 @@ class HypothesisProposition:
     def __init__(self, state: HypgenState):
         self.reviews = 0
         self.state = state
-        self.refine()
+        self.refine(0)
     
     def ucb(self, total_reviews):
         return self.score + math.sqrt(2 * math.log(total_reviews) / math.max(1, self.reviews))
