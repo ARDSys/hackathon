@@ -8,7 +8,8 @@ from ..state import HypgenState
 from ..utils import add_role
 
 DEVIL_ADVOCATE_PROMPT = """You are a devil's advocate agent whose role is to find and articulate strong arguments SUPPORTING the given hypothesis.
-Your task is to thoroughly analyze the hypothesis and provide compelling evidence and reasoning that supports its validity.
+Base on the feasibility_score, feasibility_description and novelty_and_description_score.
+Your task is to thoroughly analyze the hypothesis and provide compelling evidence and reasoning that supports its validity. Analyze it.
 
 Focus on:
 1. Scientific merit and logical consistency
@@ -22,8 +23,14 @@ Hypothesis to analyze:
 Available Literature:
 {literature}
 
-Context:
-{context}
+Feasibility Score:
+{feasibility_score}
+
+Feasibility Description:
+{feasibility_description}
+
+Novelty and impact description:
+{novelty_and_impact_score}
 
 Provide a detailed analysis of supporting arguments, backed by evidence where possible."""
 
