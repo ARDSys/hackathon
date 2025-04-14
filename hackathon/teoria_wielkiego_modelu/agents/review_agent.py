@@ -28,10 +28,12 @@ Hypothesis:
 {hypothesis}
 
 Your response must be structured exactly as follows:
-SCORE: [numerical_score]
 
 BALANCED ANALYSIS:
-[Your detailed analysis explaining the score, considering both supporting and critical arguments]"""
+[Your detailed analysis explaining the score, considering both supporting and critical arguments]
+
+SCORE: [numerical_score]
+"""
 
 def create_review_agent(
     model: Optional[Literal["large", "small", "reasoning"]] = None,
@@ -55,7 +57,7 @@ def create_review_agent(
         })
         
         # Extract numerical score from response
-        score_line = response.content.split("\n")[0]
+        score_line = response.content.split("\n")[-1]
         try:
             score = float(score_line.replace("SCORE:", "").strip())
         except (ValueError, IndexError):

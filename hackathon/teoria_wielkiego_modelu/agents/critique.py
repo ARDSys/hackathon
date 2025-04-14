@@ -8,14 +8,14 @@ from ..state import HypgenState
 from ..utils import add_role
 
 CRITIQUE_PROMPT = """You are a critical analysis agent whose role is to find and articulate potential weaknesses and counterarguments AGAINST the given hypothesis.
+Base on the feasibility_score, feasibility_description and novelty_and_description_score.
 Your task is to thoroughly analyze the hypothesis and identify potential flaws, limitations, and areas of concern.
 
 Focus on:
-1. Methodological weaknesses
-2. Alternative explanations
-3. Potential confounding factors
-4. Implementation challenges
-5. Gaps in reasoning or evidence
+1. Methodological weaknesses and scientific inconsistencies
+2. Gaps in reasoning based on existing literature
+3. Potential confounding factors and implementation risks
+4. Practical limitations identified in feasibility assessment
 
 Hypothesis to analyze:
 {hypothesis}
@@ -23,8 +23,14 @@ Hypothesis to analyze:
 Available Literature:
 {literature}
 
-Context:
-{context}
+Feasibility Score:
+{feasibility_score}
+
+Feasibility Description:
+{feasibility_description}
+
+Novelty and impact description:
+{novelty_and_impact_score}
 
 Provide a detailed critical analysis, highlighting specific concerns and potential counterarguments."""
 
@@ -43,10 +49,11 @@ def create_critique_agent(
         logger.info("Starting critique analysis")
         
         response = chain.invoke({
-            **state,
             "hypothesis": state["hypothesis"],
             "literature": state["literature"],
-            "context": state["context"]
+            "feasibility_score": state["feasibility_score"],
+            "feasibility_description": state["feasibility_description"],
+            "novelty_and_impact_score": state["novelty_and_impact_score"]
         })
         
         logger.info("Critique analysis completed successfully")

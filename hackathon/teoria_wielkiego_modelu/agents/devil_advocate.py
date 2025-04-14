@@ -52,7 +52,10 @@ def create_devil_advocate_agent(
             **state,
             "hypothesis": state["hypothesis"],
             "literature": state["literature"],
-            "context": state["context"]
+            "context": state["context"],
+            "feasibility_score": state["feasibility_score"],
+            "feasibility_description": state["feasibility_description"],
+            "novelty_and_impact_score": state["novelty_and_impact_score"]
         })
         
         logger.info("Devil's advocate analysis completed successfully")
