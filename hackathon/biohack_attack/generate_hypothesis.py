@@ -57,7 +57,7 @@ if __name__ == "__main__":
     main(
         file=(
             Path(__file__).parent.parent.parent
-            / "data/Antinuclear_Antibodies__ANA_.json"
+            / "data/T_cell_Activation_Dysfunction.json"
         ).as_posix(),
         output="out",
     )

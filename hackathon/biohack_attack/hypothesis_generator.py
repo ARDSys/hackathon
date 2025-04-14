@@ -290,20 +290,22 @@ async def refine_hypothesis(
 
 async def run_ontology_agent(subgraph_model: SubgraphModel) -> OntologyAgentOutput:
     ontology_input = f"""
-    # ONTOLOGY ENRICHMENT TASK
+    # ONTOLOGY ENRICHMENT TASK - MANDATORY EXTERNAL VALIDATION
 
-    ## SUBGRAPH TO ANALYZE
-    The following knowledge graph subgraph represents relationships between biomedical entities in rheumatology:
+## MANDATE
+You are an expert rheumatology ontology coordinator. Your primary goal in this task is **NOT** just to analyze the provided subgraph, but to **actively enrich and validate it using external, current information obtained via mandatory handoffs to your specialized research agents.** You MUST NOT rely solely on the information present in the initial subgraph or your internal knowledge base for generating the enrichment output.
 
-    <subgraph>
-    {subgraph_model.model_dump_json(indent=2)}
-    </subgraph>
+## SUBGRAPH TO ANALYZE
+The following knowledge graph subgraph represents relationships between biomedical entities in rheumatology:
 
-    ## RELATIONSHIP FOCUS
-    Start node: {subgraph_model.start_node}
-    End node: {subgraph_model.end_node}
-    Path nodes: {", ".join(subgraph_model.path_nodes)}
-    """
+<subgraph>
+{subgraph_model.model_dump_json(indent=2)}
+</subgraph>
+## RELATIONSHIP FOCUS
+Start node: {subgraph_model.start_node}
+End node: {subgraph_model.end_node}
+Path nodes: {", ".join(subgraph_model.path_nodes)}
+"""
     ontology_result = await Runner.run(ontology_agent, input=ontology_input)
     return ontology_result.final_output
 
