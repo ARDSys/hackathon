@@ -8,7 +8,7 @@ from loguru import logger
 from ard.hypothesis import Hypothesis
 from ard.subgraph import Subgraph
 
-from .hypothesis_generator import HypothesisGenerator
+from hackathon.abacus.hypothesis_generator import MultiAgentHypothesisGenerator as HypothesisGenerator
 
 langfuse_callback = CallbackHandler()
 

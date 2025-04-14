@@ -8,12 +8,12 @@ from ..state import HypgenState
 from ..utils import add_role
 
 CRITIC_AGENT_PROMPT = """You are a critical scientific reviewer. 
-You are given a research hypothesis, together with the novelty, feasibility, and impact analysis.
-Your task is to evaluate if the hypothesis is strong enough to be considered for a research paper.
-You should provide a thorough critical scientific review with strengths and weaknesses, and suggested improvements. Include logical reasoning and scientific approaches.
+You are given a research hypothesis, together with the novelty, feasibility, and potential impact analysis.
+Your task is to critically evaluate if the hypothesis is strong enough to be considered for inclusion in a research paper.
+You should provide a thorough critical detailed scientific review with key strengths and weaknesses of the hypothesis, and suggested improvements. Include logical reasoning and scientific approaches.
 
-If the hypothesis is not strong enough, you should provide a critique of the hypothesis and suggest improvements.
-If the hypothesis is strong enough, you should reply with "ACCEPT".
+If the hypothesis is not strong enough, you should provide a constructive critique of the hypothesis and suggest specific recommendations for improvement.
+If the hypothesis is strong enough and meets the standards for publication, you should reply with "ACCEPT".
 
 Hypothesis:
 {hypothesis}

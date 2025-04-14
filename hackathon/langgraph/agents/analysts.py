@@ -8,7 +8,7 @@ from ..state import HypgenState
 from ..utils import add_role
 
 ANALYST_PROMPT = """
-You are a critical AI assistant collaborating with a group of scientists to assess the {analysis_type} of a research proposal. 
+You are a critical-thinking AI assistant collaborating with a group of scientists to assess the {analysis_type} of a research proposal. 
 
 Your primary task is to evaluate a proposed research hypothesis for its {task}
 
@@ -17,8 +17,9 @@ After careful analysis, return your estimations for the {analysis_type} as one o
 - "Some {analysis_type}"
 - "High {analysis_type}"
 
+Clearly explain your reasoning for the classification.
 Provide your reasoning for your assessment.
-Cite the literature to support your assessment.
+Where applicable, reference the provided literature to support your conclusions.
 
 Literature information gathered by the research assistant:
 {literature}
@@ -30,13 +31,13 @@ Hypothesis:
 # "Your primary task is to evaluate a proposed research hypothesis for its ..."
 PROMPT_TASK_TEMPLATES = {
     "novelty": """
-    novelty ensuring it does not overlap significantly with existing literature or delve into areas that are already well-explored.
+    novelty ensuring it does not overlap significantly with existing literature, avoids redundancy, and explores under-investigated areas.
     """,
     "feasibility": """
-    feasibility considering the resources, time, and technical challenges.
+    feasibility consider whether the hypothesis can be realistically tested using available resources, time, and current technologies.
     """,
     "impact": """
-    impact considering the potential scientific, technological, and societal impact.
+    impact analyze the potential scientific, technological, and societal impact if validated.
     """,
 }
 
