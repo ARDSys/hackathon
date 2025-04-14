@@ -88,12 +88,12 @@ def create_review_summarizer_agent(
     chain = prompt | llm
 
     def agent(state: HypgenState) -> HypgenState:
-        logger.info("Starting hypothesis generation")
+        logger.info("Starting review summary generation")
         # Run the chain
         response = chain.invoke(state)
 
         content = response.content
-        logger.info("Hypothesis generated successfully")
+        logger.info("Review summary generated successfully")
 
         return {
             f"critique_{hypothesis_no}": content,

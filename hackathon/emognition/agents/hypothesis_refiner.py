@@ -53,7 +53,8 @@ def create_hypothesis_refiner_agent(
         logger.info("Refined hypothesis generated successfully")
 
         return {
-            f"hypothesis_{hypothesis_no}": content,
+            f"hypothesis_{hypothesis_no}_text": content,
+            "iteration": state.get("iteration", 0) + 1,
         }
 
     return {"agent": agent}

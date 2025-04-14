@@ -35,13 +35,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
             references=references,
             metadata={
                 "summary": res["summary"],
-                "context": res["context"],
-                "novelty": res["novelty"],
-                "feasibility": res["feasibility"],
-                "impact": res["impact"],
-                "critique": res["critique"],
-                "iteration": res["iteration"],
-                "messages": [message_to_dict(message) for message in res["messages"]],
+                "context": res["paths"],
             },
         )
 

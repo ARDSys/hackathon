@@ -62,6 +62,7 @@ def create_knower_agent(
         return {
             "mainstream_paths": response.content,
             "messages": [add_role(response, "knower")],
+            "iteration": 0
         }
 
     return {"agent": agent}
