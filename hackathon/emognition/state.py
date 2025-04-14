@@ -11,11 +11,21 @@ class HypgenState(MessagesState):
     literature: str
     references: list[str]
 
-    novelty: str
-    feasibility: str
-    impact: str
+    hypothesis_1_text: str
+    hypothesis_2_text: str
+    hypothesis_3_text: str
 
-    selected_hypotheses: str
+    hypothesis_1_novelty: str
+    hypothesis_2_novelty: str
+    hypothesis_3_novelty: str
+
+    hypothesis_1_impactfullness: str
+    hypothesis_2_impactfullness: str
+    hypothesis_3_impactfullness: str
+
+    hypothesis_1_feasibility: str
+    hypothesis_2_feasibility: str
+    hypothesis_3_feasibility: str
 
     reviewer_1_profile: str
     reviewer_2_profile: str

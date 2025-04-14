@@ -1,3 +1,4 @@
+import json
 from typing import Any, Dict, Literal, Optional
 
 from langchain.prompts import PromptTemplate
@@ -43,6 +44,29 @@ Paths:
 
 Summarized knowledge:
 {knowledge}
+
+Return response as a JSON and only JSON formatted as below:
+
+{
+    "hypothesis_1": {
+        "text": "[hypothesis 1 text]",
+        "novelty": "[hypothesis 1 novelty]",
+        "feasibility": "[hypothesis 1 feasibility]",
+        "impactfulness": "[hypothesis 1 impactfulness]",
+    },
+    "hypothesis_2": {
+        "text": "[hypothesis 2 text]",
+        "novelty": "[hypothesis 2 novelty]",
+        "feasibility": "[hypothesis 2 feasibility]",
+        "impactfulness": "[hypothesis 2 impactfulness]",
+    },
+    "hypothesis_3": {
+        "text": "[hypothesis 3 text]",
+        "novelty": "[hypothesis 3 novelty]",
+        "feasibility": "[hypothesis 3 feasibility]",
+        "impactfulness": "[hypothesis 2 impactfulness]",
+    },
+}
 """
 
 def create_hypotheses_judge_agent(
@@ -57,15 +81,28 @@ def create_hypotheses_judge_agent(
     def agent(s: HypgenState) -> HypgenState:
         logger.info("Judging started")
         # Run the chain
-        response = chain.invoke(
+        judgeJson = json.loads(chain.invoke(
             {
                 "hypotheses": s.hypothesis,
                 "paths": s.paths,
                 "knowledge": s.knowledge,
             }
-        )
+        ))
 
-        s.selected_hypotheses = response.content
+        s["hypothesis_1_text"] = judgeJson["hypothesis_1"]["text"]
+        s["hypothesis_1_novelty"] = judgeJson["hypothesis_1"]["novelty"]
+        s["hypothesis_1_impactfullness"] = judgeJson["hypothesis_1"]["impactfulness"]
+        s["hypothesis_1_feasibility"] = judgeJson["hypothesis_1"]["feasibility"]
+
+        s["hypothesis_2_text"] = judgeJson["hypothesis_2"]["text"]
+        s["hypothesis_2_novelty"] = judgeJson["hypothesis_2"]["novelty"]
+        s["hypothesis_2_impactfullness"] = judgeJson["hypothesis_2"]["impactfulness"]
+        s["hypothesis_2_feasibility"] = judgeJson["hypothesis_2"]["feasibility"]
+
+        s["hypothesis_3_text"] = judgeJson["hypothesis_3"]["text"]
+        s["hypothesis_3_novelty"] = judgeJson["hypothesis_3"]["novelty"]
+        s["hypothesis_3_impactfullness"] = judgeJson["hypothesis_3"]["impactfulness"]
+        s["hypothesis_3_feasibility"] = judgeJson["hypothesis_3"]["feasibility"]
         logger.info("Hypothesis was sentenced")
         return s
 
