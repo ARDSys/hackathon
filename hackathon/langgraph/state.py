@@ -10,7 +10,9 @@ class HypgenState(MessagesState):
     references: list[str]
 
     novelty: str
-    feasibility: str
+    experiment_plan: str
+    feasibility_description: str
+    feasibility_score: str
     impact: str
 
     critique: str

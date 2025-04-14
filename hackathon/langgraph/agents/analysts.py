@@ -32,9 +32,6 @@ PROMPT_TASK_TEMPLATES = {
     "novelty": """
     novelty ensuring it does not overlap significantly with existing literature or delve into areas that are already well-explored.
     """,
-    "feasibility": """
-    feasibility considering the resources, time, and technical challenges.
-    """,
     "impact": """
     impact considering the potential scientific, technological, and societal impact.
     """,
@@ -42,7 +39,7 @@ PROMPT_TASK_TEMPLATES = {
 
 
 def create_analyst_agent(
-    analyst: Literal["novelty", "feasibility", "impact"],
+    analyst: Literal["novelty", "impact"],
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:
