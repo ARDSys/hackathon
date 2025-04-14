@@ -22,11 +22,16 @@ class AssessmentScore(BaseModel):
 
 
 class TriagedHypothesis(BaseModel):
-    critique: str = Field(None, description="Critical analysis of potential weaknesses")
+    critique: str = Field(description="Critical analysis of potential weaknesses")
     # Assessment dimensions
     novelty_assessment: AssessmentScore = Field(description="Assessment of the hypothesis novelty")
     feasibility_assessment: AssessmentScore = Field(description="Assessment of the hypothesis feasibility")
     impact_assessment: AssessmentScore = Field(description="Assessment of the potential impact")
+    falsifiability_assessment: AssessmentScore = Field(description="Assessment of whether the hypothesis can be proven false")
+    testability_assessment: AssessmentScore = Field(description="Assessment of whether the hypothesis leads to concrete, measurable predictions")
+    parsimony_assessment: AssessmentScore = Field(description="Assessment of whether the hypothesis uses the fewest assumptions necessary")
+    explanatory_power_assessment: AssessmentScore = Field(description="Assessment of whether the hypothesis offers insight into why a phenomenon occurs")
+    predictive_power_assessment: AssessmentScore = Field(description="Assessment of whether the hypothesis suggests outcomes that can be independently confirmed")
 
     # Validation
     validation_metrics: list[ValidationMetric] = Field(default_factory=list,
@@ -85,11 +90,36 @@ For each hypothesis, you should:
     - Could it lead to new therapeutic approaches?
     - Would it substantially advance understanding of disease mechanisms?
     
-4. Generate validation metrics:
+4. Assess falsifiability (0-10 scale):
+    - Can the hypothesis be proven false by an experiment or observation?
+    - Are there clear conditions under which the hypothesis would be rejected?
+    - Does the hypothesis make specific claims that can be contradicted by evidence?
+    
+5. Assess testability (0-10 scale):
+    - Does the hypothesis lead to concrete, measurable predictions?
+    - Are the expected outcomes specific and quantifiable?
+    - Can the hypothesis be tested with available experimental methods?
+    
+6. Assess parsimony (0-10 scale):
+    - Does the hypothesis use the fewest assumptions necessary?
+    - Is it simple yet sufficient to explain the phenomenon?
+    - Does it avoid unnecessary complexity or ad hoc explanations?
+    
+7. Assess explanatory power (0-10 scale):
+    - Does the hypothesis offer insight into WHY a phenomenon occurs, not just WHAT?
+    - Does it provide a mechanistic explanation for the observed phenomena?
+    - Does it connect multiple observations into a coherent framework?
+    
+8. Assess predictive power (0-10 scale):
+    - Does the hypothesis suggest outcomes that can be independently confirmed?
+    - Does it make novel predictions beyond the observations it was designed to explain?
+    - Can it be used to predict outcomes in new situations?
+    
+9. Generate validation metrics:
     - Specific quantifiable measures that could validate the hypothesis
     - How these metrics would be computed or measured
     
-5. Provide a critical analysis of potential weaknesses:
+10. Provide a critical analysis of potential weaknesses:
     - Identify logical flaws or gaps in the hypothesis
     - Highlight alternative explanations that might need to be ruled out
     - Note any known contradicting evidence
@@ -101,8 +131,12 @@ Your output must be a TriagedHypothesis object containing:
 2. Novelty assessment (with score, justification, and confidence)
 3. Feasibility assessment (with score, justification, and confidence)
 4. Impact assessment (with score, justification, and confidence)
-5. List of validation metrics
-
+5. Falsifiability assessment (with score, justification, and confidence)
+6. Testability assessment (with score, justification, and confidence)
+7. Parsimony assessment (with score, justification, and confidence)
+8. Explanatory power assessment (with score, justification, and confidence)
+9. Predictive power assessment (with score, justification, and confidence)
+10. List of validation metrics
 
 Your assessments should be evidence-based, demonstrating your expert knowledge of rheumatology, immunology, and molecular biology relevant to rheumatic diseases.
 """
@@ -110,10 +144,10 @@ Your assessments should be evidence-based, demonstrating your expert knowledge o
 
 # Create the main agent
 rheumatology_triage_agent = Agent(
-    model=ModelFactory.build_model(ModelType.GEMINI),
+    model=ModelFactory.build_model(ModelType.OPENAI),
     name="Rheumatology Hypothesis Triage Agent",
     instructions=AGENT_INSTRUCTIONS,
-    tools=[search_literature, WebSearchTool()],
+    tools=[search_literature],
     output_type=TriagedHypothesis,
 )
 
@@ -148,10 +182,8 @@ async def main():
                 relevance_justification="Comprehensive review of IL-17 pathway in arthritis conditions"
             )
         ],
-        generation_method="Literature-based knowledge synthesis",
-        keywords=["Psoriatic arthritis", "IL-17", "Fibroblast-like synoviocytes", "Extracellular matrix"],
-        iteration_count=2,
         agent_reasoning=[],
+        source_subgraph=[]
     )
     
     # Convert to dict and handle UUID and datetime serialization
@@ -166,28 +198,10 @@ async def main():
     
     # Print the results in a formatted way
     print("\n== RHEUMATOLOGY HYPOTHESIS TRIAGE RESULTS ==\n")
-    
     print(f"HYPOTHESIS: {example_hypothesis.title}")
     print(f"{example_hypothesis.summary}\n")
-    
-    print("ASSESSMENT SCORES:")
-    print(f"- Novelty: {result.final_output.novelty_assessment.score}/10 (Confidence: {result.final_output.novelty_assessment.confidence})")
-    print(f"  {result.final_output.novelty_assessment.justification}")
-    
-    print(f"\n- Feasibility: {result.final_output.feasibility_assessment.score}/10 (Confidence: {result.final_output.feasibility_assessment.confidence})")
-    print(f"  {result.final_output.feasibility_assessment.justification}")
-    
-    print(f"\n- Impact: {result.final_output.impact_assessment.score}/10 (Confidence: {result.final_output.impact_assessment.confidence})")
-    print(f"  {result.final_output.impact_assessment.justification}")
-    
-    print("\nVALIDATION METRICS:")
-    for i, metric in enumerate(result.final_output.validation_metrics, 1):
-        print(f"{i}. {metric.name} (Value: {metric.value})")
-        print(f"   Description: {metric.description}")
-        print(f"   Method: {metric.computation_method}")
-    
-    print("\nCRITIQUE:")
-    print(result.final_output.critique)
+    print(result.final_output)
+
 
 
 if __name__ == "__main__":
