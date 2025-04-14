@@ -62,26 +62,23 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_edge("connector", "inspiration_agent")
     graph.add_edge("inspiration_agent", "hypothesis_generator")
     # From initial hypothesis
-    graph.add_edge("hypothesis_generator", "literature_agent")
+    graph.add_edge("hypothesis_generator", "hypothesis_refiner")
     # From refined hypothesis
     graph.add_edge("hypothesis_refiner", "literature_agent")
     # # Fork
     graph.add_edge("literature_agent", "nai_agent")
-    graph.add_edge("literature_agent", "exp_planer")
+    graph.add_edge("nai_agent", "exp_planer")
     graph.add_edge("exp_planer", "exp_reviewer")
     # # Join
-    graph.add_edge("nai_agent", "critique_analyst")
-    graph.add_edge("nai_agent", "devil_advocate")
+    # graph.add_edge("nai_agent", "critique_analyst")
+    # graph.add_edge("nai_agent", "devil_advocate")
 
-    graph.add_edge("exp_planer", "critique_analyst")
-    graph.add_edge("exp_planer", "devil_advocate")
+    # graph.add_edge("exp_planer", "critique_analyst")
+    # graph.add_edge("exp_planer", "devil_advocate")
 
     graph.add_edge("exp_reviewer", "critique_analyst")
-    graph.add_edge("exp_reviewer", "devil_advocate")
-
-    graph.add_edge("critique_analyst", "review_agent")
+    graph.add_edge("critique_analyst", "devil_advocate")
     graph.add_edge("devil_advocate", "review_agent")
-
     graph.add_edge("review_agent", "summary_agent")
     
     graph.add_edge("summary_agent", END)

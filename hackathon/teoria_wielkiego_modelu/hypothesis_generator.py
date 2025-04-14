@@ -32,11 +32,11 @@ class HypothesisProposition:
         )
         
         self.score = self.state["score"]
-        self.state["ucb_score"] = self.ucb(total_reviews)
+        self.state["ucb_score"] = str(self.ucb(total_reviews))
         
 
-HYPOTHESIS_BEAM = 1 #0
-REFINEMENT_ITER = 2 #0
+HYPOTHESIS_BEAM = 10
+REFINEMENT_ITER = 20
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
         
@@ -49,7 +49,10 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
             hypothesis_proposals.append(
                 HypothesisProposition(
                     seeding_graph.invoke(
-                        {"subgraph": path, "context": context},
+                        {"subgraph": path, "context": context,
+                            "hypothesis": "", "literature": "", "feasibility_score": "", "novelty_and_impact_description": "", 
+                            "experiment_plan": "", "summary": "", "critique": "", "novelty_and_impact_score": "",
+                            "feasibility_description": "", "ucb_score": "0"},
                         config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
                     )
                 )

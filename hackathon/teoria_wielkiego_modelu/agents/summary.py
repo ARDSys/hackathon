@@ -123,7 +123,6 @@ def create_summary_agent(
         
         logger.info("Summary generated successfully")
         return {
-            **state,
             "summary": response.content,
             "title": state.get("title", ""),
             "exploration_stats": {

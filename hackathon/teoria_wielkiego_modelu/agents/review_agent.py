@@ -67,7 +67,6 @@ def create_review_agent(
         logger.info(f"Review completed with score: {score}")
         
         return {
-            **state,
             "review": response.content,
             "score": score,
             "messages": [add_role(response, "review")]
