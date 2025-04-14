@@ -1,28 +1,66 @@
-# Teoria Wielkiego Modelu
+# Teoria Wielkiego Modelu (Grand Model Theory)
 
-This project introduces a novel approach which uses LangGraph to iteratively refine hypotheses based on the Upper Confidence Bound (UCB) strategy.
+## Abstract
 
-We maintain a HYPOTHESIS_BEAM, a set of competing hypotheses that evolve in parallel. They fight between each other to be refined and improved.
+This research implements a novel approach in hypothesis generation and refinement using [LangGraph](https://github.com/langchain-ai/langgraph), leveraging the Upper Confidence Bound (UCB) algorithm for multi-armed bandit optimization in idea refinement.
 
-The workflow is divided into two pipelines:
+## Methodology
 
-1) Seeding ideas, including literature inspiration and PubMed quering.
+The system maintains a parallel beam of hypotheses $(H_1, ..., H_n)$ that compete for refinement opportunities through an [Upper Confidence Bound (UCB1)](https://en.wikipedia.org/wiki/Multi-armed_bandit#Upper_confidence_bounds) selection strategy. 
 
-2) Analysis -> Refinement -> Evaluation (-> Analysis -> Refinement -> ...)
+During the initial research phase, we focused on improving prompt engineering and task specialization, with particular emphasis on hypothesis testability metrics - a critical factor in establishing empirical validity.
 
-Using 1) we generate a set of various hypotheses and for every one of them we attach the relevant literature  
+To address the challenge of overly critical evaluation terminating promising hypotheses prematurely, we implemented a dialectical approach incorporating both critique and devil's advocate agents, inspired by [Hegelian dialectic](https://en.wikipedia.org/wiki/Dialectic#Hegelian_dialectic).
 
-Now we run 2) for the most promising hypotheses - we choose those, trying to maximize the following UCB formula:
+### Hypothesis Evaluation Framework
 
-(llm score obtained from analysis part) + sqrt( log(refinements_done_total) / refinements_done_on_this_specific_hypothesis )
+Each hypothesis $h_i$ is evaluated across multiple dimensions:
 
-This allows us to explore the hypotheses throughout the refinement process and exploit good hypotheses (because only those are evolved further).
+1. **Feasibility Score** $F(h_i)$: Measures practical implementability
+2. **Novelty Impact** $N(h_i)$: Quantifies innovation potential
+3. **Scientific Merit** $S(h_i)$: Assesses theoretical foundation
 
-# Our work:
+The composite score is calculated as:
 
-During first few hours, we spent most of our precious time improving prompts and dividing the complex task of generating the hypotheses into specialized sections. We focused on testability of the hypothesis introducing an experiment planner and reviewer which work together to analyze the feasability of the hypothesis.
+$$ Q(h_i) = \alpha F(h_i) + \beta N(h_i) + \gamma S(h_i) $$
 
-Overall we have 13 agents in our MAS
+where $\alpha, \beta, \gamma$ are weighting coefficients determined through empirical validation.
+
+### Knowledge Graph Integration
+
+The system operates on a scientific knowledge graph $G = (V, E)$ where:
+- $V$ represents entities (concepts, methods, outcomes)
+- $E$ represents relationships between entities
+- Each edge $e_{ij} \in E$ carries a weight $w_{ij}$ representing relationship strength
+
+### Workflow Architecture
+
+![Agent Interaction Diagram](agents_pic.png)
+
+The system operates through two primary pipelines:
+
+1. **Ideation Pipeline**: 
+   - Literature-based inspiration via [PubMed](https://pubmed.ncbi.nlm.nih.gov/) integration
+   - Scientific knowledge graph exploration using [graph traversal algorithms](https://en.wikipedia.org/wiki/Graph_traversal)
+   - [Embeddings-based](https://en.wikipedia.org/wiki/Word_embedding) semantic search
+
+2. **Refinement Pipeline**: 
+   ```
+   Analyze → Refine → Evaluate
+   ```
+
+### Selection Strategy
+
+For each refinement iteration $t$, we select the hypothesis $h_i$ that maximizes the UCB1 formula:
+
+$$ UCB1(h_i) = \overline{X_i} + \sqrt{\frac{2\ln{N}}{n_i}} $$
+
+where:
+- $\overline{X_i}$ is the LLM-assigned score for hypothesis $i$
+- $N$ is the total number of refinements performed
+- $n_i$ is the number of refinements performed on hypothesis $i$
+
+This approach balances exploitation of promising hypotheses with exploration of under-refined candidates, following principles from [reinforcement learning](https://en.wikipedia.org/wiki/Reinforcement_learning).
 
 ## Overview
 
