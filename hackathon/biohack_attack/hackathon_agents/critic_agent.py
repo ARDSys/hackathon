@@ -22,13 +22,9 @@ class ValidationMetric(BaseModel):
 
 class AssessmentScore(BaseModel):
     """Assessment score for a specific dimension."""
-<<<<<<< Updated upstream
 
     score: float = Field(description="Numerical score (typically 0-10 or 0-5)")
-=======
->>>>>>> Stashed changes
     justification: str = Field(description="Reasoning behind the score")
-    score: float = Field(description="Numerical score (typically 0-10 or 0-5)")
     confidence: float = Field(description="Confidence in this assessment (0-1)")
 
 

@@ -53,6 +53,9 @@ def main(file: str, output: str):
 
 if __name__ == "__main__":
     main(
-        file=(Path(__file__).parent.parent / "sample_subgraph.json").as_posix(),
+        file=(
+            Path(__file__).parent.parent.parent
+            / "data/Antinuclear_Antibodies__ANA_.json"
+        ).as_posix(),
         output="out",
     )
