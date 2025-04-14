@@ -12,3 +12,4 @@ site/
 
 # cache
 .cache/
+env
