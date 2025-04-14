@@ -29,7 +29,7 @@ Please respond **strictly in the following JSON format**:
 """
 
 
-def create_experiment_reviewer_agent(
+def create_nai_agent(
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:
