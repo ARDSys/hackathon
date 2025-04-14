@@ -11,6 +11,8 @@ from ard.subgraph import Subgraph
 from .groupchat import create_group_chat
 from .llm_config import get_llm_config
 
+import openai
+
 langfuse_callback = CallbackHandler()
 
 
@@ -28,13 +30,34 @@ class Reference(BaseModel):
 class ReferenceList(BaseModel):
     references: list[Reference]
 
+def use_llm(prompt: str) -> str:
+    config = get_llm_config("large")
+    client = OpenAIWrapper(
+        config_list=config.config_list,
+    )
+    structured_res = client.create(
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a summarizer of the conversation.",
+            },
+            {"role": "user", "content": prompt},
+        ],
+        response_format=HypgenResult,
+    )
+    
+    return structured_res.choices[0].message.content
+    
+
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
     def run(self, subgraph: Subgraph) -> Hypothesis:
         # Initialize Langfuse
         # init_langfuse()
 
+        subgraph.contextualize(use_llm)
         context = subgraph.context
+        print(f"CONTEXT HERE?: {context}")
         path = subgraph.to_cypher_string(full_graph=False)
 
         group_chat, manager, user = create_group_chat()
@@ -42,15 +65,15 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         res = user.initiate_chat(
             manager,
             message=f"""Develop a research proposal using the following context:
-Path: {path}
+    Path: {path}
 
-Context: {context}
+    Context: {context}
 
-Do not generate a new path. Use the provided path.
+    Do not generate a new path. Use the provided path.
 
-Do multiple iterations, like a feedback loop between a scientist and reviewers, to improve the research idea.
+    Do multiple iterations, like a feedback loop between a scientist and reviewers, to improve the research idea.
 
-In the end, rate the novelty and feasibility of the research idea.""",
+    In the end, rate the novelty and feasibility of the research idea.""",
             clear_history=True,
         )
         messages = "\n".join([message["content"] for message in group_chat.messages])
