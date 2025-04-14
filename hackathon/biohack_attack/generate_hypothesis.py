@@ -23,10 +23,10 @@ from biohack_attack.local_trace_processor import LocalFilesystemTracingProcessor
 # If it's defined as you showed, let's include it here for clarity:
 @dataclass
 class ProcessConfig:
-    num_of_hypotheses: int = 5
+    num_of_hypotheses: int = 1
     num_of_threads: int = 5
     top_k: int = 2
-    max_iterations: int = 2
+    max_iterations: int = 1
     out_dir_path: Optional[Path] = (
         None  # We'll populate this based on the output argument
     )
@@ -235,4 +235,10 @@ def cli(
 
 
 if __name__ == "__main__":
-    cli()
+    run_processing(
+        input_file=Path(__file__).parent.parent / "sample_subgraph.json",
+        output_base_dir=Path("out"),
+        process_config=ProcessConfig(),
+        debug_log=True,
+        info_log=True,
+    )

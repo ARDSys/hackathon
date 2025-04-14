@@ -1049,5 +1049,10 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         # Include config in the JSON representation
         return {
             "type": "HypothesisGenerator",
-            "config": self.config.__dict__ if self.config else None,
+            "config": {
+                "max_iterations": self.config.max_iterations,
+                "num_of_hypotheses": self.config.num_of_hypotheses,
+                "top_k": self.config.top_k,
+                "out_dir_path": str(self.config.out_dir_path),
+            },
         }
