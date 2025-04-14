@@ -53,29 +53,28 @@ async def perform_queries(queries: QueriesOutput) -> ResearchAgentOutput:
         query: Query,
     ) -> tuple[bool, Union[KnowledgeGraph, UnstructuredSource]]:
         try:
-            logger.info(f"Processing query: {query.keyword} in the data source: {query.data_source}")
+            logger.info(
+                f"Processing query: {query.keyword} in the data source: {query.data_source}"
+            )
             if query.data_source == DataSource.HETIONET:
-                result: KnowledgeGraph = await Runner.run(hetionet_agent, query.keyword)
+                result = await Runner.run(hetionet_agent, query.keyword)
+                result: KnowledgeGraph = result.final_output_as(KnowledgeGraph)
                 return True, result
             elif query.data_source == DataSource.PUBMED:
-                result: UnstructuredSource = await Runner.run(
-                    pubmed_agent, query.keyword
-                )
+                result = await Runner.run(pubmed_agent, query.keyword)
+                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
                 return False, result
             elif query.data_source == DataSource.BIORXIV:
-                result: UnstructuredSource = await Runner.run(
-                    biorxiv_agent, query.keyword
-                )
+                result = await Runner.run(biorxiv_agent, query.keyword)
+                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
                 return False, result
             elif query.data_source == DataSource.EUROPE_PMC:
-                result: UnstructuredSource = await Runner.run(
-                    europe_pmc_agent, query.keyword
-                )
+                result = await Runner.run(europe_pmc_agent, query.keyword)
+                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
                 return False, result
             elif query.data_source == DataSource.SEMANTIC_SCHOLAR:
-                result: UnstructuredSource = await Runner.run(
-                    semantic_scholar_agent, query.keyword
-                )
+                result = await Runner.run(semantic_scholar_agent, query.keyword)
+                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
                 return False, result
         except Exception as e:
             print(
