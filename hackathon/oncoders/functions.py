@@ -175,3 +175,7 @@ def crawl(links: list[str]) -> list[str]:
 
 class ExtractSchema(BaseModel):
     abstract: str
+    
+
+def split_keywords(text: str) -> list[str]:
+    return [s.strip() for s in text.split(',') if s.strip()]
