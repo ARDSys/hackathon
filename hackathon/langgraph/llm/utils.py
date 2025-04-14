@@ -9,12 +9,7 @@ from langchain_core.language_models import BaseLanguageModel
 from langchain_openai import ChatOpenAI
 from langfuse.callback import CallbackHandler
 
-from .config import (
-    MODEL_REGISTRY,
-    AnthropicConfig,
-    ModelConfig,
-    OpenAIConfig,
-)
+from .config import MODEL_REGISTRY, AnthropicConfig, ModelConfig, OpenAIConfig
 
 ModelType = Union[str, ModelConfig, BaseLanguageModel, None]
 
