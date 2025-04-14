@@ -37,9 +37,9 @@ def create_hypgen_graph() -> CompiledGraph:
 
     # Add nodes with specialized agents
     graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
+    graph.add_node("literature_agent", create_literature_agent("small")["agent"])
     graph.add_node("hypotheses_generator", create_hypotheses_generator_agent("small")["agent"])
     graph.add_node("hypotheses_judge", create_hypotheses_judge_agent("small")["agent"])
-    graph.add_node("literature_agent", create_literature_agent("small")["agent"])
 
     for i in range(num_hypotheses):
         graph.add_node(f"reviewer_orchestrator_{i}", create_reviewer_orchestrator_agent(i, "small")["agent"])

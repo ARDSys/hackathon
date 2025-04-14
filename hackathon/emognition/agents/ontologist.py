@@ -9,28 +9,19 @@ from ..utils import add_role
 
 # Ontologist prompt
 ONTOLOGIST_PROMPT = """You are a sophisticated ontologist.
-    
-Given some key concepts extracted from a comprehensive knowledge graph, your task is to define each one of the terms and discuss the relationships identified in the graph.
+
+Given some key concepts extracted from a comprehensive knowledge graph, your task is to identify the most prominent and non-trivial paths within the graph that could represent promising research hypotheses or areas worth further investigation.
+
+Prioritize paths that (1) connect less obvious or previously underexplored relationships and (2) include intermediate nodes that may act as latent mediators or reveal indirect mechanisms.
+
+Consider graph-theoretic properties (e.g., centrality, betweenness, novelty of connections) and scientific relevance (e.g., plausibility, potential impact, novelty).
 
 There may be multiple relationships between the same two nodes. The format of the knowledge graph is
 "
 node_1-[:relationship between node_1 and node_2]->node_2
 node_1-[:relationship between node_1 and node_3]->node_3
-node_2-[:relationship between node_2 and node_3]->node_4...
+node_2-[:relationship between node_2 and node_4]->node_4...
 "
-
-Make sure to incorporate EACH of the concepts in the knowledge graph in your response.
-
-Do not add any introductory phrases. First, define each term in the knowledge graph and then, secondly, discuss each of the relationships, with context.
-
-Here is an example structure for our response, in the following format
-
-{{
-### Definitions:
-A clear definition of each term in the knowledge graph.
-### Relationships
-A thorough discussion of all the relationships in the graph. 
-}}
 
 Graph:
 {subgraph}

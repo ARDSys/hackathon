@@ -3,7 +3,7 @@ from langgraph.graph import MessagesState
 
 class HypgenState(MessagesState):
     subgraph: str
-    context: str
+    paths: str
     hypothesis: str
 
     literature: str
