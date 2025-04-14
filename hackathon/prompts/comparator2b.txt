@@ -1,0 +1,8 @@
+Now, let's assign scores to each of those verdicts:
+ - 1st is definitely better: +2
+ - 1st is slightly better: +1
+ - both are similarly good: 0
+ - 2nd is slightly better: -1
+ - 2nd is definitely better: -2
+Sum the scores across all categories. Thus, the final score should be between -8 and +8. So, if overall 2nd is better across most criterias, the final number will be negative, and if 1st is better - the final number will be positive.
+At the very end of your response, write the final number which is the sum across all categories.
