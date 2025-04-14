@@ -52,7 +52,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
                         {"subgraph": path, "context": context,
                             "hypothesis": "", "literature": "", "feasibility_score": "", "novelty_and_impact_description": "", 
                             "experiment_plan": "", "summary": "", "critique": "", "novelty_and_impact_score": "",
-                            "feasibility_description": "", "ucb_score": "0"},
+                            "feasibility_description": "", "ucb_score": "0", "pros_analysis": "", "cons_analysis": ""},
                         config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
                     )
                 )

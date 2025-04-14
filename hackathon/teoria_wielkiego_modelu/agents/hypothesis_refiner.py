@@ -12,7 +12,7 @@ SCIENTIST_PROMPT = """You are a sophisticated scientist trained in scientific re
 
 Based on the previous hypothesis and its critique, your task is to refine and improve the hypothesis. Consider the UCT score which indicates how promising this research direction is (higher score = more promising).
 
-Previous hypothesis UCB score: {ucb_score:.3f}
+Previous hypothesis UCB score: {ucb_score}
 
 Given this information:
 1. If the UCB score is high (>0.7), make smaller, focused refinements to optimize the promising direction
@@ -64,38 +64,24 @@ def create_hypothesis_refiner_agent(
         """Refine a research hypothesis using UCT-guided exploration."""
         logger.info("Starting hypothesis refinement")
         
-        # Get or create the hypothesis tree
-        tree = HypothesisTree.from_state(state)
-        current_node = tree.current_node
-        
-        if not current_node:
-            logger.warning("No current hypothesis node found, creating new one")
-            current_node = HypothesisNode(hypothesis=state["hypothesis"])
-            tree.root = current_node
-            tree.current_node = current_node
-        
-        # Calculate UCT-related metrics using global total_visits
-        uct_score = current_node.uct_score(tree.total_visits)
-        
         # Run the chain with UCT information
         response = chain.invoke({
             **state,
-            "uct_score": uct_score,
-            "visits": current_node.visits,
-            "total_visits": tree.total_visits
+            "ucb_score": state["ucb_score"],
+            "pros_analysis": state["pros_analysis"],
+            "cons_analysis": state["cons_analysis"],
+            "literature": state["literature"],
+            "feasibility_description": state["feasibility_description"],
+            "novelty_and_impact_description": state["novelty_and_impact_description"],
+            "subgraph": state["subgraph"],
+            "context": state["context"]
         })
-        
-        # Create and add new node using tree manager
-        new_node = tree.add_child(current_node, response.content)
-        tree.current_node = new_node
         
         logger.info("Hypothesis refined successfully")
         
         return {
             "hypothesis": response.content,
             "messages": [add_role(response, "hypothesis_refiner")],
-            "hypothesis_tree": tree,
-            "iteration": state.get("iteration", 0) + 1,
         }
 
     return {"agent": agent}
