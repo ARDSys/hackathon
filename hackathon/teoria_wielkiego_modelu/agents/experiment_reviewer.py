@@ -16,17 +16,17 @@ Your task is to critically assess the feasibility of executing the proposed expe
 
 You may use the {literature} to understand how similar experiments are designed. 
 Also use common sense and real-world knowledge to assess the feasibility and practicality of the experiment.
-"feasibility_score":  A numeric score (0–100) representing how feasible the experiment is to conduct in practice with current capabilities, where 0 is completely infeasible and 10 is fully feasible without major obstacles.
+"feasibility_score":  A numeric score (0-100) representing how feasible the experiment is to conduct in practice with current capabilities, where 0 is completely infeasible and 10 is fully feasible without major obstacles.
 
 You are evaluating the following experimental plan:
 {experiment_plan}
 
 Please respond **strictly in the following JSON format**. Please, Do not output anything else:
 
-{
+{{
   "feasibility_score": <integer between 0 and 100>,
   "feasibility_description": "<detailed explanation justifying the score, highlighting strengths, limitations, and recommendations>"
-}
+}}
 """
 
 

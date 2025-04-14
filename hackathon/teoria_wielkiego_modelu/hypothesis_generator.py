@@ -35,8 +35,8 @@ class HypothesisProposition:
         self.state["ucb_score"] = self.ucb(total_reviews)
         
 
-HYPOTHESIS_BEAM = 10
-REFINEMENT_ITER = 20
+HYPOTHESIS_BEAM = 1 #0
+REFINEMENT_ITER = 2 #0
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
         
@@ -56,7 +56,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
             )
             
         for refinement_iter in range(REFINEMENT_ITER):
-            logger.info(f"Refinement iteration: {refinement_iter}")
+            # logger.info(f"Refinement iteration: {refinement_iter}")
             best_ucb = -1e9
             best_idx = -1
             for i in range(HYPOTHESIS_BEAM):

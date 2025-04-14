@@ -29,19 +29,19 @@ Previous Hypothesis:
 {hypothesis}
 
 Critical Feedback:
-{critique}
+{pros_analysis}
+
+Positive Feedback:
+{cons_analysis}
 
 Literature:
 {literature}
 
-Novelty Analysis:
-{novelty}
-
 Feasibility Analysis:
-{feasibility}
+{feasibility_description}
 
 Impact Analysis:
-{impact}
+{novelty_and_impact_description}
 
 Graph Context:
 {subgraph}

@@ -20,10 +20,10 @@ The hypothesis is: {hypothesis}
 
 Please respond **strictly in the following JSON format**. Do not output anything else:
 
-{
+{{
     "novelty_and_impact_score": <integer between 0 and 100>,
     "novelty_and_impact_description": "<description of the hypothesis's novelty and impact>"
-}
+}}
 
 """
 
