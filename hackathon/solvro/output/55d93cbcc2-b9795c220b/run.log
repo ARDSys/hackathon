@@ -1,0 +1,47 @@
+2025-04-14 17:21:00.418 | INFO     | __main__:main:33 - Subgraph loaded from evaluation/Autoimmunity.json
+2025-04-14 17:21:00.419 | INFO     | __main__:main:35 - Generating hypothesis...
+Subgraph path:
+(Autoimmunity)-[:`is associated with a dysregulation in the`]->(`Th17 cell pathway`),
+(`Th17 cell pathway`)-[:`is modulated by the cytokine`]->(`Interleukin-23 (IL-23)`),
+(`Interleukin-23 (IL-23)`)-[:`stimulates the production of`]->(`Matrix metalloproteinases (MMPs)`),
+(`Matrix metalloproteinases (MMPs)`)-[:`are involved in the degradation of`]->(`extracellular matrix components`),
+(`extracellular matrix components`)-[:`play a role in the recruitment of`]->(`fibroblast-like synoviocytes (FLS)`),
+(`fibroblast-like synoviocytes (FLS)`)-[:`contribute to the expression of`]->(`pro-inflammatory cytokines`),
+(`pro-inflammatory cytokines`)-[:`activate signaling pathways leading to`]->(`osteoclast differentiation`),
+(`osteoclast differentiation`)-[:`leads to increased resorption of`]->(`bone tissue`),
+(`bone tissue`)-[:`undergoes remodeling mediated by`]->(`RANK/RANKL pathway`),
+(`RANK/RANKL pathway`)-[:`is inhibited by the administration of`]->(Denosumab),
+(Denosumab)-[:`reduces the incidence of`]->(`osteoporotic fractures in patients with rheumatoid arthritis`),
+(`osteoporotic fractures in patients with rheumatoid arthritis`)-[:`are characterized by a reduction in`]->(`bone mineral density (BMD)`)
+Subgraph context:
+None
+2025-04-14 17:21:00.420 | INFO     | hackathon.solvro.agents.graph_analyst:agent:102 - Starting structured graph analysis
+2025-04-14 17:21:10.096 | INFO     | hackathon.solvro.agents.graph_analyst:agent:107 - Subgraph analysis completed successfully, found 1 pathways
+2025-04-14 17:21:10.097 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: Autoimmunity
+2025-04-14 17:21:10.108 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: Autoimmunity -[:is associated with a dysregulation in the]-> Th17 cell pathway
+2025-04-14 17:21:13.356 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: Th17 cell pathway
+2025-04-14 17:21:16.335 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: Interleukin-23 (IL-23)
+2025-04-14 17:21:19.339 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: Matrix metalloproteinases (MMPs)
+2025-04-14 17:21:21.904 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: extracellular matrix components
+2025-04-14 17:21:24.772 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: fibroblast-like synoviocytes (FLS)
+2025-04-14 17:21:25.756 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: Th17 cell pathway -[:is modulated by the cytokine]-> Interleukin-23 (IL-23)
+2025-04-14 17:21:28.033 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: pro-inflammatory cytokines
+2025-04-14 17:21:31.652 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: osteoclast differentiation
+2025-04-14 17:21:36.809 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: bone tissue
+2025-04-14 17:21:37.885 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: Interleukin-23 (IL-23) -[:stimulates the production of]-> Matrix metalloproteinases (MMPs)
+2025-04-14 17:21:39.843 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: RANK/RANKL pathway
+2025-04-14 17:21:43.871 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: Denosumab
+2025-04-14 17:21:52.156 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: Matrix metalloproteinases (MMPs) -[:are involved in the degradation of]-> extracellular matrix components
+2025-04-14 17:22:03.882 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: extracellular matrix components -[:play a role in the recruitment of]-> fibroblast-like synoviocytes (FLS)
+2025-04-14 17:22:17.444 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: fibroblast-like synoviocytes (FLS) -[:contribute to the expression of]-> pro-inflammatory cytokines
+2025-04-14 17:22:31.701 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: pro-inflammatory cytokines -[:activate signaling pathways leading to]-> osteoclast differentiation
+2025-04-14 17:22:41.059 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: osteoclast differentiation -[:leads to increased resorption of]-> bone tissue
+2025-04-14 17:22:54.882 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: bone tissue -[:undergoes remodeling mediated by]-> RANK/RANKL pathway
+2025-04-14 17:23:10.897 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: RANK/RANKL pathway -[:is inhibited by the administration of]-> Denosumab
+2025-04-14 17:23:25.202 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: Denosumab -[:reduces the incidence of]-> osteoporotic fractures in patients with rheumatoid arthritis
+2025-04-14 17:23:37.003 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: osteoporotic fractures in patients with rheumatoid arthritis -[:are characterized by a reduction in]-> bone mineral density (BMD)
+2025-04-14 17:23:53.250 | INFO     | hackathon.solvro.agents.hypothesis:agent:57 - 🧠 Synthesizing hypothesis from merged graph, context, and evidence
+2025-04-14 17:24:08.799 | INFO     | hackathon.solvro.agents.hypothesis:agent:93 - ✅ Hypothesis synthesized: IL-23–MMP Axis as a Driver of Rheumatoid Arthritis-Associated Bone Loss
+2025-04-14 17:24:08.802 | INFO     | __main__:main:40 - Hypothesis generated successfully for evaluation/Autoimmunity.json
+2025-04-14 17:24:08.802 | INFO     | __main__:main:42 - Saving mechanistic summaries to hackathon/solvro/output
+2025-04-14 17:24:08.809 | INFO     | __main__:main:50 - Saving hypothesis to hackathon/solvro/output
