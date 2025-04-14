@@ -12,6 +12,8 @@ from .graph import refine_graph, seeding_graph
 from .state import HypgenState
 from .utils import message_to_dict
 
+from loguru import logger
+
 langfuse_callback = CallbackHandler()
 
 class HypothesisProposition:
@@ -23,13 +25,14 @@ class HypothesisProposition:
     def ucb(self, total_reviews):
         return self.score + math.sqrt(2 * math.log(total_reviews) / math.max(1, self.reviews))
 
-    def refine(self):
+    def refine(self, total_reviews):
         self.state = refine_graph.invoke(
             self.state,
             config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100)
         )
         
         self.score = self.state["score"]
+        self.state["ucb_score"] = self.ucb(total_reviews)
         
 
 HYPOTHESIS_BEAM = 10
@@ -53,18 +56,19 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
             )
             
         for refinement_iter in range(REFINEMENT_ITER):
+            logger.info(f"Refinement iteration: {refinement_iter}")
             best_ucb = -1e9
             best_idx = -1
             for i in range(HYPOTHESIS_BEAM):
                 hypothesis = hypothesis_proposals[i]
                 
-                ucb = hypothesis.ucb()
+                ucb = hypothesis.ucb(refinement_iter)
                 if best_idx == -1 or best_ucb < ucb:
                     best_idx = i
                     best_ucb = ucb
-
+            
             hypothesis = hypothesis[best_idx]
-            hypothesis.refine()
+            hypothesis.refine(refinement_iter)
             hypothesis[best_idx] = hypothesis
     
         best_hypothesis = None
@@ -73,6 +77,8 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
             
             if best_hypothesis == None or best_hypothesis.reviews < hypothesis.reviews:
                 best_hypothesis = hypothesis
+        
+        res = best_hypothesis.state
         
         title = self.__parse_title(best_hypothesis.state)
         statement = self.__parse_statement(best_hypothesis.state)

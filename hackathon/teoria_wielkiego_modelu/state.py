@@ -16,7 +16,8 @@ class HypgenState(MessagesState):
     pros_analysis: str
     summary: str
     title: str
-    iteration: int
+    # iteration: int
+    ucb_score: str
 
     pros_analysis: str            # Arguments supporting the hypothesis
     cons_analysis: str            # Arguments against the hypothesis
