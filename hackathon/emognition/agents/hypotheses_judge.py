@@ -31,10 +31,7 @@ Supporting rationale
 Any metadata (e.g., citation stats, literature contrast, domain relevance)
 
 Output:
-A ranked list of the top 3 hypotheses, each with:
-Scores for Novelty, Feasibility, and Impactfulness
-Concise justification for selection
-Notes on possible next steps or validation strategies
+A ranked list of the top 3 hypotheses
 
 Hypotheses:
 {hypothesis}
@@ -45,11 +42,11 @@ Paths:
 Summarized knowledge:
 {knowledge}
 
-Return response formatted as below:
+Return response formatted exactly as below:
 
-HYPOTHESES 1 TEXT: [hypothesis 1 text]
-HYPOTHESES 2 TEXT: [hypothesis 2 text]
-HYPOTHESES 3 TEXT: [hypothesis 3 text]
+TOP 1 HYPOTHESIS TEXT:  [top 1 hypothesis text]
+TOP 2 HYPOTHESIS TEXT: [top 2 hypothesis text]
+TOP 3 HYPOTHESIS TEXT: [top 3 hypothesis text]
 
 """
 
@@ -67,16 +64,19 @@ def create_hypotheses_judge_agent(
         logger.info("Judging started")
         # Run the chain
         response = chain.invoke(s)
-
-        prefixandRest = response.split("HYPOTHESES 1 TEXT: ")
-        oneAndRest = prefixandRest[1].split("HYPOTHESES 2 TEXT:")
+        print(response.content)
+        prefixandRest = response.content.split("TOP 1 HYPOTHESIS TEXT:")
+        oneAndRest = prefixandRest[1].split("TOP 2 HYPOTHESIS TEXT:")
         one = oneAndRest[0]
-        twoAndThree = oneAndRest[1].split("HYPOTHESES 3 TEXT:")
+        twoAndThree = oneAndRest[1].split("TOP 3 HYPOTHESIS TEXT:")
         two = twoAndThree[0]
         three = twoAndThree[1]
 
-        s["hypothesis_1_text"] = one
-        s["hypothesis_2_text"] = two
-        s["hypothesis_3_text"] = three
+        return {
+            "hypothesis_1_text": one,
+            "hypothesis_2_text": two,
+            "hypothesis_3_text": three,
+        }
+
 
     return {"agent": agent}

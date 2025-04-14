@@ -55,7 +55,7 @@ def create_reviewer_orchestrator_agent(
         model: Optional[Literal["large", "small", "reasoning"]] = None,
         **kwargs,
 ) -> Dict[str, Any]:
-    prompt = PromptTemplate.from_template(PROMPT)
+    prompt = PromptTemplate.from_template(PROMPT.replace("{hypothesis}", "{hypothesis_"+f"{hypothesis_no}"+"_text}"))
 
     llm = get_model(model, **kwargs)
     chain = prompt | llm
@@ -63,11 +63,11 @@ def create_reviewer_orchestrator_agent(
     def agent(state: HypgenState) -> HypgenState:
         logger.info("Starting reviewer identification")
         # Run the chain
-        response = chain.invoke({
-            "hypothesis": state[f"hypothesis_{hypothesis_no}_text"],
-        })
+        response = chain.invoke(state)
 
         content = response.content
+        logger.info(content)
+
         logger.info("Reviewers identified successfully")
 
         return {

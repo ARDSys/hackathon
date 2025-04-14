@@ -22,7 +22,7 @@ from ..consts import num_hypotheses
 def improve_hypothesis(
         state: HypgenState,
 ) -> Literal["hypothesis_refiner", "summary_agent"]:
-    if state["iteration"] > 3:
+    if state["iteration"] > 2:
         logger.info("Iteration limit reached after {} iterations", state["iteration"])
         return "final_judge"
     if "ACCEPT" in state["critique"]:
@@ -43,7 +43,7 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_node("hypotheses_generator", create_hypotheses_generator_agent("small")["agent"])
     graph.add_node("hypotheses_judge", create_hypotheses_judge_agent("small")["agent"])
 
-    for i in range(num_hypotheses):
+    for i in range(1,num_hypotheses+1):
         graph.add_node(f"reviewer_orchestrator_{i}", create_reviewer_orchestrator_agent(i, "small")["agent"])
         graph.add_node(f"reviewer_1_{i}", create_reviewer_agent(i, 1, "small")["agent"])
         graph.add_node(f"reviewer_2_{i}", create_reviewer_agent(i, 2,"small")["agent"])
@@ -72,7 +72,7 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_edge("hypotheses_generator", "hypotheses_judge")
 
     # analyze each hypothesis separately
-    for i in range(num_hypotheses):
+    for i in range(1, num_hypotheses+1):
         graph.add_edge("hypotheses_judge", f"reviewer_orchestrator_{i}")
         # # Fork
         graph.add_edge(f"reviewer_orchestrator_{i}", f"reviewer_1_{i}")

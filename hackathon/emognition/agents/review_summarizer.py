@@ -78,7 +78,7 @@ def create_review_summarizer_agent(
         Final decision: ACCEPT or detailed critique with constructive feedback
         
         """
-    for i in range(num_hypotheses):
+    for i in range(1, num_hypotheses+1):
         PROMPT += f"""
             Review {i}: \n
             """ + "{" + f"hypothesis_{hypothesis_no}_review_{i}" + "}\n\n"

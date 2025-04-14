@@ -61,6 +61,7 @@ def create_dreamer_agent(
 
         # Run the chain
         response = chain.invoke(state)
+        logger.info(response.content)
 
         logger.info("'Dreamer' ontology analysis completed successfully")
         return {

@@ -56,6 +56,7 @@ def create_knower_agent(
         logger.info("Starting mainstream research paths analysis")
         # Run the chain
         response = chain.invoke(state)
+        logger.info(response.content)
 
         logger.info("Mainstream research paths analysis completed successfully")
         return {

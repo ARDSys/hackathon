@@ -47,6 +47,8 @@ def create_hypotheses_generator_agent(
         response = chain.invoke(state)
 
         content = response.content
+        logger.info(content)
+
         logger.info("Hypotheses generated successfully")
         return {
             "hypothesis": content
