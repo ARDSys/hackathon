@@ -50,7 +50,7 @@ def create_dreamer_agent(
 ) -> Dict[str, Any]:
     """Creates an ontologist agent that analyzes and defines concepts from a knowledge graph."""
 
-    prompt = PromptTemplate.from_template(DREAMER_PROMPT).invoke({"paths": state["context"]})
+    prompt = PromptTemplate.from_template(DREAMER_PROMPT)
 
     llm = get_model(model, **kwargs)
     chain = prompt | llm

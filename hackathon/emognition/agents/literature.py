@@ -57,7 +57,7 @@ def create_literature_agent(
         # Search for literature
         messages = (
             PromptTemplate.from_template(SEARCH_PROMPT)
-            .invoke({"context": state["context"]})
+            .invoke({"paths": state["paths"]})
             .to_messages()
         )
         logger.info("Searching for relevant literature")
