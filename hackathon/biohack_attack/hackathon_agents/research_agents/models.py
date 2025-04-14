@@ -10,6 +10,7 @@ class DataSource(Enum):
     HETIONET = "hetionet"
     PUBMED = "pubmed"
     SEMANTIC_SCHOLAR = "semantic scholar"
+    FIRECRAWL = "firecrawl"
 
 
 class Query(BaseModel):

@@ -7,6 +7,7 @@ from loguru import logger
 
 from .biorxiv_agent import biorxiv_agent
 from .europmc_agent import europe_pmc_agent
+from .firecrawl_agent import firecrawl_agent
 from .hetionet_agent import hetionet_agent
 from .models import (
     DataSource,
@@ -74,6 +75,10 @@ async def perform_queries(queries: QueriesOutput) -> ResearchAgentOutput:
                 return False, result
             elif query.data_source == DataSource.SEMANTIC_SCHOLAR:
                 result = await Runner.run(semantic_scholar_agent, query.keyword)
+                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
+                return False, result
+            elif query.data_source == DataSource.FIRECRAWL:
+                result = await Runner.run(firecrawl_agent, query.keyword)
                 result: UnstructuredSource = result.final_output_as(UnstructuredSource)
                 return False, result
         except Exception as e:
