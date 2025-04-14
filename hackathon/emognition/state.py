@@ -17,9 +17,17 @@ class HypgenState(MessagesState):
 
     selected_hypotheses: str
 
-    reviewer_1_profile: str
-    reviewer_2_profile: str
-    reviewer_3_profile: str
+    hypothesis_1_reviewer_1_profile: str
+    hypothesis_1_reviewer_2_profile: str
+    hypothesis_1_reviewer_3_profile: str
+
+    hypothesis_2_reviewer_1_profile: str
+    hypothesis_2_reviewer_2_profile: str
+    hypothesis_2_reviewer_3_profile: str
+
+    hypothesis_3_reviewer_1_profile: str
+    hypothesis_3_reviewer_2_profile: str
+    hypothesis_3_reviewer_3_profile: str
 
     hypothesis_1_review_1: str
     hypothesis_1_review_2: str

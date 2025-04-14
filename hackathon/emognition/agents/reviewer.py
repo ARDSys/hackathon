@@ -42,17 +42,18 @@ Final decision: either ACCEPT or a critique with constructive feedback
 
 def create_reviewer_agent(
     hypothesis_no: int,
+    reviewer_id: int,
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:
-    reviewer_profile_string = "{reviewer_"+f"{hypothesis_no}"+"_profile}"
+    reviewer_profile_string = "{hypothesis_"+f"{hypothesis_no}_"+"reviewer_"+f"{reviewer_id}"+"_profile}"
     prompt = PromptTemplate.from_template(PROMPT.replace("***reviewer_profile_string***", reviewer_profile_string))
 
     llm = get_model(model, **kwargs)
     chain = prompt | llm
 
     def agent(state: HypgenState) -> HypgenState:
-        logger.info(f"Starting review {hypothesis_no} generation")
+        logger.info(f"Starting generation of review of {hypothesis_no} by reviewer {reviewer_id}")
         # Run the chain
         response = chain.invoke(state)
 
@@ -60,7 +61,7 @@ def create_reviewer_agent(
         logger.info("Review generated successfully")
 
         return {
-            "hypothesis": content,
+            f"hypothesis_{hypothesis_no}_review_{reviewer_id}": content,
         }
 
     return {"agent": agent}

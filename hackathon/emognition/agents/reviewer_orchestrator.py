@@ -66,9 +66,9 @@ def create_reviewer_orchestrator_agent(
         logger.info("Reviewers identified successfully")
 
         return {
-            "reviewer_1_profile": content.split("Profile 1:")[1].split("Profile 2:")[0],
-            "reviewer_2_profile": content.split("Profile 2:")[1].split("Profile 3:")[0],
-            "reviewer_3_profile": content.split("Profile 3:")[1]
+            f"hypothesis_{hypothesis_no}_reviewer_1_profile": content.split("Profile 1:")[1].split("Profile 2:")[0],
+            f"hypothesis_{hypothesis_no}_reviewer_2_profile": content.split("Profile 2:")[1].split("Profile 3:")[0],
+            f"hypothesis_{hypothesis_no}_reviewer_3_profile": content.split("Profile 3:")[1]
         }
 
     return {"agent": agent}
