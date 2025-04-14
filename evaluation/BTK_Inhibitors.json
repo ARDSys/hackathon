@@ -1,0 +1,542 @@
+{
+  "subgraph_id": "7c55b0ba8a2f19cf09c39ec4f282fe527c8641f1fca49c12c862407d572c3def",
+  "graph_data": {
+    "nodes": {
+      "pro-inflammatory cytokines like TNF-alpha": {
+        "sources": [
+          {
+            "relation": "increase the production of",
+            "triplet_id": 2371555720080
+          },
+          {
+            "relation": "activate",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "is affected by",
+            "triplet_id": 2371555716576
+          },
+          {
+            "relation": "are elevated due to",
+            "triplet_id": 2371555716720
+          }
+        ]
+      },
+      "autoantibody production in rheumatoid arthritis": {
+        "sources": [
+          {
+            "relation": "is involved in",
+            "triplet_id": 2371555717824
+          },
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555721088
+          },
+          {
+            "relation": "influences",
+            "triplet_id": 2371555716912
+          }
+        ]
+      },
+      "degradation of cartilage extracellular matrix in joint tissue": {
+        "sources": [
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555720512
+          },
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555708656
+          },
+          {
+            "relation": "impact",
+            "triplet_id": 2371555717104
+          },
+          {
+            "relation": "promote",
+            "triplet_id": 2371556180096
+          }
+        ]
+      },
+      "increased bone resorption markers like CTX-I in serum": {
+        "sources": [
+          {
+            "relation": "correlate with",
+            "triplet_id": 2371555720608
+          },
+          {
+            "relation": "are elevated due to",
+            "triplet_id": 2371555716720
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371556183264
+          }
+        ]
+      },
+      "B cell receptor signaling pathway": {
+        "sources": [
+          {
+            "relation": "is associated with",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "is involved in",
+            "triplet_id": 2371555717824
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555717008
+          }
+        ]
+      },
+      "epigenetic modifications in T cells": {
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555721088
+          },
+          {
+            "relation": "are influenced by",
+            "triplet_id": 2371555709424
+          },
+          {
+            "relation": "impact",
+            "triplet_id": 2371555717104
+          }
+        ]
+      },
+      "NF-kappa B signaling pathway": {
+        "sources": [
+          {
+            "relation": "activate",
+            "triplet_id": 2371555718352
+          },
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555716672
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555717008
+          },
+          {
+            "relation": "enhances",
+            "triplet_id": 2371556183264
+          },
+          {
+            "relation": "reduce",
+            "triplet_id": 2371556183552
+          }
+        ]
+      },
+      "environmental factors such as smoking": {
+        "sources": [
+          {
+            "relation": "are influenced by",
+            "triplet_id": 2371555709424
+          },
+          {
+            "relation": "increase the production of",
+            "triplet_id": 2371555720080
+          },
+          {
+            "relation": "exacerbate",
+            "triplet_id": 2371555716816
+          },
+          {
+            "relation": "promote",
+            "triplet_id": 2371556180096
+          }
+        ]
+      },
+      "Bruton's Tyrosine Kinase (BTK)": {
+        "sources": [
+          {
+            "relation": "target",
+            "triplet_id": 2372880070464
+          },
+          {
+            "relation": "is associated with",
+            "triplet_id": 2371552064288
+          },
+          {
+            "relation": "influences",
+            "triplet_id": 2371555716912
+          }
+        ]
+      },
+      "BTK Inhibitors": {
+        "sources": [
+          {
+            "relation": "target",
+            "triplet_id": 2372880070464
+          },
+          {
+            "relation": "indirectly reduce",
+            "triplet_id": 2371555718016
+          },
+          {
+            "relation": "reduce",
+            "triplet_id": 2371556183552
+          }
+        ]
+      },
+      "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts": {
+        "sources": [
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555716672
+          },
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555720512
+          },
+          {
+            "relation": "is affected by",
+            "triplet_id": 2371555716576
+          }
+        ]
+      },
+      "joint damage and deformities in rheumatoid arthritis": {
+        "sources": [
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555708656
+          },
+          {
+            "relation": "correlate with",
+            "triplet_id": 2371555720608
+          },
+          {
+            "relation": "indirectly reduce",
+            "triplet_id": 2371555718016
+          },
+          {
+            "relation": "exacerbate",
+            "triplet_id": 2371555716816
+          }
+        ]
+      }
+    },
+    "edges": [
+      {
+        "source": "pro-inflammatory cytokines like TNF-alpha",
+        "target": "NF-kappa B signaling pathway",
+        "relation": "activate",
+        "sources": [
+          {
+            "relation": "activate",
+            "triplet_id": 2371555718352
+          }
+        ]
+      },
+      {
+        "source": "autoantibody production in rheumatoid arthritis",
+        "target": "epigenetic modifications in T cells",
+        "relation": "is influenced by",
+        "sources": [
+          {
+            "relation": "is influenced by",
+            "triplet_id": 2371555721088
+          }
+        ]
+      },
+      {
+        "source": "degradation of cartilage extracellular matrix in joint tissue",
+        "target": "joint damage and deformities in rheumatoid arthritis",
+        "relation": "leads to",
+        "sources": [
+          {
+            "relation": "leads to",
+            "triplet_id": 2371555708656
+          }
+        ]
+      },
+      {
+        "source": "increased bone resorption markers like CTX-I in serum",
+        "target": "pro-inflammatory cytokines like TNF-alpha",
+        "relation": "are elevated due to",
+        "sources": [
+          {
+            "relation": "are elevated due to",
+            "triplet_id": 2371555716720
+          }
+        ]
+      },
+      {
+        "source": "B cell receptor signaling pathway",
+        "target": "autoantibody production in rheumatoid arthritis",
+        "relation": "is involved in",
+        "sources": [
+          {
+            "relation": "is involved in",
+            "triplet_id": 2371555717824
+          }
+        ]
+      },
+      {
+        "source": "B cell receptor signaling pathway",
+        "target": "NF-kappa B signaling pathway",
+        "relation": "enhances",
+        "sources": [
+          {
+            "relation": "enhances",
+            "triplet_id": 2371555717008
+          }
+        ]
+      },
+      {
+        "source": "epigenetic modifications in T cells",
+        "target": "environmental factors such as smoking",
+        "relation": "are influenced by",
+        "sources": [
+          {
+            "relation": "are influenced by",
+            "triplet_id": 2371555709424
+          }
+        ]
+      },
+      {
+        "source": "epigenetic modifications in T cells",
+        "target": "degradation of cartilage extracellular matrix in joint tissue",
+        "relation": "impact",
+        "sources": [
+          {
+            "relation": "impact",
+            "triplet_id": 2371555717104
+          }
+        ]
+      },
+      {
+        "source": "NF-kappa B signaling pathway",
+        "target": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+        "relation": "modulates",
+        "sources": [
+          {
+            "relation": "modulates",
+            "triplet_id": 2371555716672
+          }
+        ]
+      },
+      {
+        "source": "NF-kappa B signaling pathway",
+        "target": "increased bone resorption markers like CTX-I in serum",
+        "relation": "enhances",
+        "sources": [
+          {
+            "relation": "enhances",
+            "triplet_id": 2371556183264
+          }
+        ]
+      },
+      {
+        "source": "environmental factors such as smoking",
+        "target": "pro-inflammatory cytokines like TNF-alpha",
+        "relation": "increase the production of",
+        "sources": [
+          {
+            "relation": "increase the production of",
+            "triplet_id": 2371555720080
+          }
+        ]
+      },
+      {
+        "source": "environmental factors such as smoking",
+        "target": "joint damage and deformities in rheumatoid arthritis",
+        "relation": "exacerbate",
+        "sources": [
+          {
+            "relation": "exacerbate",
+            "triplet_id": 2371555716816
+          }
+        ]
+      },
+      {
+        "source": "environmental factors such as smoking",
+        "target": "degradation of cartilage extracellular matrix in joint tissue",
+        "relation": "promote",
+        "sources": [
+          {
+            "relation": "promote",
+            "triplet_id": 2371556180096
+          }
+        ]
+      },
+      {
+        "source": "Bruton's Tyrosine Kinase (BTK)",
+        "target": "B cell receptor signaling pathway",
+        "relation": "is associated with",
+        "sources": [
+          {
+            "relation": "is associated with",
+            "triplet_id": 2371552064288
+          }
+        ]
+      },
+      {
+        "source": "Bruton's Tyrosine Kinase (BTK)",
+        "target": "autoantibody production in rheumatoid arthritis",
+        "relation": "influences",
+        "sources": [
+          {
+            "relation": "influences",
+            "triplet_id": 2371555716912
+          }
+        ]
+      },
+      {
+        "source": "BTK Inhibitors",
+        "target": "Bruton's Tyrosine Kinase (BTK)",
+        "relation": "target",
+        "sources": [
+          {
+            "relation": "target",
+            "triplet_id": 2372880070464
+          }
+        ]
+      },
+      {
+        "source": "BTK Inhibitors",
+        "target": "joint damage and deformities in rheumatoid arthritis",
+        "relation": "indirectly reduce",
+        "sources": [
+          {
+            "relation": "indirectly reduce",
+            "triplet_id": 2371555718016
+          }
+        ]
+      },
+      {
+        "source": "BTK Inhibitors",
+        "target": "NF-kappa B signaling pathway",
+        "relation": "reduce",
+        "sources": [
+          {
+            "relation": "reduce",
+            "triplet_id": 2371556183552
+          }
+        ]
+      },
+      {
+        "source": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+        "target": "degradation of cartilage extracellular matrix in joint tissue",
+        "relation": "contributes to",
+        "sources": [
+          {
+            "relation": "contributes to",
+            "triplet_id": 2371555720512
+          }
+        ]
+      },
+      {
+        "source": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+        "target": "pro-inflammatory cytokines like TNF-alpha",
+        "relation": "is affected by",
+        "sources": [
+          {
+            "relation": "is affected by",
+            "triplet_id": 2371555716576
+          }
+        ]
+      },
+      {
+        "source": "joint damage and deformities in rheumatoid arthritis",
+        "target": "increased bone resorption markers like CTX-I in serum",
+        "relation": "correlate with",
+        "sources": [
+          {
+            "relation": "correlate with",
+            "triplet_id": 2371555720608
+          }
+        ]
+      }
+    ]
+  },
+  "graph_stats": {
+    "node_count": 12,
+    "edge_count": 21,
+    "path_length": 12
+  },
+  "start_node": "BTK Inhibitors",
+  "end_node": "increased bone resorption markers like CTX-I in serum",
+  "path_nodes": [
+    "BTK Inhibitors",
+    "Bruton's Tyrosine Kinase (BTK)",
+    "B cell receptor signaling pathway",
+    "autoantibody production in rheumatoid arthritis",
+    "epigenetic modifications in T cells",
+    "environmental factors such as smoking",
+    "pro-inflammatory cytokines like TNF-alpha",
+    "NF-kappa B signaling pathway",
+    "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+    "degradation of cartilage extracellular matrix in joint tissue",
+    "joint damage and deformities in rheumatoid arthritis",
+    "increased bone resorption markers like CTX-I in serum"
+  ],
+  "path_edges": [
+    {
+      "source": "BTK Inhibitors",
+      "target": "Bruton's Tyrosine Kinase (BTK)",
+      "relation": "target"
+    },
+    {
+      "source": "Bruton's Tyrosine Kinase (BTK)",
+      "target": "B cell receptor signaling pathway",
+      "relation": "is associated with"
+    },
+    {
+      "source": "B cell receptor signaling pathway",
+      "target": "autoantibody production in rheumatoid arthritis",
+      "relation": "is involved in"
+    },
+    {
+      "source": "autoantibody production in rheumatoid arthritis",
+      "target": "epigenetic modifications in T cells",
+      "relation": "is influenced by"
+    },
+    {
+      "source": "epigenetic modifications in T cells",
+      "target": "environmental factors such as smoking",
+      "relation": "are influenced by"
+    },
+    {
+      "source": "environmental factors such as smoking",
+      "target": "pro-inflammatory cytokines like TNF-alpha",
+      "relation": "increase the production of"
+    },
+    {
+      "source": "pro-inflammatory cytokines like TNF-alpha",
+      "target": "NF-kappa B signaling pathway",
+      "relation": "activate"
+    },
+    {
+      "source": "NF-kappa B signaling pathway",
+      "target": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+      "relation": "modulates"
+    },
+    {
+      "source": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+      "target": "degradation of cartilage extracellular matrix in joint tissue",
+      "relation": "contributes to"
+    },
+    {
+      "source": "degradation of cartilage extracellular matrix in joint tissue",
+      "target": "joint damage and deformities in rheumatoid arthritis",
+      "relation": "leads to"
+    },
+    {
+      "source": "joint damage and deformities in rheumatoid arthritis",
+      "target": "increased bone resorption markers like CTX-I in serum",
+      "relation": "correlate with"
+    }
+  ],
+  "context": null,
+  "path_score": null,
+  "path_score_justification": null,
+  "original_graph_metadata": {
+    "node_count": 12,
+    "edge_count": 21
+  },
+  "config": {}
+}
