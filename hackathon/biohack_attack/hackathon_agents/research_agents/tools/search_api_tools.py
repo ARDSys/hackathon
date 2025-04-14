@@ -1,4 +1,3 @@
-from agents import function_tool
 from semanticscholar import SemanticScholar
 
 from biohack_attack.other.api_wrappers import (
@@ -8,7 +7,6 @@ from biohack_attack.other.api_wrappers import (
 )
 
 
-@function_tool
 def get_biorxiv_papers_by_category(keyword: str) -> str:
     """Fetch Biorxiv papers by keyword. It returns
 
@@ -20,15 +18,11 @@ def get_biorxiv_papers_by_category(keyword: str) -> str:
     bioarxiv = BioRxivAPI()
 
     response = bioarxiv.get_papers_by_category(server="biorxiv", category=keyword)
-    if response.status_code != 200:
-        raise Exception(f"Error fetching papers: {response.status_code}")
-
     parsed_response = bioarxiv.parse_response(response)
 
     return parsed_response
 
 
-@function_tool
 def get_semanticscholar_papers_by_keyword(keyword: str) -> str:
     """Fetch Semantic Scholar papers by keyword. It returns
 
@@ -39,7 +33,7 @@ def get_semanticscholar_papers_by_keyword(keyword: str) -> str:
     """
 
     sch = SemanticScholar()
-    papers = sch.search_paper(keyword=keyword)
+    papers = sch.search_paper(query=keyword)
 
     parsed_papers = []
 
@@ -57,7 +51,6 @@ def get_semanticscholar_papers_by_keyword(keyword: str) -> str:
     return parsed_papers
 
 
-@function_tool
 def get_europe_pmc_papers_by_keyword(keyword: str) -> str:
     """Fetch Semantic Scholar papers by keyword. It returns
 
@@ -69,25 +62,21 @@ def get_europe_pmc_papers_by_keyword(keyword: str) -> str:
 
     europePMC = EuropePMCAPI()
     response = europePMC.search(query=keyword, result_type="core", pageSize=100)
-    if response.status_code != 200:
-        raise Exception(f"Error fetching papers: {response.status_code}")
-
     parsed_response = []
 
     for item in response["resultList"]["result"]:
         parsed_item = {
-            "title": item["title"],
+            "title": item.get("title", "<NO TITLE>"),
             "abstract": item.get("abstractText", "<NO ABSTRACT>"),
-            "pubYear": item["pubYear"],
-            "doi": item["doi"],
+            "pubYear": item.get("pubYear", "<NO YEAR>"),
+            "doi": item.get("doi", "<NO DOI>"),
             "authorString": item.get("authorString", "<NO AUTHOR>"),
         }
         parsed_response.append(parsed_item)
 
-    return response
+    return str(parsed_response)
 
 
-@function_tool
 def get_pubmed_papers_by_keyword(keyword: str) -> str:
     """Fetch PubMed papers by keyword. It returns
 
@@ -106,7 +95,4 @@ def get_pubmed_papers_by_keyword(keyword: str) -> str:
     )
 
     response = pubmed.run(keyword)
-    if response.status_code != 200:
-        raise Exception(f"Error fetching papers: {response.status_code}")
-
     return response

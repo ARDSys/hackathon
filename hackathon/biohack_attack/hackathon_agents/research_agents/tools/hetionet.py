@@ -31,8 +31,8 @@ EDGE_TYPE_MAPPING = {
 }
 
 
-@function_tool()
-async def query_hetionet(keyword: str):
+# @function_tool()
+def query_hetionet(keyword: str):
     """
     Query the Hetionet database for a given keyword. Returns a string representation of one-hop relationships.
     
@@ -102,13 +102,9 @@ async def query_hetionet(keyword: str):
 def load_hetionet():
     """
     Loads the Hetionet dataset from local files and returns it as a NetworkX graph.
-
-    Returns:
-        nx.Graph: A NetworkX graph representation of Hetionet
-        dict: A dictionary containing node metadata
     """
     # Get the directory of the current script
-    current_dir = ""
+    current_dir = "."
 
     # Paths to local files
     edges_path = os.path.join(

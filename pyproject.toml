@@ -38,6 +38,7 @@ dependencies = [
     "langchain-google-genai>=2.1.0",
     "openai-agents>=0.0.9",
     "semanticscholar>=0.10.0",
+    "firecrawl>=1.16.0",
 ]
 
 [project.scripts]

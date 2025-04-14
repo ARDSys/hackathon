@@ -19,6 +19,14 @@ from .models import (
 )
 from .pubmed_agent import pubmed_agent
 from .semantic_scholar_agent import semantic_scholar_agent
+from .tools.search_api_tools import (
+    get_biorxiv_papers_by_category,
+    get_europe_pmc_papers_by_keyword,
+    get_pubmed_papers_by_keyword,
+    get_semanticscholar_papers_by_keyword,
+)
+from .tools.hetionet import query_hetionet
+from .tools.firecrawl import query_firecrawl
 
 RESEARCH_AGENT_DISPATCHER_PROMPT = """
 You are an expert Graph Expansion System designed to analyze subgraphs and strategically query external data sources to 
@@ -58,31 +66,45 @@ async def perform_queries(queries: QueriesOutput) -> ResearchAgentOutput:
                 f"Processing query: {query.keyword} in the data source: {query.data_source}"
             )
             if query.data_source == DataSource.HETIONET:
-                result = await Runner.run(hetionet_agent, query.keyword)
-                result: KnowledgeGraph = result.final_output_as(KnowledgeGraph)
-                return True, result
+                result = query_hetionet(query.keyword)
+                return True, KnowledgeGraph(content=result)
             elif query.data_source == DataSource.PUBMED:
-                result = await Runner.run(pubmed_agent, query.keyword)
-                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
-                return False, result
+                result = get_pubmed_papers_by_keyword(query.keyword)
+                return False, UnstructuredSource(
+                    content=result,
+                    justification=f"PubMed search results for: {query.keyword}",
+                    source_id="pubmed"
+                )
             elif query.data_source == DataSource.BIORXIV:
-                result = await Runner.run(biorxiv_agent, query.keyword)
-                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
-                return False, result
+                result = get_biorxiv_papers_by_category(query.keyword)
+                return False, UnstructuredSource(
+                    content=result,
+                    justification=f"BioRxiv papers in category: {query.keyword}",
+                    source_id="biorxiv"
+                )
             elif query.data_source == DataSource.EUROPE_PMC:
-                result = await Runner.run(europe_pmc_agent, query.keyword)
-                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
-                return False, result
+                result = get_europe_pmc_papers_by_keyword(query.keyword)
+                return False, UnstructuredSource(
+                    content=result,
+                    justification=f"Europe PMC search results for: {query.keyword}",
+                    source_id="europe_pmc"
+                )
             elif query.data_source == DataSource.SEMANTIC_SCHOLAR:
-                result = await Runner.run(semantic_scholar_agent, query.keyword)
-                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
-                return False, result
+                result = get_semanticscholar_papers_by_keyword(query.keyword)
+                return False, UnstructuredSource(
+                    content=result,
+                    justification=f"Semantic Scholar search results for: {query.keyword}",
+                    source_id="semantic_scholar"
+                )
             elif query.data_source == DataSource.FIRECRAWL:
-                result = await Runner.run(firecrawl_agent, query.keyword)
-                result: UnstructuredSource = result.final_output_as(UnstructuredSource)
-                return False, result
+                result = query_firecrawl(query.keyword)
+                return False, UnstructuredSource(
+                    content=result,
+                    justification=f"Firecrawl search results for: {query.keyword}",
+                    source_id="firecrawl"
+                )
         except Exception as e:
-            print(
+            logger.error(
                 f"Error processing query {query.keyword} from {query.data_source}: {str(e)}"
             )
             return None, None
