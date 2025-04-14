@@ -1,35 +1,12 @@
-import math
-from dataclasses import dataclass
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Dict, Literal, Optional
 
 from langchain.prompts import PromptTemplate
 from loguru import logger
 
+from ..hypothesis_tree import HypothesisNode, HypothesisTree
 from ..llm.utils import get_model
 from ..state import HypgenState
 from ..utils import add_role
-
-
-@dataclass
-class HypothesisNode:
-    hypothesis: str
-    visits: int = 0
-    total_score: float = 0.0
-    parent_visits: int = 0
-    children: List['HypothesisNode'] = None
-
-    @property
-    def average_score(self) -> float:
-        return self.total_score / self.visits if self.visits > 0 else 0
-
-    def uct_score(self, exploration_constant: float = 1.414) -> float:
-        """Calculate UCT score for this hypothesis node"""
-        if self.visits == 0:
-            return float('inf')
-        exploitation = self.average_score
-        exploration = exploration_constant * math.sqrt(math.log(self.parent_visits) / self.visits)
-        return exploitation + exploration
-
 
 CRITIC_AGENT_PROMPT = """You are a critical scientific reviewer. 
 You are given a research hypothesis, together with the novelty, feasibility, and impact analysis.
@@ -57,7 +34,7 @@ REVIEW:
 [Your detailed review]
 
 Literature:
-{literature}
+{literature_results}
 
 Hypothesis:
 {hypothesis}
@@ -96,28 +73,28 @@ def create_critique_analyst_agent(
         """Evaluate the research proposal and provide critique with UCT scoring."""
         logger.info("Starting critique analysis")
         
-        # Get or initialize the hypothesis tree
-        current_node = state.get("current_hypothesis_node")
-        if not current_node:
-            current_node = HypothesisNode(
-                hypothesis=state["hypothesis"],
-                children=[]
-            )
+        # Get or create the hypothesis tree
+        tree = HypothesisTree.from_state(state)
+        current_node = tree.current_node
+        
+        if current_node is None:
+            current_node = HypothesisNode(hypothesis=state["hypothesis"])
+            tree.root = current_node
+            tree.current_node = current_node
             
         # Run the chain
         response = chain.invoke(state)
         score = parse_score(response.content)
         
-        # Update node statistics
-        current_node.visits += 1
-        current_node.total_score += score
+        # Update node statistics using tree manager
+        tree.visit_node(current_node, score)
         
         logger.info(f"Critique analysis completed with score: {score}")
         
         return {
             "critique": response.content,
             "messages": [add_role(response, "critique_analyst")],
-            "current_hypothesis_node": current_node,
+            "hypothesis_tree": tree,
             "hypothesis_score": score
         }
 
