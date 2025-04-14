@@ -78,15 +78,16 @@ def collect_tree_statistics(tree: HypothesisTree) -> Dict[str, Any]:
             }]
         }
         
-        for child in node.children:
-            child_stats = traverse_node(child)
-            stats["total_nodes"] += child_stats["total_nodes"]
-            stats["total_score"] += child_stats["total_score"]
-            stats["max_score"] = max(stats["max_score"], child_stats["max_score"])
-            stats["path"].extend(child_stats["path"])
+        if node.children:
+            for child in node.children:
+                child_stats = traverse_node(child)
+                stats["total_nodes"] += child_stats["total_nodes"]
+                stats["total_score"] += child_stats["total_score"]
+                stats["max_score"] = max(stats["max_score"], child_stats["max_score"])
+                stats["path"].extend(child_stats["path"])
                 
         return stats
-
+    
     return traverse_node(tree.root)
 
 def create_summary_agent(
