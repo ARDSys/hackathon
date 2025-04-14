@@ -18,16 +18,16 @@ Scoring criteria (0.0 to 1.0):
 - 0.75: Strong potential with manageable limitations
 - 1.0: Exceptional hypothesis with minimal concerns
 
+Hypothesis:
+{hypothesis}
+
 Supporting Arguments:
 {pros_analysis}
 
 Critical Arguments:
 {cons_analysis}
 
-Hypothesis:
-{hypothesis}
-
-Your response must be structured exactly as follows:
+Your response must be structured EXACTLY as follows:
 
 BALANCED ANALYSIS:
 [Your detailed analysis explaining the score, considering both supporting and critical arguments]
@@ -57,7 +57,7 @@ def create_review_agent(
         })
         
         # Extract numerical score from response
-        score_line = response.content.split("\n")[-1]
+        score_line = response.content.split("\n")[-1].upper()
         try:
             score = float(score_line.replace("SCORE:", "").strip())
         except (ValueError, IndexError):
