@@ -44,7 +44,6 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         list_kw = solo_ontologist.generate_reply(messages=[{"role": "user", "content": path}])
 
         print(list_kw)
-        khkh
         group_chat, manager, user = create_group_chat()
 
         res = user.initiate_chat(
