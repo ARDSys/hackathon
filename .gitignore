@@ -12,3 +12,6 @@ site/
 
 # cache
 .cache/
+
+# datasets
+datasets/*

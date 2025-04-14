@@ -1,0 +1,2806 @@
+----- FILE: ./langgraph/.env.example -----
+
+# OpenAI
+OPENAI_API_KEY=sk-proj-123
+
+# Perplexity
+PPLX_API_KEY=pplx-123
+
+# PubMed
+PUBMED_API_KEY=123
+
+# Langfuse
+LANGFUSE_SECRET_KEY=sk-lf-123
+LANGFUSE_PUBLIC_KEY=pk-lf-123
+LANGFUSE_HOST=https://cloud.langfuse.com
+
+
+----- FILE: ./langgraph/README.md -----
+# LangGraph Workflow
+
+This workflow implements a hypothesis generation system using LangGraph, designed to analyze subgraphs and generate scientific hypotheses based on the relationships and context within the data.
+
+## Overview
+
+The workflow consists of several key components:
+
+- `generate_hypothesis.py`: CLI interface for running the hypothesis generation
+- `hypothesis_generator.py`: A wrapper around the hypothesis generation logic
+- `graph.py`: Defining the LangGraph workflow structure - the logic
+- `state.py`: Manages the state during hypothesis generation
+- `utils.py`: Utility functions supporting the workflow
+- `agents`: A collection of agents for the workflow
+- `tools`: A collection of tools for the agents to use
+- `llm`: A collection of LLM configurations
+
+## Prerequisites
+
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) package and project manager
+
+## Environment Setup
+
+1. Create a `.env` file in the project root with the following variables:
+
+   ```
+   # OpenAI
+    OPENAI_API_KEY=sk-proj-123
+
+    # Anthropic
+    ANTHROPIC_API_KEY=sk-ant-api03-123
+
+    # Perplexity
+    PPLX_API_KEY=pplx-123
+
+    # PubMed
+    PUBMED_API_KEY=123
+
+    # Langfuse
+    LANGFUSE_SECRET_KEY=sk-lf-123
+    LANGFUSE_PUBLIC_KEY=pk-lf-123
+    LANGFUSE_HOST=https://cloud.langfuse.com
+   ```
+
+## Installation
+
+Install the packages in the ard's root directory:
+
+```bash
+uv sync
+source .venv/bin/activate
+```
+
+## Usage
+
+The workflow can be run using the `generate_hypothesis.py` script.
+From ARD's root directory:
+
+```bash
+python -m hackathon.langgraph.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/langgraph/output
+```
+
+### Arguments
+
+- `--file` or `-f`: Path to the input JSON file containing the subgraph data
+- `--output` or `-o`: Path to the output directory (defaults to current directory)
+
+## Output
+
+The output is a JSON and Markdown files containing the hypothesis.
+
+```json
+{
+    "title": "<hypothesis.title>",
+    "text": "<hypothesis.statement>",
+    "references": [],
+    "hypothesis_id": "<hypothesis._hypothesis_id",
+    "subgraph_id": "<source_subgraph_id",
+    "source": "<source_subgraph_as_json>",
+    "metadata": {
+        ... # all additional data from the hypothesis
+    }
+}
+```
+
+## Architecture
+
+The workflow uses LangGraph to create a structured process for hypothesis generation:
+
+1. Takes a subgraph as input
+2. Processes subgraph through `method` (e.g. `HypothesisGenerator`)
+3. Creates Hypothesis from the state returend by the `method`
+4. Saves the Hypothesis to the output directory
+
+## Development
+
+To modify or extend the workflow:
+
+1. Edit `graph.py` to modify the workflow structure
+2. Update `hypothesis_generator.py` with new method implementing `HypothesisGeneratorProtocol`
+3. Modify `state.py` to add new state variables if needed
+4. Update `utils.py` for additional utility functions
+5. Modify `agents` to add new agents or modify prompt templates
+6. Extend `tools` with new functions for agents to use
+
+**Note**
+`generate_hypothesis.py` should remain unchanged to enable similar structure for different workflows and easy run.
+
+## Monitoring
+
+The workflow integrates with Langfuse for monitoring and tracking the hypothesis generation process. Ensure your Langfuse credentials are properly configured in the `.env` file.
+
+
+----- FILE: ./langgraph/agents/analysts.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+ANALYST_PROMPT = """
+You are a critical AI assistant collaborating with a group of scientists to assess the {analysis_type} of a research proposal. 
+
+Your primary task is to evaluate a proposed research hypothesis for its {task}
+
+After careful analysis, return your estimations for the {analysis_type} as one of the following:
+- "No {analysis_type}"
+- "Some {analysis_type}"
+- "High {analysis_type}"
+
+Provide your reasoning for your assessment.
+Cite the literature to support your assessment.
+
+Literature information gathered by the research assistant:
+{literature}
+
+Hypothesis:
+{hypothesis}
+"""
+
+# "Your primary task is to evaluate a proposed research hypothesis for its ..."
+PROMPT_TASK_TEMPLATES = {
+    "novelty": """
+    novelty ensuring it does not overlap significantly with existing literature or delve into areas that are already well-explored.
+    """,
+    "feasibility": """
+    feasibility considering the resources, time, and technical challenges.
+    """,
+    "impact": """
+    impact considering the potential scientific, technological, and societal impact.
+    """,
+}
+
+
+def create_analyst_agent(
+    analyst: Literal["novelty", "feasibility", "impact"],
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a analyst agent that evaluates the hypothesis."""
+
+    analyst_prompt = PromptTemplate.from_template(ANALYST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = analyst_prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        logger.info(f"Starting {analyst} analysis")
+
+        # Get the literature information from the response
+        literature = state["literature"]
+
+        # Run the chain
+        logger.info(f"Running {analyst} analysis chain")
+        response = chain.invoke(
+            {
+                **state,
+                "literature": literature,
+                "analysis_type": analyst,
+                "task": PROMPT_TASK_TEMPLATES[analyst],
+            }
+        )
+        logger.info(f"{analyst} analysis completed successfully")
+
+        return {
+            "messages": [add_role(response, analyst)],
+            analyst: response.content,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/critique_analyst.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+CRITIC_AGENT_PROMPT = """You are a critical scientific reviewer. 
+You are given a research hypothesis, together with the novelty, feasibility, and impact analysis.
+Your task is to evaluate if the hypothesis is strong enough to be considered for a research paper.
+You should provide a thorough critical scientific review with strengths and weaknesses, and suggested improvements. Include logical reasoning and scientific approaches.
+
+If the hypothesis is not strong enough, you should provide a critique of the hypothesis and suggest improvements.
+If the hypothesis is strong enough, you should reply with "ACCEPT".
+
+Hypothesis:
+{hypothesis}
+
+Novelty Analysis:
+{novelty}
+
+Feasibility Analysis:
+{feasibility}
+
+Impact Analysis:
+{impact}
+"""
+
+
+def create_critique_analyst_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a critique analyst agent that evaluates the overall research proposal."""
+
+    prompt = PromptTemplate.from_template(CRITIC_AGENT_PROMPT)
+
+    # Use provided model or get default large model
+    model = get_model(model, **kwargs)
+
+    chain = prompt | model
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Evaluate the overall research proposal and provide critique."""
+        logger.info("Starting critique analysis")
+        # Run the chain
+        response = chain.invoke(state)
+
+        logger.info("Critique analysis completed successfully")
+        return {
+            "critique": response.content,
+            "messages": [add_role(response, "critique_analyst")],
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/hypothesis_generator.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+SCIENTIST_PROMPT = """You are a sophisticated scientist trained in scientific research and innovation. 
+    
+Given the definitions and relationships acquired from a comprehensive knowledge graph, your task is to synthesize a novel research hypothesis. Your response should not only demonstrate deep understanding and rational thinking but also explore imaginative and unconventional applications of these concepts. 
+    
+Analyze the graph deeply and carefully, then craft a detailed hypothesis that investigates a likely groundbreaking aspect of the knowledge graph.
+
+Consider the implications of your hypothesis and predict the outcome or behavior that might result from this line of investigation. Your creativity in linking these concepts to address unsolved problems or propose new, unexplored areas of study, emergent or unexpected behaviors, will be highly valued.
+
+The hypothesis should be well-defined, has novelty, is feasible, has a well-defined purpose and clear components. Your hypothesis should be as detailed as possible. Ensure it is both innovative and grounded in logical reasoning, capable of advancing our understanding or application of the concepts provided.
+
+Remember, the value of your response lies in scientific discovery, new avenues of scientific inquiry, and potential technological breakthroughs, with detailed and solid reasoning.
+
+Graph:
+{subgraph}
+
+Definitions and Relationships:
+{context}
+"""
+
+
+def create_hypothesis_generator_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a hypothesis generator agent that creates research proposals based on ontologist analysis."""
+
+    prompt = PromptTemplate.from_template(SCIENTIST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Generate a research hypothesis based on the ontologist's analysis."""
+        logger.info("Starting hypothesis generation")
+        # Run the chain
+        response = chain.invoke(state)
+
+        content = response.content
+        logger.info("Hypothesis generated successfully")
+
+        return {
+            "hypothesis": content,
+            "messages": [add_role(response, "hypothesis_generator")],
+            "iteration": state.get("iteration", 0) + 1,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/hypothesis_refiner.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+SCIENTIST_PROMPT = """You are a sophisticated scientist trained in scientific research and innovation. 
+    
+Given a hypothesis, critical feedback on the hypothesis, and definitions and relationships acquired from a comprehensive knowledge graph, your task is to refine the hypothesis. Your response should not only demonstrate deep understanding and rational thinking but also explore imaginative and unconventional applications of these concepts. 
+    
+Analyze both the graph and the critical feedback deeply and carefully, then craft a detailed hypothesis that investigates a likely groundbreaking aspect of the knowledge graph.
+
+Consider the implications of your hypothesis and predict the outcome or behavior that might result from this line of investigation. Your creativity in linking these concepts to address unsolved problems or propose new, unexplored areas of study, emergent or unexpected behaviors, will be highly valued.
+
+The hypothesis should be well-defined, has novelty, is feasible, has a well-defined purpose and clear components. Your hypothesis should be as detailed as possible. Ensure it is both innovative and grounded in logical reasoning, capable of advancing our understanding or application of the concepts provided.
+
+Remember, the value of your response lies in scientific discovery, new avenues of scientific inquiry, and potential technological breakthroughs, with detailed and solid reasoning.
+
+Hypothesis:
+{hypothesis}
+
+Critical Feedback:
+{critique}
+
+Novelty Analysis:
+{novelty}
+
+Feasibility Analysis:
+{feasibility}
+
+Impact Analysis:
+{impact}
+
+Graph:
+{subgraph}
+
+Definitions and Relationships:
+{context}
+"""
+
+
+def create_hypothesis_refiner_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a hypothesis refiner agent that refines a hypothesis based on critical feedback."""
+
+    prompt = PromptTemplate.from_template(SCIENTIST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Refine a research hypothesis based on critical feedback."""
+        logger.info("Starting hypothesis refinement")
+        # Run the chain
+        response = chain.invoke(state)
+
+        content = response.content
+        logger.info("Hypothesis refined successfully")
+
+        return {
+            "hypothesis": content,
+            "messages": [add_role(response, "hypothesis_refiner")],
+            "iteration": state.get("iteration", 0) + 1,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/literature.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from langchain_community.tools.arxiv.tool import ArxivQueryRun
+from langgraph.prebuilt.chat_agent_executor import create_react_agent
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..tools.perplexity import search_perplexity
+from ..tools.pubmed import pubmed_tool
+
+SEARCH_PROMPT = """
+You are a research assistant. Find relevant literature that will help evaluate novelty, feasibility, and impact of a hypothesis given below.
+
+To find a broad range of relevant literature, use queries that are related to the hypothesis but not too specific.
+Instead of one or two very specific queries, use a broader range of queries that are related to the hypothesis.
+
+Hypothesis:
+{hypothesis}
+
+After searching, return the search results.
+"""
+
+tools = [
+    ArxivQueryRun(),
+    pubmed_tool,
+    search_perplexity,
+]
+
+
+def create_literature_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a literature agent that finds relevant literature."""
+
+    llm = get_model(model, **kwargs)
+    research_assistant = create_react_agent(model=llm, tools=tools)
+
+    def agent(state: HypgenState) -> HypgenState:
+        logger.info("Starting literature search")
+        # Search for literature
+        messages = (
+            PromptTemplate.from_template(SEARCH_PROMPT)
+            .invoke({"hypothesis": state["hypothesis"]})
+            .to_messages()
+        )
+        logger.info("Searching for relevant literature")
+        assistant_response = research_assistant.invoke({"messages": messages})
+        logger.info("Literature search completed")
+
+        # Get the literature information from the response
+        literature = assistant_response["messages"][-1]
+
+        return {
+            "messages": assistant_response["messages"],
+            "literature": literature,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/ontologist.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+# Ontologist prompt
+ONTOLOGIST_PROMPT = """You are a sophisticated ontologist.
+    
+Given some key concepts extracted from a comprehensive knowledge graph, your task is to define each one of the terms and discuss the relationships identified in the graph.
+
+There may be multiple relationships between the same two nodes. The format of the knowledge graph is
+"
+node_1-[:relationship between node_1 and node_2]->node_2
+node_1-[:relationship between node_1 and node_3]->node_3
+node_2-[:relationship between node_2 and node_3]->node_4...
+"
+
+Make sure to incorporate EACH of the concepts in the knowledge graph in your response.
+
+Do not add any introductory phrases. First, define each term in the knowledge graph and then, secondly, discuss each of the relationships, with context.
+
+Here is an example structure for our response, in the following format
+
+{{
+### Definitions:
+A clear definition of each term in the knowledge graph.
+### Relationships
+A thorough discussion of all the relationships in the graph. 
+}}
+
+Graph:
+{subgraph}
+"""
+
+
+def create_ontologist_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates an ontologist agent that analyzes and defines concepts from a knowledge graph."""
+
+    prompt = PromptTemplate.from_template(ONTOLOGIST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Process the knowledge graph and return definitions and relationships."""
+        logger.info("Starting ontology analysis")
+        # Run the chain
+        response = chain.invoke(state)
+
+        logger.info("Ontology analysis completed successfully")
+        return {
+            "context": response.content,
+            "messages": [add_role(response, "ontologist")],
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/summary.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+from pydantic import BaseModel
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+
+# Summary prompt
+SUMMARY_PROMPT = """You are a skilled scientific writer.
+
+Given a hypothesis and it's novelty, feasibility, and impact analysis, write a concise summary of both the hypothesis and the analysis.
+
+Here is an example structure for our response, in the following format
+
+{{
+### Hypothesis
+...
+
+### Novelty Assessment:  Not novel/Somewhat novel/Novel/Very novel
+...
+
+### Feasibility Assessment:  Not feasible/Somewhat feasible/Feasible
+...
+
+### Impact Assessment:  Not impactful/Somewhat impactful/Impactful/Very impactful
+...
+}}
+
+Here is the hypothesis and the analysis:
+Hypothesis:
+{hypothesis}
+
+Novelty Assessment:
+{novelty}
+
+Feasibility Assessment:
+{feasibility}
+
+Impact Assessment:
+{impact}
+"""
+
+
+class HypothesisSummary(BaseModel):
+    title: str
+    summary: str
+
+
+def create_summary_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates an ontologist agent that analyzes and defines concepts from a knowledge graph."""
+
+    prompt = PromptTemplate.from_template(SUMMARY_PROMPT)
+
+    llm = get_model(model, **kwargs).with_structured_output(HypothesisSummary)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Process the hypothesis and the analysis and return a summary."""
+        logger.info("Starting summary generation")
+        # Run the chain
+        response = chain.invoke(state)
+
+        logger.info("Summary generated successfully")
+        return {
+            "summary": response.summary,
+            "title": response.title,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/generate_hypothesis.py -----
+from pathlib import Path
+
+import click
+import dotenv
+from langfuse.callback import CallbackHandler
+from loguru import logger
+
+from ard.hypothesis import Hypothesis
+from ard.subgraph import Subgraph
+
+from .hypothesis_generator import HypothesisGenerator
+
+langfuse_callback = CallbackHandler()
+
+dotenv.load_dotenv()
+
+
+@click.command()
+@click.option(
+    "--file", "-f", type=click.Path(exists=True), help="Path to the json file"
+)
+@click.option(
+    "--output",
+    "-o",
+    type=click.Path(exists=True, file_okay=False),
+    help="Path to the output directory",
+    default=".",
+)
+def main(file: str, output: str):
+    file_path = Path(file)
+    output_path = Path(output)
+    logger.info(f"Subgraph loaded from {file_path}")
+
+    logger.info("Generating hypothesis...")
+    hypothesis = Hypothesis.from_subgraph(
+        subgraph=Subgraph.load_from_file(file_path),
+        method=HypothesisGenerator(),
+    )
+    logger.info(f"Hypothesis generated for {file_path}")
+
+    # Save hypothesis in json and md format
+    output_path.mkdir(parents=True, exist_ok=True)
+    hypothesis.save(backend_path=output_path, parser_type="json")
+    hypothesis.save(backend_path=output_path, parser_type="md")
+
+    logger.info(f"Hypothesis saved to {output_path}")
+
+
+if __name__ == "__main__":
+    main()
+
+
+----- FILE: ./langgraph/graph.py -----
+from typing import Literal
+
+from langgraph.graph import END, START, StateGraph
+from langgraph.graph.graph import CompiledGraph
+from loguru import logger
+
+from .agents.analysts import create_analyst_agent
+from .agents.critique_analyst import create_critique_analyst_agent
+from .agents.hypothesis_generator import create_hypothesis_generator_agent
+from .agents.hypothesis_refiner import create_hypothesis_refiner_agent
+from .agents.literature import create_literature_agent
+from .agents.ontologist import create_ontologist_agent
+from .agents.summary import create_summary_agent
+from .state import HypgenState
+
+
+def improve_hypothesis(
+    state: HypgenState,
+) -> Literal["hypothesis_refiner", "summary_agent"]:
+    if state["iteration"] > 3:
+        logger.info("Iteration limit reached after {} iterations", state["iteration"])
+        return "summary_agent"
+    if "ACCEPT" in state["critique"]:
+        logger.info("Hypothesis accepted after {} iterations", state["iteration"])
+        return "summary_agent"
+    else:
+        logger.info("Hypothesis rejected after {} iterations", state["iteration"])
+        return "hypothesis_refiner"
+
+
+def create_hypgen_graph() -> CompiledGraph:
+    graph = StateGraph(HypgenState)
+
+    # Add nodes with specialized agents
+    graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
+    graph.add_node(
+        "hypothesis_generator", create_hypothesis_generator_agent("small")["agent"]
+    )
+    graph.add_node(
+        "hypothesis_refiner", create_hypothesis_refiner_agent("small")["agent"]
+    )
+    graph.add_node("literature_agent", create_literature_agent("small")["agent"])
+    graph.add_node("novelty_analyst", create_analyst_agent("novelty", "small")["agent"])
+    graph.add_node(
+        "feasibility_analyst", create_analyst_agent("feasibility", "small")["agent"]
+    )
+    graph.add_node("impact_analyst", create_analyst_agent("impact", "small")["agent"])
+    graph.add_node("critique_analyst", create_critique_analyst_agent("small")["agent"])
+    graph.add_node("summary_agent", create_summary_agent("small")["agent"])
+
+    # Add edges
+    graph.add_edge(START, "ontologist")
+    graph.add_edge("ontologist", "hypothesis_generator")
+    # From initial hypothesis
+    graph.add_edge("hypothesis_generator", "literature_agent")
+    # From refined hypothesis
+    graph.add_edge("hypothesis_refiner", "literature_agent")
+    # # Fork
+    graph.add_edge("literature_agent", "novelty_analyst")
+    graph.add_edge("literature_agent", "feasibility_analyst")
+    graph.add_edge("literature_agent", "impact_analyst")
+    # # Join
+    graph.add_edge("novelty_analyst", "critique_analyst")
+    graph.add_edge("feasibility_analyst", "critique_analyst")
+    graph.add_edge("impact_analyst", "critique_analyst")
+    # graph.add_edge("critique_analyst", END)
+    graph.add_conditional_edges(
+        "critique_analyst",
+        improve_hypothesis,
+    )
+    graph.add_edge("summary_agent", END)
+
+    return graph.compile()
+
+
+hypgen_graph = create_hypgen_graph()
+
+
+----- FILE: ./langgraph/hypothesis_generator.py -----
+import re
+from typing import Any
+
+from langchain_core.runnables import RunnableConfig
+from langfuse.callback import CallbackHandler
+
+from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
+from ard.subgraph import Subgraph
+
+from .graph import hypgen_graph
+from .state import HypgenState
+from .utils import message_to_dict
+
+langfuse_callback = CallbackHandler()
+
+
+class HypothesisGenerator(HypothesisGeneratorProtocol):
+    def run(self, subgraph: Subgraph) -> Hypothesis:
+        context = subgraph.context
+        path = subgraph.to_cypher_string(full_graph=False)
+
+        res: HypgenState = hypgen_graph.invoke(
+            {"subgraph": path, "context": context},
+            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
+        )
+
+        title = self.__parse_title(res, subgraph) or ""
+        statement = self.__parse_statement(res)
+        references = self.__parse_references(res)
+        return Hypothesis(
+            title=title,
+            statement=statement,
+            source=subgraph,
+            method=self,
+            references=references,
+            metadata={
+                "summary": res["summary"],
+                "context": res["context"],
+                "novelty": res["novelty"],
+                "feasibility": res["feasibility"],
+                "impact": res["impact"],
+                "critique": res["critique"],
+                "iteration": res["iteration"],
+                "messages": [message_to_dict(message) for message in res["messages"]],
+            },
+        )
+
+    def __parse_title(self, state: HypgenState, subgraph: Subgraph) -> str:
+        title = state["title"]
+        if title:
+            return title
+        start_node = subgraph.start_node
+        end_node = subgraph.end_node
+        return f"Hypothesis for {start_node} -> {end_node}"
+
+    def __parse_statement(self, state: HypgenState) -> str:
+        statement_match = re.search(
+            r"Hypothesis Statement:(.+?)$", state["hypothesis"], re.DOTALL
+        )
+        if statement_match:
+            return statement_match.group(1)
+        return state["hypothesis"]
+
+    def __parse_references(self, state: HypgenState) -> list[str]:
+        return state.get("references", [])
+
+    def __str__(self) -> str:
+        return "HypeGen Generator"
+
+    def to_json(self) -> dict[str, Any]:
+        return {"type": "HypothesisGenerator"}
+
+
+----- FILE: ./langgraph/llm/config.py -----
+"""
+Configuration for language models.
+"""
+
+import os
+from typing import Any, Dict, Optional
+
+from dotenv import load_dotenv
+from pydantic import BaseModel, Field
+
+# Load environment variables from .env file
+load_dotenv(override=True)
+
+
+class ModelConfig(BaseModel):
+    """Base configuration for language models."""
+
+    model_name: str
+    max_tokens: Optional[int] = None
+    top_p: float = 1.0
+    temperature: Optional[float] = None
+    frequency_penalty: float = 0.0
+    presence_penalty: float = 0.0
+    timeout: int = 120
+    api_key: Optional[str] = None
+    api_base: Optional[str] = None
+    additional_kwargs: Dict[str, Any] = Field(default_factory=dict)
+
+
+class OpenAIConfig(ModelConfig):
+    """Configuration for OpenAI models."""
+
+    provider: str = "openai"
+    streaming: bool = False
+
+
+class AnthropicConfig(ModelConfig):
+    """Configuration for Anthropic models."""
+
+    provider: str = "anthropic"
+    streaming: bool = False
+
+
+# Model registry
+MODEL_REGISTRY = {
+    "small": OpenAIConfig(
+        model_name="gpt-4o-mini",
+        api_key=os.getenv("OPENAI_API_KEY"),
+    ),
+    "large": OpenAIConfig(
+        model_name="gpt-4o",
+        api_key=os.getenv("OPENAI_API_KEY"),
+    ),
+    "reasoning": OpenAIConfig(
+        model_name="o3-mini",
+        api_key=os.getenv("OPENAI_API_KEY"),
+        additional_kwargs={"reasoning_effort": "high"},
+    ),
+    "anthropic": AnthropicConfig(
+        model_name="claude-3-5-sonnet",
+        api_key=os.getenv("ANTHROPIC_API_KEY"),
+    ),
+}
+
+
+----- FILE: ./langgraph/llm/utils.py -----
+"""
+Utility functions for working with language models.
+"""
+
+from typing import Dict, Optional, Union
+
+from langchain_anthropic import ChatAnthropic
+from langchain_core.language_models import BaseLanguageModel
+from langchain_openai import ChatOpenAI
+from langfuse.callback import CallbackHandler
+
+from .config import (
+    MODEL_REGISTRY,
+    AnthropicConfig,
+    ModelConfig,
+    OpenAIConfig,
+)
+
+ModelType = Union[str, ModelConfig, BaseLanguageModel, None]
+
+langfuse_callback = CallbackHandler()
+
+
+def get_llm(config: ModelConfig) -> BaseLanguageModel:
+    """
+    Initialize a language model based on the provided configuration.
+
+    Args:
+        config: Model configuration
+
+    Returns:
+        Initialized language model
+    """
+    if isinstance(config, OpenAIConfig):
+        return ChatOpenAI(
+            model_name=config.model_name,
+            temperature=config.temperature,
+            max_tokens=config.max_tokens,
+            top_p=config.top_p,
+            frequency_penalty=config.frequency_penalty,
+            presence_penalty=config.presence_penalty,
+            streaming=config.streaming,
+            openai_api_key=config.api_key,
+            openai_api_base=config.api_base,
+            callbacks=[langfuse_callback],
+            **config.additional_kwargs,
+        )
+    elif isinstance(config, AnthropicConfig):
+        return ChatAnthropic(
+            model_name=config.model_name,
+            temperature=config.temperature,
+            max_tokens=config.max_tokens,
+            anthropic_api_key=config.api_key,
+            callbacks=[langfuse_callback],
+            **config.additional_kwargs,
+        )
+    else:
+        raise ValueError(f"Unsupported model provider: {config.provider}")
+
+
+def get_model_by_name(
+    model_name: str, registry: Optional[Dict[str, ModelConfig]] = None, **kwargs
+) -> BaseLanguageModel:
+    """
+    Get a language model by name from the registry.
+
+    Args:
+        model_name: Name of the model in the registry
+        registry: Custom registry to use (optional)
+        **kwargs: Additional parameters to override in the config
+
+    Returns:
+        Initialized language model
+    """
+    registry = registry or MODEL_REGISTRY
+
+    if model_name not in registry:
+        raise ValueError(
+            f"Model {model_name} not found in registry. Available models: {list(registry.keys())}"
+        )
+
+    # Get the base config
+    config = registry[model_name]
+
+    # Override with any provided kwargs
+    for key, value in kwargs.items():
+        if hasattr(config, key):
+            setattr(config, key, value)
+
+    return get_llm(config)
+
+
+def get_default_model() -> BaseLanguageModel:
+    """
+    Get the default language model.
+
+    Returns:
+        Initialized language model
+    """
+    return get_model_by_name("small")
+
+
+def get_model(
+    model: ModelType = None,
+    registry: Optional[Dict[str, ModelConfig]] = None,
+    **kwargs,
+) -> BaseLanguageModel:
+    """
+    Get a language model
+
+    Args:
+        model: Model name, config, or instance
+        registry: Custom registry to use (optional)
+        **kwargs: Additional parameters to override in the config
+
+    Returns:
+        Initialized language model
+    """
+    if model is None:
+        return get_default_model()
+    elif isinstance(model, str):
+        return get_model_by_name(model, registry, **kwargs)
+    elif isinstance(model, ModelConfig):
+        return get_llm(model)
+    elif isinstance(model, BaseLanguageModel):
+        return model
+    else:
+        raise ValueError(f"Unsupported model type: {type(model)}")
+
+
+----- FILE: ./langgraph/output/.gitkeep -----
+
+
+----- FILE: ./langgraph/output/ca2e795f3a-d92edca168/hypothesis.md -----
+
+# Innovative Therapeutic Strategy for Rheumatoid Arthritis
+
+**Hypothesis ID:** d92edca168270d68b5fbdbbe154a568b096f8d30d81e617c615da7b905cbc91e
+
+**Subgraph ID:** ca2e795f3a0f135cb586b88fd6d91751e0807bb3227fa468ebd3308a380e3596
+
+**Hypothesis: The Intersection of C-Reactive Protein, Extracellular Matrix Integrity, and Monocyte Activation: A Novel Therapeutic Paradigm for Rheumatoid Arthritis**
+
+**Overview:**
+Rheumatoid arthritis (RA) is characterized by acute inflammatory flares that lead to joint damage through mechanisms involving C-reactive protein (CRP), monocyte activation, and matrix metalloproteinases (MMPs). This hypothesis proposes that modulating the interaction between CRP levels, monocyte activation, and extracellular matrix (ECM) components can offer a novel therapeutic approach to managing acute flares in RA. Specifically, we aim to investigate whether a targeted intervention that stabilizes ECM integrity can mitigate monocyte-driven inflammation and reduce CRP levels during acute flares.
+
+**Detailed Hypothesis:**
+1. **Mechanistic Interrogation**: Increased levels of CRP during acute flares induce monocyte activation, which then leads to heightened production of pro-inflammatory cytokines. These cytokines stimulate the expression of MMPs. MMPs contribute to ECM degradation, which in turn influences the activity of fibroblast-like synoviocytes, exacerbating joint inflammation. Our hypothesis posits that preventing ECM degradation via specific inhibitors of MMPs or ECM-stabilizing compounds could reduce the feedback loop leading to increased CRP and monocyte activity.
+
+2. **Proposed Methodology**:
+   - **In Vivo and In Vitro Studies**: Utilize animal models of RA to assess the effect of MMP inhibitors on CRP levels and monocyte activation. Different ECM-stabilizing substances (e.g., hyaluronic acid, decorin) will be administered during induced acute flares.
+   - **Cytokine Profiling**: Measure levels of pro-inflammatory cytokines, CRP, and activated monocytes in both the plasma and synovial tissue.
+   - **Histological Evaluation**: Examine joint tissues for markers of inflammation, ECM integrity, and MMP activity.
+
+3. **Emergent Behaviors**:
+   - We expect that the intervention will lead to a reduction in CRP levels, indicating decreased inflammation. Furthermore, we anticipate a decrease in monocyte activation and pro-inflammatory cytokine profiles alongside preserved ECM integrity, potentially halting the cycle of joint degradation.
+   - Observing the outcomes from different therapeutic concentrations will provide insight into dose-dependent responses, elucidating thresholds at which ECM stabilization begins to significantly impact inflammatory markers.
+
+4. **Technological Innovations**: This research may spur the development of combination therapies that integrate ECM stabilizers with conventional RA treatments (e.g., DMARDs, biologics). Advanced drug delivery systems may be created to enhance the localized delivery of ECM-stabilizing therapies directly to inflamed joints.
+
+**Implications of the Hypothesis**:
+- **Clinical Relevance**: If successful, this approach could revolutionize the management of RA, particularly in patients experiencing frequent and debilitating acute flares. Such a method may minimize reliance on corticosteroids and other anti-inflammatory medications, thus reducing side effects and improving quality of life.
+- **Broader Applications**: Insights gained from this hypothesis might extend beyond RA to other inflammatory and degenerative diseases where ECM integrity plays a critical role, such as osteoarthritis or systemic lupus erythematosus (SLE). The principles of ECM stabilization could inform therapies across a range of conditions characterized by inflammation and tissue degradation.
+
+By bridging the knowledge from CRP levels, monocyte dynamics, and ECM integrity, we are poised to uncover innovative therapeutic strategies that target the root causes of inflammatory responses rather than merely alleviating symptoms, marking a significant advance in the treatment of chronic inflammatory diseases.
+
+## References
+
+
+## Context
+None
+
+## Subgraph
+```
+(`Bridge Therapy`)-[:`is often used to manage`]->(`acute flares in rheumatoid arthritis`),
+(`acute flares in rheumatoid arthritis`)-[:`are characterized by elevated levels of`]->(`C-reactive protein`),
+(`C-reactive protein`)-[:`can induce`]->(`monocyte activation`),
+(`monocyte activation`)-[:`leads to the production of`]->(`pro-inflammatory cytokines`),
+(`pro-inflammatory cytokines`)-[:`stimulate the expression of`]->(`matrix metalloproteinases`),
+(`matrix metalloproteinases`)-[:`are involved in the degradation of`]->(`extracellular matrix components`),
+(`extracellular matrix components`)-[:`regulate the activity of`]->(`fibroblast-like synoviocytes in rheumatoid arthritis joints`),
+(`matrix metalloproteinases`)-[:`modulate the dynamics of`]->(`monocyte activation`),
+(`matrix metalloproteinases`)-[:`could amplify damage during`]->(`acute flares in rheumatoid arthritis`),
+(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)-[:`produce and secrete`]->(`pro-inflammatory cytokines`),
+(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)-[:`are responsive to changes in`]->(`C-reactive protein levels`),
+(`pro-inflammatory cytokines`)-[:`interact with`]->(`extracellular matrix components`),
+(`pro-inflammatory cytokines`)-[:`can indirectly affect`]->(`bridge therapy effectiveness`),
+(`acute flares in rheumatoid arthritis`)-[:`result in increased expression of`]->(`matrix metalloproteinases`),
+(`extracellular matrix components`)-[:`influence the persistence of`]->(`acute flares in rheumatoid arthritis`),
+(`monocyte activation`)-[:`can trigger`]->(`bridge therapy adjustments`),
+(`C-reactive protein`)-[:`can enhance activity of`]->(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)
+```
+
+
+----- FILE: ./langgraph/state.py -----
+from langgraph.graph import MessagesState
+
+
+class HypgenState(MessagesState):
+    subgraph: str
+    context: str
+    hypothesis: str
+
+    literature: str
+    references: list[str]
+
+    novelty: str
+    feasibility: str
+    impact: str
+
+    critique: str
+    summary: str
+    title: str
+
+    iteration: int
+
+
+----- FILE: ./langgraph/tools/perplexity.py -----
+from langchain.tools import tool
+from langchain_community.chat_models import ChatPerplexity
+from langchain_core.messages import HumanMessage
+
+
+@tool
+def search_perplexity(query: str) -> str:
+    """Search Perplexity for relevant literature with accurate citations.
+
+    Args:
+        query: The search query to find relevant literature
+
+    Returns:
+        A string containing the search results from Perplexity with citations
+    """
+    chat = ChatPerplexity()
+    prompt = f"""Please search for information about: {query}
+    Please provide a comprehensive response with accurate citations to sources. 
+    Include specific references and links where possible."""
+    messages = [HumanMessage(content=prompt)]
+    response = chat.invoke(messages)
+    sources = "\n".join(
+        [
+            f"{i + 1}. {source}"
+            for i, source in enumerate(response.additional_kwargs["citations"])
+        ]
+    )
+
+    resp = f"""
+    {response.content}
+
+    Sources:
+    {sources}
+    """
+
+    return resp
+
+
+----- FILE: ./langgraph/tools/pubmed.py -----
+import os
+import random
+import time
+import urllib.error
+import urllib.request
+
+from langchain_community.tools.pubmed.tool import PubmedQueryRun
+from langchain_community.utilities.pubmed import PubMedAPIWrapper
+
+
+class PubMedAPIWrapperImproved(PubMedAPIWrapper):
+    def retrieve_article(self, uid: str, webenv: str) -> dict:
+        url = (
+            self.base_url_efetch
+            + "db=pubmed&retmode=xml&id="
+            + uid
+            + "&webenv="
+            + webenv
+        )
+        if self.api_key != "":
+            url += f"&api_key={self.api_key}"
+
+        retry = 0
+        while True:
+            try:
+                result = urllib.request.urlopen(url)
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429 and retry < self.max_retry:
+                    # Too Many Requests errors
+                    # wait for an exponentially increasing amount of time
+                    sleep_time_random = random.uniform(0.5, 1.5)
+                    sleep_time = self.sleep_time + sleep_time_random
+                    print(  # noqa: T201
+                        f"Too Many Requests, waiting for {sleep_time:.2f} seconds..."
+                    )
+                    time.sleep(sleep_time)
+                    self.sleep_time *= 2
+                    retry += 1
+                else:
+                    raise e
+
+        xml_text = result.read().decode("utf-8")
+        text_dict = self.parse(xml_text)
+        return self._parse_article(uid, text_dict)
+
+
+pubmed_tool = PubmedQueryRun(
+    api_wrapper=PubMedAPIWrapperImproved(api_key=os.getenv("PUBMED_API_KEY"))
+)
+
+
+----- FILE: ./langgraph/utils.py -----
+from typing import Any, Dict, Optional
+
+from langchain.schema import BaseMessage
+
+
+def add_role(message: BaseMessage, role: Optional[str] = None) -> BaseMessage:
+    if role is not None:
+        message.name = role
+    return message
+
+
+def message_to_dict(message: BaseMessage) -> Dict[str, Any]:
+    result = {
+        "role": message.name or message.type,
+        "content": message.content,
+        "additional_kwargs": message.additional_kwargs,
+    }
+
+    # Only add these fields if they exist
+    if hasattr(message, "usage_metadata"):
+        result["usage_metadata"] = message.usage_metadata
+    if hasattr(message, "response_metadata"):
+        result["response_metadata"] = message.response_metadata
+
+    return result
+
+
+def calculate_message_cost(message: Dict[str, Any]) -> float:
+    """Calculate the cost of a message based on its metadata.
+
+    Args:
+        message: A dictionary containing message data with usage_metadata and response_metadata
+
+    Returns:
+        float: The calculated cost in USD
+    """
+    # Default costs per 1K tokens (as of 2024)
+    COSTS = {
+        "gpt-4o-mini": {
+            "input": 0.00015,
+            "output": 0.0006,
+        },
+        "gpt-4o": {
+            "input": 0.0025,
+            "output": 0.01,
+        },
+        "o3-mini": {
+            "input": 0.0011,
+            "output": 0.0022,
+        },
+    }
+
+    # Get model name from response metadata
+    model_name = (
+        message.get("response_metadata", {}).get("model_name", "").split("-20")[0]
+    )
+
+    # Get token counts from usage metadata
+    usage = message.get("usage_metadata", {})
+    input_tokens = usage.get("input_tokens", 0)
+    output_tokens = usage.get("output_tokens", 0)
+
+    # Get costs for the model
+    model_costs = COSTS.get(model_name, {"input": 0.0, "output": 0.0})
+
+    # Calculate input and output costs separately
+    input_cost = (input_tokens / 1000) * model_costs["input"]
+    output_cost = (output_tokens / 1000) * model_costs["output"]
+
+    # Calculate total cost
+    total_cost = input_cost + output_cost
+
+    return round(total_cost, 4)
+
+
+----- FILE: ./langgraph/adk_graph.py -----
+from typing import Dict, List, Optional
+from google.adk import Agent, Workflow, State, Action, Condition
+
+class HypothesisState(State):
+    """State for hypothesis generation workflow"""
+    def __init__(self):
+        self.subgraph: str = ""
+        self.context: str = ""
+        self.hypothesis: str = ""
+        self.literature: str = ""
+        self.references: List[str] = []
+        self.novelty: str = ""
+        self.feasibility: str = ""
+        self.impact: str = ""
+        self.critique: str = ""
+        self.summary: str = ""
+        self.title: str = ""
+        self.iteration: int = 0
+
+class OntologistAgent(Agent):
+    """Agent responsible for ontology analysis"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement ontology analysis logic
+        return {"subgraph": "ontology_result"}
+
+class HypothesisGeneratorAgent(Agent):
+    """Agent responsible for generating initial hypotheses"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement hypothesis generation logic
+        return {"hypothesis": "generated_hypothesis"}
+
+class LiteratureAgent(Agent):
+    """Agent responsible for literature review"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement literature review logic
+        return {"literature": "reviewed_literature", "references": ["ref1", "ref2"]}
+
+class AnalystAgent(Agent):
+    """Base class for analysis agents"""
+    def __init__(self, analysis_type: str):
+        self.analysis_type = analysis_type
+
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement analysis logic based on type
+        return {self.analysis_type: f"{self.analysis_type}_analysis"}
+
+class CritiqueAgent(Agent):
+    """Agent responsible for critiquing the hypothesis"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement critique logic
+        return {"critique": "critique_result"}
+
+class SummaryAgent(Agent):
+    """Agent responsible for generating final summary"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement summary generation logic
+        return {"summary": "final_summary", "title": "final_title"}
+
+class HypothesisRefinerAgent(Agent):
+    """Agent responsible for refining hypotheses"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement hypothesis refinement logic
+        return {"hypothesis": "refined_hypothesis"}
+
+class IterationCondition(Condition):
+    """Condition to check iteration limit"""
+    def evaluate(self, state: HypothesisState) -> bool:
+        return state.iteration > 3
+
+class AcceptanceCondition(Condition):
+    """Condition to check if hypothesis is accepted"""
+    def evaluate(self, state: HypothesisState) -> bool:
+        return "ACCEPT" in state.critique
+
+def create_hypothesis_workflow() -> Workflow:
+    """Create the hypothesis generation workflow using Google ADK"""
+    workflow = Workflow(HypothesisState)
+
+    # Create agents
+    ontologist = OntologistAgent()
+    hypothesis_generator = HypothesisGeneratorAgent()
+    literature_agent = LiteratureAgent()
+    novelty_analyst = AnalystAgent("novelty")
+    feasibility_analyst = AnalystAgent("feasibility")
+    impact_analyst = AnalystAgent("impact")
+    critique_agent = CritiqueAgent()
+    summary_agent = SummaryAgent()
+    hypothesis_refiner = HypothesisRefinerAgent()
+
+    # Add nodes to workflow
+    workflow.add_node("ontologist", ontologist)
+    workflow.add_node("hypothesis_generator", hypothesis_generator)
+    workflow.add_node("literature_agent", literature_agent)
+    workflow.add_node("novelty_analyst", novelty_analyst)
+    workflow.add_node("feasibility_analyst", feasibility_analyst)
+    workflow.add_node("impact_analyst", impact_analyst)
+    workflow.add_node("critique_agent", critique_agent)
+    workflow.add_node("summary_agent", summary_agent)
+    workflow.add_node("hypothesis_refiner", hypothesis_refiner)
+
+    # Define workflow edges
+    workflow.add_edge("start", "ontologist")
+    workflow.add_edge("ontologist", "hypothesis_generator")
+    workflow.add_edge("hypothesis_generator", "literature_agent")
+    workflow.add_edge("literature_agent", "novelty_analyst")
+    workflow.add_edge("literature_agent", "feasibility_analyst")
+    workflow.add_edge("literature_agent", "impact_analyst")
+    workflow.add_edge("novelty_analyst", "critique_agent")
+    workflow.add_edge("feasibility_analyst", "critique_agent")
+    workflow.add_edge("impact_analyst", "critique_agent")
+
+    # Add conditional edges
+    workflow.add_conditional_edge(
+        "critique_agent",
+        "hypothesis_refiner",
+        [IterationCondition(), AcceptanceCondition()],
+        "hypothesis_refiner"
+    )
+    workflow.add_conditional_edge(
+        "critique_agent",
+        "summary_agent",
+        [IterationCondition(), AcceptanceCondition()],
+        "summary_agent"
+    )
+    workflow.add_edge("summary_agent", "end")
+
+    return workflow
+
+# Create and compile the workflow
+hypothesis_workflow = create_hypothesis_workflow() 
+
+----- FILE: ./langgraph/.env.example -----
+
+# OpenAI
+OPENAI_API_KEY=sk-proj-123
+
+# Perplexity
+PPLX_API_KEY=pplx-123
+
+# PubMed
+PUBMED_API_KEY=123
+
+# Langfuse
+LANGFUSE_SECRET_KEY=sk-lf-123
+LANGFUSE_PUBLIC_KEY=pk-lf-123
+LANGFUSE_HOST=https://cloud.langfuse.com
+
+
+----- FILE: ./langgraph/README.md -----
+# LangGraph Workflow
+
+This workflow implements a hypothesis generation system using LangGraph, designed to analyze subgraphs and generate scientific hypotheses based on the relationships and context within the data.
+
+## Overview
+
+The workflow consists of several key components:
+
+- `generate_hypothesis.py`: CLI interface for running the hypothesis generation
+- `hypothesis_generator.py`: A wrapper around the hypothesis generation logic
+- `graph.py`: Defining the LangGraph workflow structure - the logic
+- `state.py`: Manages the state during hypothesis generation
+- `utils.py`: Utility functions supporting the workflow
+- `agents`: A collection of agents for the workflow
+- `tools`: A collection of tools for the agents to use
+- `llm`: A collection of LLM configurations
+
+## Prerequisites
+
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) package and project manager
+
+## Environment Setup
+
+1. Create a `.env` file in the project root with the following variables:
+
+   ```
+   # OpenAI
+    OPENAI_API_KEY=sk-proj-123
+
+    # Anthropic
+    ANTHROPIC_API_KEY=sk-ant-api03-123
+
+    # Perplexity
+    PPLX_API_KEY=pplx-123
+
+    # PubMed
+    PUBMED_API_KEY=123
+
+    # Langfuse
+    LANGFUSE_SECRET_KEY=sk-lf-123
+    LANGFUSE_PUBLIC_KEY=pk-lf-123
+    LANGFUSE_HOST=https://cloud.langfuse.com
+   ```
+
+## Installation
+
+Install the packages in the ard's root directory:
+
+```bash
+uv sync
+source .venv/bin/activate
+```
+
+## Usage
+
+The workflow can be run using the `generate_hypothesis.py` script.
+From ARD's root directory:
+
+```bash
+python -m hackathon.langgraph.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/langgraph/output
+```
+
+### Arguments
+
+- `--file` or `-f`: Path to the input JSON file containing the subgraph data
+- `--output` or `-o`: Path to the output directory (defaults to current directory)
+
+## Output
+
+The output is a JSON and Markdown files containing the hypothesis.
+
+```json
+{
+    "title": "<hypothesis.title>",
+    "text": "<hypothesis.statement>",
+    "references": [],
+    "hypothesis_id": "<hypothesis._hypothesis_id",
+    "subgraph_id": "<source_subgraph_id",
+    "source": "<source_subgraph_as_json>",
+    "metadata": {
+        ... # all additional data from the hypothesis
+    }
+}
+```
+
+## Architecture
+
+The workflow uses LangGraph to create a structured process for hypothesis generation:
+
+1. Takes a subgraph as input
+2. Processes subgraph through `method` (e.g. `HypothesisGenerator`)
+3. Creates Hypothesis from the state returend by the `method`
+4. Saves the Hypothesis to the output directory
+
+## Development
+
+To modify or extend the workflow:
+
+1. Edit `graph.py` to modify the workflow structure
+2. Update `hypothesis_generator.py` with new method implementing `HypothesisGeneratorProtocol`
+3. Modify `state.py` to add new state variables if needed
+4. Update `utils.py` for additional utility functions
+5. Modify `agents` to add new agents or modify prompt templates
+6. Extend `tools` with new functions for agents to use
+
+**Note**
+`generate_hypothesis.py` should remain unchanged to enable similar structure for different workflows and easy run.
+
+## Monitoring
+
+The workflow integrates with Langfuse for monitoring and tracking the hypothesis generation process. Ensure your Langfuse credentials are properly configured in the `.env` file.
+
+
+----- FILE: ./langgraph/agents/analysts.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+ANALYST_PROMPT = """
+You are a critical AI assistant collaborating with a group of scientists to assess the {analysis_type} of a research proposal. 
+
+Your primary task is to evaluate a proposed research hypothesis for its {task}
+
+After careful analysis, return your estimations for the {analysis_type} as one of the following:
+- "No {analysis_type}"
+- "Some {analysis_type}"
+- "High {analysis_type}"
+
+Provide your reasoning for your assessment.
+Cite the literature to support your assessment.
+
+Literature information gathered by the research assistant:
+{literature}
+
+Hypothesis:
+{hypothesis}
+"""
+
+# "Your primary task is to evaluate a proposed research hypothesis for its ..."
+PROMPT_TASK_TEMPLATES = {
+    "novelty": """
+    novelty ensuring it does not overlap significantly with existing literature or delve into areas that are already well-explored.
+    """,
+    "feasibility": """
+    feasibility considering the resources, time, and technical challenges.
+    """,
+    "impact": """
+    impact considering the potential scientific, technological, and societal impact.
+    """,
+}
+
+
+def create_analyst_agent(
+    analyst: Literal["novelty", "feasibility", "impact"],
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a analyst agent that evaluates the hypothesis."""
+
+    analyst_prompt = PromptTemplate.from_template(ANALYST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = analyst_prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        logger.info(f"Starting {analyst} analysis")
+
+        # Get the literature information from the response
+        literature = state["literature"]
+
+        # Run the chain
+        logger.info(f"Running {analyst} analysis chain")
+        response = chain.invoke(
+            {
+                **state,
+                "literature": literature,
+                "analysis_type": analyst,
+                "task": PROMPT_TASK_TEMPLATES[analyst],
+            }
+        )
+        logger.info(f"{analyst} analysis completed successfully")
+
+        return {
+            "messages": [add_role(response, analyst)],
+            analyst: response.content,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/critique_analyst.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+CRITIC_AGENT_PROMPT = """You are a critical scientific reviewer. 
+You are given a research hypothesis, together with the novelty, feasibility, and impact analysis.
+Your task is to evaluate if the hypothesis is strong enough to be considered for a research paper.
+You should provide a thorough critical scientific review with strengths and weaknesses, and suggested improvements. Include logical reasoning and scientific approaches.
+
+If the hypothesis is not strong enough, you should provide a critique of the hypothesis and suggest improvements.
+If the hypothesis is strong enough, you should reply with "ACCEPT".
+
+Hypothesis:
+{hypothesis}
+
+Novelty Analysis:
+{novelty}
+
+Feasibility Analysis:
+{feasibility}
+
+Impact Analysis:
+{impact}
+"""
+
+
+def create_critique_analyst_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a critique analyst agent that evaluates the overall research proposal."""
+
+    prompt = PromptTemplate.from_template(CRITIC_AGENT_PROMPT)
+
+    # Use provided model or get default large model
+    model = get_model(model, **kwargs)
+
+    chain = prompt | model
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Evaluate the overall research proposal and provide critique."""
+        logger.info("Starting critique analysis")
+        # Run the chain
+        response = chain.invoke(state)
+
+        logger.info("Critique analysis completed successfully")
+        return {
+            "critique": response.content,
+            "messages": [add_role(response, "critique_analyst")],
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/hypothesis_generator.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+SCIENTIST_PROMPT = """You are a sophisticated scientist trained in scientific research and innovation. 
+    
+Given the definitions and relationships acquired from a comprehensive knowledge graph, your task is to synthesize a novel research hypothesis. Your response should not only demonstrate deep understanding and rational thinking but also explore imaginative and unconventional applications of these concepts. 
+    
+Analyze the graph deeply and carefully, then craft a detailed hypothesis that investigates a likely groundbreaking aspect of the knowledge graph.
+
+Consider the implications of your hypothesis and predict the outcome or behavior that might result from this line of investigation. Your creativity in linking these concepts to address unsolved problems or propose new, unexplored areas of study, emergent or unexpected behaviors, will be highly valued.
+
+The hypothesis should be well-defined, has novelty, is feasible, has a well-defined purpose and clear components. Your hypothesis should be as detailed as possible. Ensure it is both innovative and grounded in logical reasoning, capable of advancing our understanding or application of the concepts provided.
+
+Remember, the value of your response lies in scientific discovery, new avenues of scientific inquiry, and potential technological breakthroughs, with detailed and solid reasoning.
+
+Graph:
+{subgraph}
+
+Definitions and Relationships:
+{context}
+"""
+
+
+def create_hypothesis_generator_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a hypothesis generator agent that creates research proposals based on ontologist analysis."""
+
+    prompt = PromptTemplate.from_template(SCIENTIST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Generate a research hypothesis based on the ontologist's analysis."""
+        logger.info("Starting hypothesis generation")
+        # Run the chain
+        response = chain.invoke(state)
+
+        content = response.content
+        logger.info("Hypothesis generated successfully")
+
+        return {
+            "hypothesis": content,
+            "messages": [add_role(response, "hypothesis_generator")],
+            "iteration": state.get("iteration", 0) + 1,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/hypothesis_refiner.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+SCIENTIST_PROMPT = """You are a sophisticated scientist trained in scientific research and innovation. 
+    
+Given a hypothesis, critical feedback on the hypothesis, and definitions and relationships acquired from a comprehensive knowledge graph, your task is to refine the hypothesis. Your response should not only demonstrate deep understanding and rational thinking but also explore imaginative and unconventional applications of these concepts. 
+    
+Analyze both the graph and the critical feedback deeply and carefully, then craft a detailed hypothesis that investigates a likely groundbreaking aspect of the knowledge graph.
+
+Consider the implications of your hypothesis and predict the outcome or behavior that might result from this line of investigation. Your creativity in linking these concepts to address unsolved problems or propose new, unexplored areas of study, emergent or unexpected behaviors, will be highly valued.
+
+The hypothesis should be well-defined, has novelty, is feasible, has a well-defined purpose and clear components. Your hypothesis should be as detailed as possible. Ensure it is both innovative and grounded in logical reasoning, capable of advancing our understanding or application of the concepts provided.
+
+Remember, the value of your response lies in scientific discovery, new avenues of scientific inquiry, and potential technological breakthroughs, with detailed and solid reasoning.
+
+Hypothesis:
+{hypothesis}
+
+Critical Feedback:
+{critique}
+
+Novelty Analysis:
+{novelty}
+
+Feasibility Analysis:
+{feasibility}
+
+Impact Analysis:
+{impact}
+
+Graph:
+{subgraph}
+
+Definitions and Relationships:
+{context}
+"""
+
+
+def create_hypothesis_refiner_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a hypothesis refiner agent that refines a hypothesis based on critical feedback."""
+
+    prompt = PromptTemplate.from_template(SCIENTIST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Refine a research hypothesis based on critical feedback."""
+        logger.info("Starting hypothesis refinement")
+        # Run the chain
+        response = chain.invoke(state)
+
+        content = response.content
+        logger.info("Hypothesis refined successfully")
+
+        return {
+            "hypothesis": content,
+            "messages": [add_role(response, "hypothesis_refiner")],
+            "iteration": state.get("iteration", 0) + 1,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/literature.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from langchain_community.tools.arxiv.tool import ArxivQueryRun
+from langgraph.prebuilt.chat_agent_executor import create_react_agent
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..tools.perplexity import search_perplexity
+from ..tools.pubmed import pubmed_tool
+
+SEARCH_PROMPT = """
+You are a research assistant. Find relevant literature that will help evaluate novelty, feasibility, and impact of a hypothesis given below.
+
+To find a broad range of relevant literature, use queries that are related to the hypothesis but not too specific.
+Instead of one or two very specific queries, use a broader range of queries that are related to the hypothesis.
+
+Hypothesis:
+{hypothesis}
+
+After searching, return the search results.
+"""
+
+tools = [
+    ArxivQueryRun(),
+    pubmed_tool,
+    search_perplexity,
+]
+
+
+def create_literature_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates a literature agent that finds relevant literature."""
+
+    llm = get_model(model, **kwargs)
+    research_assistant = create_react_agent(model=llm, tools=tools)
+
+    def agent(state: HypgenState) -> HypgenState:
+        logger.info("Starting literature search")
+        # Search for literature
+        messages = (
+            PromptTemplate.from_template(SEARCH_PROMPT)
+            .invoke({"hypothesis": state["hypothesis"]})
+            .to_messages()
+        )
+        logger.info("Searching for relevant literature")
+        assistant_response = research_assistant.invoke({"messages": messages})
+        logger.info("Literature search completed")
+
+        # Get the literature information from the response
+        literature = assistant_response["messages"][-1]
+
+        return {
+            "messages": assistant_response["messages"],
+            "literature": literature,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/ontologist.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+from ..utils import add_role
+
+# Ontologist prompt
+ONTOLOGIST_PROMPT = """You are a sophisticated ontologist.
+    
+Given some key concepts extracted from a comprehensive knowledge graph, your task is to define each one of the terms and discuss the relationships identified in the graph.
+
+There may be multiple relationships between the same two nodes. The format of the knowledge graph is
+"
+node_1-[:relationship between node_1 and node_2]->node_2
+node_1-[:relationship between node_1 and node_3]->node_3
+node_2-[:relationship between node_2 and node_3]->node_4...
+"
+
+Make sure to incorporate EACH of the concepts in the knowledge graph in your response.
+
+Do not add any introductory phrases. First, define each term in the knowledge graph and then, secondly, discuss each of the relationships, with context.
+
+Here is an example structure for our response, in the following format
+
+{{
+### Definitions:
+A clear definition of each term in the knowledge graph.
+### Relationships
+A thorough discussion of all the relationships in the graph. 
+}}
+
+Graph:
+{subgraph}
+"""
+
+
+def create_ontologist_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates an ontologist agent that analyzes and defines concepts from a knowledge graph."""
+
+    prompt = PromptTemplate.from_template(ONTOLOGIST_PROMPT)
+
+    llm = get_model(model, **kwargs)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Process the knowledge graph and return definitions and relationships."""
+        logger.info("Starting ontology analysis")
+        # Run the chain
+        response = chain.invoke(state)
+
+        logger.info("Ontology analysis completed successfully")
+        return {
+            "context": response.content,
+            "messages": [add_role(response, "ontologist")],
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/agents/summary.py -----
+from typing import Any, Dict, Literal, Optional
+
+from langchain.prompts import PromptTemplate
+from loguru import logger
+from pydantic import BaseModel
+
+from ..llm.utils import get_model
+from ..state import HypgenState
+
+# Summary prompt
+SUMMARY_PROMPT = """You are a skilled scientific writer.
+
+Given a hypothesis and it's novelty, feasibility, and impact analysis, write a concise summary of both the hypothesis and the analysis.
+
+Here is an example structure for our response, in the following format
+
+{{
+### Hypothesis
+...
+
+### Novelty Assessment:  Not novel/Somewhat novel/Novel/Very novel
+...
+
+### Feasibility Assessment:  Not feasible/Somewhat feasible/Feasible
+...
+
+### Impact Assessment:  Not impactful/Somewhat impactful/Impactful/Very impactful
+...
+}}
+
+Here is the hypothesis and the analysis:
+Hypothesis:
+{hypothesis}
+
+Novelty Assessment:
+{novelty}
+
+Feasibility Assessment:
+{feasibility}
+
+Impact Assessment:
+{impact}
+"""
+
+
+class HypothesisSummary(BaseModel):
+    title: str
+    summary: str
+
+
+def create_summary_agent(
+    model: Optional[Literal["large", "small", "reasoning"]] = None,
+    **kwargs,
+) -> Dict[str, Any]:
+    """Creates an ontologist agent that analyzes and defines concepts from a knowledge graph."""
+
+    prompt = PromptTemplate.from_template(SUMMARY_PROMPT)
+
+    llm = get_model(model, **kwargs).with_structured_output(HypothesisSummary)
+    chain = prompt | llm
+
+    def agent(state: HypgenState) -> HypgenState:
+        """Process the hypothesis and the analysis and return a summary."""
+        logger.info("Starting summary generation")
+        # Run the chain
+        response = chain.invoke(state)
+
+        logger.info("Summary generated successfully")
+        return {
+            "summary": response.summary,
+            "title": response.title,
+        }
+
+    return {"agent": agent}
+
+
+----- FILE: ./langgraph/generate_hypothesis.py -----
+from pathlib import Path
+
+import click
+import dotenv
+from langfuse.callback import CallbackHandler
+from loguru import logger
+
+from ard.hypothesis import Hypothesis
+from ard.subgraph import Subgraph
+
+from .hypothesis_generator import HypothesisGenerator
+
+langfuse_callback = CallbackHandler()
+
+dotenv.load_dotenv()
+
+
+@click.command()
+@click.option(
+    "--file", "-f", type=click.Path(exists=True), help="Path to the json file"
+)
+@click.option(
+    "--output",
+    "-o",
+    type=click.Path(exists=True, file_okay=False),
+    help="Path to the output directory",
+    default=".",
+)
+def main(file: str, output: str):
+    file_path = Path(file)
+    output_path = Path(output)
+    logger.info(f"Subgraph loaded from {file_path}")
+
+    logger.info("Generating hypothesis...")
+    hypothesis = Hypothesis.from_subgraph(
+        subgraph=Subgraph.load_from_file(file_path),
+        method=HypothesisGenerator(),
+    )
+    logger.info(f"Hypothesis generated for {file_path}")
+
+    # Save hypothesis in json and md format
+    output_path.mkdir(parents=True, exist_ok=True)
+    hypothesis.save(backend_path=output_path, parser_type="json")
+    hypothesis.save(backend_path=output_path, parser_type="md")
+
+    logger.info(f"Hypothesis saved to {output_path}")
+
+
+if __name__ == "__main__":
+    main()
+
+
+----- FILE: ./langgraph/graph.py -----
+from typing import Literal
+
+from langgraph.graph import END, START, StateGraph
+from langgraph.graph.graph import CompiledGraph
+from loguru import logger
+
+from .agents.analysts import create_analyst_agent
+from .agents.critique_analyst import create_critique_analyst_agent
+from .agents.hypothesis_generator import create_hypothesis_generator_agent
+from .agents.hypothesis_refiner import create_hypothesis_refiner_agent
+from .agents.literature import create_literature_agent
+from .agents.ontologist import create_ontologist_agent
+from .agents.summary import create_summary_agent
+from .state import HypgenState
+
+
+def improve_hypothesis(
+    state: HypgenState,
+) -> Literal["hypothesis_refiner", "summary_agent"]:
+    if state["iteration"] > 3:
+        logger.info("Iteration limit reached after {} iterations", state["iteration"])
+        return "summary_agent"
+    if "ACCEPT" in state["critique"]:
+        logger.info("Hypothesis accepted after {} iterations", state["iteration"])
+        return "summary_agent"
+    else:
+        logger.info("Hypothesis rejected after {} iterations", state["iteration"])
+        return "hypothesis_refiner"
+
+
+def create_hypgen_graph() -> CompiledGraph:
+    graph = StateGraph(HypgenState)
+
+    # Add nodes with specialized agents
+    graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
+    graph.add_node(
+        "hypothesis_generator", create_hypothesis_generator_agent("small")["agent"]
+    )
+    graph.add_node(
+        "hypothesis_refiner", create_hypothesis_refiner_agent("small")["agent"]
+    )
+    graph.add_node("literature_agent", create_literature_agent("small")["agent"])
+    graph.add_node("novelty_analyst", create_analyst_agent("novelty", "small")["agent"])
+    graph.add_node(
+        "feasibility_analyst", create_analyst_agent("feasibility", "small")["agent"]
+    )
+    graph.add_node("impact_analyst", create_analyst_agent("impact", "small")["agent"])
+    graph.add_node("critique_analyst", create_critique_analyst_agent("small")["agent"])
+    graph.add_node("summary_agent", create_summary_agent("small")["agent"])
+
+    # Add edges
+    graph.add_edge(START, "ontologist")
+    graph.add_edge("ontologist", "hypothesis_generator")
+    # From initial hypothesis
+    graph.add_edge("hypothesis_generator", "literature_agent")
+    # From refined hypothesis
+    graph.add_edge("hypothesis_refiner", "literature_agent")
+    # # Fork
+    graph.add_edge("literature_agent", "novelty_analyst")
+    graph.add_edge("literature_agent", "feasibility_analyst")
+    graph.add_edge("literature_agent", "impact_analyst")
+    # # Join
+    graph.add_edge("novelty_analyst", "critique_analyst")
+    graph.add_edge("feasibility_analyst", "critique_analyst")
+    graph.add_edge("impact_analyst", "critique_analyst")
+    # graph.add_edge("critique_analyst", END)
+    graph.add_conditional_edges(
+        "critique_analyst",
+        improve_hypothesis,
+    )
+    graph.add_edge("summary_agent", END)
+
+    return graph.compile()
+
+
+hypgen_graph = create_hypgen_graph()
+
+
+----- FILE: ./langgraph/hypothesis_generator.py -----
+import re
+from typing import Any
+
+from langchain_core.runnables import RunnableConfig
+from langfuse.callback import CallbackHandler
+
+from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
+from ard.subgraph import Subgraph
+
+from .graph import hypgen_graph
+from .state import HypgenState
+from .utils import message_to_dict
+
+langfuse_callback = CallbackHandler()
+
+
+class HypothesisGenerator(HypothesisGeneratorProtocol):
+    def run(self, subgraph: Subgraph) -> Hypothesis:
+        context = subgraph.context
+        path = subgraph.to_cypher_string(full_graph=False)
+
+        res: HypgenState = hypgen_graph.invoke(
+            {"subgraph": path, "context": context},
+            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
+        )
+
+        title = self.__parse_title(res, subgraph) or ""
+        statement = self.__parse_statement(res)
+        references = self.__parse_references(res)
+        return Hypothesis(
+            title=title,
+            statement=statement,
+            source=subgraph,
+            method=self,
+            references=references,
+            metadata={
+                "summary": res["summary"],
+                "context": res["context"],
+                "novelty": res["novelty"],
+                "feasibility": res["feasibility"],
+                "impact": res["impact"],
+                "critique": res["critique"],
+                "iteration": res["iteration"],
+                "messages": [message_to_dict(message) for message in res["messages"]],
+            },
+        )
+
+    def __parse_title(self, state: HypgenState, subgraph: Subgraph) -> str:
+        title = state["title"]
+        if title:
+            return title
+        start_node = subgraph.start_node
+        end_node = subgraph.end_node
+        return f"Hypothesis for {start_node} -> {end_node}"
+
+    def __parse_statement(self, state: HypgenState) -> str:
+        statement_match = re.search(
+            r"Hypothesis Statement:(.+?)$", state["hypothesis"], re.DOTALL
+        )
+        if statement_match:
+            return statement_match.group(1)
+        return state["hypothesis"]
+
+    def __parse_references(self, state: HypgenState) -> list[str]:
+        return state.get("references", [])
+
+    def __str__(self) -> str:
+        return "HypeGen Generator"
+
+    def to_json(self) -> dict[str, Any]:
+        return {"type": "HypothesisGenerator"}
+
+
+----- FILE: ./langgraph/llm/config.py -----
+"""
+Configuration for language models.
+"""
+
+import os
+from typing import Any, Dict, Optional
+
+from dotenv import load_dotenv
+from pydantic import BaseModel, Field
+
+# Load environment variables from .env file
+load_dotenv(override=True)
+
+
+class ModelConfig(BaseModel):
+    """Base configuration for language models."""
+
+    model_name: str
+    max_tokens: Optional[int] = None
+    top_p: float = 1.0
+    temperature: Optional[float] = None
+    frequency_penalty: float = 0.0
+    presence_penalty: float = 0.0
+    timeout: int = 120
+    api_key: Optional[str] = None
+    api_base: Optional[str] = None
+    additional_kwargs: Dict[str, Any] = Field(default_factory=dict)
+
+
+class OpenAIConfig(ModelConfig):
+    """Configuration for OpenAI models."""
+
+    provider: str = "openai"
+    streaming: bool = False
+
+
+class AnthropicConfig(ModelConfig):
+    """Configuration for Anthropic models."""
+
+    provider: str = "anthropic"
+    streaming: bool = False
+
+
+# Model registry
+MODEL_REGISTRY = {
+    "small": OpenAIConfig(
+        model_name="gpt-4o-mini",
+        api_key=os.getenv("OPENAI_API_KEY"),
+    ),
+    "large": OpenAIConfig(
+        model_name="gpt-4o",
+        api_key=os.getenv("OPENAI_API_KEY"),
+    ),
+    "reasoning": OpenAIConfig(
+        model_name="o3-mini",
+        api_key=os.getenv("OPENAI_API_KEY"),
+        additional_kwargs={"reasoning_effort": "high"},
+    ),
+    "anthropic": AnthropicConfig(
+        model_name="claude-3-5-sonnet",
+        api_key=os.getenv("ANTHROPIC_API_KEY"),
+    ),
+}
+
+
+----- FILE: ./langgraph/llm/utils.py -----
+"""
+Utility functions for working with language models.
+"""
+
+from typing import Dict, Optional, Union
+
+from langchain_anthropic import ChatAnthropic
+from langchain_core.language_models import BaseLanguageModel
+from langchain_openai import ChatOpenAI
+from langfuse.callback import CallbackHandler
+
+from .config import (
+    MODEL_REGISTRY,
+    AnthropicConfig,
+    ModelConfig,
+    OpenAIConfig,
+)
+
+ModelType = Union[str, ModelConfig, BaseLanguageModel, None]
+
+langfuse_callback = CallbackHandler()
+
+
+def get_llm(config: ModelConfig) -> BaseLanguageModel:
+    """
+    Initialize a language model based on the provided configuration.
+
+    Args:
+        config: Model configuration
+
+    Returns:
+        Initialized language model
+    """
+    if isinstance(config, OpenAIConfig):
+        return ChatOpenAI(
+            model_name=config.model_name,
+            temperature=config.temperature,
+            max_tokens=config.max_tokens,
+            top_p=config.top_p,
+            frequency_penalty=config.frequency_penalty,
+            presence_penalty=config.presence_penalty,
+            streaming=config.streaming,
+            openai_api_key=config.api_key,
+            openai_api_base=config.api_base,
+            callbacks=[langfuse_callback],
+            **config.additional_kwargs,
+        )
+    elif isinstance(config, AnthropicConfig):
+        return ChatAnthropic(
+            model_name=config.model_name,
+            temperature=config.temperature,
+            max_tokens=config.max_tokens,
+            anthropic_api_key=config.api_key,
+            callbacks=[langfuse_callback],
+            **config.additional_kwargs,
+        )
+    else:
+        raise ValueError(f"Unsupported model provider: {config.provider}")
+
+
+def get_model_by_name(
+    model_name: str, registry: Optional[Dict[str, ModelConfig]] = None, **kwargs
+) -> BaseLanguageModel:
+    """
+    Get a language model by name from the registry.
+
+    Args:
+        model_name: Name of the model in the registry
+        registry: Custom registry to use (optional)
+        **kwargs: Additional parameters to override in the config
+
+    Returns:
+        Initialized language model
+    """
+    registry = registry or MODEL_REGISTRY
+
+    if model_name not in registry:
+        raise ValueError(
+            f"Model {model_name} not found in registry. Available models: {list(registry.keys())}"
+        )
+
+    # Get the base config
+    config = registry[model_name]
+
+    # Override with any provided kwargs
+    for key, value in kwargs.items():
+        if hasattr(config, key):
+            setattr(config, key, value)
+
+    return get_llm(config)
+
+
+def get_default_model() -> BaseLanguageModel:
+    """
+    Get the default language model.
+
+    Returns:
+        Initialized language model
+    """
+    return get_model_by_name("small")
+
+
+def get_model(
+    model: ModelType = None,
+    registry: Optional[Dict[str, ModelConfig]] = None,
+    **kwargs,
+) -> BaseLanguageModel:
+    """
+    Get a language model
+
+    Args:
+        model: Model name, config, or instance
+        registry: Custom registry to use (optional)
+        **kwargs: Additional parameters to override in the config
+
+    Returns:
+        Initialized language model
+    """
+    if model is None:
+        return get_default_model()
+    elif isinstance(model, str):
+        return get_model_by_name(model, registry, **kwargs)
+    elif isinstance(model, ModelConfig):
+        return get_llm(model)
+    elif isinstance(model, BaseLanguageModel):
+        return model
+    else:
+        raise ValueError(f"Unsupported model type: {type(model)}")
+
+
+----- FILE: ./langgraph/output/.gitkeep -----
+
+
+----- FILE: ./langgraph/output/ca2e795f3a-d92edca168/hypothesis.md -----
+
+# Innovative Therapeutic Strategy for Rheumatoid Arthritis
+
+**Hypothesis ID:** d92edca168270d68b5fbdbbe154a568b096f8d30d81e617c615da7b905cbc91e
+
+**Subgraph ID:** ca2e795f3a0f135cb586b88fd6d91751e0807bb3227fa468ebd3308a380e3596
+
+**Hypothesis: The Intersection of C-Reactive Protein, Extracellular Matrix Integrity, and Monocyte Activation: A Novel Therapeutic Paradigm for Rheumatoid Arthritis**
+
+**Overview:**
+Rheumatoid arthritis (RA) is characterized by acute inflammatory flares that lead to joint damage through mechanisms involving C-reactive protein (CRP), monocyte activation, and matrix metalloproteinases (MMPs). This hypothesis proposes that modulating the interaction between CRP levels, monocyte activation, and extracellular matrix (ECM) components can offer a novel therapeutic approach to managing acute flares in RA. Specifically, we aim to investigate whether a targeted intervention that stabilizes ECM integrity can mitigate monocyte-driven inflammation and reduce CRP levels during acute flares.
+
+**Detailed Hypothesis:**
+1. **Mechanistic Interrogation**: Increased levels of CRP during acute flares induce monocyte activation, which then leads to heightened production of pro-inflammatory cytokines. These cytokines stimulate the expression of MMPs. MMPs contribute to ECM degradation, which in turn influences the activity of fibroblast-like synoviocytes, exacerbating joint inflammation. Our hypothesis posits that preventing ECM degradation via specific inhibitors of MMPs or ECM-stabilizing compounds could reduce the feedback loop leading to increased CRP and monocyte activity.
+
+2. **Proposed Methodology**:
+   - **In Vivo and In Vitro Studies**: Utilize animal models of RA to assess the effect of MMP inhibitors on CRP levels and monocyte activation. Different ECM-stabilizing substances (e.g., hyaluronic acid, decorin) will be administered during induced acute flares.
+   - **Cytokine Profiling**: Measure levels of pro-inflammatory cytokines, CRP, and activated monocytes in both the plasma and synovial tissue.
+   - **Histological Evaluation**: Examine joint tissues for markers of inflammation, ECM integrity, and MMP activity.
+
+3. **Emergent Behaviors**:
+   - We expect that the intervention will lead to a reduction in CRP levels, indicating decreased inflammation. Furthermore, we anticipate a decrease in monocyte activation and pro-inflammatory cytokine profiles alongside preserved ECM integrity, potentially halting the cycle of joint degradation.
+   - Observing the outcomes from different therapeutic concentrations will provide insight into dose-dependent responses, elucidating thresholds at which ECM stabilization begins to significantly impact inflammatory markers.
+
+4. **Technological Innovations**: This research may spur the development of combination therapies that integrate ECM stabilizers with conventional RA treatments (e.g., DMARDs, biologics). Advanced drug delivery systems may be created to enhance the localized delivery of ECM-stabilizing therapies directly to inflamed joints.
+
+**Implications of the Hypothesis**:
+- **Clinical Relevance**: If successful, this approach could revolutionize the management of RA, particularly in patients experiencing frequent and debilitating acute flares. Such a method may minimize reliance on corticosteroids and other anti-inflammatory medications, thus reducing side effects and improving quality of life.
+- **Broader Applications**: Insights gained from this hypothesis might extend beyond RA to other inflammatory and degenerative diseases where ECM integrity plays a critical role, such as osteoarthritis or systemic lupus erythematosus (SLE). The principles of ECM stabilization could inform therapies across a range of conditions characterized by inflammation and tissue degradation.
+
+By bridging the knowledge from CRP levels, monocyte dynamics, and ECM integrity, we are poised to uncover innovative therapeutic strategies that target the root causes of inflammatory responses rather than merely alleviating symptoms, marking a significant advance in the treatment of chronic inflammatory diseases.
+
+## References
+
+
+## Context
+None
+
+## Subgraph
+```
+(`Bridge Therapy`)-[:`is often used to manage`]->(`acute flares in rheumatoid arthritis`),
+(`acute flares in rheumatoid arthritis`)-[:`are characterized by elevated levels of`]->(`C-reactive protein`),
+(`C-reactive protein`)-[:`can induce`]->(`monocyte activation`),
+(`monocyte activation`)-[:`leads to the production of`]->(`pro-inflammatory cytokines`),
+(`pro-inflammatory cytokines`)-[:`stimulate the expression of`]->(`matrix metalloproteinases`),
+(`matrix metalloproteinases`)-[:`are involved in the degradation of`]->(`extracellular matrix components`),
+(`extracellular matrix components`)-[:`regulate the activity of`]->(`fibroblast-like synoviocytes in rheumatoid arthritis joints`),
+(`matrix metalloproteinases`)-[:`modulate the dynamics of`]->(`monocyte activation`),
+(`matrix metalloproteinases`)-[:`could amplify damage during`]->(`acute flares in rheumatoid arthritis`),
+(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)-[:`produce and secrete`]->(`pro-inflammatory cytokines`),
+(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)-[:`are responsive to changes in`]->(`C-reactive protein levels`),
+(`pro-inflammatory cytokines`)-[:`interact with`]->(`extracellular matrix components`),
+(`pro-inflammatory cytokines`)-[:`can indirectly affect`]->(`bridge therapy effectiveness`),
+(`acute flares in rheumatoid arthritis`)-[:`result in increased expression of`]->(`matrix metalloproteinases`),
+(`extracellular matrix components`)-[:`influence the persistence of`]->(`acute flares in rheumatoid arthritis`),
+(`monocyte activation`)-[:`can trigger`]->(`bridge therapy adjustments`),
+(`C-reactive protein`)-[:`can enhance activity of`]->(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)
+```
+
+
+----- FILE: ./langgraph/state.py -----
+from langgraph.graph import MessagesState
+
+
+class HypgenState(MessagesState):
+    subgraph: str
+    context: str
+    hypothesis: str
+
+    literature: str
+    references: list[str]
+
+    novelty: str
+    feasibility: str
+    impact: str
+
+    critique: str
+    summary: str
+    title: str
+
+    iteration: int
+
+
+----- FILE: ./langgraph/tools/perplexity.py -----
+from langchain.tools import tool
+from langchain_community.chat_models import ChatPerplexity
+from langchain_core.messages import HumanMessage
+
+
+@tool
+def search_perplexity(query: str) -> str:
+    """Search Perplexity for relevant literature with accurate citations.
+
+    Args:
+        query: The search query to find relevant literature
+
+    Returns:
+        A string containing the search results from Perplexity with citations
+    """
+    chat = ChatPerplexity()
+    prompt = f"""Please search for information about: {query}
+    Please provide a comprehensive response with accurate citations to sources. 
+    Include specific references and links where possible."""
+    messages = [HumanMessage(content=prompt)]
+    response = chat.invoke(messages)
+    sources = "\n".join(
+        [
+            f"{i + 1}. {source}"
+            for i, source in enumerate(response.additional_kwargs["citations"])
+        ]
+    )
+
+    resp = f"""
+    {response.content}
+
+    Sources:
+    {sources}
+    """
+
+    return resp
+
+
+----- FILE: ./langgraph/tools/pubmed.py -----
+import os
+import random
+import time
+import urllib.error
+import urllib.request
+
+from langchain_community.tools.pubmed.tool import PubmedQueryRun
+from langchain_community.utilities.pubmed import PubMedAPIWrapper
+
+
+class PubMedAPIWrapperImproved(PubMedAPIWrapper):
+    def retrieve_article(self, uid: str, webenv: str) -> dict:
+        url = (
+            self.base_url_efetch
+            + "db=pubmed&retmode=xml&id="
+            + uid
+            + "&webenv="
+            + webenv
+        )
+        if self.api_key != "":
+            url += f"&api_key={self.api_key}"
+
+        retry = 0
+        while True:
+            try:
+                result = urllib.request.urlopen(url)
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429 and retry < self.max_retry:
+                    # Too Many Requests errors
+                    # wait for an exponentially increasing amount of time
+                    sleep_time_random = random.uniform(0.5, 1.5)
+                    sleep_time = self.sleep_time + sleep_time_random
+                    print(  # noqa: T201
+                        f"Too Many Requests, waiting for {sleep_time:.2f} seconds..."
+                    )
+                    time.sleep(sleep_time)
+                    self.sleep_time *= 2
+                    retry += 1
+                else:
+                    raise e
+
+        xml_text = result.read().decode("utf-8")
+        text_dict = self.parse(xml_text)
+        return self._parse_article(uid, text_dict)
+
+
+pubmed_tool = PubmedQueryRun(
+    api_wrapper=PubMedAPIWrapperImproved(api_key=os.getenv("PUBMED_API_KEY"))
+)
+
+
+----- FILE: ./langgraph/utils.py -----
+from typing import Any, Dict, Optional
+
+from langchain.schema import BaseMessage
+
+
+def add_role(message: BaseMessage, role: Optional[str] = None) -> BaseMessage:
+    if role is not None:
+        message.name = role
+    return message
+
+
+def message_to_dict(message: BaseMessage) -> Dict[str, Any]:
+    result = {
+        "role": message.name or message.type,
+        "content": message.content,
+        "additional_kwargs": message.additional_kwargs,
+    }
+
+    # Only add these fields if they exist
+    if hasattr(message, "usage_metadata"):
+        result["usage_metadata"] = message.usage_metadata
+    if hasattr(message, "response_metadata"):
+        result["response_metadata"] = message.response_metadata
+
+    return result
+
+
+def calculate_message_cost(message: Dict[str, Any]) -> float:
+    """Calculate the cost of a message based on its metadata.
+
+    Args:
+        message: A dictionary containing message data with usage_metadata and response_metadata
+
+    Returns:
+        float: The calculated cost in USD
+    """
+    # Default costs per 1K tokens (as of 2024)
+    COSTS = {
+        "gpt-4o-mini": {
+            "input": 0.00015,
+            "output": 0.0006,
+        },
+        "gpt-4o": {
+            "input": 0.0025,
+            "output": 0.01,
+        },
+        "o3-mini": {
+            "input": 0.0011,
+            "output": 0.0022,
+        },
+    }
+
+    # Get model name from response metadata
+    model_name = (
+        message.get("response_metadata", {}).get("model_name", "").split("-20")[0]
+    )
+
+    # Get token counts from usage metadata
+    usage = message.get("usage_metadata", {})
+    input_tokens = usage.get("input_tokens", 0)
+    output_tokens = usage.get("output_tokens", 0)
+
+    # Get costs for the model
+    model_costs = COSTS.get(model_name, {"input": 0.0, "output": 0.0})
+
+    # Calculate input and output costs separately
+    input_cost = (input_tokens / 1000) * model_costs["input"]
+    output_cost = (output_tokens / 1000) * model_costs["output"]
+
+    # Calculate total cost
+    total_cost = input_cost + output_cost
+
+    return round(total_cost, 4)
+
+
+----- FILE: ./langgraph/adk_graph.py -----
+from typing import Dict, List, Optional
+from google.adk import Agent, Workflow, State, Action, Condition
+
+class HypothesisState(State):
+    """State for hypothesis generation workflow"""
+    def __init__(self):
+        self.subgraph: str = ""
+        self.context: str = ""
+        self.hypothesis: str = ""
+        self.literature: str = ""
+        self.references: List[str] = []
+        self.novelty: str = ""
+        self.feasibility: str = ""
+        self.impact: str = ""
+        self.critique: str = ""
+        self.summary: str = ""
+        self.title: str = ""
+        self.iteration: int = 0
+
+class OntologistAgent(Agent):
+    """Agent responsible for ontology analysis"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement ontology analysis logic
+        return {"subgraph": "ontology_result"}
+
+class HypothesisGeneratorAgent(Agent):
+    """Agent responsible for generating initial hypotheses"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement hypothesis generation logic
+        return {"hypothesis": "generated_hypothesis"}
+
+class LiteratureAgent(Agent):
+    """Agent responsible for literature review"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement literature review logic
+        return {"literature": "reviewed_literature", "references": ["ref1", "ref2"]}
+
+class AnalystAgent(Agent):
+    """Base class for analysis agents"""
+    def __init__(self, analysis_type: str):
+        self.analysis_type = analysis_type
+
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement analysis logic based on type
+        return {self.analysis_type: f"{self.analysis_type}_analysis"}
+
+class CritiqueAgent(Agent):
+    """Agent responsible for critiquing the hypothesis"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement critique logic
+        return {"critique": "critique_result"}
+
+class SummaryAgent(Agent):
+    """Agent responsible for generating final summary"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement summary generation logic
+        return {"summary": "final_summary", "title": "final_title"}
+
+class HypothesisRefinerAgent(Agent):
+    """Agent responsible for refining hypotheses"""
+    def process(self, state: HypothesisState) -> Dict:
+        # Implement hypothesis refinement logic
+        return {"hypothesis": "refined_hypothesis"}
+
+class IterationCondition(Condition):
+    """Condition to check iteration limit"""
+    def evaluate(self, state: HypothesisState) -> bool:
+        return state.iteration > 3
+
+class AcceptanceCondition(Condition):
+    """Condition to check if hypothesis is accepted"""
+    def evaluate(self, state: HypothesisState) -> bool:
+        return "ACCEPT" in state.critique
+
+def create_hypothesis_workflow() -> Workflow:
+    """Create the hypothesis generation workflow using Google ADK"""
+    workflow = Workflow(HypothesisState)
+
+    # Create agents
+    ontologist = OntologistAgent()
+    hypothesis_generator = HypothesisGeneratorAgent()
+    literature_agent = LiteratureAgent()
+    novelty_analyst = AnalystAgent("novelty")
+    feasibility_analyst = AnalystAgent("feasibility")
+    impact_analyst = AnalystAgent("impact")
+    critique_agent = CritiqueAgent()
+    summary_agent = SummaryAgent()
+    hypothesis_refiner = HypothesisRefinerAgent()
+
+    # Add nodes to workflow
+    workflow.add_node("ontologist", ontologist)
+    workflow.add_node("hypothesis_generator", hypothesis_generator)
+    workflow.add_node("literature_agent", literature_agent)
+    workflow.add_node("novelty_analyst", novelty_analyst)
+    workflow.add_node("feasibility_analyst", feasibility_analyst)
+    workflow.add_node("impact_analyst", impact_analyst)
+    workflow.add_node("critique_agent", critique_agent)
+    workflow.add_node("summary_agent", summary_agent)
+    workflow.add_node("hypothesis_refiner", hypothesis_refiner)
+
+    # Define workflow edges
+    workflow.add_edge("start", "ontologist")
+    workflow.add_edge("ontologist", "hypothesis_generator")
+    workflow.add_edge("hypothesis_generator", "literature_agent")
+    workflow.add_edge("literature_agent", "novelty_analyst")
+    workflow.add_edge("literature_agent", "feasibility_analyst")
+    workflow.add_edge("literature_agent", "impact_analyst")
+    workflow.add_edge("novelty_analyst", "critique_agent")
+    workflow.add_edge("feasibility_analyst", "critique_agent")
+    workflow.add_edge("impact_analyst", "critique_agent")
+
+    # Add conditional edges
+    workflow.add_conditional_edge(
+        "critique_agent",
+        "hypothesis_refiner",
+        [IterationCondition(), AcceptanceCondition()],
+        "hypothesis_refiner"
+    )
+    workflow.add_conditional_edge(
+        "critique_agent",
+        "summary_agent",
+        [IterationCondition(), AcceptanceCondition()],
+        "summary_agent"
+    )
+    workflow.add_edge("summary_agent", "end")
+
+    return workflow
+
+# Create and compile the workflow
+hypothesis_workflow = create_hypothesis_workflow() 
+

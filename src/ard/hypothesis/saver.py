@@ -1,11 +1,24 @@
 import json
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
 from ard.storage.file import StorageBackend
 
 if TYPE_CHECKING:
     from ard.hypothesis.hypothesis import Hypothesis
+
+
+# Custom JSON encoder to handle objects that aren't JSON serializable
+class HypothesisJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # Try to convert the object to a dict if it has a to_dict method
+        if hasattr(obj, "to_dict"):
+            return obj.to_dict()
+        # Try to convert the object to a string
+        try:
+            return str(obj)
+        except:
+            return f"<non-serializable: {type(obj).__name__}>"
 
 
 class Parser(Protocol):
@@ -80,5 +93,6 @@ class JSONParser(Parser):
                 "method_name": str(hypothesis.method),
                 "method": hypothesis.method.to_json(),
                 "source": hypothesis.source.to_json(),
-            }
+            },
+            cls=HypothesisJSONEncoder,
         )
