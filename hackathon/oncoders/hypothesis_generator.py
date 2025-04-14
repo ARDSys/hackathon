@@ -10,6 +10,7 @@ from ard.subgraph import Subgraph
 
 from .groupchat import create_group_chat
 from .llm_config import get_llm_config
+from .agents import solo_ontologist
 
 langfuse_callback = CallbackHandler()
 
@@ -37,6 +38,10 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         context = subgraph.context
         path = subgraph.to_cypher_string(full_graph=False)
 
+        list_kw = solo_ontologist.generate_reply(messages=[{"role": "user", "content": path}])
+
+        print(list_kw)
+        khkh
         group_chat, manager, user = create_group_chat()
 
         res = user.initiate_chat(

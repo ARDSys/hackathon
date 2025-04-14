@@ -20,6 +20,7 @@ from .prompts import (
     MECHANISM_AGENT_PROMPT,
     NOVELTY_AGENT_PROMPT,
     NOVELTY_ASSISTANT_PROMPT,
+    SOLO_ONTOLOGIST_PROMPT,
     ONTOLOGIST_PROMPT,
     OUTCOME_AGENT_PROMPT,
     PLANNER_PROMPT,
@@ -69,6 +70,14 @@ ontologist = AssistantAgent(
     system_message=ONTOLOGIST_PROMPT,
     llm_config=get_llm_config("large"),
     description="I can define each of the terms and discusses the relationships in the path.",
+)
+
+# Solo ontologist agent for defining terms and relationships
+solo_ontologist = AssistantAgent(
+    name="solo_ontologist",
+    system_message=SOLO_ONTOLOGIST_PROMPT,
+    llm_config=get_llm_config("large"),
+    description="I can define each of the terms and discusses the relationships in the path. Without planner. ",
 )
 
 # Scientist agent for creating research proposals
