@@ -11,7 +11,7 @@ from hackathon.oncoders.functions import crawl, find_papers, split_keywords
 
 from .groupchat import create_group_chat
 from .llm_config import get_llm_config
-from .agents import solo_ontologist
+from .agents import solo_ontologist, context_agent
 
 
 
@@ -43,11 +43,13 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         path = subgraph.to_cypher_string(full_graph=False)
 
         list_kw = solo_ontologist.generate_reply(messages=[{"role": "user", "content": path}])
-        kw = split_keywords(list_kw)
+        
+        kw = split_keywords(list_kw[:10])
         links = find_papers(kw)
         abstract_list = crawl(links)
-        print(abstract_list)
         
+        context = context_agent.generate_reply(message=[{"role": "user", "content": abstract_list}])
+        subgraph.context = context
         
         group_chat, manager, user = create_group_chat()
 

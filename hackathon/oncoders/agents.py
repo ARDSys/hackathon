@@ -28,6 +28,7 @@ from .prompts import (
     UNEXPECTED_PROPERTIES_AGENT_PROMPT,
     USER_PROMPT,
     WRITER_PROMPT,
+    CONTEXT_AGENT_PROMPT
 )
 
 # User proxy agent for human interaction
@@ -76,6 +77,13 @@ ontologist = AssistantAgent(
 solo_ontologist = AssistantAgent(
     name="solo_ontologist",
     system_message=SOLO_ONTOLOGIST_PROMPT,
+    llm_config=get_llm_config("large"),
+    description="I can define each of the terms and discusses the relationships in the path. Without planner. ",
+)
+# Solo ontologist agent for defining terms and relationships
+context_agent = AssistantAgent(
+    name="context_agent",
+    system_message=CONTEXT_AGENT_PROMPT,
     llm_config=get_llm_config("large"),
     description="I can define each of the terms and discusses the relationships in the path. Without planner. ",
 )

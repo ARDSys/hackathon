@@ -294,3 +294,13 @@ keyword1,keyword2,keyword3,...,keywordN
 Further Instructions: 
 Do not execute any functions or tools and do not give anything else than the keywords.
 """
+
+CONTEXT_AGENT_PROMPT="""
+Based on the probided list of abstracts, create a robust context summary.
+
+Do not include any information outside of the abstracts provide.
+
+Return only the summary in a string format.
+
+Do not use any functions or tools.
+"""
