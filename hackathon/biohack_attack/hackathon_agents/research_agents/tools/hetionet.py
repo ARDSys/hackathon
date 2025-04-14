@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import pandas as pd
 from agents import function_tool
@@ -35,9 +36,9 @@ EDGE_TYPE_MAPPING = {
 def query_hetionet(keyword: str):
     """
     Query the Hetionet database for a given keyword. Returns a string representation of one-hop relationships.
-    
+
     Hetionet is a heterogeneous network of biomedical knowledge that integrates data from various sources.
-    It contains different types of nodes (Anatomy, Compound, Disease, Gene, etc.) and edges representing 
+    It contains different types of nodes (Anatomy, Compound, Disease, Gene, etc.) and edges representing
     relationships between them (e.g., 'Compound treats Disease', 'Disease associates Gene').
     The network helps discover patterns and generate hypotheses in biomedical research.
 
@@ -104,7 +105,7 @@ def load_hetionet():
     Loads the Hetionet dataset from local files and returns it as a NetworkX graph.
     """
     # Get the directory of the current script
-    current_dir = "."
+    current_dir = Path(__file__).parent
 
     # Paths to local files
     edges_path = os.path.join(

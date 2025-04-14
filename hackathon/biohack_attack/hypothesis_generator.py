@@ -24,11 +24,13 @@ from biohack_attack.hackathon_agents.hypothesis_agent import (
 from biohack_attack.hackathon_agents.hypothesis_assigment_agent import (
     verify_hypothesis_decomposition,
 )
-from biohack_attack.hackathon_agents.ontology_agent import (
-    ontology_agent,
-    OntologyAgentOutput,
-)
 from biohack_attack.hackathon_agents.refiner_agent import rheumatology_refiner_agent
+from biohack_attack.hackathon_agents.research_agents import (
+    research_agent_dispatcher,
+    QueriesOutput,
+    ResearchAgentOutput,
+    perform_queries,
+)
 from biohack_attack.hackathon_agents.verification_agent import HypothesisVerification
 from biohack_attack.model import SubgraphModel
 
@@ -42,7 +44,7 @@ class ProcessConfig:
 
 
 def run_hypothesis_agent(
-    subgraph_model: SubgraphModel, ontology: OntologyAgentOutput
+    subgraph_model: SubgraphModel, ontology: ResearchAgentOutput
 ) -> ScientificHypothesis:
     prompt = f"""
 # HYPOTHESIS GENERATION TASK
@@ -88,39 +90,9 @@ The following scientific hypothesis in rheumatology needs expert evaluation:
     return hypothesis, triage
 
 
-async def run_ontology_agent(subgraph_model: SubgraphModel) -> OntologyAgentOutput:
-    ontology_input = f"""
-    # ONTOLOGY ENRICHMENT TASK
-
-    ## SUBGRAPH TO ANALYZE
-    The following knowledge graph subgraph represents relationships between biomedical entities in rheumatology:
-
-    <subgraph>
-    {subgraph_model.model_dump_json(indent=2)}
-    </subgraph>
-
-    ## RELATIONSHIP FOCUS
-    Start node: {subgraph_model.start_node}
-    End node: {subgraph_model.end_node}
-    Path nodes: {", ".join(subgraph_model.path_nodes)}
-    """
-    ontology_result = await Runner.run(ontology_agent, input=ontology_input)
-    return ontology_result.final_output
-
-
 async def decompose_hypothesis(
-    hypothesis: ScientificHypothesis, ontology: OntologyAgentOutput
+    hypothesis: ScientificHypothesis, ontology: ResearchAgentOutput
 ) -> HypothesisDecomposition:
-    """
-    Decompose a scientific hypothesis into falsifiable statements.
-
-    Args:
-        hypothesis: The scientific hypothesis to decompose
-        ontology: Ontology information to enrich understanding
-
-    Returns:
-        A HypothesisDecomposition containing falsifiable statements
-    """
     prompt = f"""
     # HYPOTHESIS DECOMPOSITION TASK
 
@@ -226,21 +198,8 @@ async def verify_multiple_hypotheses(
 
 
 async def refine_hypothesis(
-    hypothesis: ProcessedHypothesis, ontology: OntologyAgentOutput, iteration: int
+    hypothesis: ProcessedHypothesis, ontology: ResearchAgentOutput, iteration: int
 ) -> ProcessedHypothesis:
-    """
-    Refine a hypothesis based on previous assessment.
-
-    Args:
-        hypothesis: The processed hypothesis to refine
-        ontology: Ontology information to enrich understanding
-        iteration: Current iteration number
-
-    Returns:
-        A new ProcessedHypothesis with refined information
-    """
-    # Add refinement logic here when needed
-    # For now, we just create a new hypothesis
     prompt = f"""
     # HYPOTHESIS REFINEMENT TASK
 
@@ -305,8 +264,20 @@ async def run_agents(
 
     # Step 1: Enrich subgraph with ontology agent
     logger.info("Enriching subgraph with ontology agent...")
-    dto.ontology = await run_ontology_agent(subgraph_model)
-    logger.debug(dto.ontology.model_dump_json(indent=4))
+    path = subgraph.to_cypher_string(full_graph=True)
+
+    # GENERATING QUERIES
+    logger.info("Generating queries to external sources.")
+    research_agent_results = await Runner.run(research_agent_dispatcher, path)
+    queries: QueriesOutput = research_agent_results.final_output_as(QueriesOutput)
+    logger.info("List of queries:")
+    for query in queries.queries:
+        logger.info(f"Data Source: {query.data_source}, Keyword: {query.keyword}.")
+
+    logger.info("Performing queries.")
+    ontology: ResearchAgentOutput = await perform_queries(queries)
+    dto.ontology = ontology
+    logger.info(dto.ontology.model_dump_json(indent=4))
 
     # Process through iterations
     for iteration in range(config.max_iterations):
@@ -395,7 +366,7 @@ async def run_agents(
                 score=score,
             )
             dto.hypotheses[iteration].append(processed)
-            logger.debug(f"Hypothesis {i}: {hypothesis.title}, Total score: {score}")
+            logger.info(f"Hypothesis {i}: {hypothesis.title}, Total score: {score}")
 
         # Select top k hypotheses for further processing
         top_k = min(config.top_k, len(scored_hypotheses))

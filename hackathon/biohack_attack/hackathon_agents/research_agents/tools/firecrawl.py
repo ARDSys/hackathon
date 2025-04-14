@@ -2,10 +2,7 @@ import os
 
 from firecrawl import FirecrawlApp
 
-from agents import function_tool
 
-
-@function_tool
 async def query_firecrawl(keyword: str) -> str:
     firecrawl = FirecrawlApp(api_key=os.getenv("FIRECRAWL_API_KEY"))
 
