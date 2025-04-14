@@ -13,6 +13,7 @@ class HypgenState(MessagesState):
     feasibility_description: str
     novelty_and_impact_description: str
     critique: str
+    pros_analysis: str
     summary: str
     title: str
     iteration: int
