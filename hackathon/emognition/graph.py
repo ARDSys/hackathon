@@ -12,7 +12,7 @@ from .agents.literature import create_literature_agent
 from .agents.knower import create_knower_agent
 from .agents.dreamer import create_dreamer_agent
 from .agents.review_summarizer import create_review_summarizer_agent
-from .agents.reviewer import create_reviewer_1_agent
+from .agents.reviewer import create_reviewer_agent
 from .agents.reviewer_orchestrator import create_reviewer_orchestrator_agent
 from .agents.summary import create_summary_agent
 from .state import HypgenState
@@ -45,9 +45,9 @@ def create_hypgen_graph() -> CompiledGraph:
 
     for i in range(num_hypotheses):
         graph.add_node(f"reviewer_orchestrator_{i}", create_reviewer_orchestrator_agent(i, "small")["agent"])
-        graph.add_node(f"reviewer_1_{i}", create_reviewer_1_agent(i, "small")["agent"])
-        graph.add_node(f"reviewer_2_{i}", create_reviewer_1_agent(i, "small")["agent"])
-        graph.add_node(f"reviewer_3_{i}", create_reviewer_1_agent(i, "small")["agent"])
+        graph.add_node(f"reviewer_1_{i}", create_reviewer_agent(i, "small")["agent"])
+        graph.add_node(f"reviewer_2_{i}", create_reviewer_agent(i, "small")["agent"])
+        graph.add_node(f"reviewer_3_{i}", create_reviewer_agent(i, "small")["agent"])
         graph.add_node(f"review_summarizer_{i}", create_review_summarizer_agent(i, "small")["agent"])
         graph.add_node(f"hypothesis_refiner_{i}", create_hypothesis_refiner_agent(i, "small")["agent"])
 
