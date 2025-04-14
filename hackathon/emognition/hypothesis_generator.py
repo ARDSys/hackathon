@@ -53,7 +53,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         )
         if statement_match:
             return statement_match.group(1)
-        return state["hypothesis"]
+        return state["final_hypothesis"]
 
     def __parse_references(self, state: HypgenState) -> list[str]:
         return state.get("references", [])

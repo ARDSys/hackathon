@@ -58,6 +58,7 @@ def create_reviewer_agent(
         response = chain.invoke(state)
 
         content = response.content
+        logger.info(content)
         logger.info("Review generated successfully")
 
         return {

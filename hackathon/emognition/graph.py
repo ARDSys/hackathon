@@ -18,8 +18,22 @@ from .agents.summary import create_summary_agent
 from .state import HypgenState
 from ..consts import num_hypotheses
 
-
-
+"""
+def hypothesis_improver(hypothesis_no: int):
+    def improve_hypothesis(
+            state: HypgenState,
+    ) -> Literal["hypothesis_refiner", "final_judge"]:
+        if state["iteration"] > 2:
+            logger.info("Iteration limit reached after {} iterations", state["iteration"])
+            return "final_judge"
+        if "ACCEPT" in state[f"critique_{hypothesis_no}"]:
+            logger.info("Hypothesis accepted after {} iterations", state["iteration"])
+            return "final_judge"
+        else:
+            logger.info("Hypothesis rejected after {} iterations", state["iteration"])
+            return "hypothesis_refiner"
+    return improve_hypothesis
+"""
 
 def create_hypgen_graph() -> CompiledGraph:
     graph = StateGraph(HypgenState)
@@ -70,9 +84,15 @@ def create_hypgen_graph() -> CompiledGraph:
         graph.add_edge(f"reviewer_1_{i}", f"review_summarizer_{i}")
         graph.add_edge(f"reviewer_2_{i}", f"review_summarizer_{i}")
         graph.add_edge(f"reviewer_3_{i}", f"review_summarizer_{i}")
-
-        graph.add_edge(f"review_summarizer_{i}","final_judge")
-
+        graph.add_edge(f"review_summarizer_{i}", "final_judge")
+        """
+        graph.add_conditional_edges(f"review_summarizer_{i}", improve_hypothesis,
+                                    {
+                                        "final_judge": "final_judge",
+                                        "hypothesis_refiner": f"hypothesis_refiner_{i}"
+                                    }
+                                    )
+        """
     graph.add_edge("final_judge", "summary_agent")
     graph.add_edge("summary_agent", END)
 

@@ -93,6 +93,7 @@ def create_review_summarizer_agent(
         response = chain.invoke(state)
 
         content = response.content
+        logger.info(content)
         logger.info("Review summary generated successfully")
 
         return {

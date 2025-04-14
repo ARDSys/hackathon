@@ -40,8 +40,7 @@ Natural language summaries of the hypotheses.
 Reviewer feedback, including strengths, weaknesses, feasibility, impact, and novelty assessments.
 Final recommendations (ACCEPT or rejection with critique).
 
-Output:
-The best hypothesis text.
+Input: 
 
 Hypothesis 1:
 {hypothesis_1_text}
@@ -51,6 +50,13 @@ Hypothesis 2:
 
 Hypothesis 3:
 {hypothesis_3_text}
+
+Output must be formatted exactly as follows:
+
+TEXT: [The best hypothesis text]
+TITLE : [The title of best hypothesis text]
+SUMMARY : [The summary of best hypothesis text]
+
 """
 
 
@@ -69,10 +75,16 @@ def create_final_judge_agent(
         response = chain.invoke(state)
 
         content = response.content
+        final_hypothesis = content.split("TEXT:")[1].split("TITLE:")[0]
+        title = content.split("TITLE:")[1].split("SUMMARY:")[0]
+        summary = content.split("SUMMARY:")[1]
+        logger.info(content)
         logger.info("Hypothesis generated successfully")
 
         return {
-            "final_hypothesis": content,
+            "final_hypothesis": final_hypothesis,
+            "summary": summary,
+            "title": title,
         }
 
     return {"agent": agent}
