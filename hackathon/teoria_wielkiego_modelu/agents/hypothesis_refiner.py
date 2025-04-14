@@ -12,14 +12,12 @@ SCIENTIST_PROMPT = """You are a sophisticated scientist trained in scientific re
 
 Based on the previous hypothesis and its critique, your task is to refine and improve the hypothesis. Consider the UCT score which indicates how promising this research direction is (higher score = more promising).
 
-Previous hypothesis UCT score: {uct_score:.3f}
-Previous hypothesis visits: {visits}
-Total hypotheses explored in this direction: {total_visits}
+Previous hypothesis UCB score: {ucb_score:.3f}
 
 Given this information:
-1. If the UCT score is high (>0.7), make smaller, focused refinements to optimize the promising direction
-2. If the UCT score is medium (0.3-0.7), try moderate changes while preserving successful elements
-3. If the UCT score is low (<0.3), make bold changes to explore new directions
+1. If the UCB score is high (>0.7), make smaller, focused refinements to optimize the promising direction
+2. If the UCB score is medium (0.3-0.7), try moderate changes while preserving successful elements
+3. If the UCB score is low (<0.3), make bold changes to explore new directions
 
 Consider the implications of your refinements and ensure they address the critique while maintaining or improving:
 - Scientific merit
