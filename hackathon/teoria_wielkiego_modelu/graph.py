@@ -55,7 +55,8 @@ def create_hypgen_graph() -> CompiledGraph:
     # Add edges
     graph.add_edge(START, "ontologist")
     graph.add_edge("ontologist","connector")
-    graph.add_edge("connector", "hypothesis_generator")
+    graph.add_edge("connector", "inspiration_agent")
+    graph.add_edge("inspiration_agent", "hypothesis_generator")
     # From initial hypothesis
     graph.add_edge("hypothesis_generator", "literature_agent")
     # From refined hypothesis

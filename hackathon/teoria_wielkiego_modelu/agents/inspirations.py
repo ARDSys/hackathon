@@ -42,7 +42,7 @@ def create_inspiration_agent(
         # Search for literature
         messages = (
             PromptTemplate.from_template(SEARCH_PROMPT)
-            .invoke({"hypothesis": state["hypothesis"]})
+            .invoke({"context": state["context"]})
             .to_messages()
         )
         logger.info("Searching for relevant inspirational literature")
