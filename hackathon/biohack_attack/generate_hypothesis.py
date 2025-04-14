@@ -1,14 +1,17 @@
+from datetime import datetime
 from pathlib import Path
 
 import click
 import dotenv
+from agents import set_trace_processors
 from langfuse.callback import CallbackHandler
 from loguru import logger
 
 from ard.hypothesis import Hypothesis
 from ard.subgraph import Subgraph
+from biohack_attack.hypothesis_generator import HypothesisGenerator
+from biohack_attack.trace import LocalFilesystemTracingProcessor
 
-from .hypothesis_generator import HypothesisGenerator
 
 langfuse_callback = CallbackHandler()
 
@@ -27,23 +30,29 @@ dotenv.load_dotenv()
     default=".",
 )
 def main(file: str, output: str):
-    file_path = Path(file)
-    output_path = Path(output)
-    logger.info(f"Subgraph loaded from {file_path}")
+    output_dir = Path(output)
+    if not output_dir.exists():
+        output_dir.mkdir()
+    log_file_path = output_dir / f"{datetime.now().strftime('%Y-%M-%d-%h-%m')}-traces.log"
+    set_trace_processors([LocalFilesystemTracingProcessor(
+        log_file_path.as_posix()
+    )])
+    source_file = Path(file)
+    logger.info(f"Subgraph loaded from {source_file}")
 
     logger.info("Generating hypothesis...")
     hypothesis = Hypothesis.from_subgraph(
-        subgraph=Subgraph.load_from_file(file_path),
+        subgraph=Subgraph.load_from_file(file),
         method=HypothesisGenerator(),
     )
-    logger.info(f"Hypothesis generated for {file_path}")
+    print(hypothesis)
+    logger.info(f"Hypothesis generated for {source_file}")
 
     # Save hypothesis in json and md format
-    output_path.mkdir(parents=True, exist_ok=True)
-    hypothesis.save(backend_path=output_path, parser_type="json")
-    hypothesis.save(backend_path=output_path, parser_type="md")
+    hypothesis.save(backend_path=output, parser_type="json")
+    hypothesis.save(backend_path=output, parser_type="md")
 
-    logger.info(f"Hypothesis saved to {output_path}")
+    logger.info(f"Hypothesis saved to {output_dir}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1 @@
+PYTHONPATH="./:$PYTHONPATH" uv run biohack_attack/generate_hypothesis.py -f ./sample_subgraph.json -o out
