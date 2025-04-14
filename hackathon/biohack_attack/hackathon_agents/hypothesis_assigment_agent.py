@@ -6,8 +6,19 @@ from loguru import logger
 from biohack_attack.hackathon_agents.decomposition_agent import (
     HypothesisDecomposition,
 )
+from biohack_attack.hackathon_agents.research_agents.biorxiv_agent import biorxiv_agent
+from biohack_attack.hackathon_agents.research_agents.europmc_agent import (
+    europe_pmc_agent,
+)
 from biohack_attack.hackathon_agents.research_agents.firecrawl_agent import (
     firecrawl_agent,
+)
+from biohack_attack.hackathon_agents.research_agents.hetionet_agent import (
+    hetionet_agent,
+)
+from biohack_attack.hackathon_agents.research_agents.pubmed_agent import pubmed_agent
+from biohack_attack.hackathon_agents.research_agents.semantic_scholar_agent import (
+    semantic_scholar_agent,
 )
 from biohack_attack.hackathon_agents.verification_agent import (
     HypothesisVerification,
@@ -64,5 +75,12 @@ hypothesis_assessment_agent = Agent(
     name="HypothesisAssessmentAgent",
     instructions=ASSESSMENT_AGENT_INSTRUCTIONS,
     output_type=HypothesisVerification,
-    handoffs=[firecrawl_agent],
+    handoffs=[
+        firecrawl_agent,
+        biorxiv_agent,
+        europe_pmc_agent,
+        pubmed_agent,
+        semantic_scholar_agent,
+        hetionet_agent,
+    ],
 )

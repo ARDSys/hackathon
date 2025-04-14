@@ -37,6 +37,32 @@ from biohack_attack.hackathon_agents.verification_agent import (
 )
 from biohack_attack.model import SubgraphModel
 
+# Define maximum characters based on ~4 chars/token for 128k tokens
+# NOTE: This is an approximation. Actual token count depends on the specific tokenizer.
+MAX_PROMPT_CHARS = 115000 * 4  # 512,000 characters
+
+
+def truncate_prompt(prompt: str, max_chars: int = MAX_PROMPT_CHARS) -> str:
+    """
+    Truncates the prompt string if it exceeds the maximum character limit.
+
+    Args:
+        prompt: The input prompt string.
+        max_chars: The maximum allowed characters.
+
+    Returns:
+        The potentially truncated prompt string.
+    """
+    if len(prompt) > max_chars:
+        original_len = len(prompt)
+        truncated_prompt = prompt[:max_chars]
+        logger.warning(
+            f"Input prompt length ({original_len} chars) exceeded limit ({max_chars} chars). "
+            f"Truncating input."
+        )
+        return truncated_prompt
+    return prompt
+
 
 @dataclass
 class ProcessConfig:
@@ -72,8 +98,11 @@ The following additional ontological information has been provided to enrich you
 {ontology.model_dump_json(indent=2)}
 </ontology>
 """
-    # Changed from asyncio.run to directly awaiting
-    result = await Runner.run(hypothesis_agent, input=prompt)
+    # --- Input Check ---
+    truncated_prompt = truncate_prompt(prompt)
+    # -------------------
+
+    result = await Runner.run(hypothesis_agent, input=truncated_prompt)
     return result.final_output
 
 
@@ -90,7 +119,11 @@ The following scientific hypothesis in rheumatology needs expert evaluation:
 {hypothesis.model_dump_json(indent=2)}
 </hypothesis>
 """
-    triage_result = await Runner.run(rheumatology_triage_agent, input=prompt)
+    # --- Input Check ---
+    truncated_prompt = truncate_prompt(prompt)
+    # -------------------
+
+    triage_result = await Runner.run(rheumatology_triage_agent, input=truncated_prompt)
     return hypothesis, triage_result.final_output
 
 
@@ -120,8 +153,11 @@ async def decompose_hypothesis(
     {ontology.model_dump_json(indent=2)}
     </ontology>
     """
+    # --- Input Check ---
+    truncated_prompt = truncate_prompt(prompt)
+    # -------------------
 
-    result = await Runner.run(hypothesis_decomposer_agent, input=prompt)
+    result = await Runner.run(hypothesis_decomposer_agent, input=truncated_prompt)
     return result.final_output
 
 
@@ -166,8 +202,11 @@ async def verify_statement(statement: FalsifiableStatement) -> StatementVerifica
     Please conduct a thorough search using the available tools to find both supporting and contradicting evidence.
     Then provide a comprehensive verification assessment.
     """
+    # --- Input Check ---
+    truncated_prompt = truncate_prompt(prompt)
+    # -------------------
 
-    result = await Runner.run(statement_verification_agent, input=prompt)
+    result = await Runner.run(statement_verification_agent, input=truncated_prompt)
     return result.final_output
 
 
@@ -182,7 +221,7 @@ def score_hypothesis(triage: TriagedHypothesis) -> float:
     Returns:
         float: The calculated score
     """
-    total_score = 0
+    total_score = 0.0  # Initialize as float
 
     # Get all attributes of the triage object
     for attr_name in dir(triage):
@@ -194,9 +233,19 @@ def score_hypothesis(triage: TriagedHypothesis) -> float:
         if "assessment" in attr_name.lower():
             assessment = getattr(triage, attr_name)
 
-            # Check if the assessment has score and confidence attributes
-            if hasattr(assessment, "score") and hasattr(assessment, "confidence"):
-                total_score += assessment.score * assessment.confidence
+            # Check if the assessment has score and confidence attributes and they are numeric
+            if (
+                hasattr(assessment, "score")
+                and hasattr(assessment, "confidence")
+                and isinstance(assessment.score, (int, float))
+                and isinstance(assessment.confidence, (int, float))
+            ):
+                total_score += float(assessment.score) * float(
+                    assessment.confidence
+                )  # Ensure float multiplication
+            # Optional: Log if assessment structure is unexpected
+            # else:
+            #    logger.debug(f"Attribute '{attr_name}' has 'assessment' but lacks valid score/confidence fields.")
 
     return total_score
 
@@ -224,15 +273,29 @@ async def verify_multiple_hypotheses(
 
     # Run all verification tasks concurrently
     results = {}
-    for hypothesis_id, verification_task in verification_tasks.items():
-        try:
-            result = await verification_task
-            results[hypothesis_id] = result
-            logger.info(
-                f"Verified hypothesis {hypothesis_id} with score {result.verification_score}"
+    completed_tasks = await asyncio.gather(
+        *[task for task in verification_tasks.values()], return_exceptions=True
+    )
+
+    # Match results back to hypothesis IDs
+    task_list = list(verification_tasks.items())
+    for i, result_or_exc in enumerate(completed_tasks):
+        hypothesis_id, _ = task_list[i]
+        if isinstance(result_or_exc, Exception):
+            logger.error(
+                f"Error verifying hypothesis {hypothesis_id}: {str(result_or_exc)}"
             )
-        except Exception as e:
-            logger.error(f"Error verifying hypothesis {hypothesis_id}: {str(e)}")
+            # Optionally store the error or a default value
+            # results[hypothesis_id] = None # Or some error indicator object
+        elif (
+            result_or_exc
+        ):  # Ensure result is not None if gather returns None for some reason
+            results[hypothesis_id] = result_or_exc
+            logger.info(
+                f"Verified hypothesis {hypothesis_id} with score {result_or_exc.verification_score}"
+            )
+        else:
+            logger.warning(f"Verification task for {hypothesis_id} returned None.")
 
     return results
 
@@ -264,13 +327,18 @@ async def refine_hypothesis(
 
     Please generate an improved version of this hypothesis that addresses the identified issues.
     """
+    # --- Input Check ---
+    truncated_prompt = truncate_prompt(prompt)
+    # -------------------
 
     refined_hypothesis_result = await Runner.run(
-        rheumatology_refiner_agent, input=prompt
+        rheumatology_refiner_agent, input=truncated_prompt
     )
     refined_hypothesis = refined_hypothesis_result.final_output
 
     # Now process this refined hypothesis through the standard pipeline
+    # Note: run_triage_agent, decompose_hypothesis, verify_hypothesis_decomposition
+    # already contain their own input checks.
     base_hypothesis, triage = await run_triage_agent(refined_hypothesis)
     score = score_hypothesis(triage)
 
@@ -306,7 +374,11 @@ Start node: {subgraph_model.start_node}
 End node: {subgraph_model.end_node}
 Path nodes: {", ".join(subgraph_model.path_nodes)}
 """
-    ontology_result = await Runner.run(ontology_agent, input=ontology_input)
+    # --- Input Check ---
+    truncated_input = truncate_prompt(ontology_input)
+    # -------------------
+
+    ontology_result = await Runner.run(ontology_agent, input=truncated_input)
     return ontology_result.final_output
 
 
@@ -328,15 +400,47 @@ async def verify_hypothesis_decomposition(
     )
 
     # Verify all statements in parallel
+    # verify_statement already includes truncation logic
     statement_verification_tasks = [
         verify_statement(statement)
         for statement in decomposition.falsifiable_statements
     ]
-    statement_verifications = await asyncio.gather(*statement_verification_tasks)
+    # Using return_exceptions=True to handle potential errors in individual verifications
+    statement_verifications_results = await asyncio.gather(
+        *statement_verification_tasks, return_exceptions=True
+    )
 
-    logger.info(f"Completed verification of {len(statement_verifications)} statements")
+    # Filter out exceptions and log them
+    statement_verifications = []
+    for i, result in enumerate(statement_verifications_results):
+        if isinstance(result, Exception):
+            logger.error(
+                f"Error verifying statement {i} ('{decomposition.falsifiable_statements[i].statement}'): {result}"
+            )
+        elif result:  # Check if result is not None
+            statement_verifications.append(result)
+        else:
+            logger.warning(
+                f"Verification for statement {i} ('{decomposition.falsifiable_statements[i].statement}') returned None."
+            )
+
+    logger.info(
+        f"Completed verification of {len(statement_verifications)} statements (out of {len(decomposition.falsifiable_statements)})."
+    )
 
     # Synthesize the results into a comprehensive assessment
+    # Handle case where no statements were successfully verified
+    if not statement_verifications:
+        logger.warning(
+            f"No statements successfully verified for hypothesis: {decomposition.original_hypothesis}. Returning default/empty verification."
+        )
+        # Return a default/empty HypothesisVerification object
+        return HypothesisVerification(
+            statement_verifications=[],
+            overall_assessment="Verification could not be completed as no component statements were successfully verified.",
+            verification_score=0.0,  # Or some other indicator of failure/low confidence
+        )
+
     prompt = f"""
     # HYPOTHESIS ASSESSMENT TASK
 
@@ -351,10 +455,36 @@ async def verify_hypothesis_decomposition(
     {[v.model_dump_json(indent=2) for v in statement_verifications]}
 
     Please provide a comprehensive assessment of the overall hypothesis based on these verification results.
+    Calculate a verification score (0.0 to 1.0) and confidence (0.0 to 1.0).
     """
+    # --- Input Check ---
+    truncated_prompt = truncate_prompt(prompt)
+    # -------------------
 
-    assessment_result = await Runner.run(hypothesis_assessment_agent, input=prompt)
-    return assessment_result.final_output
+    assessment_result = await Runner.run(
+        hypothesis_assessment_agent, input=truncated_prompt
+    )
+
+    # Ensure the final result includes the actual statement verifications
+    final_verification = assessment_result.final_output
+    if isinstance(final_verification, HypothesisVerification):
+        final_verification.statement_verifications = statement_verifications
+        final_verification.original_hypothesis = (
+            decomposition.original_hypothesis
+        )  # Ensure original hypothesis is set
+    else:
+        # Handle unexpected result type from agent
+        logger.error(
+            f"Hypothesis assessment agent returned unexpected type: {type(final_verification)}"
+        )
+        # Fallback to creating a verification object
+        final_verification = HypothesisVerification(
+            statement_verifications=[],
+            overall_assessment="Assessment agent failed to return valid structure.",
+            verification_score=0.0,
+        )
+
+    return final_verification
 
 
 async def run_agents(
@@ -369,11 +499,19 @@ async def run_agents(
         ontology=None,  # Will be populated in step 1
         hypotheses=[],
         current_iteration=0,
+        best_hypothesis_id=None,  # Initialize best_hypothesis_id
     )
 
-    ontology: OntologyAgentOutput = await run_ontology_agent(subgraph_model)
-    dto.ontology = ontology
-    logger.info(dto.ontology.model_dump_json(indent=4))
+    # Step 1: Run Ontology Agent (includes input check)
+    try:
+        ontology: OntologyAgentOutput = await run_ontology_agent(subgraph_model)
+        dto.ontology = ontology
+        logger.info(
+            f"Ontology generated: {dto.ontology.model_dump_json(indent=2)}"
+        )  # Use shorter log
+    except Exception as e:
+        logger.error(f"Failed to run ontology agent: {e}")
+        raise ValueError("Ontology generation failed, cannot proceed.") from e
 
     # Process through iterations
     for iteration in range(config.max_iterations):
@@ -381,282 +519,502 @@ async def run_agents(
         logger.info(f"Starting iteration {iteration + 1}/{config.max_iterations}")
 
         # Initialize the list for this iteration
-        dto.hypotheses.append([])
+        if len(dto.hypotheses) <= iteration:
+            dto.hypotheses.append([])
 
-        # Step 2: Generate hypotheses using parallel coroutines
+        hypothesis_tasks = []
+        # Step 2: Generate hypotheses
         if iteration == 0:
-            # First iteration: generate from scratch
+            # First iteration: generate from scratch (run_hypothesis_agent includes input check)
             logger.info("Generating initial hypotheses...")
             hypothesis_tasks = [
                 run_hypothesis_agent(subgraph_model, dto.ontology)
                 for _ in range(config.num_of_hypotheses)
             ]
-
-            hypothesis_results = []
-            for task in asyncio.as_completed(hypothesis_tasks):
-                try:
-                    hypothesis = await task
-                    hypothesis_results.append(hypothesis)
-                except Exception as e:
-                    logger.error(f"Error generating hypothesis: {str(e)}")
         else:
-            # Later iterations: refine best hypotheses from previous iteration
+            # Later iterations: refine best hypotheses (refine_hypothesis includes input check)
             logger.info(f"Refining hypotheses from iteration {iteration}...")
 
-            # Get top hypotheses from previous iteration
+            if iteration == 0 or not dto.hypotheses[iteration - 1]:
+                logger.warning(
+                    f"No hypotheses from previous iteration {iteration} to refine. Skipping refinement."
+                )
+                continue  # Or potentially break, depending on desired logic
+
             prev_hypotheses = dto.hypotheses[iteration - 1]
+            # Sort by score, handling None scores
             prev_hypotheses.sort(
-                key=lambda x: x.score if x.score is not None else 0, reverse=True
+                key=lambda x: x.score if x.score is not None else float("-inf"),
+                reverse=True,
             )
 
-            # Take top_k hypotheses for refinement
-            top_k = min(config.top_k, len(prev_hypotheses))
-            best_prev_hypotheses = prev_hypotheses[:top_k]
+            top_k_refine = min(config.top_k, len(prev_hypotheses))
+            if top_k_refine == 0:
+                logger.warning(
+                    f"No valid hypotheses with scores found in iteration {iteration} to refine."
+                )
+                continue
+
+            best_prev_hypotheses = prev_hypotheses[:top_k_refine]
+            logger.info(f"Selected top {top_k_refine} hypotheses for refinement.")
 
             # Refine each hypothesis
-            refine_tasks = [
+            hypothesis_tasks = [
                 refine_hypothesis(prev_hypothesis, dto.ontology, iteration)
                 for prev_hypothesis in best_prev_hypotheses
             ]
 
-            hypothesis_results = []
-            for task in asyncio.as_completed(refine_tasks):
-                try:
-                    refined = await task
-                    hypothesis_results.append(refined.base_hypothesis)
-                except Exception as e:
-                    logger.error(f"Error refining hypothesis: {str(e)}")
+        # Execute generation/refinement tasks
+        task_results = await asyncio.gather(*hypothesis_tasks, return_exceptions=True)
 
-        if not hypothesis_results:
-            raise ValueError("Failed to generate any valid hypotheses")
+        # Collect valid results and log errors
+        initial_hypotheses = []  # Renamed to avoid confusion
+        for result in task_results:
+            if isinstance(result, Exception):
+                logger.error(
+                    f"Error generating/refining hypothesis in iteration {iteration + 1}: {result}"
+                )
+            elif isinstance(
+                result, ProcessedHypothesis
+            ):  # Refiner returns ProcessedHypothesis
+                initial_hypotheses.append(result.base_hypothesis)
+            elif isinstance(
+                result, ScientificHypothesis
+            ):  # Generator returns ScientificHypothesis
+                initial_hypotheses.append(result)
+            else:
+                logger.warning(
+                    f"Unexpected result type from hypothesis task: {type(result)}"
+                )
+
+        if not initial_hypotheses:
+            logger.error(
+                f"Failed to generate any valid hypotheses in iteration {iteration + 1}."
+            )
+            # Decide whether to continue to next iteration or stop
+            if iteration == 0:
+                raise ValueError("Failed to generate any initial hypotheses.")
+            else:
+                logger.warning(
+                    "Skipping further processing for this iteration due to lack of hypotheses."
+                )
+                continue  # Move to next iteration
 
         logger.info(
-            f"Generated {len(hypothesis_results)} hypotheses for iteration {iteration + 1}."
+            f"Generated/Refined {len(initial_hypotheses)} hypotheses for iteration {iteration + 1}."
         )
 
-        # Step 3: Triage hypotheses concurrently
+        # Step 3: Triage hypotheses concurrently (run_triage_agent includes input check)
         logger.info("Triaging hypotheses...")
         triage_tasks = [
-            run_triage_agent(hypothesis) for hypothesis in hypothesis_results
+            run_triage_agent(hypothesis) for hypothesis in initial_hypotheses
         ]
+
+        triage_task_results = await asyncio.gather(
+            *triage_tasks, return_exceptions=True
+        )
 
         triage_results = []
-        for task in asyncio.as_completed(triage_tasks):
-            try:
-                triage_result = await task
-                triage_results.append(triage_result)
-            except Exception as e:
-                logger.error(f"Error triaging hypothesis: {str(e)}")
+        for i, result in enumerate(triage_task_results):
+            if isinstance(result, Exception):
+                logger.error(
+                    f"Error triaging hypothesis '{initial_hypotheses[i].title}': {result}"
+                )
+            elif isinstance(result, tuple) and len(result) == 2:
+                triage_results.append(result)
+            else:
+                logger.warning(
+                    f"Unexpected result type from triage task for '{initial_hypotheses[i].title}': {type(result)}"
+                )
 
         logger.info(f"Triage completed for {len(triage_results)} hypotheses.")
+        if not triage_results:
+            logger.warning(
+                f"No hypotheses successfully triaged in iteration {iteration + 1}. Skipping further processing."
+            )
+            continue
 
+        # Step 4: Score hypotheses
         logger.info("Scoring hypotheses...")
-        scored_hypotheses = [
-            (hypothesis, triage, score_hypothesis(triage))
-            for hypothesis, triage in triage_results
-        ]
+        scored_hypotheses = []
+        for hypothesis, triage in triage_results:
+            try:
+                score = score_hypothesis(triage)
+                scored_hypotheses.append((hypothesis, triage, score))
+            except Exception as e:
+                logger.error(f"Error scoring hypothesis '{hypothesis.title}': {e}")
+                # Assign a default low score or skip
+                # scored_hypotheses.append((hypothesis, triage, float('-inf')))
+
+        # Sort by score (descending), handling potential errors if scoring failed
         scored_hypotheses.sort(key=lambda x: x[2], reverse=True)
 
-        # Update DTO with processed hypotheses
+        # Update DTO with processed hypotheses for this iteration
+        current_iter_hypotheses = []
         for i, (hypothesis, triage, score) in enumerate(scored_hypotheses):
             processed = ProcessedHypothesis(
                 iteration=iteration,
                 base_hypothesis=hypothesis,
                 triaged_hypothesis=triage,
                 score=score,
+                # Initialize other fields to None, they'll be filled later
+                decomposed_hypothesis=None,
+                hypothesis_assessment=None,
             )
-            dto.hypotheses[iteration].append(processed)
-            logger.info(f"Hypothesis {i}: {hypothesis.title}, Total score: {score}")
+            current_iter_hypotheses.append(processed)
+            logger.info(
+                f"Iter {iteration+1} - Hypothesis {i}: '{hypothesis.title}', Triage score: {score:.4f}"
+            )
 
-        # Select top k hypotheses for further processing
-        top_k = min(config.top_k, len(scored_hypotheses))
-        best_hypotheses = scored_hypotheses[:top_k]
-
-        logger.info(f"Selected top {top_k} hypotheses for further processing.")
-
-        # Step 5: Decompose hypotheses concurrently
-        logger.info("Decomposing hypotheses...")
-        decomposition_tasks = []
-        decomposed_indices = []
-
-        for i, (hypothesis, _, _) in enumerate(best_hypotheses):
-            decomposition_tasks.append(decompose_hypothesis(hypothesis, dto.ontology))
-            decomposed_indices.append(i)
-
-        decomposition_results = []
-        for i, task in enumerate(asyncio.as_completed(decomposition_tasks)):
-            try:
-                decomposition = await task
-                decomposition_results.append((decomposed_indices[i], decomposition))
-            except Exception as e:
-                logger.error(f"Error decomposing hypothesis: {str(e)}")
-
-        logger.info(
-            f"Decomposition completed for {len(decomposition_results)} hypotheses."
+        # Ensure the list for the current iteration exists before assigning
+        if len(dto.hypotheses) <= iteration:
+            dto.hypotheses.append([])
+        dto.hypotheses[iteration] = (
+            current_iter_hypotheses  # Assign the list for this iteration
         )
 
+        # Select top k hypotheses for further processing (decomposition/verification)
+        top_k_process = min(config.top_k, len(current_iter_hypotheses))
+        if top_k_process == 0:
+            logger.warning(
+                f"No scored hypotheses to process further in iteration {iteration + 1}."
+            )
+            continue
+
+        best_hypotheses_for_processing = current_iter_hypotheses[:top_k_process]
+        logger.info(
+            f"Selected top {top_k_process} hypotheses for decomposition and verification."
+        )
+
+        # Step 5: Decompose hypotheses concurrently (decompose_hypothesis includes input check)
+        logger.info("Decomposing hypotheses...")
+        decomposition_tasks = []
+        decomposed_indices = (
+            []
+        )  # Store original index in best_hypotheses_for_processing
+
+        for i, processed_hypothesis in enumerate(best_hypotheses_for_processing):
+            decomposition_tasks.append(
+                decompose_hypothesis(processed_hypothesis.base_hypothesis, dto.ontology)
+            )
+            decomposed_indices.append(i)
+
+        decomposition_task_results = await asyncio.gather(
+            *decomposition_tasks, return_exceptions=True
+        )
+
+        decomposition_results_map = {}  # Map index to decomposition result
+        for i, result in enumerate(decomposition_task_results):
+            original_index = decomposed_indices[i]
+            hypothesis_title = best_hypotheses_for_processing[
+                original_index
+            ].base_hypothesis.title
+            if isinstance(result, Exception):
+                logger.error(
+                    f"Error decomposing hypothesis '{hypothesis_title}': {result}"
+                )
+            elif isinstance(result, HypothesisDecomposition):
+                decomposition_results_map[original_index] = result
+            else:
+                logger.warning(
+                    f"Unexpected result type from decomposition task for '{hypothesis_title}': {type(result)}"
+                )
+
+        logger.info(
+            f"Decomposition completed for {len(decomposition_results_map)} hypotheses."
+        )
+        if not decomposition_results_map:
+            logger.warning(
+                f"No hypotheses successfully decomposed in iteration {iteration + 1}. Skipping verification."
+            )
+            continue
+
         # Update DTO with decompositions
-        for idx, decomposition in decomposition_results:
-            if idx < len(dto.hypotheses[iteration]):
-                dto.hypotheses[iteration][idx].decomposed_hypothesis = decomposition
+        successfully_decomposed_hypotheses = (
+            []
+        )  # List of (hypothesis_id, decomposition)
+        for original_idx, decomposition in decomposition_results_map.items():
+            # Update the ProcessedHypothesis object in the DTO directly
+            if original_idx < len(dto.hypotheses[iteration]):
+                dto.hypotheses[iteration][
+                    original_idx
+                ].decomposed_hypothesis = decomposition
+                hypothesis_id = f"hypothesis_{original_idx}_{iteration}"  # Use original index from top_k list
+                successfully_decomposed_hypotheses.append(
+                    (hypothesis_id, decomposition)
+                )
+            else:
+                logger.error(
+                    f"Index mismatch when trying to update decomposition for index {original_idx}"
+                )
 
-        # Step 6: Verify decomposed hypotheses
+        # Step 6: Verify decomposed hypotheses (verify_hypothesis_decomposition includes input check)
         logger.info("Verifying decomposed hypotheses...")
-        hypothesis_decompositions = [
-            (f"hypothesis_{i}_{iteration}", decomp)
-            for i, decomp in [(idx, result) for idx, result in decomposition_results]
-        ]
+        if not successfully_decomposed_hypotheses:
+            logger.warning("No successfully decomposed hypotheses to verify.")
+            continue
 
+        # verify_multiple_hypotheses handles parallelism internally
         verification_results = await verify_multiple_hypotheses(
-            hypothesis_decompositions
+            successfully_decomposed_hypotheses
         )
         logger.info(
             f"Verification completed for {len(verification_results)} hypotheses."
         )
 
-        # Update DTO with verification results
+        # Update DTO with verification results and find best verified in this iteration
+        current_best_score = float("-inf")
+        current_best_id = None
         for hypothesis_id, verification in verification_results.items():
-            parts = hypothesis_id.split("_")
-            if len(parts) >= 2:
+            # Extract index and iteration from ID
+            try:
+                parts = hypothesis_id.split("_")
                 idx = int(parts[1])
-                if idx < len(dto.hypotheses[iteration]):
+                iter_num = int(parts[2])
+
+                if iter_num == iteration and idx < len(dto.hypotheses[iteration]):
+                    # Update the ProcessedHypothesis object
                     dto.hypotheses[iteration][idx].hypothesis_assessment = verification
 
-        # Find best verified hypothesis
-        if verification_results:
-            best_verified_hypothesis_id = max(
-                verification_results.keys(),
-                key=lambda k: verification_results[k].verification_score,
-            )
-            dto.best_hypothesis_id = best_verified_hypothesis_id
+                    # Track best verified hypothesis *in this iteration*
+                    if (
+                        verification
+                        and verification.verification_score > current_best_score
+                    ):
+                        current_best_score = verification.verification_score
+                        current_best_id = hypothesis_id
+                else:
+                    logger.warning(
+                        f"Mismatch or invalid index/iteration in hypothesis ID {hypothesis_id} for verification results."
+                    )
 
-            # For analysis purpose in the log
-            parts = best_verified_hypothesis_id.split("_")
-            if len(parts) >= 2:
-                best_hypothesis_index = int(parts[1])
+            except (IndexError, ValueError) as e:
+                logger.error(f"Could not parse hypothesis ID '{hypothesis_id}': {e}")
+
+        if current_best_id:
+            logger.info(
+                f"Best verified hypothesis from iteration {iteration + 1}: {current_best_id} (Score: {current_best_score:.4f})"
+            )
+            # Update overall best if this iteration's best is better than previous overall best
+            if (
+                dto.best_hypothesis_id is None
+                or current_best_score
+                > dto.hypotheses[int(dto.best_hypothesis_id.split("_")[2])][
+                    int(dto.best_hypothesis_id.split("_")[1])
+                ].hypothesis_assessment.verification_score
+            ):
+                dto.best_hypothesis_id = current_best_id
                 logger.info(
-                    f"Best verified hypothesis from iteration {iteration + 1}: {best_hypothesis_index}"
+                    f"Updated overall best hypothesis ID to: {dto.best_hypothesis_id}"
                 )
         else:
-            logger.warning("No verified hypotheses in this iteration")
+            logger.warning(
+                f"No verified hypotheses found or scored in iteration {iteration + 1}"
+            )
 
-    # End of iterations - construct final hypothesis to return
-    # Find the overall best hypothesis across all iterations
-    best_hypothesis = None
-    best_score = -1
+    # --- End of iterations ---
+
+    # Identify the overall best hypothesis based on verification score
+    final_best_processed_hypothesis = None
+    best_score = float("-inf")
     best_iteration = -1
-    best_index = -1
+    best_index_in_iteration = -1  # Index within the dto.hypotheses[best_iteration] list
 
     if dto.best_hypothesis_id:
-        parts = dto.best_hypothesis_id.split("_")
-        if len(parts) >= 3:
-            best_index = int(parts[1])
+        try:
+            parts = dto.best_hypothesis_id.split("_")
+            best_index_in_iteration = int(parts[1])
             best_iteration = int(parts[2])
 
-            if 0 <= best_iteration < len(dto.hypotheses) and 0 <= best_index < len(
-                dto.hypotheses[best_iteration]
-            ):
-                best_hypothesis = dto.hypotheses[best_iteration][best_index]
-                best_score = (
-                    best_hypothesis.score if best_hypothesis.score is not None else 0
+            if 0 <= best_iteration < len(
+                dto.hypotheses
+            ) and 0 <= best_index_in_iteration < len(dto.hypotheses[best_iteration]):
+                candidate = dto.hypotheses[best_iteration][best_index_in_iteration]
+                if candidate.hypothesis_assessment:
+                    final_best_processed_hypothesis = candidate
+                    best_score = candidate.hypothesis_assessment.verification_score
+                    logger.info(
+                        f"Selected best hypothesis based on verification ID: {dto.best_hypothesis_id} (Verification Score: {best_score:.4f})"
+                    )
+                else:
+                    logger.warning(
+                        f"Best hypothesis identified by ID {dto.best_hypothesis_id} lacks verification assessment."
+                    )
+            else:
+                logger.error(
+                    f"Best hypothesis ID {dto.best_hypothesis_id} points to invalid iteration/index."
                 )
-
-    # If no best hypothesis was found, just take the best from the last iteration
-    if best_hypothesis is None and dto.hypotheses:
-        last_iteration = dto.hypotheses[-1]
-        if last_iteration:
-            # Sort by score
-            last_iteration.sort(
-                key=lambda x: x.score if x.score is not None else 0, reverse=True
+        except (IndexError, ValueError, TypeError) as e:
+            logger.error(
+                f"Error processing best_hypothesis_id '{dto.best_hypothesis_id}': {e}"
             )
-            best_hypothesis = last_iteration[0]
-            best_score = (
-                best_hypothesis.score if best_hypothesis.score is not None else 0
-            )
-            best_iteration = len(dto.hypotheses) - 1
-            best_index = 0
+            dto.best_hypothesis_id = None  # Reset if invalid
 
-    if best_hypothesis is None:
-        raise ValueError("Failed to identify any valid hypotheses")
+    # Fallback: If no verified best, find the highest *triaged* score across all iterations
+    if final_best_processed_hypothesis is None:
+        logger.warning(
+            "Could not determine best hypothesis from verification scores. Falling back to highest triage score."
+        )
+        best_score = float("-inf")  # Reset best score for triage comparison
+        for i, iteration_hypotheses in enumerate(dto.hypotheses):
+            for j, hyp in enumerate(iteration_hypotheses):
+                if hyp.score is not None and hyp.score > best_score:
+                    best_score = hyp.score
+                    final_best_processed_hypothesis = hyp
+                    best_iteration = i
+                    best_index_in_iteration = j
+                    # Update best_hypothesis_id for consistency, even if based on triage score
+                    dto.best_hypothesis_id = f"hypothesis_{j}_{i}"
 
+    if final_best_processed_hypothesis is None:
+        logger.error("Failed to identify any suitable hypothesis after all iterations.")
+        raise ValueError("Failed to identify any valid hypotheses after processing.")
+
+    logger.info(
+        f"Final selected best hypothesis: ID {dto.best_hypothesis_id}, "
+        f"Title: '{final_best_processed_hypothesis.base_hypothesis.title}', "
+        f"Final Score (best of verification/triage): {best_score:.4f}"
+    )
+
+    # Save full DTO state if path provided
     if config.out_dir_path is not None:
-        with open("process.json", "wt") as f:
-            f.write(dto.model_dump_json(indent=4))
+        out_file = config.out_dir_path / "process_state.json"
+        try:
+            config.out_dir_path.mkdir(parents=True, exist_ok=True)
+            with open(out_file, "wt") as f:
+                f.write(dto.model_dump_json(indent=2))
+            logger.info(f"Saved final process state to {out_file}")
+        except Exception as e:
+            logger.error(f"Failed to save process state to {out_file}: {e}")
 
-    # Create verification metadata
+    # Create verification metadata for the final report
     verification_metadata = {}
-    for iter_idx, iteration in enumerate(dto.hypotheses):
-        for hyp_idx, hyp in enumerate(iteration):
+    for iter_idx, iteration_data in enumerate(dto.hypotheses):
+        for hyp_idx, hyp in enumerate(iteration_data):
             if hyp.hypothesis_assessment:
                 hypothesis_id = f"hypothesis_{hyp_idx}_{iter_idx}"
-                verification_metadata[hypothesis_id] = {
-                    "verification_score": hyp.hypothesis_assessment.verification_score,
-                    "overall_assessment": hyp.hypothesis_assessment.overall_assessment,
-                    "statement_verifications": [
-                        {
-                            "statement": sv.statement,
-                            "verification_conclusion": sv.verification_conclusion,
-                            "confidence_score": sv.confidence_score,
-                            "supporting_evidence_count": len(sv.supporting_evidence),
-                            "contradicting_evidence_count": len(
-                                sv.contradicting_evidence
-                            ),
-                        }
-                        for sv in hyp.hypothesis_assessment.statement_verifications
-                    ],
+                assessment = hyp.hypothesis_assessment
+                verif_meta = {
+                    "verification_score": getattr(
+                        assessment, "verification_score", None
+                    ),
+                    "overall_assessment": getattr(
+                        assessment, "overall_assessment", "N/A"
+                    ),
+                    "statement_verifications": [],
                 }
+                if (
+                    hasattr(assessment, "statement_verifications")
+                    and assessment.statement_verifications
+                ):
+                    for sv in assessment.statement_verifications:
+                        verif_meta["statement_verifications"].append(
+                            {
+                                "statement": getattr(sv, "statement", "N/A"),
+                                "verification_conclusion": getattr(
+                                    sv, "verification_conclusion", "N/A"
+                                ),
+                                "confidence_score": getattr(
+                                    sv, "confidence_score", None
+                                ),
+                                "supporting_evidence_count": len(
+                                    getattr(sv, "supporting_evidence", [])
+                                ),
+                                "contradicting_evidence_count": len(
+                                    getattr(sv, "contradicting_evidence", [])
+                                ),
+                            }
+                        )
+                verification_metadata[hypothesis_id] = verif_meta
 
-    # Create and return the final hypothesis with complete metadata
-    return (
-        Hypothesis(
-            title=best_hypothesis.base_hypothesis.title,
-            statement=best_hypothesis.base_hypothesis.statement,
-            source=subgraph,
-            method=HypothesisGenerator(config),
-            metadata={
-                "verification_results": verification_metadata,
-                "best_verified_hypothesis": dto.best_hypothesis_id,
-                "score": best_score,
-                "total_iterations": config.max_iterations,
-                "best_iteration": best_iteration,
-                "best_hypothesis_index": best_index,
-            },
-        ),
-        dto,
+    # Ensure base hypothesis exists before accessing attributes
+    base_hyp = final_best_processed_hypothesis.base_hypothesis
+    if not base_hyp:
+        raise ValueError(
+            f"Final best ProcessedHypothesis (ID: {dto.best_hypothesis_id}) is missing its base_hypothesis."
+        )
+
+    # Create and return the final ARD Hypothesis object
+    final_hypothesis = Hypothesis(
+        title=base_hyp.title,
+        statement=base_hyp.statement,
+        source=subgraph,  # Original subgraph input
+        method=HypothesisGenerator(config),  # Reference to this generator instance
+        metadata={
+            "final_selected_hypothesis_id": dto.best_hypothesis_id,
+            "final_score": best_score,  # The score used for final selection (verification or triage)
+            "best_hypothesis_iteration": best_iteration,
+            "best_hypothesis_index_in_iteration": best_index_in_iteration,
+            "total_iterations_run": dto.current_iteration
+            + 1,  # iterations are 0-indexed
+            "all_verification_results": verification_metadata,
+            # Include triage score of the final hypothesis for reference
+            "final_hypothesis_triage_score": final_best_processed_hypothesis.score,
+        },
     )
+
+    return final_hypothesis, dto
 
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
     def __init__(self, config: Optional[ProcessConfig] = None):
         self.config = config or ProcessConfig()
-        self.dto = None  # Will store the DTO after running
+        self.dto: Optional[HypothesisGenerationDTO] = (
+            None  # Will store the DTO after running
+        )
         self._loop = None  # Store event loop reference
 
     async def async_run(self, subgraph: Subgraph) -> Hypothesis:
         """Async version of run method"""
+        # run_agents now returns hypothesis, dto
         hypothesis, self.dto = await run_agents(subgraph, self.config)
         return hypothesis
 
     def run(self, subgraph: Subgraph) -> Hypothesis:
-        """Synchronous entry point that creates a new event loop"""
-        # Create new event loop if running in synchronous context
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        self._loop = loop
+        """Synchronous entry point that manages the event loop"""
+        try:
+            # Get existing loop if available (e.g., running in Jupyter)
+            loop = asyncio.get_running_loop()
+            logger.info("Using existing event loop.")
+            # If using an existing loop, ensure it's managed externally
+            is_external_loop = True
+        except RuntimeError:
+            # No running loop, create a new one
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            logger.info("Created new event loop.")
+            is_external_loop = False
+            self._loop = loop  # Store only if we created it
 
         try:
+            # Run the async function and wait for completion
             hypothesis = loop.run_until_complete(self.async_run(subgraph))
             return hypothesis
         finally:
-            loop.close()
-            self._loop = None
+            # Only close the loop if this function created it
+            if not is_external_loop and self._loop:
+                self._loop.close()
+                asyncio.set_event_loop(None)  # Clean up loop association
+                logger.info("Closed event loop.")
+                self._loop = None
 
     def get_state(self) -> Optional[HypothesisGenerationDTO]:
-        """Return the current state of the hypothesis generation process."""
+        """Return the final state DTO of the hypothesis generation process."""
+        if self.dto is None:
+            logger.warning("get_state() called before run() completed or run() failed.")
         return self.dto
 
     def __str__(self) -> str:
-        return "HypeGen Generator"
+        # Provide more config details in the string representation
+        return (
+            f"HypothesisGenerator(iterations={self.config.max_iterations}, "
+            f"hypotheses_per_iter={self.config.num_of_hypotheses}, "
+            f"top_k={self.config.top_k})"
+        )
 
     def to_json(self) -> dict[str, Any]:
-        return {"type": "HypothesisGenerator"}
+        # Include config in the JSON representation
+        return {
+            "type": "HypothesisGenerator",
+            "config": self.config.__dict__ if self.config else None,
+        }

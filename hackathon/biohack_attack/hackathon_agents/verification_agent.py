@@ -3,8 +3,19 @@ from typing import List
 from agents import Agent, ModelSettings
 from pydantic import BaseModel, Field
 
+from biohack_attack.hackathon_agents.research_agents.biorxiv_agent import biorxiv_agent
+from biohack_attack.hackathon_agents.research_agents.europmc_agent import (
+    europe_pmc_agent,
+)
 from biohack_attack.hackathon_agents.research_agents.firecrawl_agent import (
     firecrawl_agent,
+)
+from biohack_attack.hackathon_agents.research_agents.hetionet_agent import (
+    hetionet_agent,
+)
+from biohack_attack.hackathon_agents.research_agents.pubmed_agent import pubmed_agent
+from biohack_attack.hackathon_agents.research_agents.semantic_scholar_agent import (
+    semantic_scholar_agent,
 )
 from biohack_attack.model_factory import ModelFactory, ModelType
 
@@ -112,7 +123,14 @@ statement_verification_agent = Agent(
     model=ModelFactory.build_model(ModelType.OPENAI, model_name="o3-mini"),
     name="StatementVerificationAgent",
     instructions=VERIFICATION_AGENT_INSTRUCTIONS,
-    handoffs=[firecrawl_agent],
+    handoffs=[
+        firecrawl_agent,
+        biorxiv_agent,
+        europe_pmc_agent,
+        pubmed_agent,
+        semantic_scholar_agent,
+        hetionet_agent,
+    ],
     output_type=StatementVerification,
     model_settings=ModelSettings(tool_choice="required"),
 )

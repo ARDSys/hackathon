@@ -10,8 +10,19 @@ from biohack_attack.hackathon_agents.critic_agent import (
     TriagedHypothesis,
     rheumatology_triage_agent,
 )
+from biohack_attack.hackathon_agents.research_agents.biorxiv_agent import biorxiv_agent
+from biohack_attack.hackathon_agents.research_agents.europmc_agent import (
+    europe_pmc_agent,
+)
 from biohack_attack.hackathon_agents.research_agents.firecrawl_agent import (
     firecrawl_agent,
+)
+from biohack_attack.hackathon_agents.research_agents.hetionet_agent import (
+    hetionet_agent,
+)
+from biohack_attack.hackathon_agents.research_agents.pubmed_agent import pubmed_agent
+from biohack_attack.hackathon_agents.research_agents.semantic_scholar_agent import (
+    semantic_scholar_agent,
 )
 from biohack_attack.model_factory import ModelFactory, ModelType
 from biohack_attack.tools.firecrawl_tool import query_firecrawl
@@ -83,5 +94,12 @@ rheumatology_refiner_agent = Agent(
     name="Rheumatology Hypothesis Refiner Agent",
     instructions=AGENT_INSTRUCTIONS,
     output_type=ScientificHypothesis,
-    handoffs=[firecrawl_agent],
+    handoffs=[
+        firecrawl_agent,
+        biorxiv_agent,
+        europe_pmc_agent,
+        pubmed_agent,
+        semantic_scholar_agent,
+        hetionet_agent,
+    ],
 )
