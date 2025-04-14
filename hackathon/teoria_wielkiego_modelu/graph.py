@@ -16,6 +16,12 @@ from .agents.literature import create_literature_agent
 from .agents.novelty_and_impact_reviewer import create_nai_agent
 from .agents.ontologist import create_ontologist_agent
 from .agents.summary import create_summary_agent
+<<<<<<< HEAD
+=======
+from .agents.devil_advocate import create_devil_advocate_agent
+from .agents.critique import create_critique_agent
+from .agents.review_agent import create_review_agent
+>>>>>>> b38e674 (Graph and hypothesis generation compiling solution)
 from .state import HypgenState
 
 
@@ -52,6 +58,8 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_node("critique_analyst", create_critique_agent("small")["agent"])
     graph.add_node("devil_advocate", create_devil_advocate_agent("small")["agent"])
     graph.add_node("summary_agent", create_summary_agent("small")["agent"])
+    
+    graph.add_node("review_agent", create_review_agent("small")["agent"])
 
     # Add edges
     graph.add_edge(START, "ontologist")
@@ -65,7 +73,7 @@ def create_hypgen_graph() -> CompiledGraph:
     # # Fork
     graph.add_edge("literature_agent", "nai_agent")
     graph.add_edge("literature_agent", "exp_planer")
-    graph.add_edge("exp_planer", "exp_agent")
+    graph.add_edge("exp_planer", "exp_reviewer")
     # # Join
     graph.add_edge("nai_agent", "critique_analyst")
     graph.add_edge("nai_agent", "devil_advocate")
@@ -80,10 +88,12 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_edge("devil_advocate", "review_agent")
 
     graph.add_edge("review_agent", "summary_agent")
+    
+    graph.add_edge("summary_agent", END)
 
     return graph.compile()
 
-def refine_graph() -> CompiledGraph:
+def create_refine_graph() -> CompiledGraph:
     graph = StateGraph(HypgenState)
 
     graph.add_node(
@@ -97,6 +107,8 @@ def refine_graph() -> CompiledGraph:
     graph.add_node("critique_analyst", create_critique_agent("small")["agent"])
     graph.add_node("devil_advocate", create_devil_advocate_agent("small")["agent"])
     graph.add_node("summary_agent", create_summary_agent("small")["agent"])
+    
+    graph.add_node("review_agent", create_review_agent("small")["agent"])
 
     # Add edges
     graph.add_edge(START, "hypothesis_refiner")
@@ -105,7 +117,7 @@ def refine_graph() -> CompiledGraph:
     # # Fork
     graph.add_edge("literature_agent", "nai_agent")
     graph.add_edge("literature_agent", "exp_planer")
-    graph.add_edge("exp_planer", "exp_agent")
+    graph.add_edge("exp_planer", "exp_reviewer")
     # # Join
     graph.add_edge("nai_agent", "critique_analyst")
     graph.add_edge("nai_agent", "devil_advocate")
@@ -119,9 +131,12 @@ def refine_graph() -> CompiledGraph:
     graph.add_edge("critique_analyst", "review_agent")
     graph.add_edge("devil_advocate", "review_agent")
     graph.add_edge("review_agent", "summary_agent")
+    
+    graph.add_edge("summary_agent", END)
 
     # TODO: do we need END?
     return graph.compile()
 
 
-hypgen_graph = create_hypgen_graph()
+seeding_graph = create_hypgen_graph()
+refine_graph = create_refine_graph()

@@ -12,6 +12,8 @@ from .graph import refine_graph, seeding_graph
 from .state import HypgenState
 from .utils import message_to_dict
 
+from loguru import logger
+
 langfuse_callback = CallbackHandler()
 
 class HypothesisProposition:
@@ -54,6 +56,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
             )
             
         for refinement_iter in range(REFINEMENT_ITER):
+            logger.info(f"Refinement iteration: {refinement_iter}")
             best_ucb = -1e9
             best_idx = -1
             for i in range(HYPOTHESIS_BEAM):
