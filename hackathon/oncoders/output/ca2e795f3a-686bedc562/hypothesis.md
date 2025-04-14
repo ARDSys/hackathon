@@ -58,14 +58,14 @@ None
 (`pro-inflammatory cytokines`)-[:`stimulate the expression of`]->(`matrix metalloproteinases`),
 (`matrix metalloproteinases`)-[:`are involved in the degradation of`]->(`extracellular matrix components`),
 (`extracellular matrix components`)-[:`regulate the activity of`]->(`fibroblast-like synoviocytes in rheumatoid arthritis joints`),
+(`pro-inflammatory cytokines`)-[:`interact with`]->(`extracellular matrix components`),
+(`pro-inflammatory cytokines`)-[:`can indirectly affect`]->(`bridge therapy effectiveness`),
+(`extracellular matrix components`)-[:`influence the persistence of`]->(`acute flares in rheumatoid arthritis`),
+(`matrix metalloproteinases`)-[:`modulate the dynamics of`]->(`monocyte activation`),
+(`matrix metalloproteinases`)-[:`could amplify damage during`]->(`acute flares in rheumatoid arthritis`),
 (`acute flares in rheumatoid arthritis`)-[:`result in increased expression of`]->(`matrix metalloproteinases`),
 (`C-reactive protein`)-[:`can enhance activity of`]->(`fibroblast-like synoviocytes in rheumatoid arthritis joints`),
 (`monocyte activation`)-[:`can trigger`]->(`bridge therapy adjustments`),
-(`matrix metalloproteinases`)-[:`modulate the dynamics of`]->(`monocyte activation`),
-(`matrix metalloproteinases`)-[:`could amplify damage during`]->(`acute flares in rheumatoid arthritis`),
 (`fibroblast-like synoviocytes in rheumatoid arthritis joints`)-[:`produce and secrete`]->(`pro-inflammatory cytokines`),
-(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)-[:`are responsive to changes in`]->(`C-reactive protein levels`),
-(`pro-inflammatory cytokines`)-[:`interact with`]->(`extracellular matrix components`),
-(`pro-inflammatory cytokines`)-[:`can indirectly affect`]->(`bridge therapy effectiveness`),
-(`extracellular matrix components`)-[:`influence the persistence of`]->(`acute flares in rheumatoid arthritis`)
+(`fibroblast-like synoviocytes in rheumatoid arthritis joints`)-[:`are responsive to changes in`]->(`C-reactive protein levels`)
 ```

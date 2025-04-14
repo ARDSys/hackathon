@@ -38,7 +38,6 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         path = subgraph.to_cypher_string(full_graph=False)
 
         group_chat, manager, user = create_group_chat()
-
         res = user.initiate_chat(
             manager,
             message=f"""Develop a research proposal using the following context:

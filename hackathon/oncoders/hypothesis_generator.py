@@ -12,6 +12,9 @@ from .groupchat import create_group_chat
 from .llm_config import get_llm_config
 from .agents import solo_ontologist
 
+
+
+
 langfuse_callback = CallbackHandler()
 
 
@@ -47,15 +50,15 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         res = user.initiate_chat(
             manager,
             message=f"""Develop a research proposal using the following context:
-Path: {path}
+    Path: {path}
 
-Context: {context}
+    Context: {context}
 
-Do not generate a new path. Use the provided path.
+    Do not generate a new path. Use the provided path.
 
-Do multiple iterations, like a feedback loop between a scientist and reviewers, to improve the research idea.
+    Do multiple iterations, like a feedback loop between a scientist and reviewers, to improve the research idea.
 
-In the end, rate the novelty and feasibility of the research idea.""",
+    In the end, rate the novelty and feasibility of the research idea.""",
             clear_history=True,
         )
         messages = "\n".join([message["content"] for message in group_chat.messages])
