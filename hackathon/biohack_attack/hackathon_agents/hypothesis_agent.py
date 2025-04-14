@@ -70,7 +70,7 @@ class ScientificHypothesis(BaseModel):
 
 
 hypothesis_agent = Agent(
-    model=ModelFactory.build_model(ModelType.OPENAI),
+    model=ModelFactory.build_model(ModelType.OPENAI, model_name="o3-mini"),
     name="RheumatologyHypothesisGenerator",
     instructions="""You are an expert rheumatology researcher tasked with generating novel, scientifically sound hypotheses based on knowledge graph analysis. You will analyze subgraphs containing rheumatology-related concepts and relationships to identify meaningful connections and generate hypotheses.
 

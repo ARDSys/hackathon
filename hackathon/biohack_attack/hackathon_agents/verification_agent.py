@@ -3,8 +3,10 @@ from typing import List
 from agents import Agent, ModelSettings
 from pydantic import BaseModel, Field
 
+from biohack_attack.hackathon_agents.research_agents.firecrawl_agent import (
+    firecrawl_agent,
+)
 from biohack_attack.model_factory import ModelFactory, ModelType
-from biohack_attack.tools.firecrawl_tool import query_firecrawl
 
 
 class EvidenceItem(BaseModel):
@@ -94,10 +96,10 @@ Remember that your goal is to provide an objective, evidence-based assessment of
 """
 
 statement_verification_agent = Agent(
-    model=ModelFactory.build_model(ModelType.OPENAI),
+    model=ModelFactory.build_model(ModelType.OPENAI, model_name="o3-mini"),
     name="StatementVerificationAgent",
     instructions=VERIFICATION_AGENT_INSTRUCTIONS,
-    tools=[query_firecrawl],
+    handoffs=[firecrawl_agent],
     output_type=StatementVerification,
     model_settings=ModelSettings(tool_choice="required"),
 )

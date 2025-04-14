@@ -89,7 +89,7 @@ class OntologyAgentInput(BaseModel):
 
 
 ontology_agent = Agent(
-    model=ModelFactory.build_model(ModelType.OPENAI),
+    model=ModelFactory.build_model(ModelType.OPENAI, model_name="o1"),
     name="RheumatologyOntologyAgent",
     instructions="""You are an expert rheumatology ontology coordinator responsible for analyzing knowledge graph subgraphs and orchestrating a team of specialized research agents to enrich them with contextual information. Your expertise lies in determining which information sources will be most valuable for each entity and relationship in the subgraph, then delegating searches to the most appropriate specialized agents.
 

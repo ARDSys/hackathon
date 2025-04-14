@@ -147,7 +147,7 @@ Your assessments should be evidence-based, demonstrating your expert knowledge o
 
 # Create the main agent
 rheumatology_triage_agent = Agent(
-    model=ModelFactory.build_model(ModelType.OPENAI),
+    model=ModelFactory.build_model(ModelType.OPENAI, model_name="o1"),
     name="Rheumatology Hypothesis Triage Agent",
     instructions=AGENT_INSTRUCTIONS,
     tools=[query_firecrawl],
