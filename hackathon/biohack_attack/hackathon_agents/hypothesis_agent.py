@@ -1,12 +1,10 @@
 from datetime import datetime
-from typing import Dict, List, Optional, Any
-from uuid import uuid4, UUID
+from typing import List, Optional
 
-from pydantic import BaseModel, Field
 from agents import Agent
+from pydantic import BaseModel, Field
 
-from biohack_attack.model_factory import ModelFactory
-from langgraph.llm.utils import ModelType
+from biohack_attack.model_factory import ModelFactory, ModelType
 
 
 class HypothesisReference(BaseModel):
@@ -27,15 +25,15 @@ class MechanismDetail(BaseModel):
 
 class ScientificHypothesis(BaseModel):
     """Represents a generated scientific hypothesis with review metrics."""
+    agent_reasoning: list[str] = Field(description="Reasoning steps from the agent that generated the hypothesis")
+
     # Core hypothesis information
-    id: UUID = Field(default_factory=uuid4, description="Unique identifier for the hypothesis")
     title: str = Field(description="Concise title for the hypothesis")
     statement: str = Field(description="Detailed hypothesis statement")
     summary: str = Field(description="Brief summary of the hypothesis (1-2 sentences)")
 
     # Source information
-    source_subgraph: list[tuple[str, str]] = Field(description="Reference to the original subgraph")
-    generated_timestamp: datetime = Field(default_factory=datetime.now, description="When the hypothesis was generated")
+    source_subgraph: list[str] = Field(description="Reference to the original subgraph")
 
     # Scientific details
     mechanism: MechanismDetail = Field(description="Details about the proposed mechanism")
@@ -46,18 +44,10 @@ class ScientificHypothesis(BaseModel):
     references: List[HypothesisReference] = Field(default_factory=list,
                                                   description="Scientific references supporting the hypothesis")
 
-    # Metadata
-    generation_method: str = Field(description="Method used to generate the hypothesis")
-    agent_reasoning: list[str] = Field(description="Reasoning steps from the agent that generated the hypothesis")
-    keywords: List[str] = Field(description="Key terms related to the hypothesis")
-
-    # Process metadata
-    iteration_count: int
-    refinement_history: list[str] = Field(default_factory=list, description="History of refinements made")
 
 
 hypothesis_agent = Agent(
-    model=ModelFactory.build_model(ModelType.GEMINI),
+    model=ModelFactory.build_model(ModelType.OPENAI),
     name="RheumatologyHypothesisGenerator",
     instructions="""You are an expert rheumatology researcher tasked with generating novel, scientifically sound hypotheses based on knowledge graph analysis. You will analyze subgraphs containing rheumatology-related concepts and relationships to identify meaningful connections and generate hypotheses.
 

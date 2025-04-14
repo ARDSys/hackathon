@@ -1,11 +1,12 @@
 import json
 import threading
 from typing import List, Union
+
+from agents.tracing.processors import BatchTraceProcessor
 from loguru import logger
 
-from agents import Trace, Span
+from agents import Trace, Span  # Assuming these are the correct base types or Protocols
 from agents.tracing.processor_interface import TracingExporter
-from agents.tracing.processors import BatchTraceProcessor
 
 
 class LocalFileExporter(TracingExporter):
@@ -20,7 +21,7 @@ class LocalFileExporter(TracingExporter):
         super().__init__()
         self.filepath = filepath
         self._file = None
-        self._lock = threading.Lock()  # Protect file access if export called concurrently (shouldn't happen with BatchProcessor)
+        self._lock = threading.Lock()  # Protect file access
         self._format = format.lower()
         if self._format not in ['json', 'str']:
             raise ValueError("Invalid format. Choose 'json' or 'str'.")
@@ -35,7 +36,6 @@ class LocalFileExporter(TracingExporter):
                 logger.info(f"Opened log file: {self.filepath}")
             except IOError as e:
                 logger.error(f"Failed to open log file {self.filepath}: {e}")
-                # You might want to raise the exception or handle it differently
                 raise
 
     def export(self, items: List[Union[Trace, Span]]) -> None:
@@ -45,27 +45,36 @@ class LocalFileExporter(TracingExporter):
                 self._ensure_file_open()
                 if self._file:  # Check if file opening succeeded
                     for item in items:
+                        log_line = ""
                         if self._format == 'json':
-                            # Attempt to convert item to dict, then serialize as JSON
-                            try:
-                                if hasattr(item, 'to_dict') and callable(item.to_dict):
-                                    log_line = json.dumps(item.to_dict())
-                                else:
-                                    # Fallback if no to_dict method
-                                    log_line = json.dumps(item.__dict__)
-                            except (TypeError, AttributeError) as e:
-                                logger.warning(
-                                    f"Could not serialize item to JSON, falling back to str(): {item}. Error: {e}")
-                                log_line = str(item)  # Fallback to string representation
+                            if hasattr(item, 'export') and callable(item.export):
+                                try:
+                                    exported_data = item.export()
+                                    # Ensure export() actually returned something potentially serializable
+                                    if exported_data is not None:
+                                        log_line = json.dumps(exported_data)
+                                    else:
+                                        logger.warning(f"Item export() returned None, falling back to str(): {item}")
+                                        log_line = str(item)
+                                except (TypeError, AttributeError) as e:
+                                    logger.warning(
+                                        f"Could not serialize item.export() to JSON, falling back to str(): {item}. Error: {e}")
+                                    log_line = str(item)
+                            else:
+                                # Fallback if no export() method (shouldn't happen for Trace/Span)
+                                logger.warning(f"Item missing export() method, falling back to str(): {item}")
+                                log_line = str(item)
+                            # --- END OF CORE CHANGE ---
                         else:  # format == 'str'
                             log_line = str(item)
 
-                        self._file.write(log_line + '\n')
+                        if log_line:  # Only write if we got a non-empty string
+                            self._file.write(log_line + '\n')
+
                     self._file.flush()  # Ensure data is written to disk periodically
             except IOError as e:
                 logger.error(f"Failed to write to log file {self.filepath}: {e}")
-                # Attempt to close and reopen on next export might be an option here
-                self.shutdown()  # Close the problematic file handle
+                self.shutdown()
             except Exception as e:
                 logger.exception(f"An unexpected error occurred during export: {e}")
 
@@ -75,11 +84,13 @@ class LocalFileExporter(TracingExporter):
             if self._file:
                 try:
                     logger.info(f"Closing log file: {self.filepath}")
+                    # Ensure everything is written before closing
+                    self._file.flush()
                     self._file.close()
                 except IOError as e:
                     logger.error(f"Error closing log file {self.filepath}: {e}")
                 finally:
-                    self._file = None  # Ensure file handle is cleared
+                    self._file = None
 
 
 class LocalFilesystemTracingProcessor(BatchTraceProcessor):

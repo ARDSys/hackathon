@@ -9,7 +9,7 @@ from loguru import logger
 from ard.hypothesis import Hypothesis
 from ard.subgraph import Subgraph
 from biohack_attack.hypothesis_generator import HypothesisGenerator
-from biohack_attack.trace import LocalFilesystemTracingProcessor
+from biohack_attack.local_trace_processor import LocalFilesystemTracingProcessor
 
 langfuse_callback = CallbackHandler()
 
@@ -20,7 +20,7 @@ def main(file: str, output: str):
     output_dir = Path(output)
     if not output_dir.exists():
         output_dir.mkdir()
-    log_file_path = output_dir / f"{datetime.now().strftime('%Y-%M-%d-%h-%m')}-traces.log"
+    log_file_path = output_dir / f"{datetime.now().strftime('%Y-%m-%d-%H-%M')}-traces.log"
     set_trace_processors([LocalFilesystemTracingProcessor(
         log_file_path.as_posix()
     )])

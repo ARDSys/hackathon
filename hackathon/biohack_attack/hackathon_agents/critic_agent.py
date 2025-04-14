@@ -21,8 +21,6 @@ class AssessmentScore(BaseModel):
 
 
 class TriagedHypothesis(BaseModel):
-    hypothesis: ScientificHypothesis
-
     # Assessment dimensions
     novelty_assessment: AssessmentScore = Field(description="Assessment of the hypothesis novelty")
     feasibility_assessment: AssessmentScore = Field(description="Assessment of the hypothesis feasibility")
