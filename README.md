@@ -113,13 +113,19 @@ The workflow can be run using the `generate_hypothesis.py` script.
 From ARD's root directory:
 
 ```bash
-python -m hackathon.langgraph.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/langgraph/output
+python -m hackathon.teoria_wielkiego_modelu.generate_hypothesis -f <path_to_knowledge_base.json> --output <output_directory>
+```
+
+For example:
+
+```bash
+python -m hackathon.teoria_wielkiego_modelu.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/teoria_wielkiego_modelu/output
 ```
 
 ### Arguments
 
-- `--file` or `-f`: Path to the input JSON file containing the subgraph data
-- `--output` or `-o`: Path to the output directory (defaults to current directory)
+- `--file` or `-f`: Path to the input JSON file containing the knowledge base data
+- `--output` or `-o`: Path to the output directory where the generated hypothesis will be saved
 
 ## Output
 
