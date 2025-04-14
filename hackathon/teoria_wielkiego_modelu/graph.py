@@ -51,7 +51,7 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_node("exp_planer", create_experiment_planner_agent("small")["agent"])
     graph.add_node("exp_reviewer", create_experiment_reviewer_agent("small")["agent"])
     graph.add_node("critique_analyst", create_critique_agent("small")["agent"])
-    graph.add_node("critique_analyst", create_devil_advocate_agent("small")["agent"])
+    graph.add_node("devil_advocate", create_devil_advocate_agent("small")["agent"])
     graph.add_node("summary_agent", create_summary_agent("small")["agent"])
 
     # Add edges
@@ -69,9 +69,17 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_edge("exp_planer", "exp_agent")
     # # Join
     graph.add_edge("nai_agent", "critique_analyst")
-    graph.add_edge("nai_agent", "critique_analyst")
-    graph.add_edge("feasibility_analyst", "critique_analyst")
-    graph.add_edge("impact_analyst", "critique_analyst")
+    graph.add_edge("nai_agent", "devil_advocate")
+
+    graph.add_edge("exp_planer", "critique_analyst")
+    graph.add_edge("exp_planer", "devil_advocate")
+
+    graph.add_edge("exp_reviewer", "critique_analyst")
+    graph.add_edge("exp_reviewer", "devil_advocate")
+
+    graph.add_edge("critique_analyst", "review_agent")
+    graph.add_edge("devil_advocate", "review_agent")
+
     # graph.add_edge("critique_analyst", END)
     graph.add_conditional_edges(
         "critique_analyst",
