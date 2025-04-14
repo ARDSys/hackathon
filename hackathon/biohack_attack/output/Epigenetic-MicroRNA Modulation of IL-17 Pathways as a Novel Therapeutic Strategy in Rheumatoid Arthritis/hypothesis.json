@@ -1,0 +1,473 @@
+{
+  "title": "Epigenetic-MicroRNA Modulation of IL-17 Pathways as a Novel Therapeutic Strategy in Rheumatoid Arthritis",
+  "text": "We hypothesize that targeted modulation of histone acetylation can reprogram microRNA profiles (such as miR-146a and miR-155) to downregulate IL17A and IL17F gene expression, thereby reducing Th17 differentiation and subsequent NF-\u03baB pathway activation, ultimately mitigating inflammatory responses in rheumatoid arthritis.",
+  "hypothesis_id": "aab2d5a606d0cfbc2b25958cefe7e4be0e9a515f9174ea00033d9dedd3bd30dc",
+  "subgraph_id": "6ab55273358273b07813aed177dc9ce022dbfcf754c166f2c27a62be81429c6f",
+  "references": [
+    "Finding from PubMed: Histone acetylation modulates IL-17 gene expression by altering chromatin accessibility and facilitating transcription factor binding. | DOI: None | URL: None | Justification: This evidence supports the hypothesis that targeted modulation of histone acetylation can downregulate IL-17 expression by affecting chromatin structure and transcription factor access at IL17A/IL17F loci.",
+    "Finding from PubMed: Epigenetic modifications, including increased histone acetylation, are linked with enhanced transcription of IL-17 and other pro-inflammatory cytokines, leading to stronger NF-\u03baB activation in synovial tissues. | DOI: None | URL: None | Justification: This finding underpins the proposed mechanism where modulating histone acetylation may reduce NF-\u03baB pathway activation by lowering IL-17 driven inflammation, aligning with the hypothesis's focus on mitigating inflammatory responses in RA.",
+    "Finding from PubMed: MicroRNAs, notably miR-146a and miR-155, modulate IL-17 signaling by targeting mRNA transcripts of cytokines and associated receptor components. | DOI: None | URL: None | Justification: This reference supports the idea that reprogramming microRNA profiles can downregulate IL17A/IL17F gene expression, thereby reducing IL-17 production and subsequent activation of the NF-\u03baB pathway, as proposed in the hypothesis.",
+    "Finding from PubMed: Transcription factor ROR\u03b3t, essential for Th17 cell differentiation and IL-17 production, shows increased binding activity in environments rich in histone acetylation. | DOI: None | URL: None | Justification: This evidence corroborates the mechanism in which histone acetylation influences Th17 cell differentiation through modulation of ROR\u03b3t activity, thereby linking epigenetic regulation with downstream inflammatory responses in RA."
+  ],
+  "metadata": {
+    "final_selected_hypothesis_id": "hypothesis_0_0",
+    "final_score": 0.0,
+    "best_hypothesis_iteration": 0,
+    "best_hypothesis_index_in_iteration": 0,
+    "total_iterations_run": 1,
+    "all_verification_results": {
+      "hypothesis_0_0": {
+        "verification_score": 0.0,
+        "overall_assessment": "Verification could not be completed as no component statements were successfully verified.",
+        "statement_verifications": []
+      },
+      "hypothesis_1_0": {
+        "verification_score": 0.0,
+        "overall_assessment": "Verification could not be completed as no component statements were successfully verified.",
+        "statement_verifications": []
+      },
+      "hypothesis_2_0": {
+        "verification_score": 0.0,
+        "overall_assessment": "Verification could not be completed as no component statements were successfully verified.",
+        "statement_verifications": []
+      }
+    },
+    "final_hypothesis_triage_score": 55.0
+  },
+  "method_name": "HypothesisGenerator(iterations=1, hypotheses_per_iter=5, top_k=3)",
+  "method": {
+    "type": "HypothesisGenerator",
+    "config": {
+      "max_iterations": 1,
+      "num_of_hypotheses": 5,
+      "top_k": 3,
+      "out_dir_path": "custom_output_dir/2025-04-14-18-28"
+    }
+  },
+  "source": {
+    "subgraph_id": "6ab55273358273b07813aed177dc9ce022dbfcf754c166f2c27a62be81429c6f",
+    "graph_data": {
+      "nodes": {
+        "IL17A and IL17F genes": {
+          "sources": [
+            {
+              "relation": "influenced by genetic variations in",
+              "triplet_id": 2371555718016
+            },
+            {
+              "relation": "expression regulated by",
+              "triplet_id": 2371555718976
+            },
+            {
+              "relation": "influence expression of",
+              "triplet_id": 2371555719360
+            },
+            {
+              "relation": "expression also modulated by",
+              "triplet_id": 2371555717872
+            }
+          ]
+        },
+        "microRNAs (miRNAs) associated with immune response regulation": {
+          "sources": [
+            {
+              "relation": "can be influenced by the activity of",
+              "triplet_id": 2371555720512
+            },
+            {
+              "relation": "target specific",
+              "triplet_id": 2371555717488
+            },
+            {
+              "relation": "can be downregulated by modulation of",
+              "triplet_id": 2371555716720
+            },
+            {
+              "relation": "alter cytokine signaling pathways involved in",
+              "triplet_id": 2371555720368
+            }
+          ]
+        },
+        "NF-kB pathway, contributing to inflammation in rheumatoid arthritis": {
+          "sources": [
+            {
+              "relation": "modulated by oxidative stress through the activation of",
+              "triplet_id": 2371555716480
+            },
+            {
+              "relation": "affect activation of",
+              "triplet_id": 2371555718640
+            },
+            {
+              "relation": "can be downregulated by modulation of",
+              "triplet_id": 2371555716720
+            },
+            {
+              "relation": "regulate genes activated in",
+              "triplet_id": 2371555716576
+            },
+            {
+              "relation": "may affect efficacy of",
+              "triplet_id": 2371555708800
+            }
+          ]
+        },
+        "cytokine signaling pathways crucial for rheumatologic conditions": {
+          "sources": [
+            {
+              "relation": "interact with",
+              "triplet_id": 2371555716768
+            },
+            {
+              "relation": "modulated by oxidative stress through the activation of",
+              "triplet_id": 2371555716480
+            },
+            {
+              "relation": "influence expression of",
+              "triplet_id": 2371555719360
+            },
+            {
+              "relation": "expression also modulated by",
+              "triplet_id": 2371555717872
+            }
+          ]
+        },
+        "Interleukin-17 (IL-17) pathways in autoimmune disorders": {
+          "sources": [
+            {
+              "relation": "shown to modulate",
+              "triplet_id": 2371554945760
+            },
+            {
+              "relation": "influenced by genetic variations in",
+              "triplet_id": 2371555718016
+            },
+            {
+              "relation": "alter cytokine signaling pathways involved in",
+              "triplet_id": 2371555720368
+            },
+            {
+              "relation": "activation elevated by",
+              "triplet_id": 2371555716624
+            }
+          ]
+        },
+        "Novel Therapeutic Approaches": {
+          "sources": [
+            {
+              "relation": "shown to modulate",
+              "triplet_id": 2371554945760
+            },
+            {
+              "relation": "may affect efficacy of",
+              "triplet_id": 2371555708800
+            },
+            {
+              "relation": "interact with compounds used in",
+              "triplet_id": 2371555716864
+            },
+            {
+              "relation": "influence outcomes of",
+              "triplet_id": 2371555716672
+            }
+          ]
+        },
+        "transcription factors involved in immune cell differentiation": {
+          "sources": [
+            {
+              "relation": "target specific",
+              "triplet_id": 2371555717488
+            },
+            {
+              "relation": "interact with",
+              "triplet_id": 2371555716768
+            },
+            {
+              "relation": "regulate genes activated in",
+              "triplet_id": 2371555716576
+            },
+            {
+              "relation": "influence outcomes of",
+              "triplet_id": 2371555716672
+            }
+          ]
+        },
+        "epigenetic modifications impacting histone acetylation": {
+          "sources": [
+            {
+              "relation": "expression regulated by",
+              "triplet_id": 2371555718976
+            },
+            {
+              "relation": "can be influenced by the activity of",
+              "triplet_id": 2371555720512
+            },
+            {
+              "relation": "affect activation of",
+              "triplet_id": 2371555718640
+            },
+            {
+              "relation": "interact with compounds used in",
+              "triplet_id": 2371555716864
+            },
+            {
+              "relation": "activation elevated by",
+              "triplet_id": 2371555716624
+            }
+          ]
+        }
+      },
+      "edges": [
+        {
+          "source": "IL17A and IL17F genes",
+          "target": "epigenetic modifications impacting histone acetylation",
+          "relation": "expression regulated by",
+          "sources": [
+            {
+              "relation": "expression regulated by",
+              "triplet_id": 2371555718976
+            }
+          ]
+        },
+        {
+          "source": "IL17A and IL17F genes",
+          "target": "cytokine signaling pathways crucial for rheumatologic conditions",
+          "relation": "expression also modulated by",
+          "sources": [
+            {
+              "relation": "expression also modulated by",
+              "triplet_id": 2371555717872
+            }
+          ]
+        },
+        {
+          "source": "microRNAs (miRNAs) associated with immune response regulation",
+          "target": "transcription factors involved in immune cell differentiation",
+          "relation": "target specific",
+          "sources": [
+            {
+              "relation": "target specific",
+              "triplet_id": 2371555717488
+            }
+          ]
+        },
+        {
+          "source": "microRNAs (miRNAs) associated with immune response regulation",
+          "target": "Interleukin-17 (IL-17) pathways in autoimmune disorders",
+          "relation": "alter cytokine signaling pathways involved in",
+          "sources": [
+            {
+              "relation": "alter cytokine signaling pathways involved in",
+              "triplet_id": 2371555720368
+            }
+          ]
+        },
+        {
+          "source": "NF-kB pathway, contributing to inflammation in rheumatoid arthritis",
+          "target": "microRNAs (miRNAs) associated with immune response regulation",
+          "relation": "can be downregulated by modulation of",
+          "sources": [
+            {
+              "relation": "can be downregulated by modulation of",
+              "triplet_id": 2371555716720
+            }
+          ]
+        },
+        {
+          "source": "NF-kB pathway, contributing to inflammation in rheumatoid arthritis",
+          "target": "Novel Therapeutic Approaches",
+          "relation": "may affect efficacy of",
+          "sources": [
+            {
+              "relation": "may affect efficacy of",
+              "triplet_id": 2371555708800
+            }
+          ]
+        },
+        {
+          "source": "cytokine signaling pathways crucial for rheumatologic conditions",
+          "target": "NF-kB pathway, contributing to inflammation in rheumatoid arthritis",
+          "relation": "modulated by oxidative stress through the activation of",
+          "sources": [
+            {
+              "relation": "modulated by oxidative stress through the activation of",
+              "triplet_id": 2371555716480
+            }
+          ]
+        },
+        {
+          "source": "cytokine signaling pathways crucial for rheumatologic conditions",
+          "target": "IL17A and IL17F genes",
+          "relation": "influence expression of",
+          "sources": [
+            {
+              "relation": "influence expression of",
+              "triplet_id": 2371555719360
+            }
+          ]
+        },
+        {
+          "source": "Interleukin-17 (IL-17) pathways in autoimmune disorders",
+          "target": "IL17A and IL17F genes",
+          "relation": "influenced by genetic variations in",
+          "sources": [
+            {
+              "relation": "influenced by genetic variations in",
+              "triplet_id": 2371555718016
+            }
+          ]
+        },
+        {
+          "source": "Interleukin-17 (IL-17) pathways in autoimmune disorders",
+          "target": "epigenetic modifications impacting histone acetylation",
+          "relation": "activation elevated by",
+          "sources": [
+            {
+              "relation": "activation elevated by",
+              "triplet_id": 2371555716624
+            }
+          ]
+        },
+        {
+          "source": "Novel Therapeutic Approaches",
+          "target": "Interleukin-17 (IL-17) pathways in autoimmune disorders",
+          "relation": "shown to modulate",
+          "sources": [
+            {
+              "relation": "shown to modulate",
+              "triplet_id": 2371554945760
+            }
+          ]
+        },
+        {
+          "source": "transcription factors involved in immune cell differentiation",
+          "target": "cytokine signaling pathways crucial for rheumatologic conditions",
+          "relation": "interact with",
+          "sources": [
+            {
+              "relation": "interact with",
+              "triplet_id": 2371555716768
+            }
+          ]
+        },
+        {
+          "source": "transcription factors involved in immune cell differentiation",
+          "target": "NF-kB pathway, contributing to inflammation in rheumatoid arthritis",
+          "relation": "regulate genes activated in",
+          "sources": [
+            {
+              "relation": "regulate genes activated in",
+              "triplet_id": 2371555716576
+            }
+          ]
+        },
+        {
+          "source": "transcription factors involved in immune cell differentiation",
+          "target": "Novel Therapeutic Approaches",
+          "relation": "influence outcomes of",
+          "sources": [
+            {
+              "relation": "influence outcomes of",
+              "triplet_id": 2371555716672
+            }
+          ]
+        },
+        {
+          "source": "epigenetic modifications impacting histone acetylation",
+          "target": "microRNAs (miRNAs) associated with immune response regulation",
+          "relation": "can be influenced by the activity of",
+          "sources": [
+            {
+              "relation": "can be influenced by the activity of",
+              "triplet_id": 2371555720512
+            }
+          ]
+        },
+        {
+          "source": "epigenetic modifications impacting histone acetylation",
+          "target": "NF-kB pathway, contributing to inflammation in rheumatoid arthritis",
+          "relation": "affect activation of",
+          "sources": [
+            {
+              "relation": "affect activation of",
+              "triplet_id": 2371555718640
+            }
+          ]
+        },
+        {
+          "source": "epigenetic modifications impacting histone acetylation",
+          "target": "Novel Therapeutic Approaches",
+          "relation": "interact with compounds used in",
+          "sources": [
+            {
+              "relation": "interact with compounds used in",
+              "triplet_id": 2371555716864
+            }
+          ]
+        }
+      ]
+    },
+    "graph_stats": {
+      "node_count": 8,
+      "edge_count": 17,
+      "path_length": 8
+    },
+    "start_node": "Novel Therapeutic Approaches",
+    "end_node": "NF-kB pathway, contributing to inflammation in rheumatoid arthritis",
+    "path_nodes": [
+      "Novel Therapeutic Approaches",
+      "Interleukin-17 (IL-17) pathways in autoimmune disorders",
+      "IL17A and IL17F genes",
+      "epigenetic modifications impacting histone acetylation",
+      "microRNAs (miRNAs) associated with immune response regulation",
+      "transcription factors involved in immune cell differentiation",
+      "cytokine signaling pathways crucial for rheumatologic conditions",
+      "NF-kB pathway, contributing to inflammation in rheumatoid arthritis"
+    ],
+    "path_edges": [
+      {
+        "source": "Novel Therapeutic Approaches",
+        "target": "Interleukin-17 (IL-17) pathways in autoimmune disorders",
+        "relation": "shown to modulate"
+      },
+      {
+        "source": "Interleukin-17 (IL-17) pathways in autoimmune disorders",
+        "target": "IL17A and IL17F genes",
+        "relation": "influenced by genetic variations in"
+      },
+      {
+        "source": "IL17A and IL17F genes",
+        "target": "epigenetic modifications impacting histone acetylation",
+        "relation": "expression regulated by"
+      },
+      {
+        "source": "epigenetic modifications impacting histone acetylation",
+        "target": "microRNAs (miRNAs) associated with immune response regulation",
+        "relation": "can be influenced by the activity of"
+      },
+      {
+        "source": "microRNAs (miRNAs) associated with immune response regulation",
+        "target": "transcription factors involved in immune cell differentiation",
+        "relation": "target specific"
+      },
+      {
+        "source": "transcription factors involved in immune cell differentiation",
+        "target": "cytokine signaling pathways crucial for rheumatologic conditions",
+        "relation": "interact with"
+      },
+      {
+        "source": "cytokine signaling pathways crucial for rheumatologic conditions",
+        "target": "NF-kB pathway, contributing to inflammation in rheumatoid arthritis",
+        "relation": "modulated by oxidative stress through the activation of"
+      }
+    ],
+    "context": null,
+    "path_score": null,
+    "path_score_justification": null,
+    "original_graph_metadata": {
+      "node_count": 8,
+      "edge_count": 17
+    },
+    "config": {}
+  }
+}

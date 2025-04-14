@@ -1,0 +1,92 @@
+2025-04-14T18:56:12.540876+0200 INFO Info logs enabled: custom_output_dir/2025-04-14-18-56/info.log
+2025-04-14T18:56:12.541209+0200 INFO LocalFileExporter initialized. Logging to: custom_output_dir/2025-04-14-18-56/traces.jsonl in format: json
+2025-04-14T18:56:12.541788+0200 INFO LocalFilesystemTracingProcessor initialized for file: custom_output_dir/2025-04-14-18-56/traces.jsonl
+2025-04-14T18:56:12.541910+0200 INFO Loading subgraph from ../evaluation/BTK_Inhibitors.json
+2025-04-14T18:56:12.542189+0200 INFO Generating hypothesis with config: ProcessConfig(num_of_hypotheses=3, num_of_threads=16, top_k=1, max_iterations=1, out_dir_path=PosixPath('custom_output_dir/2025-04-14-18-56'))
+2025-04-14T18:56:12.542334+0200 INFO Created new event loop.
+2025-04-14T18:56:17.640576+0200 INFO Opened log file: custom_output_dir/2025-04-14-18-56/traces.jsonl
+2025-04-14T18:56:25.631403+0200 INFO Ontology generated: {
+  "triples": [
+    {
+      "subject": "BTK Inhibitors",
+      "predicate": "target",
+      "object": "Bruton's Tyrosine Kinase (BTK)"
+    },
+    {
+      "subject": "Bruton's Tyrosine Kinase (BTK)",
+      "predicate": "is associated with",
+      "object": "B cell receptor signaling pathway"
+    },
+    {
+      "subject": "B cell receptor signaling pathway",
+      "predicate": "is involved in",
+      "object": "autoantibody production in rheumatoid arthritis"
+    },
+    {
+      "subject": "autoantibody production in rheumatoid arthritis",
+      "predicate": "is influenced by",
+      "object": "epigenetic modifications in T cells"
+    },
+    {
+      "subject": "epigenetic modifications in T cells",
+      "predicate": "are influenced by",
+      "object": "environmental factors such as smoking"
+    },
+    {
+      "subject": "environmental factors such as smoking",
+      "predicate": "increase the production of",
+      "object": "pro-inflammatory cytokines like TNF-alpha"
+    },
+    {
+      "subject": "pro-inflammatory cytokines like TNF-alpha",
+      "predicate": "activate",
+      "object": "NF-kappa B signaling pathway"
+    },
+    {
+      "subject": "NF-kappa B signaling pathway",
+      "predicate": "modulates",
+      "object": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts"
+    },
+    {
+      "subject": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+      "predicate": "contributes to",
+      "object": "degradation of cartilage extracellular matrix in joint tissue"
+    },
+    {
+      "subject": "degradation of cartilage extracellular matrix in joint tissue",
+      "predicate": "leads to",
+      "object": "joint damage and deformities in rheumatoid arthritis"
+    },
+    {
+      "subject": "joint damage and deformities in rheumatoid arthritis",
+      "predicate": "correlate with",
+      "object": "increased bone resorption markers like CTX-I in serum"
+    }
+  ]
+}
+2025-04-14T18:56:25.632295+0200 INFO Starting iteration 1/1
+2025-04-14T18:56:25.632513+0200 INFO Generating initial hypotheses...
+2025-04-14T18:56:46.706723+0200 INFO Generated/Refined 3 hypotheses for iteration 1.
+2025-04-14T18:56:46.706956+0200 INFO Triaging hypotheses...
+2025-04-14T18:57:10.257534+0200 INFO Triage completed for 3 hypotheses.
+2025-04-14T18:57:10.257816+0200 INFO Scoring hypotheses...
+2025-04-14T18:57:10.258236+0200 INFO Iter 1 - Hypothesis 0: 'BTK Inhibitors Modulate Inflammation and Bone Resorption via NF-kappa B Pathway in Rheumatoid Arthritis', Triage score: 52.6000
+2025-04-14T18:57:10.258330+0200 INFO Iter 1 - Hypothesis 1: 'Role of BTK Inhibitors in Modulating Bone Resorption Markers through NF-kappa B Activation in Rheumatoid Arthritis', Triage score: 51.4000
+2025-04-14T18:57:10.258409+0200 INFO Iter 1 - Hypothesis 2: 'BTK Inhibitors Influence on CTX-I Levels via Pro-inflammatory Pathways in Rheumatoid Arthritis', Triage score: 42.5000
+2025-04-14T18:57:10.258486+0200 INFO Selected top 1 hypotheses for decomposition and verification.
+2025-04-14T18:57:10.258549+0200 INFO Decomposing hypotheses...
+2025-04-14T18:57:20.092043+0200 INFO Decomposition completed for 1 hypotheses.
+2025-04-14T18:57:20.092527+0200 INFO Verifying decomposed hypotheses...
+2025-04-14T18:57:20.093220+0200 INFO Starting verification of hypothesis: BTK inhibitors reduce the levels of increased serum CTX-I markers in rheumatoid arthritis through modulation of the NF-kappa B signaling pathway, which influences the expression of matrix metalloproteinases (MMPs) in synovial fibroblasts and subsequently affects cartilage degradation and joint damage.
+2025-04-14T18:57:29.924618+0200 INFO Completed verification of 5 statements (out of 5).
+2025-04-14T18:58:12.782497+0200 ERROR Error verifying hypothesis hypothesis_0_0: "HypothesisVerification" object has no field "original_hypothesis"
+2025-04-14T18:58:12.783022+0200 INFO Verification completed for 0 hypotheses.
+2025-04-14T18:58:12.783298+0200 WARNING No verified hypotheses found or scored in iteration 1
+2025-04-14T18:58:12.783538+0200 WARNING Could not determine best hypothesis from verification scores. Falling back to highest triage score.
+2025-04-14T18:58:12.783798+0200 INFO Final selected best hypothesis: ID hypothesis_0_0, Title: 'BTK Inhibitors Modulate Inflammation and Bone Resorption via NF-kappa B Pathway in Rheumatoid Arthritis', Final Score (best of verification/triage): 52.6000
+2025-04-14T18:58:12.785590+0200 INFO Saved final process state to custom_output_dir/2025-04-14-18-56/process_state.json
+2025-04-14T18:58:22.346620+0200 INFO Closed event loop.
+2025-04-14T18:58:22.346844+0200 INFO Hypothesis generated successfully for ../evaluation/BTK_Inhibitors.json
+2025-04-14T18:58:22.346942+0200 INFO Saving hypothesis to JSON: custom_output_dir/2025-04-14-18-56/BTK_Inhibitors_hypothesis.json
+2025-04-14T18:58:22.347533+0200 INFO Saving hypothesis to Markdown: custom_output_dir/2025-04-14-18-56/BTK_Inhibitors_hypothesis.md
+2025-04-14T18:58:22.347777+0200 INFO Hypothesis saved successfully to custom_output_dir/2025-04-14-18-56

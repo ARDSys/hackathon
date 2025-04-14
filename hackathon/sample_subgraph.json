@@ -1,4 +1,5 @@
 {
+  "subgraph_id": "test",
   "graph_data": {
     "nodes": {
       "Inflammation": {

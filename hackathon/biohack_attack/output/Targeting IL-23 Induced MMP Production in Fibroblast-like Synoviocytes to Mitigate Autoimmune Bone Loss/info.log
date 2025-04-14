@@ -1,0 +1,92 @@
+2025-04-14T18:48:48.010140+0200 INFO Info logs enabled: custom_output_dir/2025-04-14-18-48/info.log
+2025-04-14T18:48:48.010219+0200 INFO LocalFileExporter initialized. Logging to: custom_output_dir/2025-04-14-18-48/traces.jsonl in format: json
+2025-04-14T18:48:48.010317+0200 INFO LocalFilesystemTracingProcessor initialized for file: custom_output_dir/2025-04-14-18-48/traces.jsonl
+2025-04-14T18:48:48.010398+0200 INFO Loading subgraph from ../evaluation/BTK_Inhibitors.json
+2025-04-14T18:48:48.010695+0200 INFO Generating hypothesis with config: ProcessConfig(num_of_hypotheses=5, num_of_threads=8, top_k=3, max_iterations=1, out_dir_path=PosixPath('custom_output_dir/2025-04-14-18-48'))
+2025-04-14T18:48:48.010827+0200 INFO Created new event loop.
+2025-04-14T18:48:53.106213+0200 INFO Opened log file: custom_output_dir/2025-04-14-18-48/traces.jsonl
+2025-04-14T18:48:53.958439+0200 INFO Info logs enabled: custom_output_dir/2025-04-14-18-48/info.log
+2025-04-14T18:48:53.958502+0200 INFO LocalFileExporter initialized. Logging to: custom_output_dir/2025-04-14-18-48/traces.jsonl in format: json
+2025-04-14T18:48:53.958649+0200 INFO LocalFilesystemTracingProcessor initialized for file: custom_output_dir/2025-04-14-18-48/traces.jsonl
+2025-04-14T18:48:53.958807+0200 INFO Loading subgraph from ../evaluation/Autoimmunity.json
+2025-04-14T18:48:53.960216+0200 INFO Generating hypothesis with config: ProcessConfig(num_of_hypotheses=5, num_of_threads=8, top_k=3, max_iterations=1, out_dir_path=PosixPath('custom_output_dir/2025-04-14-18-48'))
+2025-04-14T18:48:53.960402+0200 INFO Created new event loop.
+2025-04-14T18:48:59.054220+0200 INFO Opened log file: custom_output_dir/2025-04-14-18-48/traces.jsonl
+2025-04-14T18:49:50.334035+0200 INFO Ontology generated: {
+  "content": "I am unable to fetch results directly from PubMed due to an error. However, based on existing scientific literature, the IL-23/Th17 axis plays a critical role in the pathogenesis of autoimmune diseases, including rheumatoid arthritis (RA), by mediating inflammatory responses and contributing to tissue damage. IL-23 can promote MMP production by Th17 cells or indirectly via the recruitment of other immune cells, leading to the degradation of extracellular matrix components and enhancing osteoclastogenesis. This contributes to bone erosion and reduced bone mineral density (BMD) in conditions like rheumatoid arthritis. Further exploration of individual mechanisms remains crucial for a deeper understanding.",
+  "justification": "Detailed mechanistic studies from PubMed can provide insights into how IL-23 through the Th17 pathway influences MMP production and bone disease in autoimmunity. While direct retrieval was unsuccessful, established literature from sources like review articles and original research outlines the effects of the IL-23/Th17 axis in RA pathology, specifically focusing on bone erosion and BMD impact through increased MMP activity. This forms an important part of developing a nuanced and comprehensive ontology.",
+  "source_id": "external_literature"
+}
+2025-04-14T18:49:50.334663+0200 INFO Starting iteration 1/1
+2025-04-14T18:49:50.334804+0200 INFO Generating initial hypotheses...
+2025-04-14T18:49:53.394706+0200 INFO Ontology generated: {
+  "content": "Currently, there seems to be a difficulty fetching detailed information from PubMed servers due to a technical issue. To proceed with the enrichment task of the given ontology subgraph, manual PubMed searches should be attempted with the following proposed query strings:\n\n1. **BTK Inhibitors and NF-kappa B Signaling in Rheumatoid Arthritis**:\n   - Investigate how BTK inhibitors modulate NF-κB signaling pathways, potentially affecting the expression of matrix metalloproteinases and overall inflammatory response.\n   - Explore articles describing how this modulation could lead to effects on bone resorption.\n\n2. **BTK Inhibitors and MMP Expression in Synovial Fibroblasts**:\n   - Search for studies detailing the impact of BTK inhibition on the expression levels of matrix metalloproteinases in synovial fibroblasts.\n   - Look for studies that specifically quantify the changes in MMP levels following BTK inhibitor treatment and the downstream effects on cartilage degradation and bone resorption markers.\n\n3. **Publication Details and High-Impact Sources**:\n   - Prioritize recent studies from journals with a high impact factor (>4) or publications with substantial citations related to the pathological mechanisms of BTK inhibition in RA and its biochemical consequences on bone markers.\n\nThese manual searches in PubMed would yield a clearer understanding of the biochemical pathways affected by BTK inhibitors, contributing to the degradation of cartilage and increased bone resorption seen in rheumatoid arthritis. This would help refine and validate the existing knowledge graph with current scientific evidence.",
+  "justification": "Due to the current limitations in fetching necessary scientific articles from PubMed, manual searches targeting specific mechanisms are proposed to validate and enrich the existing knowledge graph. These searches will focus on recent peer-reviewed studies that establish the mechanistic pathways linking BTK inhibitors to reduced bone resorption markers—key datasets for ensuring the robustness and current relevance of graph relationships.",
+  "source_id": "Performing manual PubMed searches with recommended queries and strategy"
+}
+2025-04-14T18:49:53.396746+0200 INFO Starting iteration 1/1
+2025-04-14T18:49:53.396863+0200 INFO Generating initial hypotheses...
+2025-04-14T18:50:18.378667+0200 INFO Generated/Refined 5 hypotheses for iteration 1.
+2025-04-14T18:50:18.379051+0200 INFO Triaging hypotheses...
+2025-04-14T18:50:20.017133+0200 INFO Generated/Refined 5 hypotheses for iteration 1.
+2025-04-14T18:50:20.017423+0200 INFO Triaging hypotheses...
+2025-04-14T18:51:52.850634+0200 INFO Triage completed for 5 hypotheses.
+2025-04-14T18:51:52.851126+0200 INFO Scoring hypotheses...
+2025-04-14T18:51:52.851985+0200 INFO Iter 1 - Hypothesis 0: 'Targeting IL-23 Induced MMP Production in Fibroblast-like Synoviocytes to Mitigate Autoimmune Bone Loss', Triage score: 56.2000
+2025-04-14T18:51:52.852138+0200 INFO Iter 1 - Hypothesis 1: 'IL-23–Driven Matrix Metalloproteinase Activation: A Central Mechanism in Autoimmune-Mediated Bone Loss', Triage score: 54.6000
+2025-04-14T18:51:52.852279+0200 INFO Iter 1 - Hypothesis 2: 'Targeting the IL-23–MMP Axis to Preserve Bone Mineral Density in Rheumatoid Arthritis', Triage score: 53.9500
+2025-04-14T18:51:52.852398+0200 INFO Iter 1 - Hypothesis 3: 'Targeting the IL-23 Driven MMP-FLS Feedback Loop to Mitigate Bone Loss in Rheumatoid Arthritis', Triage score: 53.7000
+2025-04-14T18:51:52.852503+0200 INFO Iter 1 - Hypothesis 4: 'Targeting IL-23-Driven MMP Activation to Preserve Bone Mineral Density in Rheumatoid Arthritis', Triage score: 51.4000
+2025-04-14T18:51:52.852618+0200 INFO Selected top 3 hypotheses for decomposition and verification.
+2025-04-14T18:51:52.853316+0200 INFO Decomposing hypotheses...
+2025-04-14T18:51:56.073725+0200 INFO Triage completed for 5 hypotheses.
+2025-04-14T18:51:56.074151+0200 INFO Scoring hypotheses...
+2025-04-14T18:51:56.074928+0200 INFO Iter 1 - Hypothesis 0: 'BTK Inhibition Modulates T Cell Epigenetics and Dampens NF-κB–Mediated Joint Degradation in Rheumatoid Arthritis', Triage score: 53.4500
+2025-04-14T18:51:56.075063+0200 INFO Iter 1 - Hypothesis 1: 'BTK Inhibitors as Indirect Modulators of Epigenetic and Inflammatory Pathways in Rheumatoid Arthritis', Triage score: 52.9000
+2025-04-14T18:51:56.075159+0200 INFO Iter 1 - Hypothesis 2: 'BTK Inhibitors Attenuate Smoking-Induced Epigenetic Inflammatory Signaling to Reduce Bone Resorption in Rheumatoid Arthritis', Triage score: 51.6000
+2025-04-14T18:51:56.075247+0200 INFO Iter 1 - Hypothesis 3: 'BTK Inhibitors Mitigate Smoking-Exacerbated Epigenetic and Inflammatory Cascade Leading to Reduced Bone Resorption in Rheumatoid Arthritis', Triage score: 51.3000
+2025-04-14T18:51:56.075812+0200 INFO Iter 1 - Hypothesis 4: 'BTK Inhibitors Mitigate Smoking-Induced Epigenetic Modifications to Reduce Bone Resorption in Rheumatoid Arthritis', Triage score: 49.0000
+2025-04-14T18:51:56.075956+0200 INFO Selected top 3 hypotheses for decomposition and verification.
+2025-04-14T18:51:56.076040+0200 INFO Decomposing hypotheses...
+2025-04-14T18:52:09.691607+0200 INFO Decomposition completed for 3 hypotheses.
+2025-04-14T18:52:09.692097+0200 INFO Verifying decomposed hypotheses...
+2025-04-14T18:52:09.692392+0200 INFO Starting verification of hypothesis: Elevated IL-23 in autoimmune conditions, via its action on fibroblast-like synoviocytes, drives enhanced matrix metalloproteinase (MMP) production leading to degradation of extracellular matrix components, which in turn facilitates pro-inflammatory cytokine signaling and osteoclast differentiation via the RANK/RANKL pathway, culminating in decreased bone mineral density; therefore, targeting IL-23 mediated MMP production in FLS will attenuate ECM degradation, reduce osteoclastogenesis, and mitigate bone loss in conditions such as rheumatoid arthritis.
+2025-04-14T18:52:09.692853+0200 INFO Starting verification of hypothesis: In autoimmune conditions such as rheumatoid arthritis, dysregulated autoimmunity drives Th17 cell activation and elevated IL-23, which stimulates matrix metalloproteinases (MMPs) leading to extracellular matrix degradation; this degradation promotes the recruitment and activation of fibroblast-like synoviocytes (FLS) that secrete pro-inflammatory cytokines, further inducing osteoclast differentiation via the RANK/RANKL pathway and culminating in reduced bone mineral density. Furthermore, Denosumab alone may be insufficient to counteract this cascade, suggesting that dual targeting of IL-23/MMP activity alongside RANKL inhibition could more effectively prevent osteoporotic fractures.
+2025-04-14T18:52:09.693051+0200 INFO Starting verification of hypothesis: In patients with rheumatoid arthritis, autoimmune dysregulation amplifies the Th17 cell pathway, resulting in elevated IL-23 levels that stimulate excessive production of matrix metalloproteinases (MMPs). These MMPs degrade extracellular matrix components, thereby promoting fibroblast-like synoviocyte recruitment and enhanced pro-inflammatory cytokine production, which in turn drive osteoclast differentiation and RANK/RANKL-mediated bone resorption, leading to a reduction in bone mineral density; therefore, therapeutic modulation of the IL-23/MMP axis should mitigate osteoporotic fractures in RA.
+2025-04-14T18:52:11.948126+0200 INFO Decomposition completed for 3 hypotheses.
+2025-04-14T18:52:11.948623+0200 INFO Verifying decomposed hypotheses...
+2025-04-14T18:52:11.948794+0200 INFO Starting verification of hypothesis: BTK Inhibition Modulates T Cell Epigenetics and Dampens NF-κB–Mediated Joint Degradation in Rheumatoid Arthritis: BTK inhibitors, by targeting Bruton's Tyrosine Kinase and attenuating B cell receptor signaling, decrease autoantibody production and consequently induce favorable epigenetic modifications in T cells. These epigenetic changes mitigate the amplifying effects of environmental factors such as smoking on pro-inflammatory cytokine production (notably TNF-alpha), leading to reduced activation of the NF-κB signaling pathway in synovial fibroblasts, thereby lowering matrix metalloproteinase (MMP) expression, cartilage degradation, joint damage, and ultimately bone resorption as evidenced by decreased serum CTX-I levels.
+2025-04-14T18:52:11.949332+0200 INFO Starting verification of hypothesis: BTK inhibitors, by targeting Bruton's Tyrosine Kinase, are hypothesized to not only dampen B cell receptor signaling and reduce autoantibody production but also indirectly modulate epigenetic modifications in T cells influenced by environmental factors such as smoking, thereby lowering TNF-alpha levels and NF-kappa B activation, reducing matrix metalloproteinase expression in synovial fibroblasts, and ultimately attenuating cartilage degradation, joint damage, and bone resorption in rheumatoid arthritis.
+2025-04-14T18:52:11.949457+0200 INFO Starting verification of hypothesis: BTK Inhibitors Attenuate Smoking-Induced Epigenetic Inflammatory Signaling to Reduce Bone Resorption in Rheumatoid Arthritis. We hypothesize that in rheumatoid arthritis, BTK inhibitors disrupt the BTK-associated B cell receptor signaling cascade, thereby reducing autoantibody production and subsequent epigenetic modifications in T cells that are exacerbated by smoking. This leads to decreased TNF-alpha production, attenuated NF-kappa B activation, reduced matrix metalloproteinase expression in synovial fibroblasts, and ultimately lower degradation of cartilage extracellular matrix, joint damage, and bone resorption markers (CTX-I).
+2025-04-14T18:52:33.766736+0200 INFO Completed verification of 6 statements (out of 6).
+2025-04-14T18:52:34.372720+0200 INFO Completed verification of 6 statements (out of 6).
+2025-04-14T18:52:35.803684+0200 INFO Completed verification of 6 statements (out of 6).
+2025-04-14T18:52:35.806900+0200 INFO Completed verification of 6 statements (out of 6).
+2025-04-14T18:52:36.181033+0200 INFO Completed verification of 5 statements (out of 5).
+2025-04-14T18:52:37.639503+0200 INFO Completed verification of 6 statements (out of 6).
+2025-04-14T18:53:35.633337+0200 ERROR Error verifying hypothesis hypothesis_0_0: "HypothesisVerification" object has no field "original_hypothesis"
+2025-04-14T18:53:35.633813+0200 ERROR Error verifying hypothesis hypothesis_1_0: "HypothesisVerification" object has no field "original_hypothesis"
+2025-04-14T18:53:35.633942+0200 ERROR Error verifying hypothesis hypothesis_2_0: "HypothesisVerification" object has no field "original_hypothesis"
+2025-04-14T18:53:35.634066+0200 INFO Verification completed for 0 hypotheses.
+2025-04-14T18:53:35.634185+0200 WARNING No verified hypotheses found or scored in iteration 1
+2025-04-14T18:53:35.634293+0200 WARNING Could not determine best hypothesis from verification scores. Falling back to highest triage score.
+2025-04-14T18:53:35.634824+0200 INFO Final selected best hypothesis: ID hypothesis_0_0, Title: 'BTK Inhibition Modulates T Cell Epigenetics and Dampens NF-κB–Mediated Joint Degradation in Rheumatoid Arthritis', Final Score (best of verification/triage): 53.4500
+2025-04-14T18:53:35.636829+0200 INFO Saved final process state to custom_output_dir/2025-04-14-18-48/process_state.json
+2025-04-14T18:53:41.590359+0200 ERROR Error verifying hypothesis hypothesis_0_0: "HypothesisVerification" object has no field "original_hypothesis"
+2025-04-14T18:53:41.590527+0200 ERROR Error verifying hypothesis hypothesis_1_0: "HypothesisVerification" object has no field "original_hypothesis"
+2025-04-14T18:53:41.590575+0200 ERROR Error verifying hypothesis hypothesis_2_0: "HypothesisVerification" object has no field "original_hypothesis"
+2025-04-14T18:53:41.590618+0200 INFO Verification completed for 0 hypotheses.
+2025-04-14T18:53:41.590660+0200 WARNING No verified hypotheses found or scored in iteration 1
+2025-04-14T18:53:41.590698+0200 WARNING Could not determine best hypothesis from verification scores. Falling back to highest triage score.
+2025-04-14T18:53:41.590919+0200 INFO Final selected best hypothesis: ID hypothesis_0_0, Title: 'Targeting IL-23 Induced MMP Production in Fibroblast-like Synoviocytes to Mitigate Autoimmune Bone Loss', Final Score (best of verification/triage): 56.2000
+2025-04-14T18:53:41.591583+0200 INFO Saved final process state to custom_output_dir/2025-04-14-18-48/process_state.json
+2025-04-14T18:53:46.386108+0200 INFO Closed event loop.
+2025-04-14T18:53:46.386803+0200 INFO Hypothesis generated successfully for ../evaluation/BTK_Inhibitors.json
+2025-04-14T18:53:46.387039+0200 INFO Saving hypothesis to JSON: custom_output_dir/2025-04-14-18-48/BTK_Inhibitors_hypothesis.json
+2025-04-14T18:53:46.389906+0200 INFO Saving hypothesis to Markdown: custom_output_dir/2025-04-14-18-48/BTK_Inhibitors_hypothesis.md
+2025-04-14T18:53:46.391002+0200 INFO Hypothesis saved successfully to custom_output_dir/2025-04-14-18-48
+2025-04-14T18:53:54.556167+0200 INFO Closed event loop.
+2025-04-14T18:53:54.557123+0200 INFO Hypothesis generated successfully for ../evaluation/Autoimmunity.json
+2025-04-14T18:53:54.557747+0200 INFO Saving hypothesis to JSON: custom_output_dir/2025-04-14-18-48/Autoimmunity_hypothesis.json
+2025-04-14T18:53:54.560199+0200 INFO Saving hypothesis to Markdown: custom_output_dir/2025-04-14-18-48/Autoimmunity_hypothesis.md
+2025-04-14T18:53:54.561248+0200 INFO Hypothesis saved successfully to custom_output_dir/2025-04-14-18-48
