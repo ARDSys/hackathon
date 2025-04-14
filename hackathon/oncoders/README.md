@@ -1,6 +1,6 @@
-# AutoGen Workflow
+# OnCoders Workflow
 
-This workflow implements a hypothesis generation system using AutoGen, designed to analyze subgraphs and generate scientific hypotheses through multi-agent collaboration.
+This workflow implements a hypothesis generation system using AutoGen, designed to analyze subgraphs and generate scientific hypotheses through multi-agent collaboration. Workflow is modified by OnCoders.
 
 ## Overview
 
@@ -27,14 +27,8 @@ The workflow consists of several key components:
    # OpenAI
    OPENAI_API_KEY=sk-proj-123
 
-   # Anthropic
-   ANTHROPIC_API_KEY=sk-ant-api03-123
-
-   # Perplexity
-   PPLX_API_KEY=pplx-123
-
-   # PubMed
-   PUBMED_API_KEY=123
+   # FireCrawl API
+   FIRECRAWL_API_KEY=fc-123
 
    # Langfuse
    LANGFUSE_SECRET_KEY=sk-lf-123
@@ -61,7 +55,7 @@ The workflow can be run using the `generate_hypothesis.py` script.
 From ARD's root directory:
 
 ```bash
-python -m hackathon.autogen.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/autogen/output
+python -m hackathon.oncoders.generate_hypothesis -f path/to/data --output hackathon/oncoders/output    
 ```
 
 ### Arguments
@@ -87,15 +81,18 @@ The output is a JSON and Markdown files containing the hypothesis.
 }
 ```
 
-## Architecture
+## Updated Architecture
 
 The workflow uses AutoGen to create a multi-agent system for hypothesis generation:
 
 1. Takes a subgraph as input
-2. Initializes specialized agents with specific roles and capabilities
-3. Manages a group chat between agents to collaboratively generate hypotheses
-4. Processes the conversation to extract and refine the final hypothesis
-5. Saves the Hypothesis to the output directory
+2. Initializes Solo Ontologist which generates keywords
+3. Web crawler takes these keywords and searches for abstracts in web (it might take some time, please be patient)
+4. Context Agent makes context based on given abstracts and passes it into hypothesis generation agent workflow
+5. Initializes specialized agents with specific roles and capabilities
+6. Manages a group chat between agents to collaboratively generate hypotheses
+7. Processes the conversation to extract and refine the final hypothesis
+8. Saves the Hypothesis to the output directory
 
 ## Development
 
@@ -106,9 +103,6 @@ To modify or extend the workflow:
 3. Modify `functions.py` to add new tools and capabilities
 4. Update `groupchat.py` to modify the conversation flow
 5. Extend `hypothesis_generator.py` with new generation methods
-
-**Note**
-`generate_hypothesis.py` should remain unchanged to enable similar structure for different workflows and easy run.
 
 ## Monitoring
 
