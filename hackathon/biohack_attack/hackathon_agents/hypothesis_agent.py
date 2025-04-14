@@ -34,7 +34,7 @@ class ScientificHypothesis(BaseModel):
     summary: str = Field(description="Brief summary of the hypothesis (1-2 sentences)")
 
     # Source information
-    source_subgraph: Dict[str, Any] = Field(description="Reference to the original subgraph")
+    source_subgraph: list[tuple[str, str]] = Field(description="Reference to the original subgraph")
     generated_timestamp: datetime = Field(default_factory=datetime.now, description="When the hypothesis was generated")
 
     # Scientific details
@@ -48,30 +48,12 @@ class ScientificHypothesis(BaseModel):
 
     # Metadata
     generation_method: str = Field(description="Method used to generate the hypothesis")
-    agent_reasoning: Dict[str, str] = Field(description="Reasoning steps from the agent that generated the hypothesis")
+    agent_reasoning: list[str] = Field(description="Reasoning steps from the agent that generated the hypothesis")
     keywords: List[str] = Field(description="Key terms related to the hypothesis")
 
     # Process metadata
-    iteration_count: int = Field(description="Number of refinement iterations")
-    refinement_history: List[Dict[str, Any]] = Field(default_factory=list, description="History of refinements made")
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "title": "TNF-α Mediated Microbiome Dysregulation in Rheumatoid Arthritis",
-                "statement": "Elevated TNF-α levels in rheumatoid arthritis patients induce intestinal barrier dysfunction, leading to microbiome dysregulation that exacerbates immune dysregulation through altered metabolite production.",
-                "summary": "TNF-α disrupts gut barrier function, altering the microbiome and worsening RA via metabolic changes.",
-                "mechanism": {
-                    "pathway_description": "TNF-α increases intestinal permeability through tight junction disruption",
-                    "key_entities": ["TNF-α", "intestinal epithelium", "microbiome", "short-chain fatty acids"]
-                },
-                "novelty_assessment": {
-                    "score": 7.5,
-                    "justification": "Limited previous research on direct TNF-α effects on microbiome in RA context",
-                    "confidence": 0.8
-                }
-            }
-        }
+    iteration_count: int
+    refinement_history: list[str] = Field(default_factory=list, description="History of refinements made")
 
 
 hypothesis_agent = Agent(

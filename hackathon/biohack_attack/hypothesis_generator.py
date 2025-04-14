@@ -1,13 +1,13 @@
 import asyncio
 from typing import Any
 
-from agents import Agent, Runner
-from dotenv import load_dotenv
+from agents import Runner
 from pydantic import BaseModel
 
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
 from ard.subgraph import Subgraph
-from biohack_attack.model_factory import ModelFactory, ModelType
+from biohack_attack.hackathon_agents.ontology_agent import ontology_agent, OntologyAgentOutput
+from biohack_attack.model import SubgraphModel
 
 
 class HypothesisOutput(BaseModel):
@@ -17,19 +17,17 @@ class HypothesisOutput(BaseModel):
 
 
 async def run_agents(subgraph: Subgraph) -> Hypothesis:
-    hypothesis_agent = Agent(
-        name="Hypothesis create",
-        instructions=f"Build novel scientific hypothesis based on the provided cypher path",
-        model=ModelFactory.build_model(ModelType.GEMINI),
-        output_type=HypothesisOutput
+    subgraph_model = SubgraphModel.from_subgraph(subgraph)
+
+    ontology_result = await Runner.run(
+        ontology_agent,
+        input=subgraph_model
     )
-    path = subgraph.to_cypher_string(full_graph=False)
-    result = await Runner.run(hypothesis_agent, path)
-    hypothesis_output: HypothesisOutput = result.final_output
+    ontology: OntologyAgentOutput = ontology_result.final_output
 
     return Hypothesis(
-        title=hypothesis_output.title,
-        statement=hypothesis_output.statement,
+        title="",
+        statement="",
         source=subgraph,
         method=HypothesisGenerator(),
     )

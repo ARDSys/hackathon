@@ -1,7 +1,6 @@
 from datetime import datetime
 from pathlib import Path
 
-import click
 import dotenv
 from agents import set_trace_processors
 from langfuse.callback import CallbackHandler
@@ -12,23 +11,11 @@ from ard.subgraph import Subgraph
 from biohack_attack.hypothesis_generator import HypothesisGenerator
 from biohack_attack.trace import LocalFilesystemTracingProcessor
 
-
 langfuse_callback = CallbackHandler()
 
 dotenv.load_dotenv()
 
 
-@click.command()
-@click.option(
-    "--file", "-f", type=click.Path(exists=True), help="Path to the json file"
-)
-@click.option(
-    "--output",
-    "-o",
-    type=click.Path(exists=True, file_okay=False),
-    help="Path to the output directory",
-    default=".",
-)
 def main(file: str, output: str):
     output_dir = Path(output)
     if not output_dir.exists():
@@ -56,4 +43,7 @@ def main(file: str, output: str):
 
 
 if __name__ == "__main__":
-    main()
+    main(
+        file=(Path(__file__).parent.parent / "sample_subgraph.json").as_posix(),
+        output="out"
+    )
