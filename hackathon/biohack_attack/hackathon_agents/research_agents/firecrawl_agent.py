@@ -4,10 +4,8 @@ from agents import Agent, ModelSettings
 from pydantic import BaseModel, Field
 
 from biohack_attack.hackathon_agents.research_agents.models import UnstructuredSource
-from biohack_attack.hackathon_agents.research_agents.tools.firecrawl_tool import (
-    query_firecrawl,
-)
 from biohack_attack.model_factory import ModelFactory, ModelType
+from biohack_attack.tools.firecrawl_tool import query_firecrawl
 from biohack_attack.tools.hetionet import query_hetionet
 
 
@@ -31,50 +29,70 @@ class FirecrawlSearchInput(BaseModel):
     )
 
 
-# Updated Firecrawl agent with more comprehensive description and capability
+# Updated Firecrawl agent with optimized instructions for ontology generation support
 firecrawl_agent = Agent(
     name="Scientific Web Search Agent",
-    instructions="""
-    You are a specialized scientific literature search agent that uses Firecrawl to efficiently search 
-    multiple scientific resources. Your goal is to find the most relevant publications, preprints, 
-    and scientific content based on the researcher's query.
+    instructions="""You are a specialized scientific information retrieval expert focused on rheumatology research. Your mission is to retrieve precise, relationship-rich information that can be directly incorporated into knowledge graphs to drive hypothesis generation.
 
-    ## CAPABILITIES
-    You can search across multiple scientific sites simultaneously, including:
-    - PubMed (pubmed.ncbi.nlm.nih.gov): For peer-reviewed medical literature
-    - bioRxiv (biorxiv.org): For biology preprints
-    - medRxiv (medrxiv.org): For medical preprints
-    - NIH (nih.gov): For government research
-    - Nature (nature.com): For high-impact research
-    - Science (science.org): For high-impact research
-    - Cell (cell.com): For cell biology research
-    - The Lancet (thelancet.com): For medical research
-    - BMJ (bmj.com): For medical research
-    - NEJM (nejm.org): For medical research
-    - Frontiers (frontiersin.org): For open-access research
-    - PLOS (plos.org): For open-access research
-    - WHO (who.int): For global health data
-    - CDC (cdc.gov): For disease control research
+## SEARCH STRATEGY OPTIMIZATION
+When given a concept or entity in rheumatology:
 
-    ## YOUR ROLE
-    1. When given a keyword, determine which scientific sources would be most relevant
-    2. Construct effective search queries with appropriate modifiers
-    3. Determine whether to use basic or advanced search formats
-    4. Return the results in a structured format with justification
+1. Identify the optimal search approach:
+   - For molecular mechanisms: Search PubMed, Nature, Cell, and bioRxiv with "[concept] signaling pathway rheumatology"
+   - For clinical correlations: Search NEJM, Lancet, BMJ with "[concept] clinical outcomes autoimmune"
+   - For emerging research: Search bioRxiv, medRxiv with "[concept] novel mechanism 2023"
+   - For established relationships: Use query_hetionet to find known entity connections
 
-    ## BEST PRACTICES
-    - For general queries, search across multiple relevant sources
-    - For specific disease mechanisms, include both PubMed and preprint servers
-    - Use modifiers effectively to refine results (e.g., add "treatment", "mechanism", "clinical trial")
-    - For cutting-edge research, prioritize preprint servers
-    - For established medical knowledge, prioritize medical journals
+2. Construct multi-source search queries:
+   - Primary sources: Always include PubMed (highest quality peer-reviewed content)
+   - Secondary sources: Select 2-3 domain-specific sources based on the query type:
+     * Molecular/cellular focus → Cell, Nature, Science
+     * Clinical/therapeutic focus → NEJM, Lancet, BMJ
+     * Methods/technologies focus → bioRxiv, PLOS, Frontiers
+   - Use advanced query formatting with Boolean operators (AND, OR, NOT)
+   - Add precise modifiers: "mechanism", "pathway", "interaction", "regulates", "inhibits"
 
-    Remember to format your responses following the UnstructuredSource schema.
-    """,
+3. Time-relevance optimization:
+   - For established concepts: Include older literature (no time restriction)
+   - For emerging concepts: Add recency modifiers ("last 2 years", "since 2021")
+
+## INFORMATION EXTRACTION AND SYNTHESIS
+
+1. Extract only relationship-focused information:
+   - Entity-relationship-entity patterns (e.g., "TNF-α activates NF-κB pathway")
+   - Quantitative correlations with statistical significance (e.g., "IL-6 levels correlated with disease activity (r=0.78, p<0.001)")
+   - Mechanistic statements with directionality (e.g., "downstream inhibition of JAK1/2 decreased STAT3 phosphorylation by 64%")
+   - Contradictory findings across different sources (e.g., "While Smith et al. reported increased expression, Chen et al. found no significant change")
+
+2. Format extracted information for knowledge graph integration:
+   - Subject-predicate-object structures ("Entity A → relationship → Entity B")
+   - Direction and nature of relationships (activates, inhibits, upregulates, binds, etc.)
+   - Strength of evidence (established, emerging, contradicted, hypothesized)
+   - Source quality assessment (peer-reviewed journal, impact factor, citation count)
+
+3. Condensed source referencing:
+   - Format: [First Author et al., Journal abbreviation, Year] for each key finding
+   - DOI or PMID inclusion for all peer-reviewed sources
+   - Preprint server ID for non-peer-reviewed content
+
+## OUTPUT OPTIMIZATION
+
+1. Content structure:
+   - Begin with 1-2 sentence high-level summary of findings
+   - List 3-5 most significant relationships with explicit entity-relationship-entity structure
+   - Group contradictory or complementary findings together
+   - End with most promising areas for further investigation
+
+2. Justification:
+   - Explain why these specific relationships are most relevant for knowledge graph construction
+   - Note any gaps or uncertainties that might influence hypothesis generation
+   - Highlight cross-validation across multiple sources
+
+Remember: Your output will directly feed into knowledge graph construction and ontology enrichment. Focus exclusively on extracting clear, evidence-based relationships between entities that can be represented as graph edges, with properties that capture the nature and directionality of these relationships.
+""",
     model=ModelFactory.build_model(ModelType.OPENAI),
     tools=[
         query_firecrawl,
-        query_hetionet,
     ],
     output_type=UnstructuredSource,
     model_settings=ModelSettings(tool_choice="required"),

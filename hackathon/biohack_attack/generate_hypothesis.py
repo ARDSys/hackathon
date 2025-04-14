@@ -37,7 +37,7 @@ def main(file: str, output: str):
     logger.info(f"Subgraph loaded from {source_file}")
 
     process_config = ProcessConfig(
-        num_of_threads=-1, num_of_hypotheses=5, out_dir_path=output_dir
+        num_of_threads=16, num_of_hypotheses=5, out_dir_path=output_dir
     )
     logger.info("Generating hypothesis...")
     hypothesis = Hypothesis.from_subgraph(
