@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List, Optional
 
 from agents import Agent
@@ -9,23 +8,40 @@ from biohack_attack.model_factory import ModelFactory, ModelType
 
 class HypothesisReference(BaseModel):
     """Scientific reference supporting the hypothesis."""
+
     citation: str = Field(description="Full citation in a standard format")
-    doi: Optional[str] = Field(None, description="Digital Object Identifier if available")
+    doi: Optional[str] = Field(
+        None, description="Digital Object Identifier if available"
+    )
     url: Optional[str] = Field(None, description="URL to the reference")
-    relevance_justification: str = Field(description="Why this reference supports the hypothesis")
+    relevance_justification: str = Field(
+        description="Why this reference supports the hypothesis"
+    )
 
 
 class MechanismDetail(BaseModel):
     """Details about the proposed mechanism in the hypothesis."""
-    pathway_description: str = Field(description="Description of the biological pathway or mechanism")
-    key_entities: List[str] = Field(description="Key biological entities involved in the mechanism")
-    molecular_interactions: Optional[str] = Field(None, description="Details of molecular interactions if applicable")
-    cellular_processes: Optional[str] = Field(None, description="Relevant cellular processes")
+
+    pathway_description: str = Field(
+        description="Description of the biological pathway or mechanism"
+    )
+    key_entities: List[str] = Field(
+        description="Key biological entities involved in the mechanism"
+    )
+    molecular_interactions: Optional[str] = Field(
+        None, description="Details of molecular interactions if applicable"
+    )
+    cellular_processes: Optional[str] = Field(
+        None, description="Relevant cellular processes"
+    )
 
 
 class ScientificHypothesis(BaseModel):
     """Represents a generated scientific hypothesis with review metrics."""
-    agent_reasoning: list[str] = Field(description="Reasoning steps from the agent that generated the hypothesis")
+
+    agent_reasoning: list[str] = Field(
+        description="Reasoning steps from the agent that generated the hypothesis"
+    )
 
     # Core hypothesis information
     title: str = Field(description="Concise title for the hypothesis")
@@ -36,14 +52,21 @@ class ScientificHypothesis(BaseModel):
     source_subgraph: list[str] = Field(description="Reference to the original subgraph")
 
     # Scientific details
-    mechanism: MechanismDetail = Field(description="Details about the proposed mechanism")
-    expected_outcomes: List[str] = Field(description="Expected outcomes if hypothesis is correct")
-    experimental_approaches: List[str] = Field(description="Suggested approaches to test the hypothesis")
+    mechanism: MechanismDetail = Field(
+        description="Details about the proposed mechanism"
+    )
+    expected_outcomes: List[str] = Field(
+        description="Expected outcomes if hypothesis is correct"
+    )
+    experimental_approaches: List[str] = Field(
+        description="Suggested approaches to test the hypothesis"
+    )
 
     # Supporting evidence
-    references: List[HypothesisReference] = Field(default_factory=list,
-                                                  description="Scientific references supporting the hypothesis")
-
+    references: List[HypothesisReference] = Field(
+        default_factory=list,
+        description="Scientific references supporting the hypothesis",
+    )
 
 
 hypothesis_agent = Agent(
@@ -112,5 +135,5 @@ Generate a comprehensive ScientificHypothesis with:
 
 Your hypothesis should integrate the perspectives and information provided in the input while maintaining scientific precision and clarity. Focus on identifying the most biologically coherent pathways that suggest novel therapeutic targets, biomarkers, or disease mechanisms based strictly on the provided data.
 """,
-    output_type=ScientificHypothesis
+    output_type=ScientificHypothesis,
 )

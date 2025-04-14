@@ -12,6 +12,10 @@ from biohack_attack.hackathon_agents.critic_agent import (
     TriagedHypothesis,
     rheumatology_triage_agent,
 )
+from biohack_attack.hackathon_agents.decomposition_agent import (
+    HypothesisDecomposition,
+    hypothesis_decomposer_agent,
+)
 from biohack_attack.hackathon_agents.hypothesis_agent import (
     hypothesis_agent,
     ScientificHypothesis,
@@ -97,6 +101,46 @@ async def run_ontology_agent(subgraph_model: SubgraphModel) -> OntologyAgentOutp
     return ontology_result.final_output
 
 
+async def decompose_hypothesis(
+    hypothesis: ScientificHypothesis, ontology: OntologyAgentOutput
+) -> HypothesisDecomposition:
+    """
+    Decompose a scientific hypothesis into falsifiable statements.
+
+    Args:
+        hypothesis: The scientific hypothesis to decompose
+
+    Returns:
+        A HypothesisDecomposition containing falsifiable statements
+    """
+    prompt = f"""
+    # HYPOTHESIS DECOMPOSITION TASK
+
+    Please decompose the following scientific hypothesis into fundamental falsifiable statements:
+
+    ## HYPOTHESIS DETAILS
+
+    Title: {hypothesis.title}
+
+    Statement: {hypothesis.statement}
+
+    Mechanism: {hypothesis.mechanism.pathway_description if hypothesis.mechanism else "Not specified"}
+
+    Expected Outcomes: {", ".join(hypothesis.expected_outcomes) if hypothesis.expected_outcomes else "Not specified"}
+
+    Experimental Approaches: {", ".join(hypothesis.experimental_approaches) if hypothesis.experimental_approaches else "Not specified"}
+    
+    ## ONTOLOGY ENRICHMENT
+    The following additional ontological information has been provided to enrich your understanding:
+    <ontology>
+    {ontology.model_dump_json(indent=2)}
+    </ontology>
+    """
+
+    result = await Runner.run(hypothesis_decomposer_agent, input=prompt)
+    return result.final_output
+
+
 def score_hypothesis(triage: TriagedHypothesis) -> float:
     """
     Calculates a hypothesis score by traversing all fields with 'assessment' in their name
@@ -167,9 +211,22 @@ async def run_agents(subgraph: Subgraph, config: ProcessConfig) -> Hypothesis:
         (hypothesis, triage, score_hypothesis(triage))
         for hypothesis, triage in triage_results
     ]
-    # take top k hypotheses
     scored_hypotheses.sort(key=lambda x: x[2], reverse=True)
     best_hypotheses = scored_hypotheses[: config.top_k]
+
+    logger.info("Decomposing hypotheses...")
+    with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
+        futures = [
+            executor.submit(decompose_hypothesis, hypothesis, ontology)
+            for hypothesis, _, _ in best_hypotheses
+        ]
+        decomposition_results = [future.result() for future in futures]
+    logger.info(f"Decomposition completed.")
+
+    for hypothesis, decomposition in zip(best_hypotheses, decomposition_results):
+        logger.info(
+            f"Decomposed hypothesis {hypothesis[0].title} with score {hypothesis[2]} {decomposition}"
+        )
 
     return Hypothesis(
         title=best_hypotheses[0][0].title,
