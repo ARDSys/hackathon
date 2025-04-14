@@ -11,8 +11,7 @@ PROMPT = """
 """
 
 
-def create_hypotheses_generator_agent(
-    hypothesis_no: int,
+def create_final_judge_agent(
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:

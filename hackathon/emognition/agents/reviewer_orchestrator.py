@@ -12,7 +12,7 @@ PROMPT = """
 
 
 def create_reviewer_orchestrator_agent(
-    hypothesisNo: int,
+    hypothesis_no: int,
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:

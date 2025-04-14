@@ -11,7 +11,7 @@ PROMPT = """
 """
 
 
-def create_hypotheses_generator_agent(
+def create_review_summarizer_agent(
     hypothesis_no: int,
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
