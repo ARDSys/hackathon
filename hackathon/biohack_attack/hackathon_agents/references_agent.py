@@ -1,6 +1,3 @@
-# /Users/zbigniewtomanek/PycharmProjects/hackathon/hackathon/biohack_attack/hackathon_agents/reference_generator_agent.py
-# (Create a new file for this agent)
-
 from typing import Optional
 
 from agents import Agent
@@ -34,15 +31,14 @@ class References(BaseModel):
     )
 
 
-# Define Agent Instructions
 REFERENCE_GENERATOR_INSTRUCTIONS = """
 You are an Expert Hypothesis Referencer specializing in linking decomposed scientific statements to supporting evidence found within provided ontology enrichment data.
 
 ## YOUR TASK
 
-Your goal is to enhance a given scientific hypothesis by adding relevant references based *only* on the information contained within the provided 'Ontology Enrichment Data'. You will receive:
+Your goal is to generate a list of relevant references based *only* on the information contained within the provided 'Ontology Enrichment Data' that supports statements within a given 'Decomposed Hypothesis'. You will receive:
 
-1.  **Original Scientific Hypothesis:** The main hypothesis being worked on.
+1.  **Original Scientific Hypothesis:** (For context only) The main hypothesis being worked on.
 2.  **Decomposed Hypothesis:** The original hypothesis broken down into fundamental, falsifiable statements.
 3.  **Ontology Enrichment Data:** A collection of unstructured text sources and knowledge graph triples gathered by previous research agents about the hypothesis context.
 
@@ -51,12 +47,12 @@ Based on these inputs, you must:
 1.  **Analyze Falsifiable Statements:** Go through each `falsifiable_statements` in the `Decomposed Hypothesis`.
 2.  **Search Provided Ontology Data:** For each statement, meticulously search *within* the `Ontology Enrichment Data` (`sources` and `graphs`) for snippets, facts, or relationships that directly support or relate to that specific statement. **DO NOT PERFORM NEW EXTERNAL SEARCHES.** Use *only* the data provided in the `Ontology Enrichment Data` section.
 3.  **Identify Relevant Evidence:** Pinpoint specific pieces of information from the `Ontology Enrichment Data` that correspond to the claims made in the falsifiable statements.
-4.  **Generate References:** For each relevant piece of evidence found, create a `HypothesisReference` object.
+4.  **Generate References:** For each relevant piece of evidence found, create a `Reference` object.
     * **citation:** Construct a descriptive citation. Indicate the source (e.g., "Finding from [Source ID]: [Brief snippet]" or "Relationship from [Graph ID]: [Subject Predicate Object]").
-    * **doi/url:** Include if available in the *original* source data within the ontology output (this might often be missing, which is acceptable).
+    * **doi/url:** Include if available in the *original* source data within the ontology output (this might often be missing, which is acceptable). Set to null if not found.
     * **relevance_justification:** Clearly explain *how* this specific piece of evidence from the ontology data supports the *particular falsifiable statement* it relates to.
-5.  **Update Original Hypothesis:** Add all newly generated `HypothesisReference` objects to the `references` list of the **Original Scientific Hypothesis**. Make sure not to remove existing references.
-6.  **Return Updated Hypothesis:** Output the *complete* `ScientificHypothesis` object, now including the newly added references.
+5.  **Collate References:** Collect all the generated `Reference` objects into a list.
+6.  **Return References Object:** Output *only* a `References` object containing the list of generated `Reference` objects. The output must strictly adhere to the `References` Pydantic model schema.
 
 ## EXAMPLE REFERENCE GENERATION
 
@@ -64,7 +60,7 @@ Based on these inputs, you must:
 
 **Evidence found in Ontology Data (Source: 'pubmed_search_1'):** "A meta-analysis (PMID: 12345) confirmed significantly higher IL-6 concentrations in synovial fluid from RA patients versus controls (p < 0.001)."
 
-**Generated HypothesisReference:**
+**Generated Reference object (part of the final list):**
 ```json
 {
   "citation": "Finding from pubmed_search_1: Meta-analysis (PMID: 12345) confirmed significantly higher IL-6 concentrations in synovial fluid from RA patients vs controls (p < 0.001).",
@@ -72,7 +68,9 @@ Based on these inputs, you must:
   "url": "[https://pubmed.ncbi.nlm.nih.gov/12345](https://pubmed.ncbi.nlm.nih.gov/12345)", // If PMID lookup is possible *within the agent context* or if URL was stored. Often null.
   "relevance_justification": "This finding directly supports the statement that IL-6 levels are elevated in RA synovial fluid compared to controls, providing quantitative evidence (p < 0.001) from a meta-analysis."
 }
+```
 """
+# Define Agent Instructions
 hypothesis_reference_generator_agent = Agent(
     model=ModelFactory.build_model(
         ModelType.OPENAI, model_name="o3-mini"
