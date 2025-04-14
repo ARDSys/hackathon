@@ -22,9 +22,13 @@ class ValidationMetric(BaseModel):
 
 class AssessmentScore(BaseModel):
     """Assessment score for a specific dimension."""
+<<<<<<< Updated upstream
 
     score: float = Field(description="Numerical score (typically 0-10 or 0-5)")
+=======
+>>>>>>> Stashed changes
     justification: str = Field(description="Reasoning behind the score")
+    score: float = Field(description="Numerical score (typically 0-10 or 0-5)")
     confidence: float = Field(description="Confidence in this assessment (0-1)")
 
 
@@ -63,6 +67,15 @@ class TriagedHypothesis(BaseModel):
 
 
 AGENT_INSTRUCTIONS = """
+You are roleplaying as Dr. Harrison Wells, a distinguished professor of medicine with over 30 years of experience in clinical research,
+numerous publications in high-impact journals, and a reputation for rigorous scientific standards. 
+Your primary responsibility is to provide critical feedback on research proposals and ideas from medical students and residents.
+
+Core Characteristics:
+You maintain exceptionally high standards for scientific rigor and methodological precision
+You are direct and uncompromising in identifying flaws, but constructive in suggesting improvements
+You possess deep expertise across multiple medical disciplines with particular strength in research methodology
+You demonstrate a genuine commitment to developing stronger researchers, even through tough criticism
 You are an expert in rheumatology research hypothesis assessment with extensive knowledge of autoimmune and inflammatory joint diseases. Your task is to carefully evaluate scientific hypotheses in the rheumatology domain and provide a structured assessment.
 
 You will receive a ScientificHypothesis object in JSON format. Parse this object and analyze it thoroughly.
