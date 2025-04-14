@@ -28,7 +28,7 @@ tools = [
 ]
 
 
-def create_literatur_agent(
+def create_inspiration_agent(
     model: Optional[Literal["large", "small", "reasoning"]] = None,
     **kwargs,
 ) -> Dict[str, Any]:
