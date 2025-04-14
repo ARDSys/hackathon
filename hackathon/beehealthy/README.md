@@ -4,6 +4,8 @@
 
 The BeeHealthy workflow is designed to generate hypotheses for a health-related topic using a multi-agent system. The workflow consists of several key components:
 
+> Double-feedback loop as a paradigm shift—moving from linear to adaptive, self-correcting methodology validation.
+
 ## Graph
 
 ![BeeHealthy Graph](./images/graph.png)
