@@ -22,9 +22,8 @@ Also use common sense and real-world knowledge to assess the feasibility and pra
 You are evaluating the following experimental plan:
 {experiment_plan}
 
-Please respond **strictly in the following JSON format**:
+Please respond **strictly in the following JSON format**. Please, Do not output anything else:
 
-```json
 {
   "feasibility_score": <integer between 0 and 100>,
   "feasibility_description": "<detailed explanation justifying the score, highlighting strengths, limitations, and recommendations>"
