@@ -17,30 +17,13 @@ Authors: Oleksii Furman, Filip Strózik, Zbigniew Tomanek, Patryk Wielopolski
 
 The BioHack Attack system employs a sophisticated multi-agent architecture to generate and validate scientific hypotheses. The system consists of the following specialized agents:
 
-1. **Knowledge Integration Agent**
-   - Aggregates data from multiple scientific sources
-   - Maintains semantic consistency across different knowledge bases
-   - Handles data normalization and entity resolution
-
-2. **Hypothesis Generation Agent**
-   - Uses advanced pattern recognition to identify potential relationships
-   - Applies scientific reasoning to form initial hypotheses
-   - Implements parallel processing for multiple hypothesis generation
-
-3. **Verification Agent**
-   - Decomposes hypotheses into testable statements
-   - Conducts systematic literature reviews
-   - Assigns confidence scores based on evidence quality
-
-4. **Refinement Agent**
-   - Analyzes verification results
-   - Suggests hypothesis modifications
-   - Implements iterative improvement cycles
-
-5. **Quality Control Agent**
-   - Monitors the entire hypothesis generation process
-   - Ensures scientific rigor and methodological soundness
-   - Maintains consistency across all generated hypotheses
+- **Hypothesis Generator**: Orchestrates the multi-step hypothesis generation process
+- **Reference Agent**: Enhances a given scientific hypothesis by adding relevant references.
+- **Ontology Agent**: Enriches knowledge graphs with information from external sources
+- **Research Agents**: Specialized agents that query different scientific databases
+- **Critic Agent**: Evaluates hypotheses against scientific criteria
+- **Verification Agent**: Verifies individual statements against literature
+- **Refiner Agent**: Improves hypotheses based on verification results
 
 ### 🧑‍💻 Data / API 💿
 
@@ -103,24 +86,84 @@ The BioHack Attack system is built using a modern Python-based architecture with
 - Python 3.11 or higher
 - Access to required API keys for scientific databases
 
-### Environment Setup
+### Installation
 
-- Create a `.env` file in the project root with the following required API keys:
-   ```
-   PUBMED_API_KEY=your_key
-   SEMANTIC_SCHOLAR_API_KEY=your_key
-   EUROPE_PMC_API_KEY=your_key
-   ```
-- Install the required packages:
-   ```bash
-   uv sync
-   source .venv/bin/activate
-   ```
+1. Install dependencies:
+```bash
+# Setup virtual env
+uv sync
+source .venv/bin/activate
 
-## Usage
+# Install in development mode
+uv pip install -e .
+```
 
-From the hackathon's root directory, run the `run.sh` script:
+3. Create a `.env` file with your API keys:
+```
+export GEMINI_API_KEY=<GEMINI_API_KEY>
+export OPENAI_API_KEY=<OPENAI_API_KEY>
+export FIRECRAWL_API_KEY=<FIRECRAWL_API_KEY>
+```
+
+### Usage
+
+#### Basic Usage
+
 
 ```bash
-./run.sh
+PYTHONPATH="./:$PYTHONPATH" uv run biohack_attack/generate_hypothesis.py \
+  ../evaluation/Autoimmunity.json \
+  --output custom_output_dir \
+  --num-hypotheses 5 \
+  --num-threads 8 \
+  --top-k 3 \
+  --max-iterations 2
 ```
+
+### Parameters
+
+- `input_file`: Path to the input subgraph JSON file
+- `--output`: Base directory for output files
+- `--num-hypotheses`: Number of initial hypotheses to generate
+- `--num-threads`: Number of threads for parallel processing
+- `--top-k`: Number of top hypotheses to refine in each iteration
+- `--max-iterations`: Maximum number of refinement iterations
+- `--debug-log/--no-debug-log`: Enable/disable debug logging
+- `--info-log/--no-info-log`: Enable/disable info logging
+
+## Output Structure
+
+The output includes:
+
+- **JSON hypothesis file**: Structured representation of the hypothesis
+- **Markdown hypothesis file**: Human-readable version of the hypothesis
+- **Logs directory**: Contains detailed logs of the generation process
+- **Process state file**: JSON file with the complete state of the generation process
+
+## Project Structure
+
+```
+biohack_attack/
+├── hackathon_agents/           # Core agents for hypothesis generation
+│   ├── research_agents/        # Specialized research database agents
+│   │   ├── biorxiv_agent.py
+│   │   ├── pubmed_agent.py
+│   │   └── ...
+│   ├── decomposition_agent.py  # Hypothesis decomposition
+│   ├── hypothesis_agent.py     # Base hypothesis generation
+│   ├── refiner_agent.py        # Hypothesis refinement
+│   ├── verification_agent.py   # Hypothesis verification
+│   └── ...
+├── tools/                      # Tools for interacting with external APIs
+│   ├── hetionet.py
+│   ├── firecrawl_tool.py
+│   ├── search_api_tools.py
+│   └── ...
+├── generate_hypothesis.py      # Main entry point
+├── hypothesis_generator.py     # Core orchestration logic
+├── model.py                    # Data models
+└── model_factory.py            # LLM configuration
+```
+
+- This project was developed during the Hackathon 2025
+- Thanks to all contributors and the community
