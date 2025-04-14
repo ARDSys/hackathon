@@ -12,7 +12,7 @@ from agents.tracing.processor_interface import TracingExporter
 class LocalFileExporter(TracingExporter):
     """A TracingExporter that writes traces and spans to a local file."""
 
-    def __init__(self, filepath: str, format: str = 'json'):
+    def __init__(self, filepath: str, format: str = "json"):
         """
         Args:
             filepath: The path to the file where logs will be written.
@@ -23,16 +23,18 @@ class LocalFileExporter(TracingExporter):
         self._file = None
         self._lock = threading.Lock()  # Protect file access
         self._format = format.lower()
-        if self._format not in ['json', 'str']:
+        if self._format not in ["json", "str"]:
             raise ValueError("Invalid format. Choose 'json' or 'str'.")
-        logger.info(f"LocalFileExporter initialized. Logging to: {self.filepath} in format: {self._format}")
+        logger.info(
+            f"LocalFileExporter initialized. Logging to: {self.filepath} in format: {self._format}"
+        )
 
     def _ensure_file_open(self):
         """Opens the file if it's not already open."""
         if self._file is None:
             try:
                 # Open in append mode, create if doesn't exist, use utf-8 encoding
-                self._file = open(self.filepath, 'a', encoding='utf-8')
+                self._file = open(self.filepath, "a", encoding="utf-8")
                 logger.info(f"Opened log file: {self.filepath}")
             except IOError as e:
                 logger.error(f"Failed to open log file {self.filepath}: {e}")
@@ -46,30 +48,36 @@ class LocalFileExporter(TracingExporter):
                 if self._file:  # Check if file opening succeeded
                     for item in items:
                         log_line = ""
-                        if self._format == 'json':
-                            if hasattr(item, 'export') and callable(item.export):
+                        if self._format == "json":
+                            if hasattr(item, "export") and callable(item.export):
                                 try:
                                     exported_data = item.export()
                                     # Ensure export() actually returned something potentially serializable
                                     if exported_data is not None:
                                         log_line = json.dumps(exported_data)
                                     else:
-                                        logger.warning(f"Item export() returned None, falling back to str(): {item}")
+                                        logger.warning(
+                                            f"Item export() returned None, falling back to str(): {item}"
+                                        )
                                         log_line = str(item)
                                 except (TypeError, AttributeError) as e:
                                     logger.warning(
-                                        f"Could not serialize item.export() to JSON, falling back to str(): {item}. Error: {e}")
+                                        f"Could not serialize item.export() to JSON, falling back to str(): {item}. Error: {e}"
+                                    )
                                     log_line = str(item)
                             else:
                                 # Fallback if no export() method (shouldn't happen for Trace/Span)
-                                logger.warning(f"Item missing export() method, falling back to str(): {item}")
+                                logger.warning(
+                                    f"Item missing export() method, falling back to str(): {item}"
+                                )
                                 log_line = str(item)
                             # --- END OF CORE CHANGE ---
                         else:  # format == 'str'
                             log_line = str(item)
 
                         if log_line:  # Only write if we got a non-empty string
-                            self._file.write(log_line + '\n')
+                            self._file.write(log_line + "\n")
+                            logger.debug(log_line)
 
                     self._file.flush()  # Ensure data is written to disk periodically
             except IOError as e:
@@ -100,13 +108,13 @@ class LocalFilesystemTracingProcessor(BatchTraceProcessor):
     """
 
     def __init__(
-            self,
-            filepath: str,
-            log_format: str = 'json',  # Expose log format selection
-            max_queue_size: int = 8192,
-            max_batch_size: int = 128,
-            schedule_delay: float = 5.0,
-            export_trigger_ratio: float = 0.7,
+        self,
+        filepath: str,
+        log_format: str = "json",  # Expose log format selection
+        max_queue_size: int = 8192,
+        max_batch_size: int = 128,
+        schedule_delay: float = 5.0,
+        export_trigger_ratio: float = 0.7,
     ):
         """
         Args:

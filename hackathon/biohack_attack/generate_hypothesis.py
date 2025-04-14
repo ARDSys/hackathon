@@ -21,15 +21,18 @@ def main(file: str, output: str):
     if not output_dir.exists():
         output_dir.mkdir()
     log_file_path = output_dir / "traces.jsonl"
-    logs_file_path = output_dir / f"debug.log"
+    debug_logs_file_path = output_dir / "debug.log"
     logger.add(
-        logs_file_path,
-        format="{time} {level} {message}",
+        debug_logs_file_path,
         level="DEBUG",
     )
-    set_trace_processors([LocalFilesystemTracingProcessor(
-        log_file_path.as_posix()
-    )])
+    info_logs_file_path = output_dir / f"info.log"
+    logger.add(
+        info_logs_file_path,
+        level="INFO",
+    )
+
+    set_trace_processors([LocalFilesystemTracingProcessor(log_file_path.as_posix())])
     source_file = Path(file)
     logger.info(f"Subgraph loaded from {source_file}")
 
@@ -51,5 +54,5 @@ def main(file: str, output: str):
 if __name__ == "__main__":
     main(
         file=(Path(__file__).parent.parent / "sample_subgraph.json").as_posix(),
-        output="out"
+        output="out",
     )

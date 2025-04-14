@@ -1,9 +1,7 @@
+from dataclasses import dataclass
+from typing import Any, Optional, List, Tuple, Dict
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass
-from typing import Any, Optional
-
-from agents import Runner
 from loguru import logger
 
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
@@ -20,18 +18,23 @@ from biohack_attack.hackathon_agents.hypothesis_agent import (
     hypothesis_agent,
     ScientificHypothesis,
 )
+from biohack_attack.hackathon_agents.hypothesis_assigment_agent import (
+    verify_hypothesis_decomposition,
+)
 from biohack_attack.hackathon_agents.ontology_agent import (
     ontology_agent,
     OntologyAgentOutput,
 )
+from biohack_attack.hackathon_agents.verification_agent import HypothesisVerification
 from biohack_attack.model import SubgraphModel
+from agents import Runner
 
 
 @dataclass
 class ProcessConfig:
-    num_of_hypotheses: int = 5
+    num_of_hypotheses: int = 2
     num_of_threads: int = 5
-    top_k: int = 3
+    top_k: int = 1
 
 
 def run_hypothesis_agent(
@@ -109,6 +112,7 @@ async def decompose_hypothesis(
 
     Args:
         hypothesis: The scientific hypothesis to decompose
+        ontology: Ontology information to enrich understanding
 
     Returns:
         A HypothesisDecomposition containing falsifiable statements
@@ -129,7 +133,7 @@ async def decompose_hypothesis(
     Expected Outcomes: {", ".join(hypothesis.expected_outcomes) if hypothesis.expected_outcomes else "Not specified"}
 
     Experimental Approaches: {", ".join(hypothesis.experimental_approaches) if hypothesis.experimental_approaches else "Not specified"}
-    
+
     ## ONTOLOGY ENRICHMENT
     The following additional ontological information has been provided to enrich your understanding:
     <ontology>
@@ -139,6 +143,16 @@ async def decompose_hypothesis(
 
     result = await Runner.run(hypothesis_decomposer_agent, input=prompt)
     return result.final_output
+
+
+# Wrapper function to run async function in ThreadPoolExecutor
+def run_async_in_thread(coro):
+    return asyncio.run(coro)
+
+
+# Wrapper for decompose_hypothesis to use in ThreadPoolExecutor
+def decompose_hypothesis_wrapper(hypothesis, ontology):
+    return run_async_in_thread(decompose_hypothesis(hypothesis, ontology))
 
 
 def score_hypothesis(triage: TriagedHypothesis) -> float:
@@ -171,68 +185,171 @@ def score_hypothesis(triage: TriagedHypothesis) -> float:
     return total_score
 
 
+async def verify_multiple_hypotheses(
+    hypothesis_decompositions: List[Tuple[str, HypothesisDecomposition]],
+) -> Dict[str, HypothesisVerification]:
+    """
+    Verify multiple hypothesis decompositions in parallel.
+
+    Args:
+        hypothesis_decompositions: A list of tuples containing (hypothesis_id, decomposition)
+
+    Returns:
+        A dictionary mapping hypothesis IDs to their verification results
+    """
+    if not hypothesis_decompositions:
+        logger.warning("No hypothesis decompositions to verify")
+        return {}  # Return empty dict to handle the case of empty input
+
+    verification_tasks = {
+        hypothesis_id: verify_hypothesis_decomposition(decomposition)
+        for hypothesis_id, decomposition in hypothesis_decompositions
+    }
+
+    # Run all verification tasks concurrently
+    results = {}
+    for hypothesis_id, verification_task in verification_tasks.items():
+        try:
+            result = await verification_task
+            results[hypothesis_id] = result
+            logger.info(
+                f"Verified hypothesis {hypothesis_id} with score {result.verification_score}"
+            )
+        except Exception as e:
+            logger.error(f"Error verifying hypothesis {hypothesis_id}: {str(e)}")
+
+    return results
+
+
 async def run_agents(subgraph: Subgraph, config: ProcessConfig) -> Hypothesis:
+    # Convert the subgraph to a model
     subgraph_model = SubgraphModel.from_subgraph(subgraph)
 
-    ontology: OntologyAgentOutput
+    # Step 1: Enrich subgraph with ontology agent
     logger.info("Enriching subgraph with ontology agent...")
     ontology: OntologyAgentOutput = await run_ontology_agent(subgraph_model)
     logger.debug(ontology.model_dump_json(indent=4))
 
+    # Step 2: Generate hypotheses using ThreadPoolExecutor
     logger.info("Generating hypotheses...")
+    hypothesis_results = []
     with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
         futures = [
             executor.submit(run_hypothesis_agent, subgraph_model, ontology)
             for _ in range(config.num_of_hypotheses)
         ]
-        hypothesis_results = [future.result() for future in futures]
-    logger.info("Hypotheses generated.")
+        for future in futures:
+            try:
+                hypothesis_results.append(future.result())
+            except Exception as e:
+                logger.error(f"Error generating hypothesis: {str(e)}")
 
-    for hypothesis in hypothesis_results:
-        logger.debug(hypothesis)
+    if not hypothesis_results:
+        raise ValueError("Failed to generate any valid hypotheses")
 
+    logger.info(f"Generated {len(hypothesis_results)} hypotheses.")
+
+    # Step 3: Triage hypotheses using ThreadPoolExecutor
     logger.info("Triage hypotheses...")
+    triage_results = []
     with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
         futures = [
             executor.submit(run_triage_agent, hypothesis)
             for hypothesis in hypothesis_results
         ]
-        triage_results = [future.result() for future in futures]
-    logger.info("Triage completed.")
+        for future in futures:
+            try:
+                triage_results.append(future.result())
+            except Exception as e:
+                logger.error(f"Error triaging hypothesis: {str(e)}")
 
-    for hypothesis, triage in triage_results:
-        logger.debug(triage)
-        logger.info(
-            f"Triage for {hypothesis.title} has score {score_hypothesis(triage)}"
-        )
+    if not triage_results:
+        raise ValueError("Failed to triage any hypotheses")
 
+    logger.info(f"Triage completed for {len(triage_results)} hypotheses.")
+
+    # Step 4: Score hypotheses and select top ones
     logger.info("Scoring hypotheses...")
     scored_hypotheses = [
         (hypothesis, triage, score_hypothesis(triage))
         for hypothesis, triage in triage_results
     ]
     scored_hypotheses.sort(key=lambda x: x[2], reverse=True)
-    best_hypotheses = scored_hypotheses[: config.top_k]
 
+    # Select top k hypotheses
+    top_k = min(config.top_k, len(scored_hypotheses))
+    best_hypotheses = scored_hypotheses[:top_k]
+
+    logger.info(f"Selected top {top_k} hypotheses for further processing.")
+
+    # Step 5: Decompose hypotheses using ThreadPoolExecutor with wrapper function
     logger.info("Decomposing hypotheses...")
+    decomposition_results = []
     with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
         futures = [
-            executor.submit(decompose_hypothesis, hypothesis, ontology)
+            executor.submit(decompose_hypothesis_wrapper, hypothesis, ontology)
             for hypothesis, _, _ in best_hypotheses
         ]
-        decomposition_results = [future.result() for future in futures]
-    logger.info(f"Decomposition completed.")
+        # Collect results, handle any exceptions
+        for future in futures:
+            try:
+                decomposition_results.append(future.result())
+            except Exception as e:
+                logger.error(f"Error decomposing hypothesis: {str(e)}")
 
-    for hypothesis, decomposition in zip(best_hypotheses, decomposition_results):
-        logger.info(
-            f"Decomposed hypothesis {hypothesis[0].title} with score {hypothesis[2]} {decomposition}"
+    logger.info(f"Decomposition completed for {len(decomposition_results)} hypotheses.")
+
+    # Step 6: Verify decomposed hypotheses
+    logger.info("Verifying decomposed hypotheses...")
+    hypothesis_decompositions = [
+        (f"hypothesis_{i}", decomposition)
+        for i, decomposition in enumerate(decomposition_results)
+    ]
+
+    verification_results = await verify_multiple_hypotheses(hypothesis_decompositions)
+    logger.info(f"Verification completed for {len(verification_results)} hypotheses.")
+
+    verification_metadata = {
+        hypothesis_id: {
+            "verification_score": verification.verification_score,
+            "overall_assessment": verification.overall_assessment,
+            "statement_verifications": [
+                {
+                    "statement": sv.statement,
+                    "verification_conclusion": sv.verification_conclusion,
+                    "confidence_score": sv.confidence_score,
+                    "supporting_evidence_count": len(sv.supporting_evidence),
+                    "contradicting_evidence_count": len(sv.contradicting_evidence),
+                }
+                for sv in verification.statement_verifications
+            ],
+        }
+        for hypothesis_id, verification in verification_results.items()
+    }
+
+    best_verified_hypothesis_id = max(
+        verification_results.keys(),
+        key=lambda k: verification_results[k].verification_score,
+    )
+    best_hypothesis_index = int(best_verified_hypothesis_id.split("_")[1])
+
+    if best_hypothesis_index >= len(best_hypotheses):
+        logger.warning(
+            f"Best verified hypothesis index {best_hypothesis_index} is out of range, using first hypothesis"
         )
+        best_hypothesis_index = 0
 
+    # Create and return the final hypothesis
     return Hypothesis(
-        title=best_hypotheses[0][0].title,
-        statement=best_hypotheses[0][0].statement,
+        title=best_hypotheses[best_hypothesis_index][0].title,
+        statement=best_hypotheses[best_hypothesis_index][0].statement,
         source=subgraph,
-        method=HypothesisGenerator(),
+        method=HypothesisGenerator(config),
+        metadata={
+            "verification_results": verification_metadata,
+            "best_verified_hypothesis": best_verified_hypothesis_id,
+            "score": best_hypotheses[best_hypothesis_index][2],
+        },
     )
 
 
