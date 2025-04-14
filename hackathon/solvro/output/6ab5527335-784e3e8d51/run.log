@@ -1,0 +1,34 @@
+2025-04-14 17:28:44.281 | INFO     | __main__:main:33 - Subgraph loaded from evaluation/Novel_Therapeutic_Approaches.json
+2025-04-14 17:28:44.281 | INFO     | __main__:main:35 - Generating hypothesis...
+Subgraph path:
+(`Novel Therapeutic Approaches`)-[:`shown to modulate`]->(`Interleukin-17 (IL-17) pathways in autoimmune disorders`),
+(`Interleukin-17 (IL-17) pathways in autoimmune disorders`)-[:`influenced by genetic variations in`]->(`IL17A and IL17F genes`),
+(`IL17A and IL17F genes`)-[:`expression regulated by`]->(`epigenetic modifications impacting histone acetylation`),
+(`epigenetic modifications impacting histone acetylation`)-[:`can be influenced by the activity of`]->(`microRNAs (miRNAs) associated with immune response regulation`),
+(`microRNAs (miRNAs) associated with immune response regulation`)-[:`target specific`]->(`transcription factors involved in immune cell differentiation`),
+(`transcription factors involved in immune cell differentiation`)-[:`interact with`]->(`cytokine signaling pathways crucial for rheumatologic conditions`),
+(`cytokine signaling pathways crucial for rheumatologic conditions`)-[:`modulated by oxidative stress through the activation of`]->(`NF-kB pathway, contributing to inflammation in rheumatoid arthritis`)
+Subgraph context:
+None
+2025-04-14 17:28:44.282 | INFO     | hackathon.solvro.agents.graph_analyst:agent:102 - Starting structured graph analysis
+2025-04-14 17:28:50.509 | INFO     | hackathon.solvro.agents.graph_analyst:agent:107 - Subgraph analysis completed successfully, found 1 pathways
+2025-04-14 17:28:50.513 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: Novel Therapeutic Approaches
+2025-04-14 17:28:50.537 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: Novel Therapeutic Approaches -[:shown to modulate]-> Interleukin-17 (IL-17) pathways in autoimmune disorders
+2025-04-14 17:28:55.175 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: Interleukin-17 (IL-17) pathways in autoimmune disorders
+2025-04-14 17:28:57.810 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: IL17A and IL17F genes
+2025-04-14 17:29:00.211 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: Interleukin-17 (IL-17) pathways in autoimmune disorders -[:influenced by genetic variations in]-> IL17A and IL17F genes
+2025-04-14 17:29:00.975 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: epigenetic modifications impacting histone acetylation
+2025-04-14 17:29:04.191 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: microRNAs (miRNAs) associated with immune response regulation
+2025-04-14 17:29:11.375 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: IL17A and IL17F genes -[:expression regulated by]-> epigenetic modifications impacting histone acetylation
+2025-04-14 17:29:15.175 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: transcription factors involved in immune cell differentiation
+2025-04-14 17:29:19.218 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: cytokine signaling pathways crucial for rheumatologic conditions
+2025-04-14 17:29:22.710 | INFO     | hackathon.solvro.agents.context:agent:67 - 🔍 Enriching entity: NF-kB pathway
+2025-04-14 17:29:22.786 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: epigenetic modifications impacting histone acetylation -[:can be influenced by the activity of]-> microRNAs (miRNAs) associated with immune response regulation
+2025-04-14 17:29:32.944 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: microRNAs (miRNAs) associated with immune response regulation -[:target specific]-> transcription factors involved in immune cell differentiation
+2025-04-14 17:29:43.006 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: transcription factors involved in immune cell differentiation -[:interact with]-> cytokine signaling pathways crucial for rheumatologic conditions
+2025-04-14 17:29:51.705 | INFO     | hackathon.solvro.agents.evidence:agent:78 - 📚 Searching evidence for: cytokine signaling pathways crucial for rheumatologic conditions -[:modulated by oxidative stress through the activation of]-> NF-kB pathway, contributing to inflammation in rheumatoid arthritis
+2025-04-14 17:29:59.787 | INFO     | hackathon.solvro.agents.hypothesis:agent:57 - 🧠 Synthesizing hypothesis from merged graph, context, and evidence
+2025-04-14 17:30:14.404 | INFO     | hackathon.solvro.agents.hypothesis:agent:93 - ✅ Hypothesis synthesized: Targeting Epigenetic and miRNA Regulation of IL-17 Pathways in Rheumatoid Arthritis
+2025-04-14 17:30:14.405 | INFO     | __main__:main:40 - Hypothesis generated successfully for evaluation/Novel_Therapeutic_Approaches.json
+2025-04-14 17:30:14.405 | INFO     | __main__:main:42 - Saving mechanistic summaries to hackathon/solvro/output
+2025-04-14 17:30:14.408 | INFO     | __main__:main:47 - Saving hypothesis to hackathon/solvro/output
