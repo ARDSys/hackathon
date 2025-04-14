@@ -46,13 +46,6 @@ def create_experiment_reviewer_agent(
 
         # Get the literature information from the response
         literature = state["literature"]
-
-        # Run the chain
-        logger.info(f"Running experiment_planner analysis chain")
-        response = chain.invoke({**state,
-                "literature": literature})
-        logger.info("Experiment_planner completed successfully")
-
         attempt = 0
         while True:
                 # Run the chain
