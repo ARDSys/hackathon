@@ -1,0 +1,12 @@
+Now, please write all the hypothesis in a JSON format like this:
+[
+    {
+        "title": "Here write a short and concise title for your hypothesis...",
+        "statement": "Here write the actual detailed statement of your hypothesis...",
+        "references": [
+            "Here list out references that support your hypothesis. Write only a few that actually matter in your statement. They should be in a format like this: Smith et al. (2019). Neuroinflammation and Neurodegeneration. Journal of Neuroscience, 40(1), 123-145.",
+            ...
+        ]
+    },
+    ...
+]

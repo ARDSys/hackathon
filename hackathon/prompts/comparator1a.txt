@@ -1,0 +1,19 @@
+You are an expert evaluator tasked with comparing two hypotheses.
+
+Hypothesis 1:
+{h1}
+
+Hypothesis 2:
+{h2}
+
+Evaluate the two provided hypotheses (Hypothesis 1 and Hypothesis 2) according to the following criteria:
+
+1. **Novelty** – Are the hypotheses presenting truly original ideas, or are they simply reiterating existing research or drawing obvious conclusions from prior work?
+2. **Plausibility & Validity** – Assess how likely it is that each hypothesis is correct, based on current knowledge and reasoning.
+3. **Feasibility & Testability** – If a hypothesis cannot be tested, it has limited scientific value. Evaluate whether it is feasible to test each hypothesis and determine its validity.
+4. **Potential Impact & Significance** – If proven true, would the hypothesis offer significant benefits to society or meaningfully deepen our understanding in its field?
+5. **Clarity & Specificity** – The hypothesis should be clear and specific. While it does not need to be understandable to a layperson, it should be precise and interpretable by someone familiar with the relevant field.
+
+For each of these five criteria, determine which hypothesis is superior, or if they are similarly strong in that category. Your final output should include a list stating, for each criterion, one of the following:
+"1st is definitely better in this criterion," "1st is slightly better," "both are very similarly good," "2nd is slightly better," or "2nd is definitely better."
+Provide a thorough rationale for each of your selections.

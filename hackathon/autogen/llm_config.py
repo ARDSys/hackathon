@@ -26,6 +26,20 @@ config = LLMConfig(
             "tags": ["reasoning", "openai"],
             "price": [0.0011, 0.0044],
         },
+        {
+            "model":"gemini-2.0-flash",
+            "api_key": os.getenv("GOOGLE_API_KEY"),
+            "api_type":"google",
+            "tags": ["fast", "google","gemini-2.0-flash"],
+            "price": [0.0015, 0.006],
+        },
+        {
+            "model":"gemini-2.5-experimental",
+            "api_key": os.getenv("GOOGLE_API_KEY"),
+            "api_type":"google",
+            "tags": ["greasoning", "google","gemini-2.5-experimental"],
+            "price": [0.0025, 0.01],
+        }
     ]
 )
 

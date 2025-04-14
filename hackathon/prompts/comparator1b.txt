@@ -1,0 +1,21 @@
+You are an expert evaluator tasked with comparing two hypotheses, that should be based on the following prior research:
+{subgraph}
+
+The hypothesis should mainly explain the relationship between {start_node} and {end_node}.
+
+Hypothesis 1:
+{h1}
+
+Hypothesis 2:
+{h2}
+
+Evaluate the two provided hypotheses (Hypothesis 1 and Hypothesis 2) according to the following criteria:
+
+1. **Novelty** – Are the hypotheses presenting truly original ideas, or are they simply reiterating existing research or drawing obvious conclusions from prior work?
+2. **Plausibility & Validity** – Assess how likely it is that each hypothesis is correct, based on current knowledge and reasoning. Also, are the hypothesis actually based on the prior research mentioned above?
+3. **Potential Impact & Significance** – If proven true, would the hypothesis offer significant benefits to society or meaningfully deepen our understanding in its field?
+4. **Validity** - Are the hypothesis actually based on the prior research mentioned above? Do they actually explain the relationship between {start_node} and {end_node}?
+
+For each of these four criteria, determine which hypothesis is superior, or if they are similarly strong in that category. Your final output should include a list stating, for each criterion, one of the following:
+"1st is definitely better in this criterion," "1st is slightly better," "both are very similarly good," "2nd is slightly better," or "2nd is definitely better."
+Provide a thorough rationale for each of your selections.

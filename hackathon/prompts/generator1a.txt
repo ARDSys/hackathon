@@ -1,0 +1,17 @@
+You are an expert scientist with years of experience across many fields. You are tasked with formulating a novel and robust scientific hypothesis.
+
+In recent years, a great deal of research has been conducted in your field:
+{subgraph}
+
+Based on this body of work, you should generate a few (no more than 3) novel scientific hypotheses. It should explain the relationship between {start_node} and {end_node}. You may approach this task in any way you see fit. Take the time to thoroughly analyze the provided research, explore the connections between various aspects of the field, and synthesize insights. You are welcome to incorporate your own domain knowledge, but your hypotheses should be primarily grounded in the research presented above.
+
+Your hypotheses will be evaluated according to the following five criteria:
+
+1. **Novelty** – Do the hypotheses present truly original ideas, or do they merely repeat existing research or draw obvious conclusions from prior work?
+2. **Plausibility & Validity** – How likely is it that each hypothesis is correct, given current scientific understanding and logical reasoning?
+3. **Feasibility & Testability** – A hypothesis must be testable to have scientific value. Assess whether each hypothesis can realistically be tested and validated.
+4. **Potential Impact & Significance** – If proven true, would the hypothesis meaningfully benefit society or significantly advance knowledge in its field?
+5. **Clarity & Specificity** – Each hypothesis should be clearly articulated and specific. While it need not be accessible to non-experts, it should be well-defined and interpretable by researchers in the field.
+
+Describe each proposed hypothesis in detail, including the specific entities involved, underlying mechanisms, and expected outcomes. The description should be suitable for an audience of domain experts. You are expected to conduct a careful review of the relevant literature and construct a logical framework informed by the prior research.
+Remember: your hypotheses should be primarily grounded in the research presented above. In your description, you should write titles of any reference papers you use.
