@@ -1,30 +1,28 @@
 # Teoria Wielkiego Modelu
 
-This novel approach implements in LangGraph an approach using the UCB bound to
-refine the ideas.
+This project introduces a novel approach which uses LangGraph to iteratively refine hypotheses based on the Upper Confidence Bound (UCB) strategy.
 
-We maintain the HYPOTHESIS_BEAM hypothesis in parallel that fight for being refined.
-
-During first few hours we spend most of our precious time improving prompts and diving
-job into specialized secioctions. We mainly focused on testability of the hypothesis as
-we haven't saw any proven one, so that would be the most helpfull to get started with it.
-
-Critique frequenctly killed the whole approach so we also included the devil advocate to mitigate this effect.
+We maintain a HYPOTHESIS_BEAM, a set of competing hypotheses that evolve in parallel. They fight between each other to be refined and improved.
 
 The workflow is divided into two pipelines:
 
 1) Seeding ideas, including literature inspiration and PubMed quering.
 
-2) Analyze -> Refine -> Evaluate
+2) Analysis -> Refinement -> Evaluation (-> Analysis -> Refinement -> ...)
 
-So at first the 1) is used to generate the variate of hypothesis.
+Using 1) we generate a set of various hypotheses and for every one of them we attach the relevant literature  
 
-Now for REFINEMENT_ITER we pick the hypothesis maximizing UCB formula:
+Now we run 2) for the most promising hypotheses - we choose those, trying to maximize the following UCB formula:
 
-llm score + sqrt (log (refinements_done_total) / refinements_done_on_this_specific_hypothesis)
+(llm score obtained from analysis part) + sqrt( log(refinements_done_total) / refinements_done_on_this_specific_hypothesis )
 
-This allows us to explore the hypothesis in their refinement and also exploit good hypothesis that
-are already good.
+This allows us to explore the hypotheses throughout the refinement process and exploit good hypotheses (because only those are evolved further).
+
+# Our work:
+
+During first few hours, we spent most of our precious time improving prompts and dividing the complex task of generating the hypotheses into specialized sections. We focused on testability of the hypothesis introducing an experiment planner and reviewer which work together to analyze the feasability of the hypothesis.
+
+Overall we have 13 agents in our MAS
 
 ## Overview
 
