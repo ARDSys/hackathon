@@ -1,9 +1,10 @@
 from typing import List, Optional
 import asyncio
 
-from agents import Agent, Runner
+from agents import Agent, Runner, function_tool
 from pydantic import BaseModel, Field
 
+from biohack_attack.hackathon_agents.research_agents import get_pubmed_papers_by_keyword
 from biohack_attack.model_factory import ModelFactory, ModelType
 from biohack_attack.hackathon_agents.hypothesis_agent import ScientificHypothesis
 
@@ -90,4 +91,5 @@ hypothesis_decomposer_agent = Agent(
     name="HypothesisDecomposerAgent",
     instructions=AGENT_INSTRUCTIONS,
     output_type=HypothesisDecomposition,
+    tools=[function_tool()(get_pubmed_papers_by_keyword)],
 )

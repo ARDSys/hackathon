@@ -266,9 +266,10 @@ async def refine_hypothesis(
     Please generate an improved version of this hypothesis that addresses the identified issues.
     """
 
-    refined_hypothesis = asyncio.run(
-        Runner.run(rheumatology_refiner_agent, input=prompt)
-    ).final_output
+    refined_hypothesis_result = await Runner.run(
+        rheumatology_refiner_agent, input=prompt
+    )
+    refined_hypothesis = refined_hypothesis_result.final_output
 
     # Now process this refined hypothesis through the standard pipeline
     _, triage = run_triage_agent(refined_hypothesis)
