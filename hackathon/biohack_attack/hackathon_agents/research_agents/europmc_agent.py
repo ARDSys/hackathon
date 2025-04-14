@@ -8,7 +8,7 @@ from biohack_attack.model_factory import ModelFactory, ModelType
 europe_pmc_agent = Agent(
     name="Europe PMC Agent",
     instructions="Given keyword, perform the search in the Europe MPC database.",
-    model=ModelFactory.build_model(ModelType.GEMINI),
+    model=ModelFactory.build_model(ModelType.OPENAI),
     tools=[get_europe_pmc_papers_by_keyword],
     output_type=UnstructuredSource,
     model_settings=ModelSettings(tool_choice="required"),

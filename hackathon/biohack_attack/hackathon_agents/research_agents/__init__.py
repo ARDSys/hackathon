@@ -1,23 +1,41 @@
 import asyncio
-
 from typing import Union
 
 from agents import Agent, Runner
-
 from biohack_attack.model_factory import ModelFactory, ModelType
+from loguru import logger
 
 from .biorxiv_agent import biorxiv_agent
 from .europmc_agent import europe_pmc_agent
 from .hetionet_agent import hetionet_agent
+from .models import (
+    DataSource,
+    KnowledgeGraph,
+    QueriesOutput,
+    Query,
+    ResearchAgentOutput,
+    UnstructuredSource,
+)
 from .pubmed_agent import pubmed_agent
 from .semantic_scholar_agent import semantic_scholar_agent
-
-from .models import QueriesOutput, ResearchAgentOutput, KnowledgeGraph, UnstructuredSource, Query, DataSource
 
 RESEARCH_AGENT_DISPATCHER_PROMPT = """
 You are an expert Graph Expansion System designed to analyze subgraphs and strategically query external data sources to 
 enhance the graph's coverage, depth, and utility. Your purpose is to identify missing connections, nodes, and 
-relationships that would make the graph more complete and valuable. You should return list of queries with relevenat keywords and data sources to query.
+relationships that would make the graph more complete and valuable.
+
+Key Responsibilities:
+1. Analyze the current subgraph to identify knowledge gaps and areas needing expansion
+2. Generate targeted queries with each disease and specific keyword in each query
+3. Strategically select appropriate data sources for each query
+4. Consider multiple angles and perspectives when querying the same source
+
+Your output should be a list of queries, where each query specifies:
+- A targeted keyword or search term
+- The most appropriate data source for that specific query
+- The rationale for why this query would be valuable for graph expansion
+
+Remember: Quality and relevance are more important than quantity. Each query should have a clear purpose in expanding the graph's knowledge.
 """
 
 research_agent_dispatcher = Agent(
@@ -32,9 +50,10 @@ async def perform_queries(queries: QueriesOutput) -> ResearchAgentOutput:
     output = ResearchAgentOutput()
 
     async def process_query(
-            query: Query,
+        query: Query,
     ) -> tuple[bool, Union[KnowledgeGraph, UnstructuredSource]]:
         try:
+            logger.info(f"Processing query: {query.keyword} in the data source: {query.data_source}")
             if query.data_source == DataSource.HETIONET:
                 result: KnowledgeGraph = await Runner.run(hetionet_agent, query.keyword)
                 return True, result

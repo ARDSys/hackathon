@@ -8,7 +8,7 @@ from biohack_attack.model_factory import ModelFactory, ModelType
 biorxiv_agent = Agent(
     name="Biorxiv Agent",
     instructions="Given keyword, perform the search in the Biorxiv database.",
-    model=ModelFactory.build_model(ModelType.GEMINI),
+    model=ModelFactory.build_model(ModelType.OPENAI),
     tools=[get_biorxiv_papers_by_category],
     output_type=UnstructuredSource,
     model_settings=ModelSettings(tool_choice="required"),

@@ -13,11 +13,13 @@ class DataSource(Enum):
 
 
 class Query(BaseModel):
+    reasoning: str
     data_source: DataSource
     keyword: str
 
 
 class QueriesOutput(BaseModel):
+    reasoning: str
     queries: List[Query]
 
 

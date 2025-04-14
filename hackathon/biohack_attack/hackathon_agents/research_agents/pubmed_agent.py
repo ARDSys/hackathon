@@ -8,7 +8,7 @@ from biohack_attack.model_factory import ModelFactory, ModelType
 pubmed_agent = Agent(
     name="Pubmed Agent",
     instructions="Given keyword, perform the search in the Pubmed database.",
-    model=ModelFactory.build_model(ModelType.GEMINI),
+    model=ModelFactory.build_model(ModelType.OPENAI),
     tools=[get_pubmed_papers_by_keyword],
     output_type=UnstructuredSource,
     model_settings=ModelSettings(tool_choice="required"),

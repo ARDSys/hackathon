@@ -9,6 +9,7 @@ from biohack_attack.hackathon_agents.research_agents.models import (
 from biohack_attack.model_factory import ModelFactory, ModelType
 from dotenv import load_dotenv
 from hackathon_agents.research_agents import perform_queries, research_agent_dispatcher
+from loguru import logger
 from pydantic import BaseModel
 
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
@@ -28,14 +29,24 @@ async def run_agents(subgraph: Subgraph) -> Hypothesis:
     #     model=ModelFactory.build_model(ModelType.OPENAI),
     #     output_type=HypothesisOutput
     # )
-    print(subgraph)
+    # INPUT
+    logger.info(f"Input graph: {subgraph}")
     path = subgraph.to_cypher_string(full_graph=True)
-    print(path)
 
+    # GENERATING QUERIES
+    logger.info("Generating queries to external sources.")
     research_agent_results = await Runner.run(research_agent_dispatcher, path)
     queries: QueriesOutput = research_agent_results.final_output_as(QueriesOutput)
-    print(queries)
+    logger.info(f"Reasoning: {queries.reasoning}")
+    logger.info("List of queries:")
+    for query in queries.queries:
+        logger.info(f"Data Source: {query.data_source}, Keyword: {query.keyword}.")
+
+    # PERFORMING QUERIES
+    logger.info("Performing queries.")
     results: ResearchAgentOutput = await perform_queries(queries)
+    logger.info(results)
+
 
     # Hypothesis generation Agent
 
