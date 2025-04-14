@@ -12,22 +12,6 @@ During the initial research phase, we focused on improving prompt engineering an
 
 To address the challenge of overly critical evaluation terminating promising hypotheses prematurely, we implemented a dialectical approach incorporating both critique and devil's advocate agents.
 
-
-### Hypothesis Evaluation Framework
-
-Each hypothesis $h_i$ is evaluated across multiple dimensions:
-
-1. **Feasibility Score** $F(h_i)$: Measures practical implementability
-2. **Novelty Impact** $N(h_i)$: Quantifies innovation potential
-3. **Scientific Merit** $S(h_i)$: Assesses theoretical foundation
-
-### Knowledge Graph Integration
-
-The system operates on a scientific knowledge graph $G = (V, E)$ where:
-- $V$ represents entities (concepts, methods, outcomes)
-- $E$ represents relationships between entities
-- Each edge $e_{ij} \in E$ carries a weight $w_{ij}$ representing relationship strength
-
 ### Workflow Architecture
 
 ![Agent Interaction Diagram](agents_pic.png)
@@ -43,6 +27,23 @@ The system operates through two primary pipelines:
    ```
    Analyze → Refine → Evaluate
    ```
+
+
+### Hypothesis Evaluation Framework
+
+Each hypothesis $h_i$ is evaluated across multiple dimensions:
+
+1. **Feasibility Score** $F(h_i)$: Measures practical implementability
+2. **Novelty** $N(h_i)$: Quantifies uniqueness of the idea
+3. **Impact** $I(h_i)$: Assesses potential influence on the field
+
+### Knowledge Graph Integration
+
+The system operates on a scientific knowledge graph $G = (V, E)$ where:
+- $V$ represents entities (concepts, methods, outcomes)
+- $E$ represents relationships between entities
+- Each edge $e_{ij} \in E$ carries a weight $w_{ij}$ representing relationship strength
+
 
 ### Selection Strategy
 
