@@ -6,6 +6,11 @@ This module contains function definitions that are registered with agents for ex
 import os
 from typing import Annotated
 
+from firecrawl import FirecrawlApp
+import dotenv
+dotenv.load_dotenv()
+from pydantic import BaseModel, Field
+from semanticscholar import SemanticScholar
 import requests
 
 
@@ -133,3 +138,40 @@ def rate_novelty_feasibility(
     )
 
     return res.summary
+
+
+
+
+def find_papers(keywords: list[str], limit_per_kw=10) -> list[str]:
+    sch = SemanticScholar()
+    seen_titles = set()
+    links = []
+    for keyword in keywords:
+        results = sch.search_paper(keyword, limit=limit_per_kw)
+
+        for paper in results:
+            title = paper['title']
+            url = paper['url']
+            if title not in seen_titles:
+                seen_titles.add(title)
+                links.append(url)
+
+    return links
+    
+def crawl(links: list[str]) -> list[str]:
+    app = FirecrawlApp(os.getenv("FIRECRAWL_API_KEY"))
+    abstracts = []
+    for link in links:
+        data =  app.scrape_url(link, {
+            'format': ['json'],
+            'jsonOptions': {
+                'schema': ExtractSchema.model_json_schema(),
+            }
+        })
+        
+        abstracts.append(data)
+    
+    return abstracts
+
+class ExtractSchema(BaseModel):
+    abstract: str

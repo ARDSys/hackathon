@@ -11,7 +11,8 @@ from ard.subgraph import Subgraph
 from .groupchat import create_group_chat
 from .llm_config import get_llm_config
 
-import openai
+
+
 
 langfuse_callback = CallbackHandler()
 
@@ -30,34 +31,13 @@ class Reference(BaseModel):
 class ReferenceList(BaseModel):
     references: list[Reference]
 
-def use_llm(prompt: str) -> str:
-    config = get_llm_config("large")
-    client = OpenAIWrapper(
-        config_list=config.config_list,
-    )
-    structured_res = client.create(
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a summarizer of the conversation.",
-            },
-            {"role": "user", "content": prompt},
-        ],
-        response_format=HypgenResult,
-    )
-    
-    return structured_res.choices[0].message.content
-    
-
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
     def run(self, subgraph: Subgraph) -> Hypothesis:
         # Initialize Langfuse
         # init_langfuse()
 
-        subgraph.contextualize(use_llm)
         context = subgraph.context
-        print(f"CONTEXT HERE?: {context}")
         path = subgraph.to_cypher_string(full_graph=False)
 
         group_chat, manager, user = create_group_chat()

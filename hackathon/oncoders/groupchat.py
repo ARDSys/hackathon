@@ -79,3 +79,7 @@ def create_group_chat():
     )
 
     return groupchat, manager, user
+
+
+# def custom_speaker_selection_func():
+    
