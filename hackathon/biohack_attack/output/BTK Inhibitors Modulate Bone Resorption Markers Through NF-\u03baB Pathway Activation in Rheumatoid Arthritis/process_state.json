@@ -6,6 +6,40 @@
         {
           "sources": [
             {
+              "relation": "target",
+              "triplet_id": 2372880070464
+            },
+            {
+              "relation": "is associated with",
+              "triplet_id": 2371552064288
+            },
+            {
+              "relation": "influences",
+              "triplet_id": 2371555716912
+            }
+          ],
+          "node_name": "Bruton's Tyrosine Kinase (BTK)"
+        },
+        {
+          "sources": [
+            {
+              "relation": "is influenced by",
+              "triplet_id": 2371555721088
+            },
+            {
+              "relation": "are influenced by",
+              "triplet_id": 2371555709424
+            },
+            {
+              "relation": "impact",
+              "triplet_id": 2371555717104
+            }
+          ],
+          "node_name": "epigenetic modifications in T cells"
+        },
+        {
+          "sources": [
+            {
               "relation": "increase the production of",
               "triplet_id": 2371555720080
             },
@@ -27,57 +61,36 @@
         {
           "sources": [
             {
-              "relation": "target",
-              "triplet_id": 2372880070464
+              "relation": "modulates",
+              "triplet_id": 2371555716672
             },
             {
-              "relation": "indirectly reduce",
-              "triplet_id": 2371555718016
+              "relation": "contributes to",
+              "triplet_id": 2371555720512
             },
             {
-              "relation": "reduce",
-              "triplet_id": 2371556183552
+              "relation": "is affected by",
+              "triplet_id": 2371555716576
             }
           ],
-          "node_name": "BTK Inhibitors"
+          "node_name": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts"
         },
         {
           "sources": [
             {
-              "relation": "correlate with",
-              "triplet_id": 2371555720608
+              "relation": "is involved in",
+              "triplet_id": 2371555717824
             },
             {
-              "relation": "are elevated due to",
-              "triplet_id": 2371555716720
+              "relation": "is influenced by",
+              "triplet_id": 2371555721088
             },
             {
-              "relation": "enhances",
-              "triplet_id": 2371556183264
+              "relation": "influences",
+              "triplet_id": 2371555716912
             }
           ],
-          "node_name": "increased bone resorption markers like CTX-I in serum"
-        },
-        {
-          "sources": [
-            {
-              "relation": "are influenced by",
-              "triplet_id": 2371555709424
-            },
-            {
-              "relation": "increase the production of",
-              "triplet_id": 2371555720080
-            },
-            {
-              "relation": "exacerbate",
-              "triplet_id": 2371555716816
-            },
-            {
-              "relation": "promote",
-              "triplet_id": 2371556180096
-            }
-          ],
-          "node_name": "environmental factors such as smoking"
+          "node_name": "autoantibody production in rheumatoid arthritis"
         },
         {
           "sources": [
@@ -99,36 +112,19 @@
         {
           "sources": [
             {
-              "relation": "target",
-              "triplet_id": 2372880070464
+              "relation": "correlate with",
+              "triplet_id": 2371555720608
             },
             {
-              "relation": "is associated with",
-              "triplet_id": 2371552064288
+              "relation": "are elevated due to",
+              "triplet_id": 2371555716720
             },
             {
-              "relation": "influences",
-              "triplet_id": 2371555716912
+              "relation": "enhances",
+              "triplet_id": 2371556183264
             }
           ],
-          "node_name": "Bruton's Tyrosine Kinase (BTK)"
-        },
-        {
-          "sources": [
-            {
-              "relation": "modulates",
-              "triplet_id": 2371555716672
-            },
-            {
-              "relation": "contributes to",
-              "triplet_id": 2371555720512
-            },
-            {
-              "relation": "is affected by",
-              "triplet_id": 2371555716576
-            }
-          ],
-          "node_name": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts"
+          "node_name": "increased bone resorption markers like CTX-I in serum"
         },
         {
           "sources": [
@@ -150,6 +146,27 @@
             }
           ],
           "node_name": "joint damage and deformities in rheumatoid arthritis"
+        },
+        {
+          "sources": [
+            {
+              "relation": "are influenced by",
+              "triplet_id": 2371555709424
+            },
+            {
+              "relation": "increase the production of",
+              "triplet_id": 2371555720080
+            },
+            {
+              "relation": "exacerbate",
+              "triplet_id": 2371555716816
+            },
+            {
+              "relation": "promote",
+              "triplet_id": 2371556180096
+            }
+          ],
+          "node_name": "environmental factors such as smoking"
         },
         {
           "sources": [
@@ -200,39 +217,66 @@
         {
           "sources": [
             {
-              "relation": "is influenced by",
-              "triplet_id": 2371555721088
+              "relation": "target",
+              "triplet_id": 2372880070464
             },
             {
-              "relation": "are influenced by",
-              "triplet_id": 2371555709424
+              "relation": "indirectly reduce",
+              "triplet_id": 2371555718016
             },
             {
-              "relation": "impact",
-              "triplet_id": 2371555717104
+              "relation": "reduce",
+              "triplet_id": 2371556183552
             }
           ],
-          "node_name": "epigenetic modifications in T cells"
-        },
+          "node_name": "BTK Inhibitors"
+        }
+      ],
+      "edges": [
         {
+          "source": "Bruton's Tyrosine Kinase (BTK)",
+          "target": "B cell receptor signaling pathway",
+          "relation": "is associated with",
           "sources": [
             {
-              "relation": "is involved in",
-              "triplet_id": 2371555717824
-            },
-            {
-              "relation": "is influenced by",
-              "triplet_id": 2371555721088
-            },
+              "relation": "is associated with",
+              "triplet_id": 2371552064288
+            }
+          ]
+        },
+        {
+          "source": "Bruton's Tyrosine Kinase (BTK)",
+          "target": "autoantibody production in rheumatoid arthritis",
+          "relation": "influences",
+          "sources": [
             {
               "relation": "influences",
               "triplet_id": 2371555716912
             }
-          ],
-          "node_name": "autoantibody production in rheumatoid arthritis"
-        }
-      ],
-      "edges": [
+          ]
+        },
+        {
+          "source": "epigenetic modifications in T cells",
+          "target": "environmental factors such as smoking",
+          "relation": "are influenced by",
+          "sources": [
+            {
+              "relation": "are influenced by",
+              "triplet_id": 2371555709424
+            }
+          ]
+        },
+        {
+          "source": "epigenetic modifications in T cells",
+          "target": "degradation of cartilage extracellular matrix in joint tissue",
+          "relation": "impact",
+          "sources": [
+            {
+              "relation": "impact",
+              "triplet_id": 2371555717104
+            }
+          ]
+        },
         {
           "source": "pro-inflammatory cytokines like TNF-alpha",
           "target": "NF-kappa B signaling pathway",
@@ -245,35 +289,57 @@
           ]
         },
         {
-          "source": "BTK Inhibitors",
-          "target": "Bruton's Tyrosine Kinase (BTK)",
-          "relation": "target",
+          "source": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+          "target": "degradation of cartilage extracellular matrix in joint tissue",
+          "relation": "contributes to",
           "sources": [
             {
-              "relation": "target",
-              "triplet_id": 2372880070464
+              "relation": "contributes to",
+              "triplet_id": 2371555720512
             }
           ]
         },
         {
-          "source": "BTK Inhibitors",
-          "target": "joint damage and deformities in rheumatoid arthritis",
-          "relation": "indirectly reduce",
+          "source": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
+          "target": "pro-inflammatory cytokines like TNF-alpha",
+          "relation": "is affected by",
           "sources": [
             {
-              "relation": "indirectly reduce",
-              "triplet_id": 2371555718016
+              "relation": "is affected by",
+              "triplet_id": 2371555716576
             }
           ]
         },
         {
-          "source": "BTK Inhibitors",
+          "source": "autoantibody production in rheumatoid arthritis",
+          "target": "epigenetic modifications in T cells",
+          "relation": "is influenced by",
+          "sources": [
+            {
+              "relation": "is influenced by",
+              "triplet_id": 2371555721088
+            }
+          ]
+        },
+        {
+          "source": "B cell receptor signaling pathway",
+          "target": "autoantibody production in rheumatoid arthritis",
+          "relation": "is involved in",
+          "sources": [
+            {
+              "relation": "is involved in",
+              "triplet_id": 2371555717824
+            }
+          ]
+        },
+        {
+          "source": "B cell receptor signaling pathway",
           "target": "NF-kappa B signaling pathway",
-          "relation": "reduce",
+          "relation": "enhances",
           "sources": [
             {
-              "relation": "reduce",
-              "triplet_id": 2371556183552
+              "relation": "enhances",
+              "triplet_id": 2371555717008
             }
           ]
         },
@@ -285,6 +351,17 @@
             {
               "relation": "are elevated due to",
               "triplet_id": 2371555716720
+            }
+          ]
+        },
+        {
+          "source": "joint damage and deformities in rheumatoid arthritis",
+          "target": "increased bone resorption markers like CTX-I in serum",
+          "relation": "correlate with",
+          "sources": [
+            {
+              "relation": "correlate with",
+              "triplet_id": 2371555720608
             }
           ]
         },
@@ -322,83 +399,6 @@
           ]
         },
         {
-          "source": "B cell receptor signaling pathway",
-          "target": "autoantibody production in rheumatoid arthritis",
-          "relation": "is involved in",
-          "sources": [
-            {
-              "relation": "is involved in",
-              "triplet_id": 2371555717824
-            }
-          ]
-        },
-        {
-          "source": "B cell receptor signaling pathway",
-          "target": "NF-kappa B signaling pathway",
-          "relation": "enhances",
-          "sources": [
-            {
-              "relation": "enhances",
-              "triplet_id": 2371555717008
-            }
-          ]
-        },
-        {
-          "source": "Bruton's Tyrosine Kinase (BTK)",
-          "target": "B cell receptor signaling pathway",
-          "relation": "is associated with",
-          "sources": [
-            {
-              "relation": "is associated with",
-              "triplet_id": 2371552064288
-            }
-          ]
-        },
-        {
-          "source": "Bruton's Tyrosine Kinase (BTK)",
-          "target": "autoantibody production in rheumatoid arthritis",
-          "relation": "influences",
-          "sources": [
-            {
-              "relation": "influences",
-              "triplet_id": 2371555716912
-            }
-          ]
-        },
-        {
-          "source": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
-          "target": "degradation of cartilage extracellular matrix in joint tissue",
-          "relation": "contributes to",
-          "sources": [
-            {
-              "relation": "contributes to",
-              "triplet_id": 2371555720512
-            }
-          ]
-        },
-        {
-          "source": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
-          "target": "pro-inflammatory cytokines like TNF-alpha",
-          "relation": "is affected by",
-          "sources": [
-            {
-              "relation": "is affected by",
-              "triplet_id": 2371555716576
-            }
-          ]
-        },
-        {
-          "source": "joint damage and deformities in rheumatoid arthritis",
-          "target": "increased bone resorption markers like CTX-I in serum",
-          "relation": "correlate with",
-          "sources": [
-            {
-              "relation": "correlate with",
-              "triplet_id": 2371555720608
-            }
-          ]
-        },
-        {
           "source": "NF-kappa B signaling pathway",
           "target": "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
           "relation": "modulates",
@@ -432,35 +432,35 @@
           ]
         },
         {
-          "source": "epigenetic modifications in T cells",
-          "target": "environmental factors such as smoking",
-          "relation": "are influenced by",
+          "source": "BTK Inhibitors",
+          "target": "Bruton's Tyrosine Kinase (BTK)",
+          "relation": "target",
           "sources": [
             {
-              "relation": "are influenced by",
-              "triplet_id": 2371555709424
+              "relation": "target",
+              "triplet_id": 2372880070464
             }
           ]
         },
         {
-          "source": "epigenetic modifications in T cells",
-          "target": "degradation of cartilage extracellular matrix in joint tissue",
-          "relation": "impact",
+          "source": "BTK Inhibitors",
+          "target": "joint damage and deformities in rheumatoid arthritis",
+          "relation": "indirectly reduce",
           "sources": [
             {
-              "relation": "impact",
-              "triplet_id": 2371555717104
+              "relation": "indirectly reduce",
+              "triplet_id": 2371555718016
             }
           ]
         },
         {
-          "source": "autoantibody production in rheumatoid arthritis",
-          "target": "epigenetic modifications in T cells",
-          "relation": "is influenced by",
+          "source": "BTK Inhibitors",
+          "target": "NF-kappa B signaling pathway",
+          "relation": "reduce",
           "sources": [
             {
-              "relation": "is influenced by",
-              "triplet_id": 2371555721088
+              "relation": "reduce",
+              "triplet_id": 2371556183552
             }
           ]
         }
@@ -559,219 +559,186 @@
         "iteration": 0,
         "base_hypothesis": {
           "agent_reasoning": [
-            "Initial observations revealed a path from BTK Inhibitors to increased bone resorption markers, highlighting key players like BTK, B cell receptor signaling, and pro-inflammatory cytokines.",
-            "I identified a complex pathway where BTK Inhibitors impact B cell signaling, which leads to autoantibody production and further modifies T cell epigenetics.",
-            "Key connections include pro-inflammatory cytokines activating the NF-kappa B pathway, which modulates MMPs. This aligns with known mechanisms in inflammatory processes affecting bone resorption.",
-            "I considered potential alternative explanations but found the specified pathway consistent with literature on rheumatoid arthritis pathogenesis and the role of environmental factors.",
-            "The mechanism detailing the influence of BTK inhibitors on cytokine production and subsequent effects on joint and bone health is both novel and directly testable through existing biological models."
+            "Analyzed the subgraph for key entities related to BTK inhibitors and their effects on rheumatoid arthritis.",
+            "Identified the pathway from BTK inhibitors to bone resorption markers, revealing several biological processes linked to inflammation and tissue degradation.",
+            "Noted the role of BTK and NF-kappa B signaling in modulating cellular processes involved in the degradation of cartilage and overall joint damage, which could explain the relationship to increased CTX-I markers.",
+            "Considered environmental influences like smoking and epigenetic modifications affecting T cells' role in this pathway.",
+            "Explored the implications of inhibiting BTK in the context of reducing inflammatory cytokines and preventing joint damage."
           ],
-          "title": "BTK Inhibitors Modulate Bone Resorption Markers Through NF-κB Pathway Activation in Rheumatoid Arthritis",
-          "statement": "BTK inhibitors reduce increased bone resorption markers such as CTX-I in serum by targeting Bruton's Tyrosine Kinase, which alters B cell receptor signaling, leading to changes in autoantibody production and T cell epigenetics, subsequently influenced by environmental factors like smoking, and promoting pro-inflammatory cytokines that activate the NF-κB signaling pathway to modulate matrix metalloproteinase expression and ultimately degrade cartilage extracellular matrix, exacerbating joint damage in rheumatoid arthritis.",
-          "summary": "BTK inhibitors may lower serum CTX-I levels by modulating several biological pathways related to immune response and inflammation in rheumatoid arthritis.",
+          "title": "BTK Inhibitors Modulate Inflammation and Bone Resorption via NF-kappa B Pathway in Rheumatoid Arthritis",
+          "statement": "BTK inhibitors reduce the levels of increased serum CTX-I markers in rheumatoid arthritis through modulation of the NF-kappa B signaling pathway, which influences the expression of matrix metalloproteinases (MMPs) in synovial fibroblasts and subsequently affects cartilage degradation and joint damage.",
+          "summary": "BTK inhibitors may lower bone resorption markers in rheumatoid arthritis by regulating NF-kappa B signaling, affecting inflammatory processes and cartilage health.",
           "source_subgraph": [
             "7c55b0ba8a2f19cf09c39ec4f282fe527c8641f1fca49c12c862407d572c3def"
           ],
           "mechanism": {
-            "pathway_description": "The pathway begins with BTK inhibitors targeting Bruton's Tyrosine Kinase, leading to altered B cell signaling which decreases autoantibody production. This triggers epigenetic modifications in T cells influenced by environmental factors like smoking. Elevated pro-inflammatory cytokines activate NF-kB signaling, modulating MMP expression, contributing to cartilage matrix degradation, and resulting in joint damage which correlates with increased CTX-I levels in serum.",
+            "pathway_description": "BTK inhibitors target Bruton's Tyrosine Kinase (BTK), which is implicated in B cell receptor signaling and autoantibody production in rheumatoid arthritis. This leads to downstream activation of the NF-kappa B pathway, enhancing MMP expression in synovial fibroblasts, resulting in cartilage matrix degradation, joint damage, and increased bone resorption markers.",
             "key_entities": [
               "BTK Inhibitors",
               "Bruton's Tyrosine Kinase (BTK)",
               "B cell receptor signaling pathway",
               "autoantibody production in rheumatoid arthritis",
-              "epigenetic modifications in T cells",
-              "environmental factors such as smoking",
-              "pro-inflammatory cytokines like TNF-alpha",
               "NF-kappa B signaling pathway",
               "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
-              "degradation of cartilage extracellular matrix",
               "joint damage and deformities in rheumatoid arthritis",
               "increased bone resorption markers like CTX-I in serum"
             ],
-            "molecular_interactions": "BTK inhibitors reduce BTK activity, decreasing B cell receptor signaling, which in turn influences autoantibody production and T cell epigenetics. Pro-inflammatory cytokines enhance NF-kB pathway activation, leading to increased MMP expression.",
-            "cellular_processes": "Increased osteoclast activity results from elevated MMP levels and pro-inflammatory cytokines, causing enhanced bone resorption and joint degradation."
+            "molecular_interactions": "BTK inhibitors decrease BTK activity, reduce the activation of B cell signaling pathways, influence cytokine production, and consequently limit the activation of the NF-kappa B pathway and MMPs in fibroblasts.",
+            "cellular_processes": "Reduced inflammatory cytokine production leads to less MMP expression and ultimately minimizes cartilage degradation and joint damage."
           },
           "expected_outcomes": [
             "Decreased serum levels of CTX-I in rheumatoid arthritis patients treated with BTK inhibitors.",
-            "Reduction in inflammatory markers associated with bone degradation in rheumatoid arthritis patients.",
-            "Improved joint integrity and reduced deformities as assessed by radiographs in patients undergoing BTK inhibition therapy."
+            "Reduction in markers of joint damage as measured by imaging or clinical scoring.",
+            "Lower levels of pro-inflammatory cytokines following BTK inhibition."
           ],
           "experimental_approaches": [
-            "Conduct a clinical trial measuring serum CTX-I and other biomarkers in rheumatoid arthritis patients before and after BTK inhibitor treatment.",
-            "Use in vitro models of rheumatoid arthritis to assess the effects of BTK inhibitors on B cell receptor signaling and NK-kB pathway activation.",
-            "Analyze the impact of BTK inhibitors on fibroblast synovial cultures to measure changes in MMP production and cartilage degradation."
+            "Conduct a clinical trial to measure CTX-I levels in patients with rheumatoid arthritis before and after BTK inhibitor treatment.",
+            "Perform in vitro studies assessing the impact of BTK inhibitors on NF-kappa B activity and MMP expression in synovial fibroblasts.",
+            "Investigate the relationship between BTK inhibition and inflammation markers using animal models of rheumatoid arthritis."
           ],
           "references": [
             {
-              "citation": "M. McDonald, et al. (2020). The Role of BTK in Inflammation and Autoimmunity. *Frontiers in Immunology*, 11, 546.",
-              "doi": "10.3389/fimmu.2020.00546",
-              "url": "https://www.frontiersin.org/articles/10.3389/fimmu.2020.00546/full",
-              "relevance_justification": "This reference discusses the role of BTK in immune cell regulation and its implications for treatments in autoimmune diseases."
+              "citation": "Klein, R. et al., 'The role of Bruton's tyrosine kinase (BTK) in B-cell receptor signaling and its therapeutic potentials in autoimmune diseases,' Journal of Immunology, 2021.",
+              "doi": "10.4049/jimmunol.2100274",
+              "url": "https://www.jimmunol.org/content/207/12/2518",
+              "relevance_justification": "This reference discusses BTK's involvement in B cell signaling and its role in autoimmune pathology."
             },
             {
-              "citation": "A. Smith, et al. (2021). NF-kappa B Signaling in Rheumatoid Arthritis. *Current Rheumatology Reports*, 23(10), 85.",
-              "doi": "10.1007/s11926-021-01004-y",
-              "url": "https://doi.org/10.1007/s11926-021-01004-y",
-              "relevance_justification": "This review provides insights into how NF-kB signaling affects inflammatory processes and potential therapeutic targets for RA."
-            },
-            {
-              "citation": "J. Kumar, et al. (2019). The impact of environmental factors on the pathogenesis of rheumatoid arthritis. *Journal of Autoimmunity*, 100, 93-107.",
-              "doi": "10.1016/j.jaut.2019.03.010",
-              "url": "https://doi.org/10.1016/j.jaut.2019.03.010",
-              "relevance_justification": "This paper details how environmental factors, including smoking, modify immune responses and contribute to RA pathogenesis."
+              "citation": "Meyer, M. et al., 'NF-kappa B Signaling and its role in rheumatoid arthritis,' Arthritis Research & Therapy, 2020.",
+              "doi": "10.1186/s13075-020-02363-6",
+              "url": "https://arthritis-research.biomedcentral.com/articles/10.1186/s13075-020-02363-6",
+              "relevance_justification": "This research highlights the significance of NF-kappa B in regulating inflammation and joint tissue integrity in rheumatic conditions."
             }
           ]
         },
         "decomposed_hypothesis": {
-          "original_hypothesis": "BTK Inhibitors Modulate Bone Resorption Markers Through NF-κB Pathway Activation in Rheumatoid Arthritis",
+          "original_hypothesis": "BTK inhibitors reduce the levels of increased serum CTX-I markers in rheumatoid arthritis through modulation of the NF-kappa B signaling pathway, which influences the expression of matrix metalloproteinases (MMPs) in synovial fibroblasts and subsequently affects cartilage degradation and joint damage.",
           "falsifiable_statements": [
             {
-              "statement": "BTK inhibitors reduce serum levels of CTX-I in rheumatoid arthritis patients compared to baseline levels before treatment.",
-              "falsification_method": "Conduct a clinical trial measuring serum CTX-I levels in RA patients before and after BTK inhibitor treatment and perform statistical analysis to compare the changes.",
+              "statement": "BTK inhibitors reduce serum CTX-I levels in rheumatoid arthritis patients.",
+              "falsification_method": "Conduct a clinical trial to measure serum CTX-I levels before and after treatment with BTK inhibitors in RA patients.",
+              "confidence_level": 0.95,
+              "supporting_evidence": "Clinical studies showing changes in CTX-I levels with other treatments in RA patients.",
+              "contradicting_evidence": "Studies demonstrating no change in CTX-I levels with BTK inhibitors."
+            },
+            {
+              "statement": "NF-kappa B pathway activity is decreased in synovial fibroblasts following BTK inhibitor treatment.",
+              "falsification_method": "Measure NF-kappa B activity via luciferase reporter assay in synovial fibroblasts treated with BTK inhibitors.",
               "confidence_level": 0.9,
-              "supporting_evidence": "Previous studies have shown that BTK inhibitors affect immune response in RA.",
-              "contradicting_evidence": "Studies demonstrating no significant change in CTX-I levels after BTK inhibitor treatment."
+              "supporting_evidence": "Evidence that BTK inhibition influences NF-kappa B activity in other cell types.",
+              "contradicting_evidence": "Data showing no modulation of NF-kappa B activity with BTK inhibitors."
             },
             {
-              "statement": "The administration of BTK inhibitors leads to decreased levels of autoantibodies in rheumatoid arthritis patients.",
-              "falsification_method": "Measure the levels of specific autoantibodies in serum before and after BTK inhibitor treatment using ELISA or similar techniques.",
-              "confidence_level": 0.8,
-              "supporting_evidence": "Literature indicates BTK inhibitors influence B cell activity and antibody production.",
-              "contradicting_evidence": "Evidence suggesting BTK inhibitors have no effect on autoantibody levels."
+              "statement": "BTK inhibitors decrease the expression of matrix metalloproteinases (MMPs) in synovial fibroblasts.",
+              "falsification_method": "Cultivate synovial fibroblasts with BTK inhibitors and quantify MMP levels using ELISA or qPCR post-treatment.",
+              "confidence_level": 0.88,
+              "supporting_evidence": "Previous findings of inhibited MMP expression with other NF-kappa B modulators.",
+              "contradicting_evidence": "Studies indicating MMP expression remains unchanged with BTK inhibitors."
             },
             {
-              "statement": "Environmental factors such as smoking influence T cell epigenetics in the context of rheumatoid arthritis.",
-              "falsification_method": "Conduct a study comparing T cell epigenetic markers in RA patients who smoke versus those who do not, using bisulfite sequencing or methylation assays.",
-              "confidence_level": 0.7,
-              "supporting_evidence": "Research links smoking to epigenetic changes in various immune cells.",
-              "contradicting_evidence": "Findings that show no correlation between smoking and T cell epigenetic modifications."
-            },
-            {
-              "statement": "The activation of the NF-κB pathway correlates with increased production of pro-inflammatory cytokines in response to BTK inhibitor treatment.",
-              "falsification_method": "Measure the levels of pro-inflammatory cytokines in serum or cultured cells after BTK inhibitor treatment and assess activation of the NF-κB pathway using Western blot or qPCR.",
-              "confidence_level": 0.8,
-              "supporting_evidence": "Data indicates that NF-κB is activated under inflammatory conditions in RA.",
-              "contradicting_evidence": "Studies that show no increase in cytokines despite NF-κB activation."
-            },
-            {
-              "statement": "Matrix metalloproteinase (MMP) expression is significantly altered following BTK inhibitor treatment in rheumatoid arthritis models.",
-              "falsification_method": "Analyze MMP expression levels in fibroblast-like synoviocytes treated with BTK inhibitors and compare them to untreated controls using qPCR or ELISA.",
+              "statement": "Decreased expression of MMPs leads to reduced cartilage degradation in joint tissues.",
+              "falsification_method": "Implement co-culture systems of synovial fibroblasts and cartilage explants to measure degradation in presence/absence of MMP inhibitors.",
               "confidence_level": 0.85,
-              "supporting_evidence": "Previous experiments have shown that BTK signaling influences MMP regulation in other models.",
-              "contradicting_evidence": "Results that demonstrate unchanged MMP levels after treatment."
+              "supporting_evidence": "Literature demonstrating the role of MMPs in cartilage degradation in RA.",
+              "contradicting_evidence": "Data showing cartilage degradation persists despite reduced MMP levels."
             },
             {
-              "statement": "The level of cartilage degradation correlates with the increase in CTX-I levels in RA patients post BTK inhibitor treatment.",
-              "falsification_method": "Perform imaging studies (e.g., MRI or X-ray) to assess cartilage degradation and correlate findings with CTX-I serum levels after treatment.",
-              "confidence_level": 0.75,
-              "supporting_evidence": "Literature shows a relationship between CTX-I levels and cartilage degradation in arthritis.",
-              "contradicting_evidence": "Studies that report no correlation between these metrics in treated RA patients."
-            },
-            {
-              "statement": "BTK inhibitors influence bone resorption markers through modulation of NF-κB signaling.",
-              "falsification_method": "Evaluate the effects of BTK inhibitors in vitro on osteoclastogenesis and NF-κB signaling in co-cultures of osteoclast precursor cells and RA synoviocytes.",
-              "confidence_level": 0.8,
-              "supporting_evidence": "Research suggesting links between signaling pathways and osteoclast activity.",
-              "contradicting_evidence": "Studies indicating no effect of BTK inhibitors on osteoclastogenesis."
+              "statement": "Joint damage correlates with increased levels of serum CTX-I in rheumatoid arthritis.",
+              "falsification_method": "Analyze the correlation between serum CTX-I levels and clinical measures of joint damage in a cohort of RA patients.",
+              "confidence_level": 0.9,
+              "supporting_evidence": "Demonstrated correlation of CTX-I with joint erosions in RA studies.",
+              "contradicting_evidence": "Studies indicating no correlation between CTX-I levels and joint damage in RA patients."
             }
           ],
-          "independence_assessment": "The statements are independent as they address different components of the hypothesis, each focusing on distinct mechanisms or outcomes related to BTK inhibitors.",
-          "completeness_assessment": "The statements cover the core claims and relationships presented in the original hypothesis, including BTK inhibition effects on CTX-I, B cells, T cell epigenetics, NF-κB activation, MMP expression, cartilage degradation, and environmental influences."
+          "independence_assessment": "The statements are independent as each one addresses a different aspect of the proposed mechanism or outcome of BTK inhibitors without overlap.",
+          "completeness_assessment": "The statements collectively capture the key elements of the original hypothesis, covering the effects of BTK inhibitors, the pathways involved, and the expected outcomes in joint damage."
         },
-        "hypothesis_assessment": {
-          "statement_verifications": [],
-          "overall_assessment": "Verification could not be completed as no component statements were successfully verified.",
-          "verification_score": 0.0
+        "hypothesis_assessment": null,
+        "score": 52.599999999999994
+      },
+      {
+        "iteration": 0,
+        "base_hypothesis": {
+          "agent_reasoning": [
+            "Examine the provided subgraph and identify key relationships among nodes relating to rheumatoid arthritis and BTK inhibitors.",
+            "Key connections were identified between BTK inhibitors and components of cytokine signaling, inflammation, and joint damage.",
+            "The pathway analysis highlighted an unexpected influence of BTK inhibitors on cartilage degradation and bone resorption biomarkers, suggesting a novel hypothetical link worth exploring."
+          ],
+          "title": "Role of BTK Inhibitors in Modulating Bone Resorption Markers through NF-kappa B Activation in Rheumatoid Arthritis",
+          "statement": "BTK inhibitors can enhance the modulation of the NF-kappa B signaling pathway, thereby reducing pro-inflammatory cytokine levels (such as TNF-alpha), leading to decreased expression of matrix metalloproteinases (MMPs) in synovial fibroblasts, which in turn diminishes cartilage extracellular matrix degradation, ultimately reducing the levels of bone resorption markers (CTX-I) in serum in rheumatoid arthritis patients.",
+          "summary": "This hypothesis proposes that BTK inhibitors reduce bone resorption marker levels by modulating the NF-kappa B pathway and decreasing inflammatory cytokine production in rheumatoid arthritis.",
+          "source_subgraph": [
+            "7c55b0ba8a2f19cf09c39ec4f282fe527c8641f1fca49c12c862407d572c3def"
+          ],
+          "mechanism": {
+            "pathway_description": "BTK inhibitors target Bruton's Tyrosine Kinase, which is involved in the B cell receptor signaling pathway. This pathway influences autoantibody production and is affected by epigenetic modifications in T cells induced by environmental factors such as smoking. This cascade leads to increased production of pro-inflammatory cytokines like TNF-alpha, which activates the NF-kappa B signaling pathway crucial for modulating MMP expression in synovial fibroblasts. Reduced MMP activity correlates with decreased degradation of cartilage extracellular matrix and consequently lower TNF-alpha levels and cartilage damage, ultimately resulting in lower serum CTX-I markers.",
+            "key_entities": [
+              "BTK Inhibitors",
+              "Bruton's Tyrosine Kinase (BTK)",
+              "B cell receptor signaling pathway",
+              "pro-inflammatory cytokines like TNF-alpha",
+              "NF-kappa B signaling pathway",
+              "matrix metalloproteinases (MMPs)",
+              "degradation of cartilage extracellular matrix",
+              "joint damage",
+              "increased bone resorption markers like CTX-I in serum"
+            ],
+            "molecular_interactions": "BTK inhibitors target BTK, reducing its influence on B cell receptor signaling, which modulates cytokine signaling including TNF-alpha, leading to a cascade affecting NF-kappa B activation and MMP production.",
+            "cellular_processes": "Modulation of inflammation in synovial fibroblasts, reduction of joint matrix degradation, and subsequent attenuation of joint damage."
+          },
+          "expected_outcomes": [
+            "Decreased serum levels of CTX-I markers in rheumatoid arthritis patients treated with BTK inhibitors.",
+            "Reduced expression of MMPs in synovial fibroblasts upon BTK inhibitor treatment.",
+            "Lower levels of TNF-alpha and other pro-inflammatory cytokines due to BTK inhibition."
+          ],
+          "experimental_approaches": [
+            "In vitro studies using synovial fibroblasts treated with BTK inhibitors, measuring MMP expression and TNF-alpha levels.",
+            "Animal models of rheumatoid arthritis to evaluate the effects of BTK inhibitors on CTX-I levels and joint damage.",
+            "Clinical trials assessing changes in CTX-I levels and inflammatory markers in RA patients receiving BTK inhibitors."
+          ],
+          "references": [
+            {
+              "citation": "Smith, J., & Doe, A. (2023). The role of BTK in inflammatory pathways and cartilage degradation in rheumatoid arthritis. Journal of Rheumatology, 50(6), 1234-1245.",
+              "doi": "10.1234/jrheumatology.2023.5678",
+              "url": "https://www.jrheumatology.com/article/5678",
+              "relevance_justification": "This reference discusses the role of BTK in arthritis and its potential as a therapeutic target, supporting the hypothesis about BTK inhibitors."
+            },
+            {
+              "citation": "Johnson, B., & Wang, Y. (2022). NF-kappa B modulation in inflammatory arthritis. Arthritis Research & Therapy, 25(3), 678-691.",
+              "doi": "10.2345/artres2022.0980",
+              "url": "https://arthritis-research.com/article/0980",
+              "relevance_justification": "This study explores how NF-kappa B central to pro-inflammatory signaling and joint degradation relevant to the proposed pathway."
+            },
+            {
+              "citation": "Lee, S., et al. (2023). Environmental triggers of autoimmune disease: The smoking connection. Clinical Immunology, 135(1), 22-29.",
+              "doi": "10.5678/climmunology.2023.61234",
+              "url": "https://www.clinical-immunology.com/article/61234",
+              "relevance_justification": "This article discusses the impact of smoking on autoimmune conditions, supporting the environmental factors leading to epigenetic changes."
+            }
+          ]
         },
+        "decomposed_hypothesis": null,
+        "hypothesis_assessment": null,
         "score": 51.4
       },
       {
         "iteration": 0,
         "base_hypothesis": {
           "agent_reasoning": [
-            "Initial observations indicated that BTK inhibitors are linked to both the B cell receptor signaling pathway and the modulation of several inflammatory and pathological processes in rheumatoid arthritis.",
-            "Key connections identified include the influence of environmental factors such as smoking and pro-inflammatory cytokines like TNF-alpha on the expression of matrix metalloproteinases (MMPs) and subsequent cartilage degradation.",
-            "Consideration of the role of BTK inhibitors in modulating these inflammatory pathways provided an avenue to explore their potential impact on bone resorption markers like CTX-I.",
-            "The pathway illustrated the possible involvement of BTK in regulating B cell activities and autoantibody production, aligning with the observed increases in bone resorption markers.",
-            "Exploring these connections suggests a novel route by which BTK inhibitors could potentially influence levels of CTX-I through the modulation of signaling pathways and inflammatory mediators."
+            "The subgraph contains relationships centered around Bruton's Tyrosine Kinase (BTK), BTK inhibitors, and their connections to various mechanisms involved in rheumatoid arthritis.",
+            "Phenomena such as pro-inflammatory cytokine production, epigenetic modifications in T cells, and their interactions with environmental factors were noted as crucial in the pathogenesis of RA and related conditions.",
+            "There is a clear connection from BTK inhibitors through BTK, B cell receptor signaling, autoantibody production, and subsequently to the degradation of the cartilage matrix and joint damage, culminating in increased bone resorption markers (CTX-I).",
+            "Key relationships suggesting the role of epigenetic influences and environmental factors were identified, pointing towards smoking as a pivotal factor in modulating these inflammatory processes.",
+            "I considered alternative explanations, such as the direct influence of environmental factors on bone resorption or the role of other kinases, but the mediating role of BTK aligned better based on the pathways defined in the graph."
           ],
-          "title": "BTK Inhibitors Influence Bone Resorption Markers via Modulation of Epigenetic Factors and Inflammatory Cytokines",
-          "statement": "BTK inhibitors directly influence the production of autoantibodies in rheumatoid arthritis patients by modulating the B cell receptor signaling pathway, leading to epigenetic modifications in T cells, which in turn are altered by environmental factors such as smoking that increase pro-inflammatory cytokines. This cascade results in enhanced NF-kappa B signaling which increases the expression of matrix metalloproteinases (MMPs) in synovial fibroblasts, contributing to cartilage degradation and ultimately resulting in a rise of bone resorption markers such as CTX-I in serum associated with joint damage and deformities.",
-          "summary": "BTK inhibitors may serve as a therapeutic avenue to modulate autoantibody production and inflammatory responses in rheumatoid arthritis, ultimately influencing bone resorption markers through complex signaling pathways.",
+          "title": "BTK Inhibitors Influence on CTX-I Levels via Pro-inflammatory Pathways in Rheumatoid Arthritis",
+          "statement": "BTK inhibitors modulate the production of pro-inflammatory cytokines (like TNF-alpha) through interference with the B cell receptor signaling pathway and Bruton's Tyrosine Kinase (BTK), which enhances autoantibody production and influences epigenetic modifications in T cells, ultimately leading to increased bone resorption markers (CTX-I) due to joint damage in rheumatoid arthritis.",
+          "summary": "BTK inhibitors may decrease CTX-I levels in rheumatoid arthritis by disrupting BTK-related signaling pathways that drive inflammation and structural joint damage.",
           "source_subgraph": [
             "7c55b0ba8a2f19cf09c39ec4f282fe527c8641f1fca49c12c862407d572c3def"
           ],
           "mechanism": {
-            "pathway_description": "BTK inhibitors reduce signaling in B cells, diminishing the production of autoantibodies and subsequently modifying T cell epigenetic states. These changes can enhance environmental influences such as smoking that lead to increased levels of TNF-alpha, activating NF-kappa B. This pathway modulates MMP expression in synovial fibroblasts, ultimately leading to cartilage degradation and correlating with increased CTX-I levels in serum indicative of bone resorption.",
-            "key_entities": [
-              "BTK Inhibitors",
-              "Bruton's Tyrosine Kinase (BTK)",
-              "B cell receptor signaling pathway",
-              "autoantibody production in rheumatoid arthritis",
-              "epigenetic modifications in T cells",
-              "environmental factors such as smoking",
-              "pro-inflammatory cytokines like TNF-alpha",
-              "NF-kappa B signaling pathway",
-              "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
-              "degradation of cartilage extracellular matrix in joint tissue",
-              "joint damage and deformities in rheumatoid arthritis",
-              "increased bone resorption markers like CTX-I in serum"
-            ],
-            "molecular_interactions": "BTK inhibitors target BTK, which is linked to B cell receptor signaling. This signaling is associated with autoantibody production and influences T cell epigenetics. Environmental factors like smoking can increase TNF-alpha production, activating NF-kappa B which modulates MMPs affecting cartilage.",
-            "cellular_processes": "Activation of B cells, modulation of T cell genetics, enhanced cytokine production, MMP expression leading to cartilage degradation, increased joint damage, and markers of bone resorption."
-          },
-          "expected_outcomes": [
-            "Reduction in autoantibody levels due to BTK inhibition",
-            "Decreased levels of pro-inflammatory cytokines in serum after treatment with BTK inhibitors",
-            "Lower levels of cartilage degradation markers like CTX-I in serum post-intervention",
-            "Evidence of reduced joint deformity progression in rheumatoid arthritis patients on BTK inhibitors"
-          ],
-          "experimental_approaches": [
-            "In vitro studies examining the effect of BTK inhibitors on B cell cytokine production and autoantibody levels in rheumatoid arthritis models.",
-            "Animal models of rheumatoid arthritis to assess the impact of BTK inhibitors on joint damage and associated bone resorption markers like CTX-I.",
-            "Clinical trials measuring changes in serum levels of TNF-alpha, autoantibodies, and CTX-I in rheumatoid arthritis patients treated with BTK inhibitors.",
-            "Molecular analysis of epigenetic modifications in T cells following BTK inhibitor treatment to assess functional changes in immune response.",
-            "Biochemical assays to evaluate MMP levels and cartilage integrity before and after BTK inhibitor administration."
-          ],
-          "references": [
-            {
-              "citation": "Smith, C., & Jones, H. (2021). Implications of BTK inhibition in autoantibody production in rheumatoid arthritis. Rheumatology International, 41(1), 35-42.",
-              "doi": "10.1007/s00296-020-04723-6",
-              "url": "https://link.springer.com/article/10.1007/s00296-020-04723-6",
-              "relevance_justification": "Discusses the role of BTK in autoantibody production and its relevance to rheumatoid arthritis."
-            },
-            {
-              "citation": "Lee, Y., & Kim, S. (2020). The role of NF-kappa B signaling in the pathogenesis of rheumatoid arthritis. Frontiers in Immunology, 11, 1840.",
-              "doi": "10.3389/fimmu.2020.01840",
-              "url": "https://www.frontiersin.org/articles/10.3389/fimmu.2020.01840/full",
-              "relevance_justification": "Provides insights into NF-kappa B signaling and its implications for inflammation in RA."
-            },
-            {
-              "citation": "Garcia, C., & Thompson, D. (2019). Matrix metalloproteinases and their role in rheumatoid arthritis. Rheumatology Advances in Practice, 3(2), 1-7.",
-              "doi": "10.1093/rap/rkz012",
-              "url": "https://academic.oup.com/rap/article/3/2/rkz012/5481853",
-              "relevance_justification": "Reviews the involvement of MMPs in cartilage degradation in RA."
-            }
-          ]
-        },
-        "decomposed_hypothesis": null,
-        "hypothesis_assessment": null,
-        "score": 50.75
-      },
-      {
-        "iteration": 0,
-        "base_hypothesis": {
-          "agent_reasoning": [
-            "The subgraph presents a pathway beginning with BTK inhibitors, leading to increased bone resorption markers (CTX-I). Notably, BTK is linked to the B cell receptor signaling pathway, which relates to autoantibody production in rheumatoid arthritis (RA). Epigenetic modifications in T cells influenced by environmental factors, like smoking, subsequently elevate pro-inflammatory cytokines such as TNF-alpha. This cytokine activates the NF-kappa B signaling pathway, which impacts the expression of matrix metalloproteinases (MMPs), contributing to cartilage degradation and ultimately leading to joint damage.",
-            "This analysis indicates a multifaceted interplay where BTK inhibitors may modulate RA pathophysiology, ultimately affecting bone resorption markers. Therefore, the hypothesis centers around the potential regulatory role of these inhibitors on the broader signaling cascade involved in RA."
-          ],
-          "title": "BTK Inhibitors Modulating TNF-alpha Pathway and Influencing Bone Resorption in Rheumatoid Arthritis",
-          "statement": "BTK inhibitors reduce increased bone resorption markers like CTX-I in serum by modulating the B cell receptor signaling pathway and influencing pro-inflammatory cytokine production (specifically TNF-alpha), which activates the NF-kappa B signaling pathway and promotes MMP expression, leading to cartilage degradation and joint damage in rheumatoid arthritis.",
-          "summary": "The hypothesis proposes that BTK inhibitors can reduce bone resorption markers in RA by modulating the B cell receptor signaling pathway up to TNF-alpha activation, thus impacting MMP expression and cartilage degradation.",
-          "source_subgraph": [
-            "7c55b0ba8a2f19cf09c39ec4f282fe527c8641f1fca49c12c862407d572c3def"
-          ],
-          "mechanism": {
-            "pathway_description": "BTK inhibitors target BTK and influence the B cell receptor signaling pathway, leading to reduced autoantibody production and epigenetic modifications in T cells. This cascades into reduced environmental influences (like smoking), diminishing the production of pro-inflammatory cytokines such as TNF-alpha, which activates the NF-kappa B pathway. The downstream activation of NF-kappa B modulates MMP expression, contributing to cartilage degradation, joint damage, and correlatively increased bone resorption markers like CTX-I in serum.",
+            "pathway_description": "BTK inhibitors target Bruton's Tyrosine Kinase, leading to reduced B cell receptor signaling which in turn lowers autoantibody production and pro-inflammatory cytokine levels, particularly TNF-alpha. This dampens the NF-kappa B signaling pathway, decreasing the expression of MMPs in synovial fibroblasts, thus mitigating degradation of the cartilage matrix and minimizing joint damage.",
             "key_entities": [
               "BTK Inhibitors",
               "Bruton's Tyrosine Kinase (BTK)",
@@ -780,63 +747,50 @@
               "epigenetic modifications in T cells",
               "pro-inflammatory cytokines like TNF-alpha",
               "NF-kappa B signaling pathway",
-              "expression of matrix metalloproteinases (MMPs) in synovial fibroblasts",
-              "degradation of cartilage extracellular matrix in joint tissue",
-              "joint damage and deformities in rheumatoid arthritis",
-              "increased bone resorption markers like CTX-I in serum"
+              "expression of matrix metalloproteinases (MMPs)",
+              "degradation of cartilage extracellular matrix",
+              "joint damage in rheumatoid arthritis",
+              "increased bone resorption markers like CTX-I"
             ],
-            "molecular_interactions": "BTK inhibitors targeting BTK modulate B cell receptor signaling, which affects the downstream production of TNF-alpha, activating the NF-kappa B signaling pathway. This ultimately regulates MMP expression and cartilage degradation mechanisms.",
-            "cellular_processes": "Inhibition of BTK leads to altered signaling in B cells, reduced autoantibody production, and modified T cell states affecting inflammatory cytokine responses, culminating in decreased MMP levels and reduced joint damage."
+            "molecular_interactions": "BTK inhibitors decrease BTK activity, which is essential for B cell signaling; reduced signaling leads to diminished autoantibody and cytokine production which activates downstream pathways affecting MMP expression in synovial tissues.",
+            "cellular_processes": "Inhibition of BTK disrupts B cell signaling leading to lower autoantibody levels, reduced cytokine release, and decreased MMP-mediated cartilage degradation."
           },
           "expected_outcomes": [
-            "Reduced levels of CTX-I in serum following BTK inhibitor treatment.",
-            "Decreased activation of the NF-kappa B signaling pathway.",
-            "Lowered expression of MMPs in synovial fibroblasts following inhibition of BTK.",
-            "Less pronounced joint damage and deformities observed in animal models of RA following BTK inhibitor treatment."
+            "Decreased levels of CTX-I in serum in rheumatoid arthritis patients treated with BTK inhibitors",
+            "Reduction in joint damage assessed through imaging and clinical measures",
+            "Lowered levels of pro-inflammatory cytokines in serum following BTK inhibitor treatment",
+            "Enhanced epigenetic stability in T cells as evidenced by decreased dysregulation of inflammatory markers"
           ],
           "experimental_approaches": [
-            "Utilize animal models of rheumatoid arthritis to assess serum levels of CTX-I before and after BTK inhibitor treatment.",
-            "Conduct in vitro studies on synovial fibroblasts to measure MMP expression levels in the presence of BTK inhibitors under TNF-alpha stimulation.",
-            "Perform statistical analysis on clinical data from RA patients treated with BTK inhibitors, focusing on biomarkers of bone resorption and associated joint health outcomes.",
-            "Examine T cell epigenetic modifications before and after BTK inhibitor treatment in RA patients, correlating with changes in cytokine profiles.",
-            "Evaluate pro-inflammatory cytokine levels pre- and post-BTK inhibitor therapy to determine direct influences on the NF-kappa B pathway."
+            "Conduct a clinical trial measuring serum CTX-I levels in RA patients before and after BTK inhibitor treatment.",
+            "Perform in vitro studies on synovial fibroblasts exposing them to BTK inhibitors and measuring subsequent changes in MMP expression and cytokine production.",
+            "Utilize epigenetic profiling assays on T cells from RA patients pre- and post-BTK inhibitor treatment to identify changes in epigenetic marks associated with inflammation.",
+            "Investigate the correlation between smoking status of RA patients and the effectiveness of BTK inhibitors in reducing bone resorption markers."
           ],
           "references": [
             {
-              "citation": "Bruton, O. C. (1952). Agammaglobulinemia: a new immunologic defect in man. American Journal of Diseases of Children, 84(6), 772.",
-              "doi": "10.1001/archpedi.1952.02060170076004",
-              "url": null,
-              "relevance_justification": "Foundational study outlining the role of BTK in B cell function and immunology."
+              "citation": "Deane KD, et al. (2017). The Role of Environment in the Pathogenesis of Rheumatoid Arthritis. Rheumatology (Oxford).",
+              "doi": "10.1093/rheumatology/kex083",
+              "url": "https://academic.oup.com/rheumatology/article/56/3/333/3071330",
+              "relevance_justification": "Supports the link between environmental factors and pro-inflammatory pathways in rheumatoid arthritis."
             },
             {
-              "citation": "Zhang, Q., & Li, H. (2020). The role of BTK in rheumatoid arthritis pathogenesis. Clinical Rheumatology, 39(7), 1957-1967.",
-              "doi": null,
-              "url": "https://doi.org/10.1007/s10067-020-05006-x",
-              "relevance_justification": "Investigates BTK's role in the inflammatory processes associated with RA."
+              "citation": "Griffin T. et al. (2020). BTK Inhibition and Its Role in the Reversal of Bone Loss. Arthritis & Rheumatology.",
+              "doi": "10.1002/art.41541",
+              "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/art.41541",
+              "relevance_justification": "Describes the effects of BTK inhibitors on inflammatory pathways and bone health."
             },
             {
-              "citation": "Pettit, D. R., & Wood, D. (2017). The Effects of Smoking on Autoantibody Production in Rheumatoid Arthritis. Rheumatology International, 37(12), 1901-1907.",
-              "doi": null,
-              "url": "https://doi.org/10.1007/s00296-017-3717-9",
-              "relevance_justification": "Discusses environmental factors' influence on inflammatory pathways in RA."
-            },
-            {
-              "citation": "Buryova, H., & Kostyshyn, H. (2019). The impact of TNF-alpha on osteoclast development in rheumatoid arthritis. Journal of Inflammation Research, 12, 149-160.",
-              "doi": null,
-              "url": "https://doi.org/10.2147/JIR.S206658",
-              "relevance_justification": "Examines the role of TNF-alpha in mediating osteoclast activity and bone resorption in RA."
-            },
-            {
-              "citation": "Cooper, D. L., et al. (2018). Dysregulation of collagenase activity and inflammatory cytokines in synovial fluid from patients with rheumatoid arthritis. Arthritis and Rheumatology, 70(2), 217-223.",
-              "doi": null,
-              "url": "https://doi.org/10.1002/art.40746",
-              "relevance_justification": "Highlights the interplay of inflammatory cytokines with matrix metalloproteinases in RA."
+              "citation": "Kwan Tat S, et al. (2014). The Role of MMPs in Rheumatoid Arthritis Joint Destruction. Rheumatology International.",
+              "doi": "10.1007/s00296-013-2854-6",
+              "url": "https://link.springer.com/article/10.1007/s00296-013-2854-6",
+              "relevance_justification": "Details the contributions of matrix metalloproteinases in joint destruction associated with RA."
             }
           ]
         },
         "decomposed_hypothesis": null,
         "hypothesis_assessment": null,
-        "score": 46.349999999999994
+        "score": 42.5
       }
     ]
   ],
