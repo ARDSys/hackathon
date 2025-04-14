@@ -45,9 +45,9 @@ def create_hypgen_graph() -> CompiledGraph:
 
     for i in range(num_hypotheses):
         graph.add_node(f"reviewer_orchestrator_{i}", create_reviewer_orchestrator_agent(i, "small")["agent"])
-        graph.add_node(f"reviewer_1_{i}", create_reviewer_agent(i, "small")["agent"])
-        graph.add_node(f"reviewer_2_{i}", create_reviewer_agent(i, "small")["agent"])
-        graph.add_node(f"reviewer_3_{i}", create_reviewer_agent(i, "small")["agent"])
+        graph.add_node(f"reviewer_1_{i}", create_reviewer_agent(i, 1, "small")["agent"])
+        graph.add_node(f"reviewer_2_{i}", create_reviewer_agent(i, 2,"small")["agent"])
+        graph.add_node(f"reviewer_3_{i}", create_reviewer_agent(i, 3, "small")["agent"])
         graph.add_node(f"review_summarizer_{i}", create_review_summarizer_agent(i, "small")["agent"])
         graph.add_node(f"hypothesis_refiner_{i}", create_hypothesis_refiner_agent(i, "small")["agent"])
 
