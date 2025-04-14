@@ -23,10 +23,10 @@ def response_to_query_perplexity(
     Returns:
         The response data from Perplexity API
     """
-    url = "https://api.perplexity.ai/chat/completions"
+    url = "https://api.openai.com/v1/chat/completions"
 
     payload = {
-        "model": "sonar",
+        "model": "gpt-4",
         "messages": [
             {
                 "role": "system",
@@ -36,10 +36,6 @@ def response_to_query_perplexity(
         ],
         "temperature": 0.2,
         "top_p": 0.9,
-        "search_domain_filter": None,
-        "return_images": False,
-        "return_related_questions": False,
-        "top_k": 0,
         "stream": False,
         "presence_penalty": 0,
         "frequency_penalty": 1,
@@ -47,7 +43,7 @@ def response_to_query_perplexity(
     }
 
     headers = {
-        "Authorization": f"Bearer {os.getenv('PPLX_API_KEY')}",
+        "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}",
         "Content-Type": "application/json",
     }
 
