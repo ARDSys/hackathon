@@ -44,17 +44,12 @@ def create_hypotheses_generator_agent(
     def agent(state: HypgenState) -> HypgenState:
         logger.info("Starting hypothesis generation")
         # Run the chain
-        response = chain.invoke(
-            {
-                "paths": state.paths,
-                "knowledge": state.knowledge,
-            }
-        )
+        response = chain.invoke(state)
 
         content = response.content
         logger.info("Hypotheses generated successfully")
         return {
-            "hypotheses": content
+            "hypothesis": content
         }
 
     return {"agent": agent}
