@@ -9,7 +9,7 @@ from ..utils import add_role
 
 SCIENTIST_PROMPT = """You are a sophisticated scientist trained in scientific research and innovation. 
     
-Given the definitions and relationships acquired from a comprehensive knowledge graph, as well as inspirational literature somehow relevant to matter your task is to synthesize a novel research hypothesis. Your response should not only demonstrate deep understanding and rational thinking but also explore imaginative and unconventional applications of these concepts. 
+Given the definitions and relationships acquired from a comprehensive knowledge graph, as well as inspirational literature somehow relevant to matter. Your task is to synthesize a novel research hypothesis. Your response should not only demonstrate deep understanding and rational thinking but also explore imaginative and unconventional applications of these concepts. 
     
 Analyze the graph deeply and carefully, then craft a detailed hypothesis that investigates a likely groundbreaking aspect of the knowledge graph.
 
