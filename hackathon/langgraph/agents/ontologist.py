@@ -16,7 +16,7 @@ There may be multiple relationships between the same two nodes. The format of th
 "
 node_1-[:relationship between node_1 and node_2]->node_2
 node_1-[:relationship between node_1 and node_3]->node_3
-node_2-[:relationship between node_2 and node_3]->node_4...
+node_2-[:relationship between node_2 and node_4]->node_4...
 "
 
 Make sure to incorporate EACH of the concepts in the knowledge graph in your response.
