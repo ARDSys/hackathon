@@ -38,6 +38,9 @@ Domain/skill focus
 Description of expertise
 Reason this reviewer is important for evaluating this hypothesis
 
+Hypothesis to evaluate:
+{hypothesis}
+
 Output format:
 Profile 1: [reviewer 1 profile]
 Profile 2: [reviewer 2 profile]
@@ -60,7 +63,9 @@ def create_reviewer_orchestrator_agent(
     def agent(state: HypgenState) -> HypgenState:
         logger.info("Starting reviewer identification")
         # Run the chain
-        response = chain.invoke(state)
+        response = chain.invoke({
+            "hypothesis": state[f"hypothesis_{hypothesis_no}_text"],
+        })
 
         content = response.content
         logger.info("Reviewers identified successfully")
