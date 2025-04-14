@@ -8,7 +8,6 @@ from biohack_attack.hackathon_agents.decomposition_agent import (
 )
 from biohack_attack.hackathon_agents.verification_agent import (
     HypothesisVerification,
-    verify_statement,
 )
 from biohack_attack.model_factory import ModelFactory, ModelType
 from biohack_attack.tools.firecrawl_tool import query_firecrawl
@@ -56,50 +55,3 @@ hypothesis_assessment_agent = Agent(
         tool_choice="required",
     ),
 )
-
-
-async def verify_hypothesis_decomposition(
-    decomposition: HypothesisDecomposition,
-) -> HypothesisVerification:
-    """
-    Verify a decomposed hypothesis by verifying each of its falsifiable statements and
-    then synthesizing the results.
-
-    Args:
-        decomposition: The HypothesisDecomposition to verify
-
-    Returns:
-        A HypothesisVerification containing the verification results
-    """
-    logger.info(
-        f"Starting verification of hypothesis: {decomposition.original_hypothesis}"
-    )
-
-    # Verify all statements in parallel
-    statement_verification_tasks = [
-        verify_statement(statement)
-        for statement in decomposition.falsifiable_statements
-    ]
-    statement_verifications = await asyncio.gather(*statement_verification_tasks)
-
-    logger.info(f"Completed verification of {len(statement_verifications)} statements")
-
-    # Synthesize the results into a comprehensive assessment
-    prompt = f"""
-    # HYPOTHESIS ASSESSMENT TASK
-
-    Please synthesize the verification results for the following hypothesis:
-
-    ## ORIGINAL HYPOTHESIS
-
-    "{decomposition.original_hypothesis}"
-
-    ## VERIFICATION RESULTS FOR COMPONENT STATEMENTS
-
-    {[v.model_dump_json(indent=2) for v in statement_verifications]}
-
-    Please provide a comprehensive assessment of the overall hypothesis based on these verification results.
-    """
-
-    assessment_result = await Runner.run(hypothesis_assessment_agent, input=prompt)
-    return assessment_result.final_output

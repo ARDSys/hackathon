@@ -1,9 +1,8 @@
 from typing import List
 
-from agents import Agent, ModelSettings, Runner
+from agents import Agent, ModelSettings
 from pydantic import BaseModel, Field
 
-from biohack_attack.hackathon_agents.decomposition_agent import FalsifiableStatement
 from biohack_attack.model_factory import ModelFactory, ModelType
 from biohack_attack.tools.firecrawl_tool import query_firecrawl
 
@@ -102,42 +101,3 @@ statement_verification_agent = Agent(
     output_type=StatementVerification,
     model_settings=ModelSettings(tool_choice="required"),
 )
-
-
-async def verify_statement(statement: FalsifiableStatement) -> StatementVerification:
-    """
-    Verify a falsifiable statement using the verification agent.
-
-    Args:
-        statement: The FalsifiableStatement to verify
-
-    Returns:
-        A StatementVerification containing the verification results
-    """
-    prompt = f"""
-    # STATEMENT VERIFICATION TASK
-
-    Please verify the following scientific statement by searching for supporting and contradicting evidence:
-
-    ## STATEMENT TO VERIFY
-
-    "{statement.statement}"
-
-    ## PROPOSED FALSIFICATION METHOD
-
-    {statement.falsification_method}
-
-    ## EXISTING SUPPORTING EVIDENCE (IF ANY)
-
-    {statement.supporting_evidence if statement.supporting_evidence else "None provided"}
-
-    ## EXISTING CONTRADICTING EVIDENCE (IF ANY)
-
-    {statement.contradicting_evidence if statement.contradicting_evidence else "None provided"}
-
-    Please conduct a thorough search using the available tools to find both supporting and contradicting evidence.
-    Then provide a comprehensive verification assessment.
-    """
-
-    result = await Runner.run(statement_verification_agent, input=prompt)
-    return result.final_output

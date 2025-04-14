@@ -1,5 +1,4 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional, List, Tuple, Dict
@@ -17,20 +16,25 @@ from biohack_attack.hackathon_agents.critic_agent import (
 from biohack_attack.hackathon_agents.decomposition_agent import (
     HypothesisDecomposition,
     hypothesis_decomposer_agent,
+    FalsifiableStatement,
 )
 from biohack_attack.hackathon_agents.hypothesis_agent import (
     hypothesis_agent,
     ScientificHypothesis,
 )
 from biohack_attack.hackathon_agents.hypothesis_assigment_agent import (
-    verify_hypothesis_decomposition,
+    hypothesis_assessment_agent,
 )
 from biohack_attack.hackathon_agents.ontology_agent import (
     ontology_agent,
     OntologyAgentOutput,
 )
 from biohack_attack.hackathon_agents.refiner_agent import rheumatology_refiner_agent
-from biohack_attack.hackathon_agents.verification_agent import HypothesisVerification
+from biohack_attack.hackathon_agents.verification_agent import (
+    HypothesisVerification,
+    statement_verification_agent,
+    StatementVerification,
+)
 from biohack_attack.model import SubgraphModel
 
 
@@ -43,7 +47,7 @@ class ProcessConfig:
     out_dir_path: Optional[Path] = None
 
 
-def run_hypothesis_agent(
+async def run_hypothesis_agent(
     subgraph_model: SubgraphModel, ontology: OntologyAgentOutput
 ) -> ScientificHypothesis:
     prompt = f"""
@@ -68,10 +72,12 @@ The following additional ontological information has been provided to enrich you
 {ontology.model_dump_json(indent=2)}
 </ontology>
 """
-    return asyncio.run(Runner.run(hypothesis_agent, input=prompt)).final_output
+    # Changed from asyncio.run to directly awaiting
+    result = await Runner.run(hypothesis_agent, input=prompt)
+    return result.final_output
 
 
-def run_triage_agent(
+async def run_triage_agent(
     hypothesis: ScientificHypothesis,
 ) -> tuple[ScientificHypothesis, TriagedHypothesis]:
     prompt = f"""
@@ -84,10 +90,8 @@ The following scientific hypothesis in rheumatology needs expert evaluation:
 {hypothesis.model_dump_json(indent=2)}
 </hypothesis>
 """
-    triage: TriagedHypothesis = asyncio.run(
-        Runner.run(rheumatology_triage_agent, input=prompt)
-    ).final_output
-    return hypothesis, triage
+    triage_result = await Runner.run(rheumatology_triage_agent, input=prompt)
+    return hypothesis, triage_result.final_output
 
 
 async def decompose_hypothesis(
@@ -121,14 +125,50 @@ async def decompose_hypothesis(
     return result.final_output
 
 
-# Wrapper function to run async function in ThreadPoolExecutor
-def run_async_in_thread(coro):
-    return asyncio.run(coro)
+# Modified to properly handle async in threads
+async def run_in_executor(executor, func, *args):
+    """Run a synchronous function in a thread pool executor."""
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(executor, func, *args)
 
 
-# Wrapper for decompose_hypothesis to use in ThreadPoolExecutor
-def decompose_hypothesis_wrapper(hypothesis, ontology):
-    return run_async_in_thread(decompose_hypothesis(hypothesis, ontology))
+async def verify_statement(statement: FalsifiableStatement) -> StatementVerification:
+    """
+    Verify a falsifiable statement using the verification agent.
+
+    Args:
+        statement: The FalsifiableStatement to verify
+
+    Returns:
+        A StatementVerification containing the verification results
+    """
+    prompt = f"""
+    # STATEMENT VERIFICATION TASK
+
+    Please verify the following scientific statement by searching for supporting and contradicting evidence:
+
+    ## STATEMENT TO VERIFY
+
+    "{statement.statement}"
+
+    ## PROPOSED FALSIFICATION METHOD
+
+    {statement.falsification_method}
+
+    ## EXISTING SUPPORTING EVIDENCE (IF ANY)
+
+    {statement.supporting_evidence if statement.supporting_evidence else "None provided"}
+
+    ## EXISTING CONTRADICTING EVIDENCE (IF ANY)
+
+    {statement.contradicting_evidence if statement.contradicting_evidence else "None provided"}
+
+    Please conduct a thorough search using the available tools to find both supporting and contradicting evidence.
+    Then provide a comprehensive verification assessment.
+    """
+
+    result = await Runner.run(statement_verification_agent, input=prompt)
+    return result.final_output
 
 
 def score_hypothesis(triage: TriagedHypothesis) -> float:
@@ -231,7 +271,7 @@ async def refine_hypothesis(
     refined_hypothesis = refined_hypothesis_result.final_output
 
     # Now process this refined hypothesis through the standard pipeline
-    _, triage = run_triage_agent(refined_hypothesis)
+    base_hypothesis, triage = await run_triage_agent(refined_hypothesis)
     score = score_hypothesis(triage)
 
     decomposed = await decompose_hypothesis(refined_hypothesis, ontology)
@@ -268,6 +308,53 @@ async def run_ontology_agent(subgraph_model: SubgraphModel) -> OntologyAgentOutp
     return ontology_result.final_output
 
 
+async def verify_hypothesis_decomposition(
+    decomposition: HypothesisDecomposition,
+) -> HypothesisVerification:
+    """
+    Verify a decomposed hypothesis by verifying each of its falsifiable statements and
+    then synthesizing the results.
+
+    Args:
+        decomposition: The HypothesisDecomposition to verify
+
+    Returns:
+        A HypothesisVerification containing the verification results
+    """
+    logger.info(
+        f"Starting verification of hypothesis: {decomposition.original_hypothesis}"
+    )
+
+    # Verify all statements in parallel
+    statement_verification_tasks = [
+        verify_statement(statement)
+        for statement in decomposition.falsifiable_statements
+    ]
+    statement_verifications = await asyncio.gather(*statement_verification_tasks)
+
+    logger.info(f"Completed verification of {len(statement_verifications)} statements")
+
+    # Synthesize the results into a comprehensive assessment
+    prompt = f"""
+    # HYPOTHESIS ASSESSMENT TASK
+
+    Please synthesize the verification results for the following hypothesis:
+
+    ## ORIGINAL HYPOTHESIS
+
+    "{decomposition.original_hypothesis}"
+
+    ## VERIFICATION RESULTS FOR COMPONENT STATEMENTS
+
+    {[v.model_dump_json(indent=2) for v in statement_verifications]}
+
+    Please provide a comprehensive assessment of the overall hypothesis based on these verification results.
+    """
+
+    assessment_result = await Runner.run(hypothesis_assessment_agent, input=prompt)
+    return assessment_result.final_output
+
+
 async def run_agents(
     subgraph: Subgraph, config: ProcessConfig
 ) -> Tuple[Hypothesis, HypothesisGenerationDTO]:
@@ -294,21 +381,22 @@ async def run_agents(
         # Initialize the list for this iteration
         dto.hypotheses.append([])
 
-        # Step 2: Generate hypotheses using ThreadPoolExecutor
+        # Step 2: Generate hypotheses using parallel coroutines
         if iteration == 0:
             # First iteration: generate from scratch
             logger.info("Generating initial hypotheses...")
+            hypothesis_tasks = [
+                run_hypothesis_agent(subgraph_model, dto.ontology)
+                for _ in range(config.num_of_hypotheses)
+            ]
+
             hypothesis_results = []
-            with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
-                futures = [
-                    executor.submit(run_hypothesis_agent, subgraph_model, dto.ontology)
-                    for _ in range(config.num_of_hypotheses)
-                ]
-                for future in futures:
-                    try:
-                        hypothesis_results.append(future.result())
-                    except Exception as e:
-                        logger.error(f"Error generating hypothesis: {str(e)}")
+            for task in asyncio.as_completed(hypothesis_tasks):
+                try:
+                    hypothesis = await task
+                    hypothesis_results.append(hypothesis)
+                except Exception as e:
+                    logger.error(f"Error generating hypothesis: {str(e)}")
         else:
             # Later iterations: refine best hypotheses from previous iteration
             logger.info(f"Refining hypotheses from iteration {iteration}...")
@@ -324,12 +412,15 @@ async def run_agents(
             best_prev_hypotheses = prev_hypotheses[:top_k]
 
             # Refine each hypothesis
+            refine_tasks = [
+                refine_hypothesis(prev_hypothesis, dto.ontology, iteration)
+                for prev_hypothesis in best_prev_hypotheses
+            ]
+
             hypothesis_results = []
-            for prev_hypothesis in best_prev_hypotheses:
+            for task in asyncio.as_completed(refine_tasks):
                 try:
-                    refined = await refine_hypothesis(
-                        prev_hypothesis, dto.ontology, iteration
-                    )
+                    refined = await task
                     hypothesis_results.append(refined.base_hypothesis)
                 except Exception as e:
                     logger.error(f"Error refining hypothesis: {str(e)}")
@@ -341,19 +432,19 @@ async def run_agents(
             f"Generated {len(hypothesis_results)} hypotheses for iteration {iteration + 1}."
         )
 
-        # Step 3: Triage hypotheses using ThreadPoolExecutor
+        # Step 3: Triage hypotheses concurrently
         logger.info("Triaging hypotheses...")
+        triage_tasks = [
+            run_triage_agent(hypothesis) for hypothesis in hypothesis_results
+        ]
+
         triage_results = []
-        with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
-            futures = [
-                executor.submit(run_triage_agent, hypothesis)
-                for hypothesis in hypothesis_results
-            ]
-            for future in futures:
-                try:
-                    triage_results.append(future.result())
-                except Exception as e:
-                    logger.error(f"Error triaging hypothesis: {str(e)}")
+        for task in asyncio.as_completed(triage_tasks):
+            try:
+                triage_result = await task
+                triage_results.append(triage_result)
+            except Exception as e:
+                logger.error(f"Error triaging hypothesis: {str(e)}")
 
         logger.info(f"Triage completed for {len(triage_results)} hypotheses.")
 
@@ -381,27 +472,22 @@ async def run_agents(
 
         logger.info(f"Selected top {top_k} hypotheses for further processing.")
 
-        # Step 5: Decompose hypotheses using ThreadPoolExecutor with wrapper function
+        # Step 5: Decompose hypotheses concurrently
         logger.info("Decomposing hypotheses...")
-        decomposition_results = []
+        decomposition_tasks = []
         decomposed_indices = []
-        with ThreadPoolExecutor(max_workers=config.num_of_threads) as executor:
-            futures = []
-            for i, (hypothesis, _, _) in enumerate(best_hypotheses):
-                futures.append(
-                    executor.submit(
-                        decompose_hypothesis_wrapper, hypothesis, dto.ontology
-                    )
-                )
-                decomposed_indices.append(i)
 
-            # Collect results, handle any exceptions
-            for i, future in enumerate(futures):
-                try:
-                    decomposition = future.result()
-                    decomposition_results.append((decomposed_indices[i], decomposition))
-                except Exception as e:
-                    logger.error(f"Error decomposing hypothesis: {str(e)}")
+        for i, (hypothesis, _, _) in enumerate(best_hypotheses):
+            decomposition_tasks.append(decompose_hypothesis(hypothesis, dto.ontology))
+            decomposed_indices.append(i)
+
+        decomposition_results = []
+        for i, task in enumerate(asyncio.as_completed(decomposition_tasks)):
+            try:
+                decomposition = await task
+                decomposition_results.append((decomposed_indices[i], decomposition))
+            except Exception as e:
+                logger.error(f"Error decomposing hypothesis: {str(e)}")
 
         logger.info(
             f"Decomposition completed for {len(decomposition_results)} hypotheses."
@@ -542,10 +628,26 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
     def __init__(self, config: Optional[ProcessConfig] = None):
         self.config = config or ProcessConfig()
         self.dto = None  # Will store the DTO after running
+        self._loop = None  # Store event loop reference
+
+    async def async_run(self, subgraph: Subgraph) -> Hypothesis:
+        """Async version of run method"""
+        hypothesis, self.dto = await run_agents(subgraph, self.config)
+        return hypothesis
 
     def run(self, subgraph: Subgraph) -> Hypothesis:
-        hypothesis, self.dto = asyncio.run(run_agents(subgraph, self.config))
-        return hypothesis
+        """Synchronous entry point that creates a new event loop"""
+        # Create new event loop if running in synchronous context
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        self._loop = loop
+
+        try:
+            hypothesis = loop.run_until_complete(self.async_run(subgraph))
+            return hypothesis
+        finally:
+            loop.close()
+            self._loop = None
 
     def get_state(self) -> Optional[HypothesisGenerationDTO]:
         """Return the current state of the hypothesis generation process."""
