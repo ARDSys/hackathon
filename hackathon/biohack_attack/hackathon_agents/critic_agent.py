@@ -21,6 +21,7 @@ class AssessmentScore(BaseModel):
 
 
 class TriagedHypothesis(BaseModel):
+    critique: str = Field(None, description="Critical analysis of potential weaknesses")
     # Assessment dimensions
     novelty_assessment: AssessmentScore = Field(description="Assessment of the hypothesis novelty")
     feasibility_assessment: AssessmentScore = Field(description="Assessment of the hypothesis feasibility")
@@ -29,4 +30,4 @@ class TriagedHypothesis(BaseModel):
     # Validation
     validation_metrics: list[ValidationMetric] = Field(default_factory=list,
                                                        description="Metrics for validating the hypothesis")
-    critique: Optional[str] = Field(None, description="Critical analysis of potential weaknesses")
+    
