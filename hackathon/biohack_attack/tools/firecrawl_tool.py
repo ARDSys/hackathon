@@ -2,8 +2,8 @@ import os
 from enum import Enum
 from typing import List, Optional, Dict, Any, Union
 
-from firecrawl import FirecrawlApp
 from agents import function_tool
+from firecrawl import FirecrawlApp
 
 
 class ScientificSource(Enum):
@@ -189,7 +189,7 @@ async def query_firecrawl(
         # Run the search
         search_params = {
             "query": f"site:{domain} {query}",
-            "limit": max_results_per_source,
+            "params": {"pageOptions": {"limit": max_results_per_source}},
         }
 
         try:
