@@ -1,6 +1,7 @@
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Optional, List, Tuple, Dict
 
 from agents import Runner
@@ -24,13 +25,11 @@ from biohack_attack.hackathon_agents.hypothesis_agent import (
 from biohack_attack.hackathon_agents.hypothesis_assigment_agent import (
     verify_hypothesis_decomposition,
 )
-from biohack_attack.hackathon_agents.refiner_agent import rheumatology_refiner_agent
-from biohack_attack.hackathon_agents.research_agents import (
-    research_agent_dispatcher,
-    QueriesOutput,
-    ResearchAgentOutput,
-    perform_queries,
+from biohack_attack.hackathon_agents.ontology_agent import (
+    ontology_agent,
+    OntologyAgentOutput,
 )
+from biohack_attack.hackathon_agents.refiner_agent import rheumatology_refiner_agent
 from biohack_attack.hackathon_agents.verification_agent import HypothesisVerification
 from biohack_attack.model import SubgraphModel
 
@@ -41,10 +40,11 @@ class ProcessConfig:
     num_of_threads: int = 5
     top_k: int = 2
     max_iterations: int = 2
+    out_dir_path: Optional[Path] = None
 
 
 def run_hypothesis_agent(
-    subgraph_model: SubgraphModel, ontology: ResearchAgentOutput
+    subgraph_model: SubgraphModel, ontology: OntologyAgentOutput
 ) -> ScientificHypothesis:
     prompt = f"""
 # HYPOTHESIS GENERATION TASK
@@ -91,7 +91,7 @@ The following scientific hypothesis in rheumatology needs expert evaluation:
 
 
 async def decompose_hypothesis(
-    hypothesis: ScientificHypothesis, ontology: ResearchAgentOutput
+    hypothesis: ScientificHypothesis, ontology: OntologyAgentOutput
 ) -> HypothesisDecomposition:
     prompt = f"""
     # HYPOTHESIS DECOMPOSITION TASK
@@ -198,7 +198,7 @@ async def verify_multiple_hypotheses(
 
 
 async def refine_hypothesis(
-    hypothesis: ProcessedHypothesis, ontology: ResearchAgentOutput, iteration: int
+    hypothesis: ProcessedHypothesis, ontology: OntologyAgentOutput, iteration: int
 ) -> ProcessedHypothesis:
     prompt = f"""
     # HYPOTHESIS REFINEMENT TASK
@@ -248,6 +248,26 @@ async def refine_hypothesis(
     )
 
 
+async def run_ontology_agent(subgraph_model: SubgraphModel) -> OntologyAgentOutput:
+    ontology_input = f"""
+    # ONTOLOGY ENRICHMENT TASK
+
+    ## SUBGRAPH TO ANALYZE
+    The following knowledge graph subgraph represents relationships between biomedical entities in rheumatology:
+
+    <subgraph>
+    {subgraph_model.model_dump_json(indent=2)}
+    </subgraph>
+
+    ## RELATIONSHIP FOCUS
+    Start node: {subgraph_model.start_node}
+    End node: {subgraph_model.end_node}
+    Path nodes: {", ".join(subgraph_model.path_nodes)}
+    """
+    ontology_result = await Runner.run(ontology_agent, input=ontology_input)
+    return ontology_result.final_output
+
+
 async def run_agents(
     subgraph: Subgraph, config: ProcessConfig
 ) -> Tuple[Hypothesis, HypothesisGenerationDTO]:
@@ -262,20 +282,7 @@ async def run_agents(
         current_iteration=0,
     )
 
-    # Step 1: Enrich subgraph with ontology agent
-    logger.info("Enriching subgraph with ontology agent...")
-    path = subgraph.to_cypher_string(full_graph=True)
-
-    # GENERATING QUERIES
-    logger.info("Generating queries to external sources.")
-    research_agent_results = await Runner.run(research_agent_dispatcher, path)
-    queries: QueriesOutput = research_agent_results.final_output_as(QueriesOutput)
-    logger.info("List of queries:")
-    for query in queries.queries:
-        logger.info(f"Data Source: {query.data_source}, Keyword: {query.keyword}.")
-
-    logger.info("Performing queries.")
-    ontology: ResearchAgentOutput = await perform_queries(queries)
+    ontology: OntologyAgentOutput = await run_ontology_agent(subgraph_model)
     dto.ontology = ontology
     logger.info(dto.ontology.model_dump_json(indent=4))
 
@@ -483,6 +490,10 @@ async def run_agents(
 
     if best_hypothesis is None:
         raise ValueError("Failed to identify any valid hypotheses")
+
+    if config.out_dir_path is not None:
+        with open("process.json", "wt") as f:
+            f.write(dto.model_dump_json(indent=4))
 
     # Create verification metadata
     verification_metadata = {}

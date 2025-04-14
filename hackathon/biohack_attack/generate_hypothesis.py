@@ -8,7 +8,7 @@ from loguru import logger
 
 from ard.hypothesis import Hypothesis
 from ard.subgraph import Subgraph
-from biohack_attack.hypothesis_generator import HypothesisGenerator
+from biohack_attack.hypothesis_generator import HypothesisGenerator, ProcessConfig
 from biohack_attack.local_trace_processor import LocalFilesystemTracingProcessor
 
 langfuse_callback = CallbackHandler()
@@ -19,7 +19,7 @@ dotenv.load_dotenv()
 def main(file: str, output: str):
     output_dir = Path(output) / f"{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
     if not output_dir.exists():
-        output_dir.mkdir()
+        output_dir.mkdir(parents=True)
     log_file_path = output_dir / "traces.jsonl"
     debug_logs_file_path = output_dir / "debug.log"
     logger.add(
@@ -36,12 +36,14 @@ def main(file: str, output: str):
     source_file = Path(file)
     logger.info(f"Subgraph loaded from {source_file}")
 
+    process_config = ProcessConfig(
+        num_of_threads=-1, num_of_hypotheses=5, out_dir_path=output_dir
+    )
     logger.info("Generating hypothesis...")
     hypothesis = Hypothesis.from_subgraph(
         subgraph=Subgraph.load_from_file(file),
-        method=HypothesisGenerator(),
+        method=HypothesisGenerator(process_config),
     )
-    print(hypothesis)
     logger.info(f"Hypothesis generated for {source_file}")
 
     # Save hypothesis in json and md format

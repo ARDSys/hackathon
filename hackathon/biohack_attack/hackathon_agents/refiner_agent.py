@@ -1,6 +1,6 @@
 import asyncio
 from pydantic import BaseModel, Field
-from agents import Agent, Runner
+from agents import Agent, Runner, ModelSettings
 from biohack_attack.hackathon_agents.hypothesis_agent import (
     ScientificHypothesis,
     MechanismDetail,
@@ -11,7 +11,13 @@ from biohack_attack.hackathon_agents.critic_agent import (
     rheumatology_triage_agent,
 )
 from biohack_attack.model_factory import ModelFactory, ModelType
-
+from biohack_attack.tools.firecrawl_tool import query_firecrawl
+from biohack_attack.tools.search_api_tools import (
+    get_europe_pmc_papers_by_keyword,
+    get_biorxiv_papers_by_category,
+    get_semanticscholar_papers_by_keyword,
+    get_pubmed_papers_by_keyword,
+)
 
 AGENT_INSTRUCTIONS = """
 You are roleplaying as Dr. Harrison Wells, a distinguished professor of medicine with over 30 years of experience in clinical research,
@@ -60,6 +66,11 @@ rheumatology_refiner_agent = Agent(
     model=ModelFactory.build_model(ModelType.OPENAI),
     name="Rheumatology Hypothesis Refiner Agent",
     instructions=AGENT_INSTRUCTIONS,
-    tools=[],
     output_type=ScientificHypothesis,
+    tools=[
+        query_firecrawl,
+    ],
+    model_settings=ModelSettings(
+        tool_choice="required",
+    ),
 )

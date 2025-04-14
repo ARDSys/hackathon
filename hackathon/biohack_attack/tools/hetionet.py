@@ -32,7 +32,7 @@ EDGE_TYPE_MAPPING = {
 }
 
 
-# @function_tool()
+@function_tool()
 def query_hetionet(keyword: str):
     """
     Query the Hetionet database for a given keyword. Returns a string representation of one-hop relationships.

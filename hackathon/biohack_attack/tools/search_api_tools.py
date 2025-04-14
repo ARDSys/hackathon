@@ -1,3 +1,4 @@
+from agents import function_tool
 from semanticscholar import SemanticScholar
 
 from biohack_attack.other.api_wrappers import (
@@ -7,6 +8,7 @@ from biohack_attack.other.api_wrappers import (
 )
 
 
+@function_tool
 def get_biorxiv_papers_by_category(keyword: str) -> str:
     """Fetch Biorxiv papers by keyword. It returns
 
@@ -23,6 +25,7 @@ def get_biorxiv_papers_by_category(keyword: str) -> str:
     return parsed_response
 
 
+@function_tool
 def get_semanticscholar_papers_by_keyword(keyword: str) -> str:
     """Fetch Semantic Scholar papers by keyword. It returns
 
@@ -51,6 +54,7 @@ def get_semanticscholar_papers_by_keyword(keyword: str) -> str:
     return parsed_papers
 
 
+@function_tool
 def get_europe_pmc_papers_by_keyword(keyword: str) -> str:
     """Fetch Semantic Scholar papers by keyword. It returns
 
@@ -77,6 +81,7 @@ def get_europe_pmc_papers_by_keyword(keyword: str) -> str:
     return str(parsed_response)
 
 
+@function_tool
 def get_pubmed_papers_by_keyword(keyword: str) -> str:
     """Fetch PubMed papers by keyword. It returns
 

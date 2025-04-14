@@ -1,6 +1,6 @@
 import asyncio
 
-from agents import Runner, Agent
+from agents import Runner, Agent, ModelSettings
 from loguru import logger
 
 from biohack_attack.hackathon_agents.decomposition_agent import (
@@ -11,6 +11,7 @@ from biohack_attack.hackathon_agents.verification_agent import (
     verify_statement,
 )
 from biohack_attack.model_factory import ModelFactory, ModelType
+from biohack_attack.tools.firecrawl_tool import query_firecrawl
 
 # Define an agent to synthesize the individual statement verifications into a comprehensive hypothesis verification
 ASSESSMENT_AGENT_INSTRUCTIONS = """
@@ -48,6 +49,12 @@ hypothesis_assessment_agent = Agent(
     name="HypothesisAssessmentAgent",
     instructions=ASSESSMENT_AGENT_INSTRUCTIONS,
     output_type=HypothesisVerification,
+    tools=[
+        query_firecrawl,
+    ],
+    model_settings=ModelSettings(
+        tool_choice="required",
+    ),
 )
 
 

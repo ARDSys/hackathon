@@ -1,13 +1,11 @@
-from typing import List, Optional
+from typing import List
+
+from agents import Agent, ModelSettings, Runner
 from pydantic import BaseModel, Field
-from agents import Agent, function_tool, ModelSettings, Runner
-from biohack_attack.model_factory import ModelFactory, ModelType
+
 from biohack_attack.hackathon_agents.decomposition_agent import FalsifiableStatement
-from biohack_attack.hackathon_agents.research_agents.tools.search_api_tools import (
-    get_europe_pmc_papers_by_keyword,
-    get_pubmed_papers_by_keyword,
-    get_semanticscholar_papers_by_keyword,
-)
+from biohack_attack.model_factory import ModelFactory, ModelType
+from biohack_attack.tools.firecrawl_tool import query_firecrawl
 
 
 class EvidenceItem(BaseModel):
@@ -100,11 +98,7 @@ statement_verification_agent = Agent(
     model=ModelFactory.build_model(ModelType.OPENAI),
     name="StatementVerificationAgent",
     instructions=VERIFICATION_AGENT_INSTRUCTIONS,
-    tools=[
-        get_europe_pmc_papers_by_keyword,
-        get_pubmed_papers_by_keyword,
-        get_semanticscholar_papers_by_keyword,
-    ],
+    tools=[query_firecrawl],
     output_type=StatementVerification,
     model_settings=ModelSettings(tool_choice="required"),
 )

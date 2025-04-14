@@ -1,6 +1,6 @@
 import asyncio
 
-from agents import Agent, Runner
+from agents import Agent, Runner, ModelSettings
 from pydantic import BaseModel, Field
 
 from biohack_attack.hackathon_agents.hypothesis_agent import (
@@ -9,6 +9,7 @@ from biohack_attack.hackathon_agents.hypothesis_agent import (
     HypothesisReference,
 )
 from biohack_attack.model_factory import ModelFactory, ModelType
+from biohack_attack.tools.firecrawl_tool import query_firecrawl
 
 
 class ValidationMetric(BaseModel):
@@ -149,8 +150,9 @@ rheumatology_triage_agent = Agent(
     model=ModelFactory.build_model(ModelType.OPENAI),
     name="Rheumatology Hypothesis Triage Agent",
     instructions=AGENT_INSTRUCTIONS,
-    tools=[],
+    tools=[query_firecrawl],
     output_type=TriagedHypothesis,
+    model_settings=ModelSettings(tool_choice="auto"),
 )
 
 
