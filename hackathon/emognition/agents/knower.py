@@ -53,11 +53,11 @@ def create_knower_agent(
 
     def agent(state: HypgenState) -> HypgenState:
         """Process the knowledge graph and return definitions and relationships."""
-        logger.info("Starting ontology analysis")
+        logger.info("Starting mainstream research paths analysis")
         # Run the chain
         response = chain.invoke(state)
 
-        logger.info("Ontology analysis completed successfully")
+        logger.info("Mainstream research paths analysis completed successfully")
         return {
             "mainstream_paths": response.content,
             "messages": [add_role(response, "knower")],

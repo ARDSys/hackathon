@@ -8,7 +8,7 @@ class HypgenState(MessagesState):
     hypothesis: str
 
 
-    literature: str
+    knowledge: str
     references: list[str]
 
     hypothesis_1_text: str

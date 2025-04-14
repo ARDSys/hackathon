@@ -37,7 +37,7 @@ Concise justification for selection
 Notes on possible next steps or validation strategies
 
 Hypotheses:
-{hypotheses}
+{hypothesis}
 
 Paths:
 {paths}
@@ -69,9 +69,10 @@ Return response as a JSON and only JSON formatted as below:
 }
 """
 
+
 def create_hypotheses_judge_agent(
-    model: Optional[Literal["large", "small", "reasoning"]] = None,
-    **kwargs,
+        model: Optional[Literal["large", "small", "reasoning"]] = None,
+        **kwargs,
 ) -> Dict[str, Any]:
     prompt = PromptTemplate.from_template(JUDGE_PROMPT)
 
@@ -82,11 +83,7 @@ def create_hypotheses_judge_agent(
         logger.info("Judging started")
         # Run the chain
         judgeJson = json.loads(chain.invoke(
-            {
-                "hypotheses": s.hypothesis,
-                "paths": s.paths,
-                "knowledge": s.knowledge,
-            }
+            s
         ))
 
         s["hypothesis_1_text"] = judgeJson["hypothesis_1"]["text"]

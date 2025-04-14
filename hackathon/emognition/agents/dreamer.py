@@ -57,12 +57,12 @@ def create_dreamer_agent(
 
     def agent(state: HypgenState) -> HypgenState:
         """Process the knowledge graph and return definitions and relationships."""
-        logger.info("Starting ontology analysis")
+        logger.info("Starting 'dreamer' ontology analysis")
 
         # Run the chain
         response = chain.invoke(state)
 
-        logger.info("Ontology analysis completed successfully")
+        logger.info("'Dreamer' ontology analysis completed successfully")
         return {
             "paths": response.content,
             "messages": [add_role(response, "dreamer")],
