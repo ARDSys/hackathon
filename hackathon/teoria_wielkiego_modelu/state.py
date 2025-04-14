@@ -4,12 +4,7 @@ from langgraph.graph import MessagesState
 class HypgenState(MessagesState):
     subgraph: str
     context: str
-<<<<<<< HEAD
-    hypothesis: list[str]
-
-=======
     hypothesis: str
->>>>>>> 443f397 (fix: devil_advocate, critique and review_agent)
     literature: str
     references: list[str]
     novelty_and_impact_score: str
