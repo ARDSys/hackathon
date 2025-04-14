@@ -47,6 +47,9 @@ Install the packages in the ard's root directory:
 ```bash
 uv sync
 source .venv/bin/activate
+uv pip install -e .
+uv pip install firecrawler
+uv pip install semanticscholar
 ```
 
 ## Usage
