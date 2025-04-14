@@ -4,7 +4,7 @@ from langgraph.graph import MessagesState
 class HypgenState(MessagesState):
     subgraph: str
     context: str
-    hypothesis: str
+    hypothesis: list[str]
 
     literature: str
     references: list[str]

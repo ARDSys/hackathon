@@ -7,26 +7,87 @@ from langfuse.callback import CallbackHandler
 from ard.hypothesis import Hypothesis, HypothesisGeneratorProtocol
 from ard.subgraph import Subgraph
 
-from .graph import hypgen_graph
+from .graph import seeding_graph, refinement_graph, eval_graph
 from .state import HypgenState
 from .utils import message_to_dict
 
+import math
+
 langfuse_callback = CallbackHandler()
 
+class HypothesisProposition:
+    def __init__(self, state: HypgenState):
+        self.reviews = 0
+        self.score = 0
+        self.state = state
+    
+    def ucb(self, total_reviews):
+        return self.score + math.sqrt(math.log(total_reviews) / math.max(1, self.reviews))
 
 class HypothesisGenerator(HypothesisGeneratorProtocol):
+    
+    def evaluate_hypothesis(self, hypothesis_state: HypgenState):
+        res: HypgenState = eval_graph.invoke(
+            hypothesis_state,
+            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100)
+        )
+        
+        return res["score"]
+        
+    def refine_hypothesis(sefl, hypothesis_state: HypgenState):
+        return refine_graph.invoke(
+            hypothesis_state,
+            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100)
+        )
+        
     def run(self, subgraph: Subgraph) -> Hypothesis:
         context = subgraph.context
         path = subgraph.to_cypher_string(full_graph=False)
+        
+        hypothesis_proposals = []
+        
+        for hyp_ip in range(10):
+            # provide previous hypothesis for inovation?
+            res: HypgenState = seeding_graph.invoke(
+                {"subgraph": path, "context": context},
+                config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
+            )
+            
+            hypothesis_proposals.append(
+                HypothesisProposition(
+                    res,
+                    self.evaluate_hypothesis(res)
+                )
+            )
+            
+        for refinement_iter in range(15):
+            best_ucb = -1e9
+            best_idx = -1
+            for i in range(len(hypothesis_proposals)):
+                hypothesis = hypothesis_proposals[i]
+                
+                ucb = hypothesis.ucb()
+                if best_idx == -1 or best_ucb < ucb:
+                    best_idx = i
+                    best_ucb = ucb
 
-        res: HypgenState = hypgen_graph.invoke(
-            {"subgraph": path, "context": context},
-            config=RunnableConfig(callbacks=[langfuse_callback], recursion_limit=100),
-        )
-
-        title = self.__parse_title(res, subgraph) or ""
-        statement = self.__parse_statement(res)
-        references = self.__parse_references(res)
+            hypothesis = hypothesis[best_idx]            
+            hypothesis.state = self.refine_hypothesis(hypothesis)
+            hypothesis.score = self.evaluate_hypothesis(hypothesis)
+            
+            hypothesis[best_idx] = hypothesis
+    
+        best_hypothesis = None
+        for i in range(len(hypothesis_proposals)):
+            hypothesis = hypothesis_proposals[i]
+            
+            if best_hypothesis == None or best_hypothesis.reviews < hypothesis.reviews:
+                best_hypothesis = hypothesis
+        
+        title = self.__parse_title(best_hypothesis.state)
+        statement = self.__parse_statement(best_hypothesis.state)
+        references = self.__parse_references(best_hypothesis.state)
+                    
         return Hypothesis(
             title=title,
             statement=statement,
