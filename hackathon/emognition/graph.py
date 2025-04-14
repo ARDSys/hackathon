@@ -6,6 +6,8 @@ from loguru import logger
 
 from .agents.analysts import create_analyst_agent
 from .agents.critique_analyst import create_critique_analyst_agent
+from .agents.hypotheses_generator import create_hypotheses_generator_agent
+from .agents.hypotheses_judge import create_hypotheses_judge_agent
 from .agents.hypothesis_generator import create_hypothesis_generator_agent
 from .agents.hypothesis_refiner import create_hypothesis_refiner_agent
 from .agents.literature import create_literature_agent
@@ -33,19 +35,12 @@ def create_hypgen_graph() -> CompiledGraph:
     num_hypotheses = 3
     # Add nodes with specialized agents
     graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
-    graph.add_node(
-        "hypotheses_generator", create_hypotheses_generator_agent("small")["agent"]
-    )
-    graph.add_node(
-        "hypotheses_judge", create_hypotheses_judge_agent("small")["agent"]
-    )
-    graph.add_node(
-        "hypotheses_judge", create_hypotheses_judge_agent("small")["agent"]
-    )
+    graph.add_node("hypotheses_generator", create_hypotheses_generator_agent("small")["agent"])
+    graph.add_node("hypotheses_judge", create_hypotheses_judge_agent("small")["agent"])
     graph.add_node("literature_agent", create_literature_agent("small")["agent"])
 
     for i in range(num_hypotheses):
-        graph.add_node(f"reviewer_orchestrator_{i}")
+        graph.add_node(f"reviewer_orchestrator_{i}", )
         graph.add_node(f"reviewer_1_{i}")
         graph.add_node(f"reviewer_2_{i}")
         graph.add_node(f"reviewer_3_{i}")
