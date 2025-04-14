@@ -6,7 +6,7 @@ from loguru import logger
 from ..llm.utils import get_model
 from ..state import HypgenState
 from ..utils import add_role
-from ..consts import num_initial_hypotheses
+from ...consts import num_initial_hypotheses
 
 PROMPT = f"""
 You are a sophisticated scientist trained in scientific research and innovation. 
