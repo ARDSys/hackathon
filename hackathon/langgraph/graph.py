@@ -10,6 +10,7 @@ from .agents.hypothesis_generator import create_hypothesis_generator_agent
 from .agents.hypothesis_refiner import create_hypothesis_refiner_agent
 from .agents.literature import create_literature_agent
 from .agents.ontologist import create_ontologist_agent
+from .agents.connector import create_connector_agent
 from .agents.summary import create_summary_agent
 from .state import HypgenState
 
@@ -33,6 +34,7 @@ def create_hypgen_graph() -> CompiledGraph:
 
     # Add nodes with specialized agents
     graph.add_node("ontologist", create_ontologist_agent("small")["agent"])
+    graph.add_node("connector", create_connector_agent("small")["agent"])
     graph.add_node(
         "hypothesis_generator", create_hypothesis_generator_agent("small")["agent"]
     )
@@ -50,7 +52,8 @@ def create_hypgen_graph() -> CompiledGraph:
 
     # Add edges
     graph.add_edge(START, "ontologist")
-    graph.add_edge("ontologist", "hypothesis_generator")
+    graph.add_edge("ontologist","connector")
+    graph.add_edge("connector", "hypothesis_generator")
     # From initial hypothesis
     graph.add_edge("hypothesis_generator", "literature_agent")
     # From refined hypothesis
