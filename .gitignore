@@ -14,4 +14,6 @@ site/
 .cache/
 
 # datasets
-datasets/*
+hackathon/beehealthy/datasets/*
+hackathon/beehealthy/cache/*
+hackathon/beehealthy/books/*

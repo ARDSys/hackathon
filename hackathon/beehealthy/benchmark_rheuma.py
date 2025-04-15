@@ -28,11 +28,10 @@ import groq
 import anthropic
 
 # RAG components
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_retrieval_chain
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -203,6 +202,7 @@ def create_model(
     model_type: str, model_name: str, api_key: str, display_name: str = None, use_rag: bool = False
 ) -> LLMModel:
     """Factory function to create a model instance."""
+    print(f"Creating model: {model_type} - {model_name}")
     if model_type == "openai":
         return OpenAIModel(model_name, api_key, display_name, use_rag=use_rag)
     elif model_type == "gemini":
@@ -413,6 +413,8 @@ def main(
             [
                 ("openai", "gpt-4o", openai_key, "OpenAI GPT-4o"),
                 ("openai", "o3-mini", openai_key, "OpenAI o3-mini"),
+                ("openai", "gpt-4.1-2025-04-14", openai_key, "OpenAI GPT-4.1"),
+                ("openai", "gpt-4.1-mini", openai_key, "OpenAI GPT-4.1 mini"),
             ]
         )
 
