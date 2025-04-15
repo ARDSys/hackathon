@@ -14,7 +14,7 @@ To address the challenge of overly critical evaluation terminating promising hyp
 
 ### Workflow Architecture
 
-![Agent Interaction Diagram](agents_pic.png)
+![Agent Interaction Diagram](docs/agents_pic.png)
 
 The system operates through two primary pipelines:
 
