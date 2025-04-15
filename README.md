@@ -1,4 +1,4 @@
-# Teoria Wielkiego Modelu (Grand Model Theory)
+# Teoria Wielkiego Modelu (Big Model Theory)
 
 ## Abstract
 
