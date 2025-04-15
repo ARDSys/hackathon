@@ -12,8 +12,6 @@ from .graph import refine_graph, seeding_graph
 from .state import HypgenState
 from .utils import message_to_dict
 
-from loguru import logger
-
 langfuse_callback = CallbackHandler()
 
 class HypothesisProposition:
@@ -78,7 +76,7 @@ class HypothesisGenerator(HypothesisGeneratorProtocol):
         for i in range(HYPOTHESIS_BEAM):
             hypothesis = hypothesis_proposals[i]
             
-            if best_hypothesis == None or best_hypothesis.reviews < hypothesis.reviews:
+            if best_hypothesis is None or best_hypothesis.reviews < hypothesis.reviews:
                 best_hypothesis = hypothesis
         
         res = best_hypothesis.state

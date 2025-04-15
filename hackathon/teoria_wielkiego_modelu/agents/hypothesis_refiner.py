@@ -3,7 +3,6 @@ from typing import Any, Dict, Literal
 from langchain.prompts import PromptTemplate
 from loguru import logger
 
-from ..hypothesis_tree import HypothesisNode, HypothesisTree
 from ..llm.utils import get_model
 from ..state import HypgenState
 from ..utils import add_role
