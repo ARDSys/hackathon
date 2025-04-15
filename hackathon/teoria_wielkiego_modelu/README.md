@@ -1,4 +1,4 @@
-# Teoria Wielkiego Modelu (Big Model Theory)
+# Teoria Wielkiego Modelu (Grand Model Theory)
 
 ## Abstract
 
@@ -10,32 +10,21 @@ The system maintains a parallel beam of hypotheses $(H_1, ..., H_n)$ that compet
 
 During the initial research phase, we focused on improving prompt engineering and task specialization, with particular emphasis on hypothesis testability metrics - a critical factor in establishing empirical validity.
 
-To address the challenge of overly critical evaluation terminating promising hypotheses prematurely, we implemented a dialectical approach incorporating both critique and devil's advocate agents.
-
-### Workflow Architecture
-
-![Agent Interaction Diagram](docs/agents_pic.png)
-
-The system operates through two primary pipelines:
-
-1. **Ideation Pipeline**: 
-   - Literature-based inspiration
-   - PubMed data integration
-   - Scientific knowledge graph exploration
-
-2. **Refinement Pipeline**: 
-   ```
-   Analyze → Refine → Evaluate
-   ```
-
+To address the challenge of overly critical evaluation terminating promising hypotheses prematurely, we implemented a dialectical approach incorporating both critique and devil's advocate agents, inspired by [Hegelian dialectic](https://en.wikipedia.org/wiki/Dialectic#Hegelian_dialectic).
 
 ### Hypothesis Evaluation Framework
 
 Each hypothesis $h_i$ is evaluated across multiple dimensions:
 
 1. **Feasibility Score** $F(h_i)$: Measures practical implementability
-2. **Novelty** $N(h_i)$: Quantifies uniqueness of the idea
-3. **Impact** $I(h_i)$: Assesses potential influence on the field
+2. **Novelty Impact** $N(h_i)$: Quantifies innovation potential
+3. **Scientific Merit** $S(h_i)$: Assesses theoretical foundation
+
+The composite score is calculated as:
+
+$$ Q(h_i) = \alpha F(h_i) + \beta N(h_i) + \gamma S(h_i) $$
+
+where $\alpha, \beta, \gamma$ are weighting coefficients determined through empirical validation.
 
 ### Knowledge Graph Integration
 
@@ -44,6 +33,21 @@ The system operates on a scientific knowledge graph $G = (V, E)$ where:
 - $E$ represents relationships between entities
 - Each edge $e_{ij} \in E$ carries a weight $w_{ij}$ representing relationship strength
 
+### Workflow Architecture
+
+![Agent Interaction Diagram](agents_pic.png)
+
+The system operates through two primary pipelines:
+
+1. **Ideation Pipeline**: 
+   - Literature-based inspiration via [PubMed](https://pubmed.ncbi.nlm.nih.gov/) integration
+   - Scientific knowledge graph exploration using [graph traversal algorithms](https://en.wikipedia.org/wiki/Graph_traversal)
+   - [Embeddings-based](https://en.wikipedia.org/wiki/Word_embedding) semantic search
+
+2. **Refinement Pipeline**: 
+   ```
+   Analyze → Refine → Evaluate
+   ```
 
 ### Selection Strategy
 
@@ -113,19 +117,13 @@ The workflow can be run using the `generate_hypothesis.py` script.
 From ARD's root directory:
 
 ```bash
-python -m hackathon.teoria_wielkiego_modelu.generate_hypothesis -f <path_to_knowledge_base.json> --output <output_directory>
-```
-
-For example:
-
-```bash
-python -m hackathon.teoria_wielkiego_modelu.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/teoria_wielkiego_modelu/output
+python -m hackathon.langgraph.generate_hypothesis -f data/Bridge_Therapy.json --output hackathon/langgraph/output
 ```
 
 ### Arguments
 
-- `--file` or `-f`: Path to the input JSON file containing the knowledge base data
-- `--output` or `-o`: Path to the output directory where the generated hypothesis will be saved
+- `--file` or `-f`: Path to the input JSON file containing the subgraph data
+- `--output` or `-o`: Path to the output directory (defaults to current directory)
 
 ## Output
 
