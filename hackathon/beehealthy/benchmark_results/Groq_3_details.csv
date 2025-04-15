@@ -1,0 +1,307 @@
+question,ground_truth,prediction,correct,latency
+"A 29-year-old man presents with back pain and oedema of the hands of several weeks' duration, together with blurred vision and red eyes. He has had several unprotected sexual relations and there are cases of psoriasis in his family. On physical examination she has a temperature of 37.5 ºC, bilateral conjunctival injection and swelling of the distal part of the fingers and the wrist on the left side, with positive sacroiliac manoeuvres. What is the most likely diagnosis? Justify your answer
+
+1. Reactive arthritis.
+2. Psoriatic arthritis.
+3. Enteropathic arthritis.
+4. Ankylosing spondylitis.",1,1,True,0.5004069805145264
+"A 55-year-old man with a history of hyperuricaemia came to the emergency department for a first episode of very intense and disabling acute pain in the right knee accompanied by redness, swelling and swelling. Fever of 37.5ºC. Which of the following is the most advisable approach to follow? Justify your answer.
+
+1. Perform arthrocentesis and send the synovial fluid to the laboratory to evaluate the presence of crystals and germs.
+2. Start treatment with colchicine because he is suffering from an episode of gout.
+3. Start treatment with an NSAID and allopurinol to treat the gout episode and hyperuricaemia.
+4. Start treatment with an NSAID, allopurinol and an antibiotic to treat the gout episode, hyperuricaemia and probable infection.",1,1,True,0.36859560012817383
+"An 81-year-old woman with asthma who uses corticosteroids frequently to control bronchospasm flare-ups and who consults because she has severe acute pain in the dorsolumbar region after falling from a chair at home. Which of the following is the most advisable approach to follow? Justify your answer.
+
+1. Urgently order dorsal and lumbar spine X-rays and prescribe analgesic treatment for the pain.
+2. Order an MRI of the dorsal and lumbar spine and prescribe analgesic treatment and rest for the pain.
+3. Prescribe analgesic treatment and start anti-resorptive treatment.
+4. Request a densitometry, prescribe analgesic treatment and start antiresorptive treatment, calcium and vitamin D.",1,1,True,0.5293927192687988
+"A 52-year-old woman with hypertension that was difficult to control consulted for the appearance of erythematous lesions on the cheeks, chest and arms, together with polyarthralgias, after starting treatment with hydralazine. Basic autoimmunity tests detect antinuclear antibody positivity of 1:160 (N <1:80). When drug-induced lupus is suspected, which of the following autoantibodies should be investigated? Justify your answer.
+
+1. Anti-histone antibodies.
+2. Anti-neutrophil cytoplasmic antibodies.
+3. Anti-chromatin antibodies.
+4. Anti-phospholipid antibodies.",1,1,True,0.37724947929382324
+"In a patient recently diagnosed with diffuse scleroderma, which check-ups should be carried out periodically during the first months of evolution? Justify your answer.
+
+1. Doppler echocardiography and electrocardiogram.
+2. Rodnan index (skin thickness test) and capillaroscopy.
+3. Renal function and blood pressure.
+4. Respiratory function tests and chest CT.",3,1,False,0.3842735290527344
+"A 23-year-old Caucasian male from Zaragoza, with no history of pathology or family history of note. Since the age of five he presented self-limited episodes of fever up to 39ºC, diffuse abdominal pain, generalised myalgias and erythematous lesions on the lower legs. At the age of 10 he underwent appendectomy, although no inflammatory signs were evident in the appendix. The episodes last about 2-3 days, improve with NSAIDs and recur every 1-2 months. During the febrile outbreaks, physical examination revealed diffuse abdominal pain with defence to superficial palpation and erysipeloid lesions on the anterolateral and distal aspect of the legs, and blood tests showed elevated C-reactive protein up to 6 mg/dL (N <1mg/dL), which normalised during periods without fever. What is the most likely initial diagnosis? Justify your answer
+
+1. Muckle-Wells syndrome (periodic cryopyrin-associated syndrome).
+2. Familial Mediterranean fever.
+3. Blau's syndrome (arthrocutaneouveal granulomatosis).
+4. Tumour necrosis factor receptor-associated periodic syndrome.",2,2,True,0.3859434127807617
+"A 42-year-old woman who for the last 4 years has been suffering from a change in the colour of her fingers with intense pallor when it gets cold. For some months she has required treatment with omeprazole for occasional retrosternal burning sensation and on examination she has difficulty in pinching the skin on the back of her hands. Which of the following autoantibodies do we consider essential for her correct follow-up, due to the prognostic consequences of a positive result? Please justify your answer.
+
+1. Anti-DNA
+2. Anti-proteinase 3
+3. Anti-glomerular basement membrane.
+4. Anti-RNA polymerase III.",4,4,True,0.36687612533569336
+"At the time of diagnosis of Sjögren's syndrome, what factors are associated with the likelihood of developing B-lymphoma? Please justify your answer.
+
+1. Fever and lymphadenopathy.
+2. Anti-La and anti-Ro antibodies.
+3. Splenomegaly and pancytopenia.
+4. Hypocomplementemia and cryoglobulinaemia.",4,4,True,0.40317416191101074
+"A 45-year-old male, non-smoker and non-smoker, who consulted for progressive dyspnoea of two months' duration. Physical examination: afebrile, respiratory rate 19 rpm, heart rate 120 bpm, SatO2 93 %. Ulcerative skin lesions on palms and fingers; crepitant rales in both lung bases; normal muscle strength. Laboratory tests: CK 300 IU/L (N: <150) and aldolase 12 IU/L (N:<6). Chest X-ray: bibasal interstitial pattern. A muscle biopsy showed muscle cell necrosis, perifascicular atrophy and perivascular inflammatory infiltrates. Which of the following is the most likely diagnosis? Justify your answer,
+
+1. Dermatomyositis associated with anti-TIF1-gamma (transcription intermediary factor 1-gamma) autoantibody.
+2. Idiopathic inflammatory myopathy associated with anti-FHL-1 autoantibody (Four and a half LIM domains 1).
+3. Dermatomyositis associated with anti-MDA-5 autoantibody (melanoma differentiationassociated gene 5).
+4. Myofibrillar myopathy associated with anti-desmin antibody.",3,3,True,0.38231945037841797
+"A 75 year-old male presented to hospital with rapidly progressive renal failure, anuria, poor general condition and fever. Laboratory data showed positive ANCAs and negative anti-GBM antibodies. A renal biopsy was performed. Haematoxylin-eosin staining showed necrotising glomerulonephritis with extracapillary epithelial reaction and crescent formation in 80% of the glomeruli. Direct immunofluorescence techniques for IgA, IgG, IgM, C3, C1q, kappa and lambda are negative. What is the pathological diagnosis? Justify your answer.
+
+1. Postinfectious glomerulonephritis.
+2. Pauciimmune vasculitis.
+3. IgA nephropathy.
+4. Goodpasture's syndrome.",2,2,True,0.39583706855773926
+"A 35-year-old man presented with pain and inflammation in the 2nd and 3rd right metacarpophalangeal joints and in the 3rd and 4th interphalangeal joints of the left hand for 3 months. Physical examination revealed scaly skin lesions on the extensor areas of the elbows and on the right knee. Initial tests showed ESR 34 mm, CRP 1.8 mg/dL (N: 0- 0.5), rheumatoid factor and anti-cyclic citrullinated peptide antibodies negative. X-rays of the hands: soft tissue enhancement without erosions. Which of the following diagnoses is the most likely? Justify your answer
+
+1. Rheumatoid arthritis.
+2. Systemic lupus erythematosus.
+3. Psoriatic arthritis.
+4. osteoarthritis
+
+",3,3,True,0.3678727149963379
+"A 20-year-old woman presents in the winter months with raised purplish lesions on the distal part of her toes. She reports itching and occasional sores on her toes that heal within a few days. Which of the following is the most likely diagnosis? Please justify your answer.
+
+1. Raynaud's phenomenon.
+2. Erythema pernio.
+3. Acrocyanosis.
+4. Erythromelalgia.",2,2,True,0.4633822441101074
+"79-year-old woman admitted for an osteoporotic hip fracture. With regard to secondary prevention of fragility fractures, mark the WRONG answer. Justify your answer.
+
+1. Low adherence to treatment is associated with an increased risk of fracture.
+2. Bone remodelling markers can be useful for early monitoring of response to treatment.
+3. Vitamin D monotherapy is effective in the reduction of these fractures in non-institutionalised elderly people.
+4. Increasing dietary calcium or taking calcium supplements alone does not protect against the appearance of fractures.",3,3,True,0.36987876892089844
+"A 26-year-old woman diagnosed with systemic lupus erythematosus, on treatment with hydroxychloroquine, consulted for a feeling of generalised weakness that has progressively developed over the last 15 days. The physical examination revealed skin pallor and the blood test showed Hb 7.4 g/dL, Hct 31%, MCV 108. Which of the following tests would be most useful in deciding what action to take? Justify your answer
+
+1. Haptoglobin.
+2. Coombs' test.
+3. Vitamin B12.
+4. Antinuclear antibodies.",2,3,False,0.3752858638763428
+"A 67-year-old man presented with 3 months of asthenia and febrile fever, to which was added, in the last month, nasal obstruction with mucus emission with some clots. In the last few days he noticed pain in the right eye and asymmetry with respect to the contralateral eye. Physical examination revealed proptosis of the right eyeball and inspection of the nostrils revealed an erythematous mucosa with serohematic crusts. The rest of the examination was normal. Blood tests (haemogram, renal and hepatic function) are normal except for an ESR of 65 mm/h; urinalysis shows microhaematuria and proteinuria of 520 mg/24h. What is the most likely initial diagnosis? Justify your answer
+
+1. Eosinophilic granulomatosis with polyangiitis.
+2. Microscopic polyangiitis.
+3. Granulomatosis with polyangiitis.
+4. Polyarteritis nodosa.",3,3,True,0.388380765914917
+"In Sjögren's syndrome, one of the prognostic factors associated with a worse outcome is: Justify your answer.
+
+Polyarthritis of large and small joints. 2.
+2. Raynaud's phenomenon.
+3. Hepatosplenomegaly.
+4. Cryoglobulinemia.",4,4,True,0.3634984493255615
+"A 45-year-old woman with no past history of interest consulted for dyspnoea of about 4 days' duration. Examination showed rhythmic tachycardia, without murmurs, and pulmonary auscultation was normal. Arterial blood gases showed a pO2 of 70 mmHg and a pCO2 of 32 mmHg. Haemogram, renal and liver function are normal. Prothrombin time 90%, activated partial thromboplastin time (APTT) ratio of 2 to control (N <1.2). Which of the following diagnoses is the most likely? Justify your answer.
+
+1. Antiphospholipid syndrome.
+2. Factor V Leiden.
+3. Haemophilia.
+4. Acute pericarditis.
+
+",1,1,True,0.4215052127838135
+"A 70-year-old woman reported pain and stiffness in the shoulder girdle and pelvis for the last month, predominant when standing up and improving with movement, without fever, headache or general malaise. Physical examination revealed stiffness and pain on movement of the shoulders and hips. Blood tests show elevated ESR and C-reactive protein. What is the most likely diagnosis and what treatment would you prescribe? Justify your answer.
+
+1. Rheumatoid arthritis, I would start treatment with methotrexate.
+2. Fibromyalgia, I would start treatment with duloxetine.
+3. Polymyalgia rheumatica, you would start treatment with corticosteroids.
+4. Ankylosing spondylitis, would start treatment with non-steroidal anti-inflammatory drugs.
+
+",3,3,True,0.4732036590576172
+"In relation to gestation in systemic lupus erythematosus, it is true that:. Justify your answer
+
+1. Fertility is not affected.
+2. During pregnancy, flares tend to be more frequent and more severe.
+3. In the postpartum period, the disease is not usually reactivated.
+4. A patient with anti-Ro antibodies and fetal AV block is less likely to develop fetal AV block in the next pregnancy.",1,2,False,0.41826653480529785
+"About familial Mediterranean fever it is FALSE that: Justify your answer.
+
+1. The vast majority of patients present with an abrupt high fever.
+2. Inflammatory episodes are brief and recurrent, with asymptomatic intervals.
+3. Digestive manifestations are rare.
+4. Chest pain due to pleuritis and/or sterile pericarditis may occur.",3,3,True,0.45314693450927734
+"Which of the following extra-articular manifestations is NOT characteristic of rheumatoid arthritis? Justify your answer
+
+1. Pleuritis.
+2. subcutaneous nodules
+3. Proliferative glomerulonephritis.
+4. Interstitial lung disease.",3,3,True,0.3670675754547119
+"About fibromyalgia, point out the correct answer:. Justify your answer
+
+1. It has a prevalence in the general population of between 5 and 10 %.
+2. The most frequent age of onset is above 50 years of age.
+3. There are multiple drugs approved for its treatment.
+4. Fatigue is a very common symptom, over 70% of patients.",4,4,True,0.36944079399108887
+"About gout, it is FALSE that: Justify your answer.
+
+1. Hypouricemic treatment should be initiated during the gout attack, as soon as possible.
+2. The drug of choice is allopurinol starting with low doses.
+3. As a general rule, asymptomatic hyperuricaemia should not be treated.
+4. About 50 % of cases manifest as acute inflammatory monoarthritis of the first metatarsophalangeal joint.",1,1,True,0.49670958518981934
+"Among the following drugs for the treatment of osteoporosis, which one does NOT cause osteonecrosis of the jaw or atypical fracture of the femur as an adverse effect? Justify your answer
+
+1. Zolendronate.
+2. Denosumab.
+3. Alendronate.
+4. Teriparatide.",4,4,True,0.41457629203796387
+"Which of the following is a priority target in the therapeutic strategy for rheumatoid arthritis: Justify your answer.
+
+1. Avoid frequent changes in treatment and avoid drug combinations.
+2. Avoid unnecessary treatment in patients who, despite having symptoms, are able to maintain an acceptable daily activity.
+3. Treatment should be early and intensive.
+4. The same protocol should be applied to all patients.
+
+",3,3,True,0.35671043395996094
+"In scleroderma, in order to diagnose lung disease in its early stages, it is advisable to perform the following: Justify your answer
+
+1. Functional respiratory tests and high-resolution CT scans every year.
+2. Doppler echocardiogram and respiratory functional tests, only if the patient shows signs of respiratory and/or cardiac insufficiency.
+3. Respiratory function tests and Doppler echocardiogram, both on an annual basis.
+4. Respiratory function tests and 6-minute walk test.
+
+",3,1,False,0.40751194953918457
+"A 45-year-old female patient with a history of gastro-oesophageal reflux has had episodes of paleness of some fingers and toes with exposure to cold for the past year. She had recently been prescribed prednisone at a dose of 20 mg/day for joint pain and skin induration on the hands and arms. For the last 48 hours, she presented general malaise and severe headache, for which she went to the emergency department. Examination revealed only a rhythmic tachycardia at 100 bpm, with no neurological focality. Blood pressure was 200/110 mmHg. The blood test shows only a creatinine level of 2.5 mg/dl. Indicate which of the following autoantibodies is most closely related to the process described: Justify your answer.
+
+1. Anti-RNA polymerase III antibodies.
+2. Anti-centromere antibodies.
+3. Anti-proteinase 3 antibodies.
+4. Anti-PM-Scl antibodies.
+
+",1,1,True,0.37110352516174316
+"A 2-week-old newborn infant whose mother during pregnancy presented with non-filial polyarthralgias and who after the first sun exposure develops polycyclic erythematous skin lesions resembling those of subacute cutaneous lupus erythematosus. Which of the following autoantibodies should be investigated: Justify your answer.
+
+1. Anti-DNA antibodies in the newborn.
+2. Anti-neutrophil cytoplasmic antibodies (ANCA) in the mother.
+3. Anti-Ro/SS-A antibodies in the mother.
+4. Anti-Sm antibodies in the newborn.
+
+",3,3,True,0.43486690521240234
+"A 27-year-old black woman consulted for the appearance of oedema in the lower limbs, decreased diuresis, fever and a malar rash with butterfly wings of 20 days' evolution. Laboratory tests showed creatinine 3 mg/dl, leukopenia, haemoglobin 10.5 g/dl (normochromic normocytic), CRP 9 mg/dl and ESR 60 mm. With regard to the pathology presented by this patient, please indicate the correct answer: Justify your answer.
+
+1. Anti-Sm antibodies are not specific for this pathology.
+2. Anticentromere antibodies are detected in 90% of cases.
+3. ANA (antinuclear antibodies) are detected in 50 % of cases.
+4. Anti-stranded or native anti-DNA correlates with the risk of nephritis.
+
+",4,4,True,0.36560606956481934
+"A 75-year-old man, hypertensive on treatment with enalapril (20 mg/day), consulted for deterioration of general condition, bitemporal headache and mandibular claudication of 3 weeks' duration. In addition, in the last few hours, he reported two episodes of amaurosis fugax of the left eye. Physical examination revealed thickening and absence of pulse in the left temporal artery. Analysis: CRP 6 mg/dl (VN <1); haemoglobin 10.5 g/dl; ESR 92 mm. Chest X-ray normal. Taking into account the most likely diagnosis, tick the correct option regarding treatment: Justify your answer.
+
+1. Rituximab should be administered, as glucocorticoids have been relegated to second-line treatment due to their side effects.
+2. Tocilizumab has been shown to be effective in reducing relapses and cumulative prednisone dose in more than 50% of patients.
+3. In the presence of ischaemic symptoms, and in order not to worsen the patient's vascular risk, glucocorticoids at doses higher than 30 mg/day should be avoided.
+4. In conjunction with glucocorticoid boluses of 1 g/day, infliximab should be used as a first-line drug for induction of remission.
+
+",2,2,True,0.47537970542907715
+"With regard to thromboangiitis obliterans (Buerger's disease), please state the correct answer: Justify your answer.
+
+1. It predominates in the female sex.
+2. The presence of acute phase reactants determines the prognosis.
+3. The evolution of the lesions depends mainly on smoking cessation.
+4. It is characterised by inflammatory segmental thrombosis, atheromatous, affecting arteries and veins of medium and small calibre.
+
+",3,3,True,0.49820709228515625
+"A 37-year-old man presented with asthenia, fever (37.6ºC) and weight loss of about 5 kg over 2 months. In the last 2 weeks, he has also experienced burning paresthesia and hypoaesthesia in all four limbs, as well as palpable, non-painful purpuric lesions on both legs and feet. Blood pressure, renal function and urine sediment are normal. What would be the most likely additional test to confirm the diagnosis: Justify your answer.
+
+1. Doppler ultrasound of the renal arteries for the diagnosis of Takayasu's arteritis.
+2. A punch skin biopsy for the diagnosis of polyarteritis nodosa.
+3. Detection of circulating cryoglobulins for the diagnosis of cryoglobulinaemic vasculitis.
+4. A renal biopsy for diagnosis of IgA vasculitis.
+
+",3,2,False,0.4888606071472168
+"With regard to temporal arteritis, mark the WRONG answer: Justify your answer.
+1. It occurs mainly in white people over the age of 50 years.
+2. Approximately a quarter of patients develop aneurysm or dilatation of the thoracic aorta.
+3. Unilateral or bilateral vision loss is one of the most serious complications.
+4. The peak incidence is between the sixth and seventh decade of life.",4,2,False,0.36886024475097656
+"A 26-year-old woman consulted for a feeling of generalised weakness that had progressively developed over the course of three weeks, becoming particularly intense in the last two days. For the last couple of years, she reported episodes of joint pain in her hands that have required the use of anti-inflammatory drugs, as well as the appearance of some erythematous lesions of unclear cause in the neckline area, mainly in summer. Physical examination revealed only a paleness of the skin and mucous membranes and a heart rate of 100 bpm. The haemogram showed: Hb 6 gr/dL, Hto 27 %, MCV 105 fL, 3,420 leukocytes/mm3 (2300 neutrophils/mm3, 800 lymphocytes/mm3, 250 monocytes/mm3, 50 eosinophils/mm3, 20 basophils/mm3), platelets 170,000/mm3. Biochemistry: AST 30 IU/L, ALT 35 IU/L, GGT 59 IU/L, alkaline phosphatase 105 IU/L, LDH 490 IU/L, urea 20 mg/dL, creatinine 0.8 mg/dL. Taking into account the available information, please indicate which of the following additional analytical parameters you would need to know in order to make the most appropriate immediate decision: Justify your answer.
+
+1. Vitamin B12.
+2. Antinuclear antibodies.
+3. Direct Coombs' test.
+4. Anti-DNA antibodies",3,1,False,0.3806788921356201
+"A 60-year-old man diagnosed with scleroderma eleven years ago, with long-standing Raynaud's phenomenon and gastro-oesophageal reflux sensation. Physical examination revealed telangiectasias on the face and sclerodactyly. Positive antinuclear antibodies (titres of 1/2,560) with centromere immunofluorescence pattern, positive anticentromere antibodies. She presented with dyspnoea for the last three months, which in recent weeks had intensified to the point of affecting her usual physical activity, without oedema, orthopnoea or paroxysmal nocturnal dyspnoea. Cardiac and respiratory auscultation were normal. Blood tests showed normal haemogram and normal liver and kidney function. The only notable finding was an elevation of atrial natriuretic peptide (pro-BNP). Taking into account the information provided, what should be your first diagnostic suspicion: Justify your answer.
+
+ 1. Incipient interstitial lung disease.
+ 2. Pulmonary arterial hypertension.
+ 3. Heart failure.
+ 4. Pulmonary thromboembolism.",2,2,True,0.36995768547058105
+"A 45-year-old man consulted for a deterioration in his general condition of 3 weeks' duration, with an episode of haemoptotic expectoration in the last few hours. Physical examination was normal. Blood tests showed: normal haemogram; ESR 70 mm/h; creatinine 1.8 mg/dl. Urinalysis showed microhaematuria (60 red blood cells/field) and proteinuria (1.2 g/24h). Chest CT scan shows bilateral perihilar cavitated pulmonary nodules. Which of the following statements is true: justify your answer
+1. The presence of intense peripheral eosinophilia (> 1,000 cells/µL) is a characteristic feature of the disease.
+2. Without treatment, more than 80 % of patients have a favourable outcome with resolution of the disease.
+3. Rituximab has been shown to be effective in inducing remission in generalised forms with renal involvement.
+4. About 90 % of patients with renal involvement are positive for anti-neutrophil cytoplasmic antibodies with specificity against myeloperoxidase.",3,3,True,0.4455749988555908
+"The following features suggest the presence of secondary Raynaud's phenomenon, EXCEPT: Justify your answer.
+1. Capillaroscopic alterations.
+2. Positive antinuclear antibodies.
+3. Age less than 20 years.
+4. Occurrence of digital necrotic lesions.",3,3,True,0.3792743682861328
+"A 65-year-old man was seen for asthenia, anorexia and febrile fever of insidious course. An abdominal CT scan was performed with findings of retroperitoneal mass and periaortitis, and laboratory tests showed elevated ESR, moderate anaemia and positive antinuclear antibodies. Indicate the correct answer:
+1. It is due to idiopathic retroperitoneal fibrosis and does not require further diagnostic studies. Justify your answer.
+2. The diagnosis is clinical and empirical treatment with broad-spectrum antibiotics should be performed.
+3. The determination of elevated immunoglobulin levels confirms the diagnosis.
+4. Requires histological diagnosis showing a diffuse plasma cell infiltrate and more than 10 IgG4-positive cells per field.",4,4,True,0.4225003719329834
+"A 25-year-old woman diagnosed with systemic lupus erythematosus, who has been in remission for the last 2 years. She consults for polyarthralgias and febrile fever. Which of the following alterations would indicate reactivation of the disease: Justify your answer.
+1. Elevation of anti native anti-DNA antibodies and complement factors.
+2. Elevated native anti-DNA antibodies and decreased complement factors.
+3. Decreased anti native anti-DNA antibodies and complement factors.
+4. Decreased native anti-DNA antibodies and elevated complement factors.",2,2,True,0.49472475051879883
+"A 46-year-old male veterinary surgeon consulted because for the last 10 days he has had peaks of undulating fever of 39ºC together with pain in the right testicle, intense lumbar pain and progressive swelling with great functional impotence in the left knee. Examination revealed arthritis of the knee and arthrocentesis was performed and 70 ml of synovial fluid with an inflammatory appearance was extracted. Mark the WRONG answer in this case: Justify your answer.
+1. In this situation, blood cultures are of little diagnostic value.
+2. The Rose Bengal test can be very useful.
+3. In the simple radiograph of the knee, it is to be expected to find only an increase in soft tissues.
+4. A good therapeutic approach may be the combination of doxycycline (100 mg/12 hours orally) for 45 days and streptomycin (1 g/day intramuscularly).",1,1,True,0.3943946361541748
+"A 19-year-old woman came to the emergency department with symmetrical polyarthritis of small joints of the hands and feet, ankles and knees with fever of 39ºC for 24 hours. The most likely aetiology is: Justify your answer
+1. Bacterial.
+2. Autoimmune.
+3. Microcrystalline.
+4. Viral.",4,4,True,0.5967352390289307
+"Which of the following radiological signs is NOT typical of ankylosing spondylitis: Justify your answer.
+1. Squaring of the vertebral bodies.
+2. Calcification of the anterior common vertebral ligament.
+3. Sacroiliitis.
+4. Dorsal kyphosis.",2,4,False,0.36246156692504883
+"50-year-old man with a history of recent admission for acute gastrointestinal haemorrhage. He came to the emergency department for acute knee pain that began that night, with redness and functional impotence, pain on rubbing and fever. Examination also revealed inflammatory signs in the first metatarsophalangeal joint. A general blood test was performed with normal haemogram, normal creatinine and ions and CRP 2 mg/dL. The synovial fluid is yellowish, non-filamentous and with 5000 leukocytes/mm3 with 85% polymorphonuclear cells and glucose of 101 mg/dL. What do you think is the most appropriate thing to do? Justify your answer
+1. Arthrocentesis to do a Gram stain and culture of the joint fluid and examine the fluid under a polarised light microscope.
+2. Order uric acid determination and initiate empirical treatment with colchicine and allopurinol.
+3. Order plain radiography and technetium-99m bone scan.
+4. Order 2 blood cultures and initiate antimicrobial treatment with intravenous ceflazidime.",1,1,True,0.40940189361572266
+"A 40-year-old man consulted for a 3-month history of fever, asthenia, weight loss, purulent nasal discharge, cough with haemoptotic expectoration and palpable purpura. The complementary examinations include creatinine 2.2 mg/dL, microscopic haematuria with haematic casts, positive cANCA with PR3 and chest X-ray with cavitated pulmonary nodules. What would be the most appropriate treatment for our patient at the present time? Justify your answer.
+1. Prednisone and cyclosporine.
+2. Prednisone and azathioprine.
+3. Prednisone and mycophenolate mofetil.
+4. Prednisone and cyclophosphamide.",4,4,True,0.4792633056640625
+"Among the extra-articular manifestations of seropositive rheumatoid arthritis, please tick the one that is NOT associated with the disease: Justify your answer.
+1. Anterior uveitis.
+2. atloaxial subluxation.
+3. Diffuse interstitial lung disease.
+4. Mononeuritis multiplex.",1,1,True,0.3747220039367676
+"A 40-year-old woman comes to your surgery with an insidious onset of 10 weeks of pain, erythema and increased temperature of the second and third metacarpophalangeal joints of both hands and the right carpus, although the pain has partially subsided since taking 3 tablets of ibuprofen daily, and she continues to feel unwell. He also reports a constant gritty sensation in his eyes and that his eyes water frequently when he goes outside. Which of the following symptoms is LEAST likely to be found during the anamnesis? Justify your answer.
+1. Stiffness of the hands, predominantly morning stiffness, lasting more than one hour.
+2. Subcutaneous nodules on the rubbing surfaces of elbows, knees and fingers.
+3. Asthenia, anorexia and fever.
+4. Lumbar pain with an inflammatory rhythm.",4,4,True,0.3743720054626465
+"With regard to anti-Ro antibodies (SSA), mark the WRONG answer: Justify your answer.
+They are associated with Sjögren's syndrome. 2.
+They are associated with venous and arterial thrombosis. 3.
+3. They are associated with subacute cutaneous lupus.
+4. They are associated with neonatal lupus with heart block.",2,2,True,0.35658955574035645
+"Which of the following is NOT a characteristic feature of fibromyalgia? Justify your answer.
+1. Its diagnosis is essentially clinical, as there are no characteristic laboratory alterations.
+2. Symmetrical distribution of pain points.
+3. Presence of symptoms such as paraesthesia, sleep disturbances and stiffness.
+4. Good response to glucocorticoid treatment.",4,4,True,0.3594233989715576
+"50-year-old diabetic man with mechanical spinal pain and stiffness. Examination revealed limitation of all lumbar and cervical spine movements. Acute phase reactants are negative. HLA-B27 antigen is negative. Pelvis radiology is normal. Spine X-ray shows thick, separated intervertebral bridges of the spine and in the lumbar spine only on the right side of the lumbar spine. Which is the first diagnostic possibility? Justify your answer
+ 1. Ankylosing spondylitis.
+ 2. Ankylosing vertebral hyperostosis.
+ 3. Paget's disease.
+ 4. Psoriatic arthropathy.",2,2,True,0.4347715377807617
+"A 60-year-old man with a history of renal lithiasis due to uric acid and chronic tophaceous arthropathy who had a severe allergic reaction to allopurinol a year ago, consults for monthly episodes of monoarticular arthritis in the knees, ankles and metatarsophalangeal joints. Laboratory tests showed uricemia of 12 mg/dL and uric acid in 24-hour urine of 1,100 mg. In addition to treatment of the joint flare-up, what is the most appropriate basic treatment for his arthropathy? Justify your answer.
+1. Treatment with febuxostat.
+Treatment with indomethacin.
+3. Treatment with benzbromarone.
+4. Treatment with exercise, strict low purine diet and colchicine.",1,1,True,0.45665860176086426

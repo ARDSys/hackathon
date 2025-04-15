@@ -34,6 +34,9 @@ Feasibility Analysis:
 Impact Analysis:
 {impact}
 
+Hot topic:
+{hot_topic_review}
+
 Graph:
 {subgraph}
 

@@ -39,6 +39,7 @@ def create_hypgen_graph() -> CompiledGraph:
     graph.add_node(
         "hypothesis_refiner", create_hypothesis_refiner_agent("small")["agent"]
     )
+
     graph.add_node("literature_agent", create_literature_agent("small")["agent"])
     graph.add_node("novelty_analyst", create_analyst_agent("novelty", "small")["agent"])
     graph.add_node(
